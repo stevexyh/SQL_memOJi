@@ -102,47 +102,49 @@
                                                 <div class="tab-content twitter-bs-wizard-tab-content">
                                                     <div class="tab-pane" id="progress-seller-details">
 
-                                                        <form class="form-horizontal" action="index.html">
+                                                        <form class="form-horizontal needs-validation" action="index.html" novalidate>
 
                                                             <div class="form-group auth-form-group-custom mb-4">
                                                                 <i class="ri-mail-line auti-custom-input-icon"></i>
                                                                 <label for="useremail">邮箱</label>
-                                                                <input type="email" class="form-control" id="useremail" placeholder="输入邮箱">
+                                                                <input type="email" class="form-control" id="useremail" placeholder="输入邮箱" required>
+                                                                <div class="invalid-feedback">
+                                                                    请输入正确的电子邮箱地址
+                                                                </div>
                                                             </div>
 
                                                             <div class="form-group auth-form-group-custom mb-4">
                                                                 <i class="ri-user-2-line auti-custom-input-icon"></i>
                                                                 <label for="username">用户名</label>
-                                                                <input type="text" class="form-control" id="username" placeholder="输入用户名">
+                                                                <input type="text" class="form-control" id="username" placeholder="输入用户名" required>
                                                             </div>
                                     
                                                             <div class="form-group auth-form-group-custom mb-4">
                                                                 <i class="ri-lock-2-line auti-custom-input-icon"></i>
                                                                 <label for="userpassword">密码</label>
-                                                                <input type="password" class="form-control" id="userpassword" placeholder="输入密码">
+                                                                <input type="password" class="form-control" id="userpassword" placeholder="输入密码" required>
                                                             </div>
-
+                                                            <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                                                <!-- <li class="previous"><a href="#"> <<< </a></li> -->
+                                                                <li class="next" type="submit"><a href="#"> >>> </a></li>
+                                                            </ul>
                                                         </form>
-                                                        <ul class="pager wizard twitter-bs-wizard-pager-link">
-                                                            <!-- <li class="previous"><a href="#"> <<< </a></li> -->
-                                                            <li class="next"><a href="#"> >>> </a></li>
-                                                        </ul>
 
                                                     </div>
                                                     <div class="tab-pane" id="progress-school-details">
                                                         <div>
-                                                            <form>
+                                                            <form class="needs-validation custom-validation" action="auth-register.html" novalidate>
                                                                 <div class="row">
                                                                     <div class="col-lg-6">
                                                                         <div class="form-group">
                                                                             <label for="progress-basicpill-school-input">学校全称</label>
-                                                                            <input type="text" class="form-control" id="progress-basicpill-school-input" placeholder="学校全称" value="西北工业大学">
+                                                                            <input type="text" class="form-control" id="progress-basicpill-school-input" placeholder="学校全称" value="西北工业大学" required>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-6">
                                                                         <div class="form-group">
                                                                             <label for="progress-basicpill-classno-input">班级编号</label>
-                                                                            <input type="text" class="form-control" id="progress-basicpill-classno-input" placeholder="NPU0001">
+                                                                            <input type="text" class="form-control" id="progress-basicpill-classno-input" placeholder="NPU0001" required>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -150,16 +152,17 @@
                                                                     <div class="col-lg-6">
                                                                         <div class="form-group">
                                                                             <label for="progress-basicpill-fullname-input">真实姓名</label>
-                                                                            <input type="text" class="form-control" id="progress-basicpill-fullname-input" placeholder="Steve X">
+                                                                            <input type="text" class="form-control" id="progress-basicpill-fullname-input" placeholder="Steve X" required>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-6">
-                                                                        <div class="form-group">
+                                                                        <div class="form-group needs-validation">
                                                                             <label for="progress-basicpill-studno-input">学号</label>
-                                                                            <input type="text" class="form-control" id="progress-basicpill-studno-input" placeholder="2021000000">
+                                                                            <input type="digits" data-parsley-type="digits" class="form-control" id="progress-basicpill-studno-input" placeholder="2021000000" required>
                                                                         </div>
                                                                     </div>
                                                                 </div>
+
                                                             </form>
                                                         </div>
                                                         <ul class="pager wizard twitter-bs-wizard-pager-link">
@@ -232,6 +235,8 @@
 
         <!-- form wizard init -->
         <script src="assets/js/pages/form-wizard.init.js"></script>
+
+        <script src="https://kwes.io/js/kwes.js"></script>
 
         <!-- validation -->
         <script src="assets/libs/parsleyjs/parsley.min.js"></script>
