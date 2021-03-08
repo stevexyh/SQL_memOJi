@@ -4,12 +4,25 @@
     <head>
         
         <meta charset="utf-8" />
-        <title>班级管理 | memOJi - 数据库在线实验平台</title>
+        <title>班级详情 | memOJi - 数据库在线实验平台</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
         <meta content="Themesdesign" name="author" />
         <!-- App favicon -->
         <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+        <!-- DataTables -->
+        <link href="assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- Responsive datatable examples -->
+        <link href="assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />  
+
+        <!-- Form Advanced Styles -->
+        <link href="assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- Plugins css -->
+        <link href="assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+
 
         <!-- Bootstrap Css -->
         <link href="assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
@@ -514,12 +527,13 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-flex align-items-center justify-content-between">
-                                    <h4 class="mb-0">班级管理</h4>
+                                    <h4 class="mb-0">班级详情</h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
                                             <li class="breadcrumb-item"><a href="javascript: void(0);">管理员</a></li>
-                                            <li class="breadcrumb-item active">班级管理</li>
+                                            <li class="breadcrumb-item"><a href="class-manage.html">班级管理</a></li>
+                                            <li class="breadcrumb-item active"><a href="class-details.html">班级详情</a></li>
                                         </ol>
                                     </div>
 
@@ -528,132 +542,259 @@
                         </div>
                         <!-- end page title -->
 
-                        <div style="margin-bottom: 20px;">
-                            <a href="class-details.html" class="btn btn-success mb-2"><i class="mdi mdi-plus mr-2"></i>创建班级</a>
-                        </div>
-
                         <div class="row">
-                            <div class="col-xl-6 col-sm-12">
+                            <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="text-center">
-                                            <img src="assets/images/classroom.png" alt="" class="avatar-sm mt-2 mb-4">
-                                            <div class="media-body">
-                                                <h5 class="text-truncate"><a href="#" class="text-dark">数据库1班</a></h5>
-                                                <p class="text-muted">NPU2021030101</p>
-                                                <p class="text-muted">
-                                                    <i class="mdi mdi-account mr-1"></i> 李老师
-                                                </p>
+                                        <div>
+                                            <a href="class-manage.html" class="btn btn-primary mb-2"><i class="ri-arrow-left-line mr-2"></i>所有班级</a>
+                                        </div>
+                                        <div style="margin-bottom: 20px;">
+                                            <a href="javascript:void(0);" class="btn btn-success mb-2"><i class="mdi mdi-plus mr-2"></i>添加学生</a>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="card" style="height: 100%;">
+                                                    <div class="card-body">
+                                                        <h3 class="text-truncate"><a href="#" class="text-dark">数据库1班</a></h3>
+                                                        <p class="text-muted">NPU2021030101</p>
+                                                        <p class="text-muted">
+                                                            <i class="mdi mdi-account mr-1"></i> 李老师
+                                                        </p>
+                                                        <form class="needs-validation" novalidate>
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label for="validationCustom01">班级名称</label>
+                                                                        <input type="text" class="form-control" id="validationCustom01" placeholder="班级名称" value="数据库1班" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label for="validationCustom01">班级编号</label>
+                                                                        <input type="text" class="form-control" style="color: #cdcdcd;" id="validationCustom01" placeholder="班级编号" value="NPU2021030101" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label for="validationCustom02" class="control-label">负责教师</label>
+                                                                        <select class="form-control select2" required>
+                                                                            <option selected>请选择...</option>
+                                                                            <optgroup label="计算机学院">
+                                                                                <option value="NPU_T001">李老师</option>
+                                                                                <option value="NPU_T002">王老师</option>
+                                                                            </optgroup>
+                                                                            <optgroup label="软件学院">
+                                                                                <option value="NPU_T003">张老师</option>
+                                                                                <option value="NPU_T004">刘老师</option>
+                                                                            </optgroup>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <label>备注信息</label>
+                                                            <div style="margin-bottom: 20px;">
+                                                                <textarea class="form-control" rows="5"></textarea>
+                                                            </div>
+                                                            <div class="text-center mt-4">
+                                                                <button type="button" class="btn btn-primary waves-effect waves-light">保存修改</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6">
+                                                <div class="card" style="height: 100%;">
+                                                    <div class="card-body">
+                        
+                                                        <h4 class="card-title">上传名单</h4>
+                                                        <p class="card-title-desc">在此上传 <code>.csv</code> 格式学生名单可自动导入学生名单。<br>名单需包含2列: <code>stud_no</code>(学号), <code>stud_name</code>(姓名), 不按格式将无法解析名单。</p>
+
+                                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                                            <i class="mdi mdi-alert-outline mr-2"></i>
+                                                            上传前需填写好左侧班级信息并保存。<br>
+                                                            <i class="mdi mdi-alert-outline mr-2"></i>
+                                                            上传后如解析成功将覆盖下面学生名单, 操作前需谨慎。
+                                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+            
+                                                        <div>
+                                                            <form action="#" class="dropzone">
+                                                                <div class="fallback">
+                                                                    <input name="file" type="file" accept=".csv" multiple="multiple">
+                                                                </div>
+                                                                <div class="dz-message needsclick">
+                                                                    <div class="mb-3">
+                                                                        <i class="display-4 text-muted ri-upload-cloud-2-line"></i>
+                                                                    </div>
+                                                                    
+                                                                    <h4>拖动文件至此或点击此处选择文件</h4>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                        
+                                                        <div class="text-center mt-4">
+                                                            <button type="button" class="btn btn-primary waves-effect waves-light">上传文件</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <hr class="my-4">
-
-                                        <div class="row text-center">
-                                            <div class="col-6">
-                                                <p class="text-muted mb-2">人数</p>
-                                                <h5>86</h5>
-                                            </div>
-                                            <div class="col-6">
-                                                <p class="text-muted mb-2">平均分</p>
-                                                <h5>80.12</h5>
-                                            </div>
-                                        </div>
-                                        <div class="text-center"><a href="class-details.html" class="btn btn-primary mt-1 waves-effect waves-light">管理</a></div>
+                                        <!-- end card -->
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-6 col-sm-12">
+                        </div>
+                        <!-- end row -->
+                        <div class="row">
+                            <div class="col-lg-12">
                                 <div class="card">
-                                    <div class="card-body">
-                                        <div class="text-center">
-                                            <img src="assets/images/classroom.png" alt="" class="avatar-sm mt-2 mb-4">
-                                            <div class="media-body">
-                                                <h5 class="text-truncate"><a href="#" class="text-dark">数据库2班</a></h5>
-                                                <p class="text-muted">NPU2021030102</p>
-                                                <p class="text-muted">
-                                                    <i class="mdi mdi-account mr-1"></i> 李老师
-                                                </p>
-                                            </div>
+                                    <div class="card-body  pt-0">
+                                        <div class="table-responsive" style="margin-top: 20px;">
+                                            <table class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th style="width: 20px;">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="customercheck">
+                                                                <label class="custom-control-label" for="customercheck">&nbsp;</label>
+                                                            </div>
+                                                        </th>
+                                                        <th>姓名</th>
+                                                        <th>用户名</th>
+                                                        <th>学号</th>
+                                                        <th>行政班级</th>
+                                                        <th>学院</th>
+                                                        <th>是否加入</th>
+                                                        <th style="width: 120px;">操作</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="ordercheck1">
+                                                                <label class="custom-control-label" for="ordercheck1">&nbsp;</label>
+                                                            </div>
+                                                        </td>
+                                                        
+                                                        <td>Carolyn Harvey</td>
+                                                        <td>CarolynHarvey@rhyta.com</td>
+                                                        <td>2017000000</td>
+                                                        <td>10011700</td>
+                                                        <td>计算机学院</td>
+                                                        <td><div class="badge badge-soft-success font-size-12">已加入</div></td>
+                                                        <td>
+                                                            <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="编辑"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                                            <a href="javascript:void(0);" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="mdi mdi-trash-can font-size-18"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="ordercheck2">
+                                                                <label class="custom-control-label" for="ordercheck2">&nbsp;</label>
+                                                            </div>
+                                                        </td>
+                                                        
+                                                        <td>Carolyn Harvey</td>
+                                                        <td>CarolynHarvey@rhyta.com</td>
+                                                        <td>2016000000</td>
+                                                        <td>10011600</td>
+                                                        <td>软件学院</td>
+                                                        <td><div class="badge badge-soft-warning font-size-12">未加入</div></td>
+                                                        <td>
+                                                            <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="编辑"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                                            <a href="javascript:void(0);" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="mdi mdi-trash-can font-size-18"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="ordercheck3">
+                                                                <label class="custom-control-label" for="ordercheck3">&nbsp;</label>
+                                                            </div>
+                                                        </td>
+                                                        
+                                                        <td>Carolyn Harvey</td>
+                                                        <td>CarolynHarvey@rhyta.com</td>
+                                                        <td>2015000000</td>
+                                                        <td>10011500</td>
+                                                        <td>计算机学院</td>
+                                                        <td><div class="badge badge-soft-danger font-size-12">名单之外</div></td>
+                                                        <td>
+                                                            <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="编辑"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                                            <a href="javascript:void(0);" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="mdi mdi-trash-can font-size-18"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="ordercheck4">
+                                                                <label class="custom-control-label" for="ordercheck4">&nbsp;</label>
+                                                            </div>
+                                                        </td>
+                                                        
+                                                        <td>Carolyn Harvey</td>
+                                                        <td>CarolynHarvey@rhyta.com</td>
+                                                        <td>2017000000</td>
+                                                        <td>10011700</td>
+                                                        <td>计算机学院</td>
+                                                        <td><div class="badge badge-soft-success font-size-12">已加入</div></td>
+                                                        <td>
+                                                            <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="编辑"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                                            <a href="javascript:void(0);" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="mdi mdi-trash-can font-size-18"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="ordercheck5">
+                                                                <label class="custom-control-label" for="ordercheck5">&nbsp;</label>
+                                                            </div>
+                                                        </td>
+                                                        
+                                                        <td>Carolyn Harvey</td>
+                                                        <td>CarolynHarvey@rhyta.com</td>
+                                                        <td>2017000000</td>
+                                                        <td>10011700</td>
+                                                        <td>计算机学院</td>
+                                                        <td><div class="badge badge-soft-success font-size-12">已加入</div></td>
+                                                        <td>
+                                                            <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="编辑"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                                            <a href="javascript:void(0);" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="mdi mdi-trash-can font-size-18"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="ordercheck6">
+                                                                <label class="custom-control-label" for="ordercheck6">&nbsp;</label>
+                                                            </div>
+                                                        </td>
+                                                        
+                                                        <td>Carolyn Harvey</td>
+                                                        <td>CarolynHarvey@rhyta.com</td>
+                                                        <td>2017000000</td>
+                                                        <td>10011700</td>
+                                                        <td>计算机学院</td>
+                                                        <td><div class="badge badge-soft-success font-size-12">已加入</div></td>
+                                                        <td>
+                                                            <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="编辑"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                                            <a href="javascript:void(0);" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="mdi mdi-trash-can font-size-18"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
-
-                                        <hr class="my-4">
-
-                                        <div class="row text-center">
-                                            <div class="col-6">
-                                                <p class="text-muted mb-2">人数</p>
-                                                <h5>86</h5>
-                                            </div>
-                                            <div class="col-6">
-                                                <p class="text-muted mb-2">平均分</p>
-                                                <h5>80.12</h5>
-                                            </div>
-                                        </div>
-                                        <div class="text-center"><a href="class-details.html" class="btn btn-primary mt-1 waves-effect waves-light">管理</a></div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-6 col-sm-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="text-center">
-                                            <img src="assets/images/classroom.png" alt="" class="avatar-sm mt-2 mb-4">
-                                            <div class="media-body">
-                                                <h5 class="text-truncate"><a href="#" class="text-dark">数据库3班</a></h5>
-                                                <p class="text-muted">NPU2021030103</p>
-                                                <p class="text-muted">
-                                                    <i class="mdi mdi-account mr-1"></i> 王老师
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <hr class="my-4">
-
-                                        <div class="row text-center">
-                                            <div class="col-6">
-                                                <p class="text-muted mb-2">人数</p>
-                                                <h5>86</h5>
-                                            </div>
-                                            <div class="col-6">
-                                                <p class="text-muted mb-2">平均分</p>
-                                                <h5>80.12</h5>
-                                            </div>
-                                        </div>
-                                        <div class="text-center"><a href="class-details.html" class="btn btn-primary mt-1 waves-effect waves-light">管理</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-sm-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="text-center">
-                                            <img src="assets/images/classroom.png" alt="" class="avatar-sm mt-2 mb-4">
-                                            <div class="media-body">
-                                                <h5 class="text-truncate"><a href="#" class="text-dark">数据库4班</a></h5>
-                                                <p class="text-muted">NPU2021030104</p>
-                                                <p class="text-muted">
-                                                    <i class="mdi mdi-account mr-1"></i> 张老师
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <hr class="my-4">
-
-                                        <div class="row text-center">
-                                            <div class="col-6">
-                                                <p class="text-muted mb-2">人数</p>
-                                                <h5>86</h5>
-                                            </div>
-                                            <div class="col-6">
-                                                <p class="text-muted mb-2">平均分</p>
-                                                <h5>80.12</h5>
-                                            </div>
-                                        </div>
-                                        <div class="text-center"><a href="class-details.html" class="btn btn-primary mt-1 waves-effect waves-light">管理</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                            
                         </div>
                         <!-- end row -->
 
@@ -661,7 +802,6 @@
                 </div>
                 <!-- End Page-content -->
 
-                
                 <footer class="footer">
                     <div class="container-fluid">
                         <div class="row">
@@ -737,6 +877,28 @@
         <script src="assets/libs/metismenu/metisMenu.min.js"></script>
         <script src="assets/libs/simplebar/simplebar.min.js"></script>
         <script src="assets/libs/node-waves/waves.min.js"></script>
+
+        <!-- Form Validation -->
+        <script src="assets/js/pages/form-validation.init.js"></script>
+
+        <!-- Required datatable js -->
+        <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+        
+        <!-- Responsive examples -->
+        <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+        <script src="assets/js/pages/ecommerce-datatables.init.js"></script>
+
+        <!-- Form Advanced -->
+        <script src="assets/libs/select2/js/select2.min.js"></script>
+        <script src="assets/js/pages/form-advanced.init.js"></script>
+
+        
+        
+        <!-- Plugins js -->
+        <script src="assets/libs/dropzone/min/dropzone.min.js"></script>
+
 
         <script src="assets/js/app.js"></script>
 
