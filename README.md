@@ -38,7 +38,8 @@ DESCRIPTIONS
   - [ ] 编辑器
 - [x] 练习 & 考试 `exams-manage.html`
   - [ ] 详情编辑
-- [ ] 班级管理 `class-manage.html`
+- [x] 班级管理 `class-manage.html`
+  - [ ] 学生信息编辑
 - [ ] 题库 & 试卷 `questions-manage.html`
 
 ---  
