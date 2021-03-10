@@ -7,7 +7,7 @@ $(document).ready(function () {
             { orderable: false },
             { orderable: true },
             { orderable: true },
-            { orderable: false },
+            { orderable: true },
             { orderable: true },
             { orderable: true },
             { orderable: true },
