@@ -40,7 +40,10 @@ DESCRIPTIONS
   - [ ] 详情编辑
 - [x] 班级管理 `class-manage.html`
   - [ ] 学生信息编辑
-- [ ] 题库 & 试卷 `questions-manage.html`
+- [x] 题库 & 试卷 `questions-manage.html`
+  - [x] 题目描述省略多余信息
+  - [x] 题目详情编辑
+  - [ ] 试卷详情编辑
 
 ---  
 **by [Steve X](https://github.com/Steve-Xyh/SQL_memOJi)**  
