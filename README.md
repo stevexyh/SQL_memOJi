@@ -65,8 +65,8 @@ DESCRIPTIONS
 
 
 - [x] 数据模型
-- [ ] 数据字典
-- [ ] ER图
+- [x] 数据字典
+- [x] ER图
 - [ ] 文档
 - [ ] 拓展功能:利用模式挖掘等技术，自动总结学生提交 SQL 中的错误使用模式
 
@@ -205,7 +205,7 @@ DESCRIPTIONS
 
 
 ## ER图
-
+![ER diagram](./img/ER.png)
 
 ---  
-**by [Steve X](https://github.com/Steve-Xyh/SQL_memOJi)**  
+**Developed by [Steve X](https://github.com/Steve-Xyh/SQL_memOJi)**
