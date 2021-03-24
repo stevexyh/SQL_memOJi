@@ -2,7 +2,7 @@
 <html lang="en">
 
     <head>
-        
+
         <meta charset="utf-8" />
         <title>班级详情 | memOJi - 数据库在线实验平台</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -82,7 +82,7 @@
                             <div class="dropdown-menu dropdown-megamenu">
                                 <div class="row">
                                     <div class="col-sm-8">
-                
+
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <h5 class="font-size-14 mt-0">UI Components</h5>
@@ -159,7 +159,7 @@
                                                     <li>
                                                         <a href="javascript:void(0);">FAQs</a>
                                                     </li>
-                                        
+
                                                 </ul>
                                             </div>
                                         </div>
@@ -215,7 +215,7 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0"
                                 aria-labelledby="page-header-search-dropdown">
-                    
+
                                 <form class="p-3">
                                     <div class="form-group m-0">
                                         <div class="input-group">
@@ -235,7 +235,7 @@
                                 <img class="" src="assets/images/flags/us.jpg" alt="Header Language" height="16">
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
-                    
+
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                                     <img src="assets/images/flags/spain.jpg" alt="user-image" class="mr-1" height="12"> <span class="align-middle">Spanish</span>
@@ -427,7 +427,7 @@
                                 <i class="ri-settings-2-line"></i>
                             </button>
                         </div>
-            
+
                     </div>
                 </div>
             </header>
@@ -608,7 +608,7 @@
                                             <div class="col-6">
                                                 <div class="card" style="height: 100%;">
                                                     <div class="card-body">
-                        
+
                                                         <h4 class="card-title">上传名单</h4>
                                                         <p class="card-title-desc">在此上传 <code>.csv</code> 格式学生名单可自动导入学生名单。<br>名单需包含2列: <code>stud_no</code>(学号), <code>stud_name</code>(姓名), 不按格式将无法解析名单。</p>
 
@@ -621,22 +621,23 @@
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
-            
+
                                                         <div>
-                                                            <form action="#" class="dropzone">
+                                                            <form action="#" class="dropzone" id="file-dropzone-stud" method="POST" enctype="multipart/form-data">
                                                                 <div class="fallback">
-                                                                    <input name="file" type="file" accept=".csv" multiple="multiple">
+                                                                    <input name="file" type="file" multiple="multiple">
                                                                 </div>
                                                                 <div class="dz-message needsclick">
+                                                                    <!-- dz-message 这里面无法限制文件格式 -->
                                                                     <div class="mb-3">
                                                                         <i class="display-4 text-muted ri-upload-cloud-2-line"></i>
                                                                     </div>
-                                                                    
+
                                                                     <h4>拖动文件至此或点击此处选择文件</h4>
                                                                 </div>
                                                             </form>
                                                         </div>
-                        
+
                                                         <div class="text-center mt-4">
                                                             <button type="button" class="btn btn-primary waves-effect waves-light">上传文件</button>
                                                         </div>
@@ -682,7 +683,7 @@
                                                                 <label class="custom-control-label" for="ordercheck1">&nbsp;</label>
                                                             </div>
                                                         </td>
-                                                        
+
                                                         <td>Carolyn Harvey</td>
                                                         <td>CarolynHarvey@rhyta.com</td>
                                                         <td>2017000000</td>
@@ -701,7 +702,7 @@
                                                                 <label class="custom-control-label" for="ordercheck2">&nbsp;</label>
                                                             </div>
                                                         </td>
-                                                        
+
                                                         <td>Carolyn Harvey</td>
                                                         <td>CarolynHarvey@rhyta.com</td>
                                                         <td>2016000000</td>
@@ -720,7 +721,7 @@
                                                                 <label class="custom-control-label" for="ordercheck3">&nbsp;</label>
                                                             </div>
                                                         </td>
-                                                        
+
                                                         <td>Carolyn Harvey</td>
                                                         <td>CarolynHarvey@rhyta.com</td>
                                                         <td>2015000000</td>
@@ -739,7 +740,7 @@
                                                                 <label class="custom-control-label" for="ordercheck4">&nbsp;</label>
                                                             </div>
                                                         </td>
-                                                        
+
                                                         <td>Carolyn Harvey</td>
                                                         <td>CarolynHarvey@rhyta.com</td>
                                                         <td>2017000000</td>
@@ -758,7 +759,7 @@
                                                                 <label class="custom-control-label" for="ordercheck5">&nbsp;</label>
                                                             </div>
                                                         </td>
-                                                        
+
                                                         <td>Carolyn Harvey</td>
                                                         <td>CarolynHarvey@rhyta.com</td>
                                                         <td>2017000000</td>
@@ -777,7 +778,7 @@
                                                                 <label class="custom-control-label" for="ordercheck6">&nbsp;</label>
                                                             </div>
                                                         </td>
-                                                        
+
                                                         <td>Carolyn Harvey</td>
                                                         <td>CarolynHarvey@rhyta.com</td>
                                                         <td>2017000000</td>
@@ -844,7 +845,7 @@
                         <input type="checkbox" class="custom-control-input theme-choice" id="light-mode-switch" checked />
                         <label class="custom-control-label" for="light-mode-switch">Light Mode</label>
                     </div>
-    
+
                     <div class="mb-2">
                         <img src="assets/images/layouts/layout-2.jpg" class="img-fluid img-thumbnail" alt="">
                     </div>
@@ -852,7 +853,7 @@
                         <input type="checkbox" class="custom-control-input theme-choice" id="dark-mode-switch" data-bsStyle="assets/css/bootstrap-dark.min.css" data-appStyle="assets/css/app-dark.min.css" />
                         <label class="custom-control-label" for="dark-mode-switch">Dark Mode</label>
                     </div>
-    
+
                     <div class="mb-2">
                         <img src="assets/images/layouts/layout-3.jpg" class="img-fluid img-thumbnail" alt="">
                     </div>
@@ -861,7 +862,7 @@
                         <label class="custom-control-label" for="rtl-mode-switch">RTL Mode</label>
                     </div>
 
-            
+
                 </div>
 
             </div> <!-- end slimscroll-menu-->
@@ -884,21 +885,20 @@
         <!-- Required datatable js -->
         <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
         <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-        
+
         <!-- Responsive examples -->
         <script src="assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
         <script src="assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
-        
+
         <!-- Form Advanced -->
         <script src="assets/libs/select2/js/select2.min.js"></script>
         <script src="assets/js/pages/form-advanced.init.js"></script>
-        
-        <!-- Custom Pages -->
-        <script src="assets/js/custom-pages/class-details.js"></script>
-        
+
         <!-- Plugins js -->
         <script src="assets/libs/dropzone/min/dropzone.min.js"></script>
 
+        <!-- Custom Pages -->
+        <script src="assets/js/custom-pages/class-details.js"></script>
 
         <script src="assets/js/app.js"></script>
 
