@@ -67,6 +67,8 @@ DESCRIPTIONS
 - [x] 数据模型
 - [x] 数据字典
 - [x] ER图
+- [x] 数据流图
+- [ ] API数据定义
 - [ ] 功能设计文档(架构)
 - [ ] 类图(包图、组件图、UML)
 - [ ] 页面描述
@@ -199,8 +201,29 @@ DESCRIPTIONS
 | submit_cnt            | int                 |      |     | 0           |
 
 
+## 数据流图
+![Data Flow Diagram](./img/Data_Flow.png)
+
+```json
+API_1 = {
+
+}
+
+API_2 = {
+
+}
+
+API_3 = {
+
+}
+
+API_4 = {
+
+}
+```
+
 ## ER图
-![ER diagram](./img/ER.png)
+![ER Diagram](./img/ER.png)
 
 ---  
 **Developed by [Steve X](https://github.com/Steve-Xyh/SQL_memOJi)**
