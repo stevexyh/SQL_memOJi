@@ -119,12 +119,15 @@ DESCRIPTIONS
 | full_name             | varchar             |      |     |             |
 | internal_id           | varchar             |      |     |             |
 | college_name          | varchar             |      |     |             |
+| class_id              | varchar             |      | FK  |             |
+| join_status           | varchar             |      |     |             |
 
 - [ ] 学校 `School` (**学校ID**, 学校全称, 校名英文缩写)
 
 | 字段名                | 数据类型            | 非空 | Key | 默认值      |
 |-----------------------|---------------------|------|-----|-------------|
-| school_name           | varchar             |      | PRI |             |
+| school_id             | varchar             |      | PRI |             |
+| school_name           | varchar             |      | UNI |             |
 | school_abbr           | varchar             |      | UNI | NPU         |
 
 - [ ] 班级 `Classroom` (**班级ID**, 学校(*FK: 学校.学校ID*), 班级名称, 负责教师(*FK: 用户.真实姓名*), 备注信息, ==学生名单==)
@@ -132,7 +135,7 @@ DESCRIPTIONS
 | 字段名                | 数据类型            | 非空 | Key | 默认值      |
 |-----------------------|---------------------|------|------|------------|
 | class_id              | varchar             |      | PRI  |            |
-| school_name           | varchar             |      | FK   |            |
+| school_id             | varchar             |      | FK   |            |
 | class_name            | varchar             |      |      |            |
 | teacher_name          | varchar             |      | FK   |            |
 | class_desc            | varchar             |      | NULL |            |
@@ -147,7 +150,7 @@ DESCRIPTIONS
 |-----------------------|---------------------|------|-----|-------------|
 | ques_id               | varchar             |      | PRI |             |
 | ques_name             | varchar             | NULL |     |             |
-| ques_db               | varchar             |      |     |             |
+| ques_set_id           | varchar             |      | FK  |             |
 | ques_difficulty       | int                 | NULL |     |             |
 | ques_desc             | varchar             | NULL |     |             |
 | ques_ans              | varchar             |      |     |             |
@@ -159,7 +162,8 @@ DESCRIPTIONS
 |-----------------------|---------------------|------|-----|-------------|
 | ques_set_id           | varchar             |      | PRI |             |
 | ques_set_name         | varchar             |      |     |             |
-| ques_list             | varchar(Python.List)|      |     |             |
+| ques_set_desc         | varchar             |      |     |             |
+| create_sql            | varchar             |      |     |             |
 
 
 - [ ] 试卷 `Paper` (**试卷ID**, 试卷名称, 试卷类型, 发布时间, 开始时间, 结束时间, 活跃状态, 试卷描述, 发起人(*`API`: 用户.用户名*), (*视图: 题目ID列表*))
@@ -169,11 +173,11 @@ DESCRIPTIONS
 | paper_id              | varchar             |      | PRI |             |
 | paper_name            | varchar             |      |     |             |
 | paper_type            | int                 |      |     |             |
+| publish_time          | datetime            |      |     |             |
 | start_time            | datetime            |      |     |             |
 | end_time              | datetime            |      |     |             |
 | paper_active          | bool                |      |     | True        |
 | paper_desc            | varchar             |      |     |             |
-| paper_id              | varchar             |      | FK  |             |
 | initiator_id          | varchar             |      | API |             |
 
 
@@ -181,6 +185,8 @@ DESCRIPTIONS
 
 | 字段名                | 数据类型            | 非空 | Key | 默认值      |
 |-----------------------|---------------------|------|-----|-------------|
+| paper_id              | varchar             |      | FK  |             |
+| ques_set_id           | varchar             |      | FK  |             |
 
 
 - [ ] 班级-试卷 `Class_Paper` (参与班级(*`API`: 班级.班级ID*), 试卷ID(*FK: 试卷.试卷ID*))
@@ -206,19 +212,39 @@ DESCRIPTIONS
 
 ```json
 API_1 = {
-
+  "username": username,
+  "ques_id": ques_id,
+  "ans_status": ans_status,
+  // submit_cnt += 1
 }
 
+// Paper
 API_2 = {
-
+  "paper_id": paper_id,
+  "paper_name": paper_name,
+  "paper_type": paper_type,
+  "start_time": start_time,
+  "end_time": end_time,
+  "paper_active": paper_active,
+  "paper_desc": paper_desc,
+  "initiator_id": session[user_id],
 }
 
 API_3 = {
-
+  "class_id": class_id,
+  "paper_id": paper_id,
 }
 
 API_4 = {
-
+  "class_id": class_id,
+  "paper_id": paper_id,
+  "paper_name": paper_name,
+  "paper_type": paper_type,
+  "start_time": start_time,
+  "end_time": end_time,
+  "paper_active": paper_active,
+  "paper_desc": paper_desc,
+  "initiator_id": session[user_id],
 }
 ```
 
