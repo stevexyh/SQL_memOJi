@@ -51,7 +51,7 @@ DESCRIPTIONS
   - [ ] 学生信息编辑
   - [ ] 班级列表卡片式+列表
   - [ ] 负责老师默认是自己
-  - [ ] 列表隐藏邮件、班级
+  - [ ] 列表隐藏邮箱、班级
 - [x] 题库 & 试卷 `questions-manage.html`
   - [x] 题目描述省略多余信息
   - [x] 题目详情编辑
@@ -68,10 +68,10 @@ DESCRIPTIONS
 - [x] 数据字典
 - [x] ER图
 - [x] 数据流图
-- [ ] API数据定义
-- [ ] 功能设计文档(架构)
-- [ ] 类图(包图、组件图、UML)
-- [ ] 页面描述
+- [x] API数据定义
+- [x] 页面描述
+- [x] 功能设计文档(架构)
+- [ ] 类图(包图、组件图、UML，继承关系)（实现）
 - [ ] 拓展功能:利用模式挖掘等技术，自动总结学生提交 SQL 中的错误使用模式
 
 ## 数据模型
@@ -83,18 +83,18 @@ DESCRIPTIONS
 ### 1. `auth` 模块
 > 用户认证 App
 - [ ] 学校 `School` (**学校ID**, 学校全称, 校名英文缩写)
-- [ ] 用户 `User` (**用户名**, 密码, 权限等级, 学校(*FK: 学校.学校ID*), 真实姓名, 学工号, 学院, 班级ID(*FK: 班级.班级ID*, NULL), ==加入状态==)
-- [ ] 班级 `Classroom` (**班级ID**, 学校(*FK: 学校.学校ID*), 班级名称, 负责教师(*FK: 用户.真实姓名*), 备注信息, ==学生名单==)
+- [ ] 用户 `User` (**邮箱**, 密码, 权限等级, 学校(*FK: 学校.学校ID*), 真实姓名, 学工号, 学院, 班级ID(*FK: 班级.班级ID*, NULL), 加入状态)
+- [ ] 班级 `Classroom` (**班级ID**, 学校(*FK: 学校.学校ID*), 班级名称, 负责教师(*FK: 用户.真实姓名*), 备注信息, 学生名单)
 <!-- - [ ] 班级-学生 `Class_Stud` (班级ID(*FK: 班级.班级ID*), 学工号(*FK: 用户.学工号*), 姓名(*FK: 用户.真实姓名*), 学院(*FK: 用户.学院*), 加入状态) -->
 
 ### 2. `coding` 模块
 > 答题 App
 - [ ] 题目 `Question` (**题目ID**, 题目名, 题库ID(*FK: 题库ID*), 题目难度, 题目描述, 标准答案)
 - [ ] 题库 `QuestionSet` (**题库ID**, 题库名称, 题库描述, 创建SQL)
-- [ ] 试卷 `Paper` (**试卷ID**, 试卷名称, 试卷类型, 发布时间, 开始时间, 结束时间, 活跃状态, 试卷描述, 发起人(*`API`: 用户.用户名*), (*视图: 题目ID列表*))
-- [ ] ==试卷-题库 `Paper_QSet` (试卷ID(*FK: 试卷ID*), 题库ID(*FK: 题库ID*))==
+- [ ] 试卷 `Paper` (**试卷ID**, 试卷名称, 试卷类型, 发布时间, 开始时间, 结束时间, 活跃状态, 试卷描述, 发起人(*`API`: 用户.邮箱*), (*视图: 题目ID列表*))
+- [ ] 试卷-题目 `Paper_Ques` (试卷ID(*FK: 试卷.试卷ID*), 题目ID(*FK: 题目.题目ID*))
 - [ ] 班级-试卷 `Class_Paper` (参与班级(*`API`: 班级.班级ID*), 试卷ID(*FK: 试卷.试卷ID*))
-- [ ] 作答记录 `AnswerRec` (用户名(*`API`: 用户.用户名*), 题目ID(*FK: 题目.题目ID*), 答案正确性, 作答次数)
+- [ ] 作答记录 `AnswerRec` (邮箱(*`API`: 用户.邮箱*), 题目ID(*FK: 题目.题目ID*), 答案正确性, 作答次数)
 
 ### 3. `calendar` 模块
 > 日历 App, 无数据表, 使用 `coding.Class_Paper` 的 API
@@ -108,11 +108,11 @@ DESCRIPTIONS
 ### 1. `auth` 模块
 > 用户认证 App
 
-- [ ] 用户 `User` (**用户名**, 密码, 权限等级, 学校(*FK: 学校.学校ID*), 真实姓名, 学工号, 学院, 班级ID(*FK: 班级.班级ID*, NULL), ==加入状态==)
+- [ ] 用户 `User` (**邮箱**, 密码, 权限等级, 学校(*FK: 学校.学校ID*), 真实姓名, 学工号, 学院, 班级ID(*FK: 班级.班级ID*, NULL), 加入状态)
 
 | 字段名                | 数据类型            | 非空 | Key | 默认值      |
 |-----------------------|---------------------|------|-----|-------------|
-| username              | varchar             |      | PRI |             |
+| email                 | varchar             |      | PRI |             |
 | password              | varchar             |      |     |             |
 | priority              | int                 |      |     | 0           |
 | school_name           | varchar             |      | FK  | 西北工业大学|
@@ -130,7 +130,7 @@ DESCRIPTIONS
 | school_name           | varchar             |      | UNI |             |
 | school_abbr           | varchar             |      | UNI | NPU         |
 
-- [ ] 班级 `Classroom` (**班级ID**, 学校(*FK: 学校.学校ID*), 班级名称, 负责教师(*FK: 用户.真实姓名*), 备注信息, ==学生名单==)
+- [ ] 班级 `Classroom` (**班级ID**, 学校(*FK: 学校.学校ID*), 班级名称, 负责教师(*FK: 用户.真实姓名*), 备注信息, 学生名单)
 
 | 字段名                | 数据类型            | 非空 | Key | 默认值      |
 |-----------------------|---------------------|------|------|------------|
@@ -166,7 +166,7 @@ DESCRIPTIONS
 | create_sql            | varchar             |      |     |             |
 
 
-- [ ] 试卷 `Paper` (**试卷ID**, 试卷名称, 试卷类型, 发布时间, 开始时间, 结束时间, 活跃状态, 试卷描述, 发起人(*`API`: 用户.用户名*), (*视图: 题目ID列表*))
+- [ ] 试卷 `Paper` (**试卷ID**, 试卷名称, 试卷类型, 发布时间, 开始时间, 结束时间, 活跃状态, 试卷描述, 发起人(*`API`: 用户.邮箱*), (*视图: 题目ID列表*))
 
 | 字段名                | 数据类型            | 非空 | Key | 默认值      |
 |-----------------------|---------------------|------|-----|-------------|
@@ -178,15 +178,15 @@ DESCRIPTIONS
 | end_time              | datetime            |      |     |             |
 | paper_active          | bool                |      |     | True        |
 | paper_desc            | varchar             |      |     |             |
-| initiator_id          | varchar             |      | API |             |
+| initiator             | varchar             |      | API |             |
 
 
-- [ ] ==试卷-题库 `Paper_QSet` (试卷ID(*FK: 试卷ID*), 题库ID(*FK: 题库ID*))==
+- [ ] 试卷-题目 `Paper_Ques` (试卷ID(*FK: 试卷.试卷ID*), 题目ID(*FK: 题目.题目ID*))
 
 | 字段名                | 数据类型            | 非空 | Key | 默认值      |
 |-----------------------|---------------------|------|-----|-------------|
 | paper_id              | varchar             |      | FK  |             |
-| ques_set_id           | varchar             |      | FK  |             |
+| ques_id               | varchar             |      | FK  |             |
 
 
 - [ ] 班级-试卷 `Class_Paper` (参与班级(*`API`: 班级.班级ID*), 试卷ID(*FK: 试卷.试卷ID*))
@@ -197,11 +197,11 @@ DESCRIPTIONS
 | paper_id              | varchar             |      | FK  |             |
 
 
-- [ ] 作答记录 `AnswerRec` (用户名(*`API`: 用户.用户名*), 题目ID(*FK: 题目.题目ID*), 答案正确性, 作答次数)
+- [ ] 作答记录 `AnswerRec` (邮箱(*`API`: 用户.邮箱*), 题目ID(*FK: 题目.题目ID*), 答案正确性, 作答次数)
 
 | 字段名                | 数据类型            | 非空 | Key | 默认值      |
 |-----------------------|---------------------|------|-----|-------------|
-| username              | varchar             |      | API |             |
+| email                 | varchar             |      | API |             |
 | ques_id               | varchar             |      | FK  |             |
 | ans_status            | bool                |      |     | False       |
 | submit_cnt            | int                 |      |     | 0           |
@@ -212,7 +212,7 @@ DESCRIPTIONS
 
 ```json
 API_1 = {
-  "username": username,
+  "email": email,
   "ques_id": ques_id,
   "ans_status": ans_status,
   // submit_cnt += 1
@@ -227,7 +227,7 @@ API_2 = {
   "end_time": end_time,
   "paper_active": paper_active,
   "paper_desc": paper_desc,
-  "initiator_id": session[user_id],
+  "initiator": session[email],
 }
 
 API_3 = {
@@ -244,7 +244,7 @@ API_4 = {
   "end_time": end_time,
   "paper_active": paper_active,
   "paper_desc": paper_desc,
-  "initiator_id": session[user_id],
+  "initiator": session[email],
 }
 ```
 
