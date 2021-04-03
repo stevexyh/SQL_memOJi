@@ -22,6 +22,8 @@
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
+.sec_key
+.init.conf
 
 # Exception:
 !**/*.md
