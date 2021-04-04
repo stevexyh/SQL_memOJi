@@ -29,6 +29,12 @@ def base(request):
     return render(request, 'base.html')
 
 
+def blank(request):
+    '''Render blank template'''
+
+    return render(request, 'pages-starter.html')
+
+
 # def home(request):
 #     '''Render home page'''
 

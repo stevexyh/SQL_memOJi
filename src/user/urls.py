@@ -24,4 +24,5 @@ app_name = 'user'
 urlpatterns = [
     path('', views.base, name='base'),
     path('base/', views.base, name='base'),
+    path('blank/', views.blank, name='blank'),
 ]
