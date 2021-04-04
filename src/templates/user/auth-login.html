@@ -38,13 +38,13 @@
             </div>
 
             <div class="mt-4 text-center">
-                <a href="auth-recoverpw.html" class="text-muted"><i class="mdi mdi-lock mr-1"></i> 忘记密码?</a>
+                <a href="{% url 'user:auth-recoverpw' %}" class="text-muted"><i class="mdi mdi-lock mr-1"></i> 忘记密码?</a>
             </div>
         </form>
     </div>
 
     <div class="mt-5 text-center">
-        <p>没有账号? <a href="auth-register.html" class="font-weight-medium text-primary"> 注册 </a> </p>
+        <p>没有账号? <a href="{% url 'user:auth-register' %}" class="font-weight-medium text-primary"> 注册 </a> </p>
     </div>
 {% endblock main %}
 

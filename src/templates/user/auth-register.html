@@ -102,7 +102,7 @@
             </div>
             <div class="tab-pane" id="progress-school-details">
                 <div>
-                    <form class="needs-validation custom-validation" action="auth-register.html" novalidate>
+                    <form class="needs-validation custom-validation" action="{% url 'user:auth-register' %}" novalidate>
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
@@ -168,7 +168,7 @@
 
 
     <div class="mt-5 text-center">
-        <p>已有账号 ? <a href="auth-login.html" class="font-weight-medium text-primary"> 登录</a> </p>
+        <p>已有账号 ? <a href="{% url 'user:auth-login' %}" class="font-weight-medium text-primary"> 登录</a> </p>
     </div>
 {% endblock main %}
 
