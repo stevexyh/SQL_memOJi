@@ -44,9 +44,9 @@ DESCRIPTIONS
     - [x] iCalendar App
       - [x] calendar.html
     - [ ] User App
-      - [ ] auth-login.html
+      - [x] auth-login.html
       - [ ] auth-register.html
-      - [ ] auth-recoverpw.html
+      - [x] auth-recoverpw.html
       - [ ] class-manage.html
       - [ ] class-details.html
       - [ ] user-info.html
