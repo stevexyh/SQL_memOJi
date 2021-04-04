@@ -7,9 +7,9 @@
               s("#rtl-mode-switch").prop("checked", !1),
               s("#bootstrap-style").attr(
                   "href",
-                  "static/css/bootstrap.min.css"
+                  "/static/css/bootstrap.min.css"
               ),
-              s("#app-style").attr("href", "static/css/app.min.css"),
+              s("#app-style").attr("href", "/static/css/app.min.css"),
               sessionStorage.setItem("is_visited", "light-mode-switch"))
             : 1 == s("#dark-mode-switch").prop("checked") &&
               "dark-mode-switch" === e
@@ -17,9 +17,9 @@
               s("#rtl-mode-switch").prop("checked", !1),
               s("#bootstrap-style").attr(
                   "href",
-                  "static/css/bootstrap-dark.min.css"
+                  "/static/css/bootstrap-dark.min.css"
               ),
-              s("#app-style").attr("href", "static/css/app-dark.min.css"),
+              s("#app-style").attr("href", "/static/css/app-dark.min.css"),
               sessionStorage.setItem("is_visited", "dark-mode-switch"))
             : 1 == s("#rtl-mode-switch").prop("checked") &&
               "rtl-mode-switch" === e &&
@@ -27,9 +27,9 @@
               s("#dark-mode-switch").prop("checked", !1),
               s("#bootstrap-style").attr(
                   "href",
-                  "static/css/bootstrap.min.css"
+                  "/static/css/bootstrap.min.css"
               ),
-              s("#app-style").attr("href", "static/css/app-rtl.min.css"),
+              s("#app-style").attr("href", "/static/css/app-rtl.min.css"),
               sessionStorage.setItem("is_visited", "rtl-mode-switch"));
     }
     function e() {
