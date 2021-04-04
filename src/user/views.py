@@ -41,6 +41,12 @@ def auth_base(request):
     return render(request, 'user/auth-base.html')
 
 
+def auth_login(request):
+    '''Render auth-login template'''
+
+    return render(request, 'user/auth-login.html')
+
+
 # def home(request):
 #     '''Render home page'''
 

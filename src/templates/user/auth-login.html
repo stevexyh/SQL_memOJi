@@ -1,0 +1,54 @@
+{% extends 'user/auth-base.html' %}
+{% block title %}登录{% endblock title %}
+
+<!-- CSS -->
+{% block css %}
+
+{% endblock css %}
+
+<!-- Main Content -->
+{% block main %}
+    <div class="text-center">
+        <h4 class="font-size-18 mt-4">欢迎回来 !</h4>
+        <p class="text-muted">登录以继续使用memOJi.</p>
+    </div>
+
+    <div class="p-2 mt-5">
+        <form class="form-horizontal" action="index.html">
+
+            <div class="form-group auth-form-group-custom mb-4">
+                <i class="ri-user-2-line auti-custom-input-icon"></i>
+                <label for="username">用户名</label>
+                <input type="text" class="form-control" id="username" placeholder="输入用户名">
+            </div>
+
+            <div class="form-group auth-form-group-custom mb-4">
+                <i class="ri-lock-2-line auti-custom-input-icon"></i>
+                <label for="userpassword">密码</label>
+                <input type="password" class="form-control" id="userpassword" placeholder="输入密码">
+            </div>
+
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="customControlInline">
+                <label class="custom-control-label" for="customControlInline">记住账号</label>
+            </div>
+
+            <div class="mt-4 text-center">
+                <button class="btn btn-primary w-md waves-effect waves-light" type="submit">登录</button>
+            </div>
+
+            <div class="mt-4 text-center">
+                <a href="auth-recoverpw.html" class="text-muted"><i class="mdi mdi-lock mr-1"></i> 忘记密码?</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="mt-5 text-center">
+        <p>没有账号? <a href="auth-register.html" class="font-weight-medium text-primary"> 注册 </a> </p>
+    </div>
+{% endblock main %}
+
+<!-- JS -->
+{% block js %}
+
+{% endblock js %}
