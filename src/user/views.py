@@ -63,9 +63,3 @@ def auth_register(request):
     '''Render auth-register template'''
 
     return render(request, 'user/auth-register.html')
-
-
-# def home(request):
-#     '''Render home page'''
-
-#     return render(request, 'user/home.html')
