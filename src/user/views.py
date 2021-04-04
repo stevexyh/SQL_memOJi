@@ -23,6 +23,7 @@ from django.shortcuts import render
 # Create your views here.
 
 
+#----------------------------------------Global Pages----------------------------------------#
 def base(request):
     '''Render base template'''
 
@@ -39,8 +40,10 @@ def index(request):
     '''Render index template'''
 
     return render(request, 'index.html')
+#--------------------------------------------END---------------------------------------------#
 
 
+#-----------------------------------------Auth Pages-----------------------------------------#
 def auth_base(request):
     '''Render auth-base template'''
 
@@ -63,3 +66,12 @@ def auth_register(request):
     '''Render auth-register template'''
 
     return render(request, 'user/auth-register.html')
+#--------------------------------------------END---------------------------------------------#
+
+
+#--------------------------------------Management Pages--------------------------------------#
+def class_manage(request):
+    '''Render class-manage template'''
+
+    return render(request, 'user/class-manage.html')
+#--------------------------------------------END---------------------------------------------#

@@ -33,4 +33,6 @@ urlpatterns = [
     path('auth-recoverpw/', views.auth_recoverpw, name='auth-recoverpw'),
     path('auth-register/', views.auth_register, name='auth-register'),
 
+    # Management Pages
+    path('class-manage/', views.class_manage, name='class-manage'),
 ]

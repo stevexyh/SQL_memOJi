@@ -47,7 +47,7 @@ DESCRIPTIONS
       - [x] auth-login.html
       - [x] auth-register.html
       - [x] auth-recoverpw.html
-      - [ ] class-manage.html
+      - [x] class-manage.html
       - [ ] class-details.html
       - [ ] user-info.html
     - [ ] Coding App

@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% block title %}班级管理{% endblock title %}
+{% block page_title %}班级管理{% endblock page_title %}
+{% block module_title %}管理员{% endblock module_title %}
+{% block nav_title %}班级管理{% endblock nav_title %}
+
+<!-- CSS -->
+{% block css %}
+
+{% endblock css %}
+
+<!-- Main Content -->
+{% block main %}
+    <div style="margin-bottom: 20px;">
+        <a href="class-details.html" class="btn btn-success mb-2"><i class="mdi mdi-plus mr-2"></i>创建班级</a>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center">
+                        <img src="{% static 'images/classroom.png' %}" alt="" class="avatar-sm mt-2 mb-4">
+                        <div class="media-body">
+                            <h5 class="text-truncate"><a href="#" class="text-dark">数据库1班</a></h5>
+                            <p class="text-muted">NPU2021030101</p>
+                            <p class="text-muted">
+                                <i class="mdi mdi-account mr-1"></i> 李老师
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <p class="text-muted mb-2">人数</p>
+                            <h5>86</h5>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-muted mb-2">平均分</p>
+                            <h5>80.12</h5>
+                        </div>
+                    </div>
+                    <div class="text-center"><a href="class-details.html" class="btn btn-primary mt-1 waves-effect waves-light">管理</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center">
+                        <img src="{% static 'images/classroom.png' %}" alt="" class="avatar-sm mt-2 mb-4">
+                        <div class="media-body">
+                            <h5 class="text-truncate"><a href="#" class="text-dark">数据库2班</a></h5>
+                            <p class="text-muted">NPU2021030102</p>
+                            <p class="text-muted">
+                                <i class="mdi mdi-account mr-1"></i> 李老师
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <p class="text-muted mb-2">人数</p>
+                            <h5>86</h5>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-muted mb-2">平均分</p>
+                            <h5>80.12</h5>
+                        </div>
+                    </div>
+                    <div class="text-center"><a href="class-details.html" class="btn btn-primary mt-1 waves-effect waves-light">管理</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center">
+                        <img src="{% static 'images/classroom.png' %}" alt="" class="avatar-sm mt-2 mb-4">
+                        <div class="media-body">
+                            <h5 class="text-truncate"><a href="#" class="text-dark">数据库3班</a></h5>
+                            <p class="text-muted">NPU2021030103</p>
+                            <p class="text-muted">
+                                <i class="mdi mdi-account mr-1"></i> 王老师
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <p class="text-muted mb-2">人数</p>
+                            <h5>86</h5>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-muted mb-2">平均分</p>
+                            <h5>80.12</h5>
+                        </div>
+                    </div>
+                    <div class="text-center"><a href="class-details.html" class="btn btn-primary mt-1 waves-effect waves-light">管理</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center">
+                        <img src="{% static 'images/classroom.png' %}" alt="" class="avatar-sm mt-2 mb-4">
+                        <div class="media-body">
+                            <h5 class="text-truncate"><a href="#" class="text-dark">数据库4班</a></h5>
+                            <p class="text-muted">NPU2021030104</p>
+                            <p class="text-muted">
+                                <i class="mdi mdi-account mr-1"></i> 张老师
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="row text-center">
+                        <div class="col-6">
+                            <p class="text-muted mb-2">人数</p>
+                            <h5>86</h5>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-muted mb-2">平均分</p>
+                            <h5>80.12</h5>
+                        </div>
+                    </div>
+                    <div class="text-center"><a href="class-details.html" class="btn btn-primary mt-1 waves-effect waves-light">管理</a></div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <!-- end row -->
+
+{% endblock main %}
+
+<!-- JS -->
+{% block js %}
+
+{% endblock js %}
