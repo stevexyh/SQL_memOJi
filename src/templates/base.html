@@ -12,6 +12,9 @@
         <!-- App favicon -->
         <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
 
+        <!-- Page or Custom CSS -->
+        {% block css %}{% endblock css %}
+
         <!-- Bootstrap Css -->
         <link href="{% static 'css/bootstrap.min.css' %}" id="bootstrap-style" rel="stylesheet" type="text/css" />
 
@@ -21,8 +24,7 @@
         <!-- App Css-->
         <link href="{% static 'css/app.min.css' %}" id="app-style" rel="stylesheet" type="text/css" />
 
-        <!-- Page or Custom CSS -->
-        <link href="{% block css %}{% endblock css %}" rel="stylesheet" type="text/css" />
+
     </head>
 
     <body data-sidebar="dark">
@@ -442,6 +444,9 @@
 
         <script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
         <!-- <script src="https://cdn.bootcdn.net/ajax/libs/node-waves/0.7.6/waves.min.js"></script> -->
+
+        <!-- Page or Custom JS -->
+        {% block js %}{% endblock js %}
 
         <!-- Local JS -->
         <script src="{% static 'js/app.js' %}"></script>

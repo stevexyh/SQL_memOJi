@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}日历{% endblock title %}
+{% block page_title %}日历{% endblock page_title %}
+{% block module_title %}个人中心{% endblock module_title %}
+{% block nav_title %}日历{% endblock nav_title %}
+{% block css %}
+    <!-- Plugin css -->
+    <link href="{% static 'libs/fullcalendar/fullcalendar.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock css %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div id='calendar'></div>
+
+                    <div style='clear:both'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main %}
+
+{% block js %}
+    <!-- plugin js -->
+    <script src="{% static 'libs/moment/min/moment.min.js' %}"></script>
+    <script src="{% static 'libs/jquery-ui-dist/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'libs/fullcalendar/fullcalendar.min.js' %}"></script>
+
+    <!-- Custom Calendar init -->
+    <script src="{% static 'js/custom-pages/calendar.js' %}"></script>
+{% endblock js %}

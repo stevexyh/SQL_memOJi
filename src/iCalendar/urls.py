@@ -4,9 +4,9 @@
 '''
 ----------------------------------------------------------------------------------------------------
 * Project Name : SQL_memOJi
-* File Name    : views.py
+* File Name    : urls.py
 * Description  : 
-* Create Time  : 2021-04-04 00:48:04
+* Create Time  : 2021-04-04 20:32:14
 * Version      : 1.0
 * Author       : Steve X
 * GitHub       : https://github.com/Steve-Xyh/SQL_memOJi
@@ -18,12 +18,10 @@
 '''
 
 
-from django.shortcuts import render
+from django.urls import path
+from . import views
 
-# Create your views here.
-
-
-def calendar(request):
-    '''Render calendar template'''
-
-    return render(request, 'iCalendar/calendar.html')
+app_name = 'calendar'
+urlpatterns = [
+    path('', views.calendar, name='calendar'),
+]
