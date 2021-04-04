@@ -36,4 +36,5 @@ urlpatterns = [
     # Management Pages
     path('class-manage/', views.class_manage, name='class-manage'),
     path('class-details/', views.class_details, name='class-details'),
+    path('user-info/', views.user_info, name='user-info'),
 ]

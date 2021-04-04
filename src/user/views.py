@@ -80,4 +80,10 @@ def class_details(request):
     '''Render class-details template'''
 
     return render(request, 'user/class-details.html')
+
+
+def user_info(request):
+    '''Render user-info template'''
+
+    return render(request, 'user/user-info.html')
 #--------------------------------------------END---------------------------------------------#
