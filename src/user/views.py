@@ -21,3 +21,15 @@
 from django.shortcuts import render
 
 # Create your views here.
+
+
+def base(request):
+    '''Render base template'''
+
+    return render(request, 'base.html')
+
+
+# def home(request):
+#     '''Render home page'''
+
+#     return render(request, 'user/home.html')
