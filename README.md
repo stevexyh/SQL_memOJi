@@ -38,6 +38,24 @@ DESCRIPTIONS
 - [x] 统一各页面 `base.html` 部分
   - [x] html
   - [ ] django template
+    - [x] base.html
+    - [x] pages-starter.html
+    - [ ] index.html
+    - [x] iCalendar App
+      - [x] calendar.html
+    - [ ] User App
+      - [ ] auth-login.html
+      - [ ] auth-register.html
+      - [ ] auth-recoverpw.html
+      - [ ] class-manage.html
+      - [ ] class-details.html
+      - [ ] user-info.html
+    - [ ] Coding App
+      - [ ] exams-manage.html
+      - [ ] questions-manage.html
+      - [ ] coding-editor.html
+      - [ ] statistics.html
+      - [ ] coding.html
   - [ ] title
 
 - [x] 账号认证
