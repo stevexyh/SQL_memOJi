@@ -40,7 +40,7 @@ DESCRIPTIONS
   - [ ] django template
     - [x] base.html
     - [x] pages-starter.html
-    - [ ] index.html
+    - [x] index.html
     - [x] iCalendar App
       - [x] calendar.html
     - [ ] User App
