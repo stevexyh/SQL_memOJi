@@ -74,4 +74,10 @@ def class_manage(request):
     '''Render class-manage template'''
 
     return render(request, 'user/class-manage.html')
+
+
+def class_details(request):
+    '''Render class-details template'''
+
+    return render(request, 'user/class-details.html')
 #--------------------------------------------END---------------------------------------------#
