@@ -47,6 +47,12 @@ def auth_login(request):
     return render(request, 'user/auth-login.html')
 
 
+def auth_recoverpw(request):
+    '''Render auth-recoverpw template'''
+
+    return render(request, 'user/auth-recoverpw.html')
+
+
 # def home(request):
 #     '''Render home page'''
 
