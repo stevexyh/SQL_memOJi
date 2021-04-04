@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}仪表板{% endblock title %}
 {% block page_title %}仪表板{% endblock page_title %}
-{% block module_title %}个人中心{% endblock module_title %}
-{% block nav_title %}仪表板{% endblock nav_title %}
+
+<!-- Breadcrumb -->
+{% block breadcrumb %}
+    <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="javascript: void(0);">个人中心</a></li>
+            <li class="breadcrumb-item active"><a href="{% url 'user:index' %}">仪表板</a></li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
 
 <!-- CSS -->
 {% block css %}

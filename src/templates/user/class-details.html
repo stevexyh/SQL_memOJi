@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}班级详情{% endblock title %}
 {% block page_title %}班级详情{% endblock page_title %}
-{% block module_title %}管理员{% endblock module_title %}
-{% block nav_title %}班级详情{% endblock nav_title %}
-<!-- {% block breadcrumb %}
-    Breadcrumb
+
+<!-- Breadcrumb -->
+{% block breadcrumb %}
     <div class="page-title-right">
         <ol class="breadcrumb m-0">
             <li class="breadcrumb-item"><a href="javascript: void(0);">管理员</a></li>
@@ -12,7 +11,7 @@
             <li class="breadcrumb-item active"><a href="{% url 'user:class-details' %}">班级详情</a></li>
         </ol>    
     </div>
-{% endblock breadcrumb %} -->
+{% endblock breadcrumb %}
 
 <!-- CSS -->
 {% block css %}

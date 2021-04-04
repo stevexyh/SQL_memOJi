@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}空白页{% endblock title %}
 {% block page_title %}空白页{% endblock page_title %}
-{% block module_title %}模版{% endblock module_title %}
-{% block nav_title %}空白页{% endblock nav_title %}
+
+<!-- Breadcrumb -->
+{% block breadcrumb %}
+    <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="javascript: void(0);">模版</a></li>
+            <li class="breadcrumb-item active">空白页</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
 
 <!-- CSS -->
 {% block css %}

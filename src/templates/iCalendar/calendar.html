@@ -1,8 +1,17 @@
 {% extends 'base.html' %}
 {% block title %}日历{% endblock title %}
 {% block page_title %}日历{% endblock page_title %}
-{% block module_title %}个人中心{% endblock module_title %}
-{% block nav_title %}日历{% endblock nav_title %}
+
+<!-- Breadcrumb -->
+{% block breadcrumb %}
+    <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="javascript: void(0);">个人中心</a></li>
+            <li class="breadcrumb-item active"><a href="{% url 'calendar:calendar' %}">日历</a></li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+
 {% block css %}
     <!-- Plugin css -->
     <link href="{% static 'libs/fullcalendar/fullcalendar.min.css' %}" rel="stylesheet" type="text/css" />

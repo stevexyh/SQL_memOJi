@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}班级管理{% endblock title %}
 {% block page_title %}班级管理{% endblock page_title %}
-{% block module_title %}管理员{% endblock module_title %}
-{% block nav_title %}班级管理{% endblock nav_title %}
+
+<!-- Breadcrumb -->
+{% block breadcrumb %}
+    <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="javascript: void(0);">管理员</a></li>
+            <li class="breadcrumb-item active"><a href="{% url 'user:class-manage' %}">班级管理</a></li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
 
 <!-- CSS -->
 {% block css %}
