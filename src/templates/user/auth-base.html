@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        
+        <meta charset="utf-8" />
+        <title>{% block title %}认证页根模版{% endblock title %} | memOJi - 数据库在线实验平台</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+        <meta content="Themesdesign" name="author" />
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+
+        <!-- Page or Custom CSS -->
+        {% block css %}{% endblock css %}
+
+        <!-- Bootstrap Css -->
+        <link href="{% static 'css/bootstrap.min.css' %}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+
+        <!-- Icons Css -->
+        <link href="{% static 'css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+
+        <!-- App Css-->
+        <link href="{% static 'css/app.min.css' %}" id="app-style" rel="stylesheet" type="text/css" />
+
+    </head>
+
+    <body class="auth-body-bg">
+        <div class="home-btn d-none d-sm-block">
+            <a href="index.html"><i class="mdi mdi-home-variant h2 text-white"></i></a>
+        </div>
+        <div>
+            <div class="container-fluid p-0">
+                <div class="row no-gutters">
+                    <div class="col-lg-4">
+                        <div class="authentication-page-content p-4 d-flex align-items-center min-vh-100">
+                            <div class="w-100">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-9">
+                                        <div>
+                                            <div class="text-center">
+                                                <div>
+                                                    <a href="index.html" class="logo"><img src="{% static 'images/logo-dark.png' %}" height="20" alt="logo"></a>
+                                                </div>
+                                            </div>
+
+                                            {% block main %}{% endblock main %}
+
+                                            <div class="mt-5 text-center">
+                                                <p>© <script>document.write(new Date().getFullYear())</script> Nazox. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesdesign</p>
+                                                <p>© <script>document.write(new Date().getFullYear())</script> memOJi. Developed by <a href="https://github.com/Steve-Xyh/" class="font-weight-medium text-primary"> Steve X Software </a></p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="authentication-bg" style="background: #4a69bc;">
+                            <!-- <div class="bg-overlay"></div> -->
+                            <img src="{% static 'images/backgrounds/auth_bg_code.png' %}" alt="background" width="100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <!-- JAVASCRIPT -->
+        <script src="{% static 'libs/jquery/jquery.min.js' %}"></script>
+        <!-- <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+
+        <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <!-- <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script> -->
+
+        <script src="{% static 'libs/metismenu/metisMenu.min.js' %}"></script>
+        <!-- <script src="https://cdn.bootcdn.net/ajax/libs/metisMenu/3.0.6/metisMenu.min.js"></script> -->
+
+        <script src="{% static 'libs/simplebar/simplebar.min.js' %}"></script>
+        <!-- <script src="https://cdn.bootcdn.net/ajax/libs/simplebar/5.3.0/simplebar.min.js"></script> -->
+
+        <script src="{% static 'libs/node-waves/waves.min.js' %}"></script>
+        <!-- <script src="https://cdn.bootcdn.net/ajax/libs/node-waves/0.7.6/waves.min.js"></script> -->
+
+        <!-- Page or Custom JS -->
+        {% block js %}{% endblock js %}
+
+        <!-- Local JS -->
+        <script src="{% static 'js/app.js' %}"></script>
+
+    </body>
+</html>

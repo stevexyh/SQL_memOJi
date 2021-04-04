@@ -35,6 +35,12 @@ def blank(request):
     return render(request, 'pages-starter.html')
 
 
+def auth_base(request):
+    '''Render auth-base template'''
+
+    return render(request, 'user/auth-base.html')
+
+
 # def home(request):
 #     '''Render home page'''
 
