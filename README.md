@@ -45,7 +45,7 @@ DESCRIPTIONS
       - [x] calendar.html
     - [ ] User App
       - [x] auth-login.html
-      - [ ] auth-register.html
+      - [x] auth-register.html
       - [x] auth-recoverpw.html
       - [ ] class-manage.html
       - [ ] class-details.html

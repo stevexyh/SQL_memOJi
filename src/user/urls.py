@@ -27,5 +27,6 @@ urlpatterns = [
     path('auth-base/', views.auth_base, name='auth-base'),
     path('auth-login/', views.auth_login, name='auth-login'),
     path('auth-recoverpw/', views.auth_recoverpw, name='auth-recoverpw'),
+    path('auth-register/', views.auth_register, name='auth-register'),
     path('blank/', views.blank, name='blank'),
 ]

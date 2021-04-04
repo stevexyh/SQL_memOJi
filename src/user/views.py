@@ -53,6 +53,12 @@ def auth_recoverpw(request):
     return render(request, 'user/auth-recoverpw.html')
 
 
+def auth_register(request):
+    '''Render auth-register template'''
+
+    return render(request, 'user/auth-register.html')
+
+
 # def home(request):
 #     '''Render home page'''
 
