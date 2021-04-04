@@ -22,11 +22,15 @@ from . import views
 
 app_name = 'user'
 urlpatterns = [
-    path('', views.base, name='base'),
+    # Global Pages
+    path('', views.index, name='index'),
     path('base/', views.base, name='base'),
+    path('blank/', views.blank, name='blank'),
+
+    # Auth Pages
     path('auth-base/', views.auth_base, name='auth-base'),
     path('auth-login/', views.auth_login, name='auth-login'),
     path('auth-recoverpw/', views.auth_recoverpw, name='auth-recoverpw'),
     path('auth-register/', views.auth_register, name='auth-register'),
-    path('blank/', views.blank, name='blank'),
+
 ]

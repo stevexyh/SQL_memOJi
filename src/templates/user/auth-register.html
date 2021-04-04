@@ -18,7 +18,7 @@
     </div> -->
 
     <div class="p-2 mt-5">
-        <!-- <form class="form-horizontal" action="index.html">
+        <!-- <form class="form-horizontal" action="{% url 'user:index' %}">
 
             <div class="form-group auth-form-group-custom mb-4">
                 <i class="ri-mail-line auti-custom-input-icon"></i>
@@ -77,7 +77,7 @@
         <div class="tab-content twitter-bs-wizard-tab-content">
             <div class="tab-pane" id="progress-seller-details">
 
-                <form class="form-horizontal needs-validation" action="index.html" novalidate>
+                <form class="form-horizontal needs-validation" action="{% url 'user:index' %}" novalidate>
 
                     <div class="form-group auth-form-group-custom mb-4">
                         <i class="ri-mail-line auti-custom-input-icon"></i>
@@ -156,7 +156,7 @@
                 <ul class="pager wizard twitter-bs-wizard-pager-link">
                     <!-- <li class="previous"><a href="#"> <<< </a></li>
                     <li class="next"></li> -->
-                    <form action="index.html">
+                    <form action="{% url 'user:index' %}">
                         <div class="text-center">
                             <button class="btn btn-primary w-md waves-effect waves-light" type="submit">注册</button>
                         </div>

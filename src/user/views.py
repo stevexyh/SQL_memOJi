@@ -35,6 +35,12 @@ def blank(request):
     return render(request, 'pages-starter.html')
 
 
+def index(request):
+    '''Render index template'''
+
+    return render(request, 'index.html')
+
+
 def auth_base(request):
     '''Render auth-base template'''
 
