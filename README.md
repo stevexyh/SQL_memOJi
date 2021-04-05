@@ -37,7 +37,7 @@ DESCRIPTIONS
   - [ ] 老师：已发布的考试、练习、统计信息
 - [x] 统一各页面 `base.html` 部分
   - [x] html
-  - [ ] django template
+  - [x] django template
     - [x] base.html
     - [x] pages-starter.html
     - [x] index.html
@@ -50,12 +50,12 @@ DESCRIPTIONS
       - [x] class-manage.html
       - [x] class-details.html
       - [x] user-info.html
-    - [ ] Coding App/
+    - [x] Coding App/
       - [x] exams-manage.html
       - [x] questions-manage.html
       - [x] coding.html
       - [x] coding-editor.html
-      - [ ] statistics.html
+      - [x] statistics.html
   - [ ] title
 
 - [x] 账号认证

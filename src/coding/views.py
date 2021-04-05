@@ -45,3 +45,9 @@ def coding_editor(request):
     '''Render coding-editor template'''
 
     return render(request, 'coding/coding-editor.html')
+
+
+def statistics(request):
+    '''Render statistics template'''
+
+    return render(request, 'coding/statistics.html')
