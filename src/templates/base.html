@@ -36,7 +36,7 @@
                     <div class="d-flex">
                         <!-- LOGO -->
                         <div class="navbar-brand-box">
-                            <a href="index.html" class="logo logo-dark">
+                            <a href="{% url 'user:index' %}" class="logo logo-dark">
                                 <span class="logo-sm">
                                     <img src="{% static 'images/logo-sm-dark.png' %}" alt="" height="22">
                                 </span>
@@ -45,7 +45,7 @@
                                 </span>
                             </a>
 
-                            <a href="index.html" class="logo logo-light">
+                            <a href="{% url 'user:index' %}" class="logo logo-light">
                                 <span class="logo-sm">
                                     <img src="{% static 'images/logo-sm-light.png' %}" alt="" height="22">
                                 </span>
@@ -256,33 +256,33 @@
                             <li class="menu-title">个人中心</li>
 
                             <li>
-                                <a href="index.html" class="waves-effect">
+                                <a href="{% url 'user:index' %}" class="waves-effect">
                                     <i class="ri-dashboard-line"></i><span class="badge badge-pill badge-success float-right">3</span>
                                     <span>仪表板</span>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="calendar.html" class=" waves-effect">
+                                <a href="{% url 'calendar:calendar' %}" class=" waves-effect">
                                     <i class="ri-calendar-2-line"></i>
                                     <span>日历</span>
                                 </a>
                             </li>
 
                             <li>
-                                <a href="coding.html" class=" waves-effect">
+                                <a href="{% url 'coding:coding' %}" class=" waves-effect">
                                     <i class="ri-terminal-box-line"></i>
                                     <span>答题</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="user-info.html" class=" waves-effect">
+                                <a href="{% url 'user:user-info' %}" class=" waves-effect">
                                     <i class="ri-account-circle-line"></i>
                                     <span>个人信息</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="statistics.html" class=" waves-effect">
+                                <a href="{% url 'coding:statistics' %}" class=" waves-effect">
                                     <i class="ri-line-chart-line"></i>
                                     <span>统计数据</span>
                                 </a>
@@ -290,19 +290,19 @@
 
                             <li class="menu-title">管理员</li>
                             <li>
-                                <a href="class-manage.html" class=" waves-effect">
+                                <a href="{% url 'user:class-manage' %}" class=" waves-effect">
                                     <i class="ri-team-line"></i>
                                     <span>班级管理</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="questions-manage.html" class=" waves-effect">
+                                <a href="{% url 'coding:questions-manage' %}" class=" waves-effect">
                                     <i class="ri-file-text-line"></i>
                                     <span>题库 & 试卷管理</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="exams-manage.html" class=" waves-effect">
+                                <a href="{% url 'coding:exams-manage' %}" class=" waves-effect">
                                     <i class="ri-check-double-line"></i>
                                     <span>练习 & 考试管理</span>
                                 </a>
@@ -314,10 +314,9 @@
                                     <span>账号设置</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="false">
-                                    <li><a href="auth-login.html">登录</a></li>
-                                    <li><a href="auth-register.html">注册</a></li>
-                                    <li><a href="auth-recoverpw.html">找回密码</a></li>
-                                    <li><a href="auth-lock-screen.html">锁屏</a></li>
+                                    <li><a href="{% url 'user:auth-login' %}">登录</a></li>
+                                    <li><a href="{% url 'user:auth-register' %}">注册</a></li>
+                                    <li><a href="{% url 'user:auth-recoverpw' %}">找回密码</a></li>
                                 </ul>
                             </li>
                         </ul>

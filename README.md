@@ -56,7 +56,7 @@ DESCRIPTIONS
       - [x] coding.html
       - [x] coding-editor.html
       - [x] statistics.html
-  - [ ] title
+  - [x] title
 
 - [x] 账号认证
   - [x] 登录
