@@ -26,6 +26,7 @@ urlpatterns = [
     # Management Pages
     path('exams-manage/', views.exams_manage, name='exams-manage'),
     path('questions-manage/', views.questions_manage, name='questions-manage'),
+    path('coding/', views.coding, name='coding'),
     path('coding-editor/', views.coding_editor, name='coding-editor'),
 
 ]

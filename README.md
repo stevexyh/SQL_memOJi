@@ -53,8 +53,8 @@ DESCRIPTIONS
     - [ ] Coding App/
       - [x] exams-manage.html
       - [x] questions-manage.html
+      - [x] coding.html
       - [x] coding-editor.html
-      - [ ] coding.html
       - [ ] statistics.html
   - [ ] title
 

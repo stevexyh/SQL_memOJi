@@ -35,6 +35,12 @@ def questions_manage(request):
     return render(request, 'coding/questions-manage.html')
 
 
+def coding(request):
+    '''Render coding template'''
+
+    return render(request, 'coding/coding.html')
+
+
 def coding_editor(request):
     '''Render coding-editor template'''
 
