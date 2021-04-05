@@ -33,3 +33,9 @@ def questions_manage(request):
     '''Render questions-manage template'''
 
     return render(request, 'coding/questions-manage.html')
+
+
+def coding_editor(request):
+    '''Render coding-editor template'''
+
+    return render(request, 'coding/coding-editor.html')

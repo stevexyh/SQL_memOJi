@@ -53,9 +53,9 @@ DESCRIPTIONS
     - [ ] Coding App/
       - [x] exams-manage.html
       - [x] questions-manage.html
-      - [ ] coding-editor.html
-      - [ ] statistics.html
+      - [x] coding-editor.html
       - [ ] coding.html
+      - [ ] statistics.html
   - [ ] title
 
 - [x] 账号认证

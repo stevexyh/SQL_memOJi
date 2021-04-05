@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}编辑器{% endblock title %}
+{% block page_title %}编辑器{% endblock page_title %}
+
+<!-- Breadcrumb -->
+{% block breadcrumb %}
+    <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="javascript: void(0);">个人中心</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'user:coding' %}">答题</a></li>
+            <li class="breadcrumb-item active"><a href="{% url 'user:coding-editor' %}">编辑器</a></li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+
+<!-- CSS -->
+{% block css %}
+
+{% endblock css %}
+
+<!-- Main Content -->
+{% block main %}
+    <!-- Monaco Editor -->
+    <div class="row">
+        <div class="col-6">
+            
+        </div>
+        <div class="col-6">
+
+        </div>
+    </div>
+{% endblock main %}
+
+<!-- JS -->
+{% block js %}
+
+{% endblock js %}
