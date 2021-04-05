@@ -41,16 +41,16 @@ DESCRIPTIONS
     - [x] base.html
     - [x] pages-starter.html
     - [x] index.html
-    - [x] iCalendar App
+    - [x] iCalendar App/
       - [x] calendar.html
-    - [x] User App
+    - [x] User App/
       - [x] auth-login.html
       - [x] auth-register.html
       - [x] auth-recoverpw.html
       - [x] class-manage.html
       - [x] class-details.html
       - [x] user-info.html
-    - [ ] Coding App
+    - [ ] Coding App/
       - [ ] exams-manage.html
       - [ ] questions-manage.html
       - [ ] coding-editor.html
