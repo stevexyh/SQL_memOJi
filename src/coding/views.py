@@ -27,3 +27,9 @@ def exams_manage(request):
     '''Render exams-manage template'''
 
     return render(request, 'coding/exams-manage.html')
+
+
+def questions_manage(request):
+    '''Render questions-manage template'''
+
+    return render(request, 'coding/questions-manage.html')

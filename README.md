@@ -52,7 +52,7 @@ DESCRIPTIONS
       - [x] user-info.html
     - [ ] Coding App/
       - [x] exams-manage.html
-      - [ ] questions-manage.html
+      - [x] questions-manage.html
       - [ ] coding-editor.html
       - [ ] statistics.html
       - [ ] coding.html
