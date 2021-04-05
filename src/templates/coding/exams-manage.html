@@ -1,0 +1,370 @@
+{% extends 'base.html' %}
+{% block title %}练习 & 考试管理{% endblock title %}
+{% block page_title %}练习 & 考试管理{% endblock page_title %}
+
+<!-- Breadcrumb -->
+{% block breadcrumb %}
+    <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="javascript: void(0);">个人中心</a></li>
+            <li class="breadcrumb-item active">练习 & 考试管理</li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+
+<!-- CSS -->
+{% block css %}
+
+{% endblock css %}
+
+<!-- Main Content -->
+{% block main %}
+    <h1>下一场考试</h1>
+    <div class="row">
+        <div class="col-8">
+            <div class="card task-box">
+                <div class="progress progress-sm animated-progess" style="height: 3px;">
+                    <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="card-body">
+
+                    <div class="float-right ml-2">
+                        <div>
+                            2021年4月17日 <br> 10:30-12:30
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <a href="#" class="">#QUIZ200417</a>
+                    </div>
+                    <div>
+                        <h5 class="font-size-16"><a href="javascript: void(0);" class="text-dark">期中考试</a></h5>
+                        <p class="mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi distinctio optio rerum blanditiis tempore illo aliquid cumque quos dolore sint suscipit placeat dignissimos molestiae, nisi nobis repudiandae cum. Dicta, tempora?</p>
+                    </div>
+
+                    <div class="d-inline-flex team mb-0">
+                        <div class="mr-3 align-self-center">
+                            发起人 :
+                        </div>
+                        <div class="team-member">
+                            <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
+                                <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
+                            </a>
+                        </div>
+
+                        <div class="team-member">
+                            <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="David Martinez">
+                                <img src="{% static 'images/users/avatar-2.jpg' %}" class="rounded-circle avatar-xs" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="float-right"><a href="javascript: void(0);" class="btn btn-primary mt-1 waves-effect waves-light">编辑</a></div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card bg-danger text-white-50">
+                <a href="#">
+                    <div class="card-body" style="height: 100%;">
+                        <h5 class="mt-0 mb-4 text-white"><i class="mdi mdi-plus mr-1"></i> 发起新的考试</h5>
+                        <p class="card-text" style="color: #ffffff;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </a>
+            </div>
+            <div class="card bg-primary text-white-50">
+                <a href="#">
+                    <div class="card-body" style="height: 100%;">
+                        <h5 class="mt-0 mb-4 text-white"><i class="mdi mdi-plus mr-1"></i> 发起新的练习 </h5>
+                        <p class="card-text" style="color: #ffffff;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    </div>
+    <!-- end row -->
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card-body">
+                <button type="button" class="btn btn-outline-danger waves-effect waves-light">
+                    <i class="ri-check-line align-middle mr-2"></i>
+                    <strong>考试</strong>
+                </button>
+            </div>
+            <!-- <div class="card"> -->
+                <div class="card-body border-bottom">
+
+                    <div id="todo-task" class="task-list">
+                        <div class="card task-box">
+                            <div class="progress progress-sm animated-progess" style="height: 3px;">
+                                <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="float-right ml-2">
+                                    <div>
+                                        2021年4月17日 <br> 10:30-12:30
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <a href="#" class="">#QUIZ200417</a>
+                                </div>
+                                <div>
+                                    <h5 class="font-size-16"><a href="javascript: void(0);" class="text-dark">期中考试</a></h5>
+                                    <p class="mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi distinctio optio rerum blanditiis tempore illo aliquid cumque quos dolore sint suscipit placeat dignissimos molestiae, nisi nobis repudiandae cum. Dicta, tempora?</p>
+                                </div>
+
+                                <div class="d-inline-flex team mb-0">
+                                    <div class="mr-3 align-self-center">
+                                        发起人 :
+                                    </div>
+                                    <div class="team-member">
+                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
+                                            <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
+                                        </a>
+                                    </div>
+
+                                    <div class="team-member">
+                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="David Martinez">
+                                            <img src="{% static 'images/users/avatar-2.jpg' %}" class="rounded-circle avatar-xs" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="float-right"><a href="javascript: void(0);" class="btn btn-primary mt-1 waves-effect waves-light">编辑</a></div>
+
+                            </div>
+                        </div>
+                        <!-- end task card -->
+                        <div class="card task-box">
+                            <div class="progress progress-sm animated-progess" style="height: 3px;">
+                                <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="float-right ml-2">
+                                    <div>
+                                        2021年4月17日 <br> 10:30-12:30
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <a href="#" class="">#QUIZ200417</a>
+                                </div>
+                                <div>
+                                    <h5 class="font-size-16"><a href="javascript: void(0);" class="text-dark">期中考试</a></h5>
+                                    <p class="mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi distinctio optio rerum blanditiis tempore illo aliquid cumque quos dolore sint suscipit placeat dignissimos molestiae, nisi nobis repudiandae cum. Dicta, tempora?</p>
+                                </div>
+
+                                <div class="d-inline-flex team mb-0">
+                                    <div class="mr-3 align-self-center">
+                                        发起人 :
+                                    </div>
+                                    <div class="team-member">
+                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
+                                            <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
+                                        </a>
+                                    </div>
+
+                                    <div class="team-member">
+                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="David Martinez">
+                                            <img src="{% static 'images/users/avatar-2.jpg' %}" class="rounded-circle avatar-xs" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="float-right"><a href="javascript: void(0);" class="btn btn-primary mt-1 waves-effect waves-light">编辑</a></div>
+
+                            </div>
+                        </div>
+                        <!-- end task card -->
+                        <div class="card task-box">
+                            <div class="progress progress-sm animated-progess" style="height: 3px;">
+                                <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="float-right ml-2">
+                                    <div>
+                                        2021年4月17日 <br> 10:30-12:30
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <a href="#" class="">#QUIZ200417</a>
+                                </div>
+                                <div>
+                                    <h5 class="font-size-16"><a href="javascript: void(0);" class="text-dark">期中考试</a></h5>
+                                    <p class="mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi distinctio optio rerum blanditiis tempore illo aliquid cumque quos dolore sint suscipit placeat dignissimos molestiae, nisi nobis repudiandae cum. Dicta, tempora?</p>
+                                </div>
+
+                                <div class="d-inline-flex team mb-0">
+                                    <div class="mr-3 align-self-center">
+                                        发起人 :
+                                    </div>
+                                    <div class="team-member">
+                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
+                                            <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
+                                        </a>
+                                    </div>
+
+                                    <div class="team-member">
+                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="David Martinez">
+                                            <img src="{% static 'images/users/avatar-2.jpg' %}" class="rounded-circle avatar-xs" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="float-right"><a href="javascript: void(0);" class="btn btn-primary mt-1 waves-effect waves-light">编辑</a></div>
+
+                            </div>
+                        </div>
+                        <!-- end task card -->
+
+                    </div>
+                    
+                </div>
+            <!-- </div> -->
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="card-body">
+                <button type="button" class="btn btn-outline-primary waves-effect waves-light">
+                    <i class="ri-check-line align-middle mr-2"></i>
+                    <strong>练习</strong>
+                </button>
+            </div>
+            <!-- <div class="card"> -->
+                <div class="card-body border-bottom">
+                    <div id="inprogress-task" class="task-list">
+                        <div class="card task-box">
+                            <div class="progress progress-sm animated-progess" style="height: 3px;">
+                                <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="float-right ml-2">
+                                    <div>
+                                        2021年4月17日 <br> 10:30-12:30
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <a href="#" class="">#QUIZ200417</a>
+                                </div>
+                                <div>
+                                    <h5 class="font-size-16"><a href="javascript: void(0);" class="text-dark">期中考试</a></h5>
+                                    <p class="mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi distinctio optio rerum blanditiis tempore illo aliquid cumque quos dolore sint suscipit placeat dignissimos molestiae, nisi nobis repudiandae cum. Dicta, tempora?</p>
+                                </div>
+
+                                <div class="d-inline-flex team mb-0">
+                                    <div class="mr-3 align-self-center">
+                                        发起人 :
+                                    </div>
+                                    <div class="team-member">
+                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
+                                            <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
+                                        </a>
+                                    </div>
+
+                                    <div class="team-member">
+                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="David Martinez">
+                                            <img src="{% static 'images/users/avatar-2.jpg' %}" class="rounded-circle avatar-xs" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="float-right"><a href="javascript: void(0);" class="btn btn-primary mt-1 waves-effect waves-light">编辑</a></div>
+
+                            </div>
+                        </div>
+                        <!-- end task card -->
+                        <div class="card task-box">
+                            <div class="progress progress-sm animated-progess" style="height: 3px;">
+                                <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="float-right ml-2">
+                                    <div>
+                                        2021年4月17日 <br> 10:30-12:30
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <a href="#" class="">#QUIZ200417</a>
+                                </div>
+                                <div>
+                                    <h5 class="font-size-16"><a href="javascript: void(0);" class="text-dark">期中考试</a></h5>
+                                    <p class="mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi distinctio optio rerum blanditiis tempore illo aliquid cumque quos dolore sint suscipit placeat dignissimos molestiae, nisi nobis repudiandae cum. Dicta, tempora?</p>
+                                </div>
+
+                                <div class="d-inline-flex team mb-0">
+                                    <div class="mr-3 align-self-center">
+                                        发起人 :
+                                    </div>
+                                    <div class="team-member">
+                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
+                                            <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
+                                        </a>
+                                    </div>
+
+                                    <div class="team-member">
+                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="David Martinez">
+                                            <img src="{% static 'images/users/avatar-2.jpg' %}" class="rounded-circle avatar-xs" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="float-right"><a href="javascript: void(0);" class="btn btn-primary mt-1 waves-effect waves-light">编辑</a></div>
+
+                            </div>
+                        </div>
+                        <!-- end task card -->
+                        <div class="card task-box">
+                            <div class="progress progress-sm animated-progess" style="height: 3px;">
+                                <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="card-body">
+
+                                <div class="float-right ml-2">
+                                    <div>
+                                        2021年4月17日 <br> 10:30-12:30
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <a href="#" class="">#QUIZ200417</a>
+                                </div>
+                                <div>
+                                    <h5 class="font-size-16"><a href="javascript: void(0);" class="text-dark">期中考试</a></h5>
+                                    <p class="mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi distinctio optio rerum blanditiis tempore illo aliquid cumque quos dolore sint suscipit placeat dignissimos molestiae, nisi nobis repudiandae cum. Dicta, tempora?</p>
+                                </div>
+
+                                <div class="d-inline-flex team mb-0">
+                                    <div class="mr-3 align-self-center">
+                                        发起人 :
+                                    </div>
+                                    <div class="team-member">
+                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
+                                            <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
+                                        </a>
+                                    </div>
+
+                                    <div class="team-member">
+                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="David Martinez">
+                                            <img src="{% static 'images/users/avatar-2.jpg' %}" class="rounded-circle avatar-xs" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="float-right"><a href="javascript: void(0);" class="btn btn-primary mt-1 waves-effect waves-light">编辑</a></div>
+
+                            </div>
+                        </div>
+                        <!-- end task card -->
+
+                    </div>
+                    
+                </div>
+            <!-- </div> -->
+        </div>
+    </div>
+    <!-- end row -->
+
+{% endblock main %}
+
+<!-- JS -->
+{% block js %}
+
+{% endblock js %}

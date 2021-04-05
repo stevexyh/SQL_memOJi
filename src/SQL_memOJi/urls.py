@@ -35,11 +35,13 @@ from django.contrib import admin
 from django.urls import path, include
 import user.urls
 import iCalendar.urls
+import coding.urls
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', include(user.urls)),
-    path('calendar', include(iCalendar.urls)),
+    path('calendar/', include(iCalendar.urls)),
+    path('coding/', include(coding.urls)),
 ]

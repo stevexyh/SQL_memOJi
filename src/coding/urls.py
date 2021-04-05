@@ -4,9 +4,9 @@
 '''
 ----------------------------------------------------------------------------------------------------
 * Project Name : SQL_memOJi
-* File Name    : views.py
+* File Name    : urls.py
 * Description  : 
-* Create Time  : 2021-04-04 00:46:48
+* Create Time  : 2021-04-05 11:32:17
 * Version      : 1.0
 * Author       : Steve X
 * GitHub       : https://github.com/Steve-Xyh/SQL_memOJi
@@ -18,12 +18,12 @@
 '''
 
 
-from django.shortcuts import render
+from django.urls import path
+from . import views
 
-# Create your views here.
+app_name = 'coding'
+urlpatterns = [
+    # Management Pages
+    path('exams-manage/', views.exams_manage, name='exams-manage'),
 
-
-def exams_manage(request):
-    '''Render exams-manage template'''
-
-    return render(request, 'coding/exams-manage.html')
+]

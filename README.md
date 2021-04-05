@@ -51,7 +51,7 @@ DESCRIPTIONS
       - [x] class-details.html
       - [x] user-info.html
     - [ ] Coding App/
-      - [ ] exams-manage.html
+      - [x] exams-manage.html
       - [ ] questions-manage.html
       - [ ] coding-editor.html
       - [ ] statistics.html
