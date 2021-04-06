@@ -5,7 +5,7 @@
 ----------------------------------------------------------------------------------------------------
 * Project Name : SQL_memOJi
 * File Name    : settings.py
-* Description  : 
+* Description  :
 * Create Time  : 2021-04-04 00:37:06
 * Version      : 1.0
 * Author       : Steve X
@@ -86,7 +86,7 @@ TEMPLATES = [
             ],
 
             # 不用手动 load static
-            'builtins' : [
+            'builtins': [
                 'django.templatetags.static'
             ],
         },
@@ -137,6 +137,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTH_USER_MODEL = 'user.User'
 
 
 # Internationalization
