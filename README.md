@@ -155,7 +155,7 @@ DESCRIPTIONS
 | internal_id           | varchar             |      | UNI |             |
 | college_name          | varchar             |      |     |             |
 | class_id              | varchar             |      | FK  |             |
-| join_status           | varchar             |      |     |             |
+| join_status           | int                 |      |     |             |
 | register_time         | datetime            |      |     |             |
 
 - [ ] 学校 `School` (**学校ID**, 学校全称, 校名英文缩写)
