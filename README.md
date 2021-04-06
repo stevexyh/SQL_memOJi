@@ -152,7 +152,7 @@ DESCRIPTIONS
 | priority              | int                 |      |     | 0           |
 | school_name           | varchar             |      | FK  | 西北工业大学|
 | full_name             | varchar             |      |     |             |
-| internal_id           | varchar             |      |     |             |
+| internal_id           | varchar             |      | UNI |             |
 | college_name          | varchar             |      |     |             |
 | class_id              | varchar             |      | FK  |             |
 | join_status           | varchar             |      |     |             |
