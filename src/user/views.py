@@ -72,10 +72,22 @@ class AuthLogin(View):
         }
 
         if not success:
-            return render(request, 'user/auth-login.html', context=content)
+            return render(request, 'user/auth-login.html', context=content, status=401)
 
         auth.login(request, user=user)
         return render(request, 'user/auth-status.html', context=content)
+
+
+def auth_logout(request):
+    '''Log out user'''
+
+    user = request.session.get('username')
+    auth.logout(request)
+    content = {
+        'user': user,
+        'msg': _('登出成功'),
+    }
+    return render(request, 'user/auth-login.html', context=content)
 
 
 def auth_status(request):
