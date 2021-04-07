@@ -220,7 +220,11 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img class="rounded-circle header-profile-user" src="{% static 'images/users/avatar-2.jpg' %}"
                                     alt="Header Avatar">
-                                <span class="d-none d-xl-inline-block ml-1">Steve X</span>
+                                    {% if user.is_authenticated %}
+                                        <span class="d-none d-xl-inline-block ml-1">{{ user.full_name }}</span>
+                                    {% else %}
+                                        <span class="d-none d-xl-inline-block ml-1">未登录</span>
+                                    {% endif %}
                                 <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
@@ -317,6 +321,7 @@
                                     <li><a href="{% url 'user:auth-login' %}">登录</a></li>
                                     <li><a href="{% url 'user:auth-register' %}">注册</a></li>
                                     <li><a href="{% url 'user:auth-recoverpw' %}">找回密码</a></li>
+                                    <li><a href="{% url 'user:auth-status' %}">登录状态</a></li>
                                 </ul>
                             </li>
                         </ul>

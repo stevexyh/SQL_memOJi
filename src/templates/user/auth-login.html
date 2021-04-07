@@ -9,23 +9,33 @@
 <!-- Main Content -->
 {% block main %}
     <div class="text-center">
-        <h4 class="font-size-18 mt-4">欢迎回来 !</h4>
-        <p class="text-muted">登录以继续使用memOJi.</p>
+        {% if msg %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ msg }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% else %}
+            <h4 class="font-size-18 mt-4">欢迎回来 !</h4>
+            <p class="text-muted">登录以继续使用memOJi.</p>
+        {% endif %}
+
     </div>
 
     <div class="p-2 mt-5">
-        <form class="form-horizontal" action="{% url 'user:index' %}">
-
+        <form class="form-horizontal" action="{% url 'user:auth-login' %}" method="POST">
+            {% csrf_token %}
             <div class="form-group auth-form-group-custom mb-4">
                 <i class="ri-user-2-line auti-custom-input-icon"></i>
                 <label for="username">用户名</label>
-                <input type="text" class="form-control" id="username" placeholder="输入用户名">
+                <input type="text" class="form-control" id="username" name="username" placeholder="输入用户名">
             </div>
 
             <div class="form-group auth-form-group-custom mb-4">
                 <i class="ri-lock-2-line auti-custom-input-icon"></i>
-                <label for="userpassword">密码</label>
-                <input type="password" class="form-control" id="userpassword" placeholder="输入密码">
+                <label for="password">密码</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="输入密码">
             </div>
 
             <div class="custom-control custom-checkbox">
