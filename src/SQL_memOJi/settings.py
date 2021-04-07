@@ -139,6 +139,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = 'user.User'
+LOGIN_URL = '/auth-login/'
 LOGOUT_REDIRECT_URL = '/auth-login/'
 
 # Internationalization
