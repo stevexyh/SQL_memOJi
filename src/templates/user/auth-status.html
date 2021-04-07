@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}登录状态{% endblock title %}
+{% block page_title %}登录状态{% endblock page_title %}
+
+<!-- Breadcrumb -->
+{% block breadcrumb %}
+    <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="javascript: void(0);">个人中心</a></li>
+            <li class="breadcrumb-item active"><a href="#">登录状态</a></li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+
+<!-- CSS -->
+{% block css %}
+
+{% endblock css %}
+
+<!-- Main Content -->
+{% block main %}
+    {% if user.is_authenticated %}
+        <p>用户 {{ user.username }} 登录成功</p>
+        <p>{{ user.full_name }}</p>
+        <p>{{ user.school_name }}</p>
+    {% else %}
+        <p>未登录</p>
+    {% endif %}
+
+    {# Assumes you setup the password_reset view in your URLconf #}
+    <p><a href="{% url 'user:auth-login' %}">登录</a></p>
+    <p><a href="{% url 'user:auth-recoverpw' %}">忘记密码?</a></p>
+{% endblock main %}
+
+<!-- JS -->
+{% block js %}
+
+{% endblock js %}
