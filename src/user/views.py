@@ -110,12 +110,47 @@ class AuthRegister(View):
         return render(request, 'user/auth-register.html')
 
     # TODO(Steve X): Finish frontend validation for every tab on click 'next'
-    # TODO(Steve X): Finish register post
-    # def post(self, request):
-    #     username = request.POST.get('username')
-    #     password = request.POST.get('password')
-    #     new_user = User.objects.create_user(username=username, password=password)
-    #     pass
+    def post(self, request):
+        username = request.POST.get('username')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        email = request.POST.get('email')
+        school_name = request.POST.get('school_name')
+        class_id = request.POST.get('class_id')
+        full_name = request.POST.get('full_name')
+        internal_id = request.POST.get('internal_id')
+
+        msg = ''
+        if User.objects.filter(username=username):
+            msg = _('此用户名已存在, 请更换另一个或求助管理员')
+            fail = True
+        elif User.objects.filter(email=email):
+            msg = _('此邮箱已注册, 请更换另一个或求助管理员')
+            fail = True
+        elif password1 != password2:
+            msg = _('两次密码输入不一致')
+            fail = True
+        else:
+            try:
+                new_user = User.objects.create_user(username=username, password=password2, email=email)
+                new_user.school_name = school_name
+                new_user.class_id = class_id
+                new_user.full_name = full_name
+                new_user.internal_id = internal_id
+
+                new_user.save()
+                fail = False
+            except Exception as exc:
+                msg = _('注册异常: ') + str(exc)
+                fail = True
+                print(exc)
+
+        content = {
+            'fail': fail,
+            'msg': msg,
+        }
+
+        return render(request, 'user/auth-register-done.html', context=content)
 
 
 def auth_register_done(request):

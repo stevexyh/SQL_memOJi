@@ -38,7 +38,7 @@
         <div id="bar" class="progress mt-4">
             <div class="progress-bar bg-success progress-bar-striped progress-bar-animated"></div>
         </div>
-        <form class="form-horizontal custom-validation" action="{% url 'user:auth-register-done' %}" method="POST" novalidate>
+        <form class="form-horizontal custom-validation" action="{% url 'user:auth-register' %}" method="POST" novalidate>
             {% csrf_token %}
             <div class="tab-content twitter-bs-wizard-tab-content">
                 <div class="tab-pane" id="progress-account-details">

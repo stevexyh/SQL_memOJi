@@ -18,20 +18,31 @@
             <div class="row justify-content-center">
                 <div class="col-lg-6">
                     <div class="text-center">
-                        <div class="mb-4">
-                            <i class="mdi mdi-check-circle-outline text-success display-4"></i>
-                        </div>
-                        <div>
-                            <h5>完成注册</h5>
-                            <p class="text-muted">请登录</p>
-                        </div>
+                        {% if not fail %}
+                            <div class="mb-4">
+                                <i class="mdi mdi-check-circle-outline text-success display-4"></i>
+                            </div>
+                            <div>
+                                <h5>完成注册</h5>
+                                <p class="text-muted">请登录</p>
+                                <a href="{% url 'user:auth-login' %}">
+                                    <div class="btn btn-primary w-md waves-effect waves-light">登录</div>
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="mb-4">
+                                <i class="ri-error-warning-line text-danger display-4"></i>
+                            </div>
+                            <div>
+                                <h5>注册失败</h5>
+                                <p class="text-muted">{{ msg }}</p>
+                                <a href="{% url 'user:auth-register' %}">
+                                    <div class="btn btn-primary w-md waves-effect waves-light">请重试</div>
+                                </a>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
-            </div>
-            <div class="text-center">
-                <a href="{% url 'user:auth-login' %}">
-                    <div class="btn btn-primary w-md waves-effect waves-light">登录</div>
-                </a>
             </div>
         </div>
     </div>
