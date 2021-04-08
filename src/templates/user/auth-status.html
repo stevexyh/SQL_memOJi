@@ -23,12 +23,13 @@
         <p>用户 {{ user.username }} 登录成功</p>
         <p>{{ user.full_name }}</p>
         <p>{{ user.school_name }}</p>
+        <p><a href="{% url 'user:auth-logout' %}">注销</a></p>
     {% else %}
         <p>未登录</p>
+        <p><a href="{% url 'user:auth-login' %}">登录</a></p>
     {% endif %}
 
     {# Assumes you setup the password_reset view in your URLconf #}
-    <p><a href="{% url 'user:auth-login' %}">登录</a></p>
     <p><a href="{% url 'user:auth-recoverpw' %}">忘记密码?</a></p>
 {% endblock main %}
 
