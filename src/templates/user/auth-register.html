@@ -9,64 +9,28 @@
 <!-- Main Content -->
 {% block main %}
     <div class="text-center">
-        <!-- <h4 class="font-size-18 mt-4">Register account</h4>
-        <p class="text-muted">Get your free Nazox account now.</p> -->
+        <h4 class="font-size-18 mt-4">注册账号</h4>
+        <p class="text-muted">获取您的 memOJi 账号.</p>
     </div>
-    <!-- <div class="text-center">
-        <h4 class="font-size-18 mt-4">Register account</h4>
-        <p class="text-muted">Get your free Nazox account now.</p>
-    </div> -->
-
-    <div class="p-2 mt-5">
-        <!-- <form class="form-horizontal" action="{% url 'user:index' %}">
-
-            <div class="form-group auth-form-group-custom mb-4">
-                <i class="ri-mail-line auti-custom-input-icon"></i>
-                <label for="useremail">Email</label>
-                <input type="email" class="form-control" id="useremail" placeholder="Enter email">
-            </div>
-
-            <div class="form-group auth-form-group-custom mb-4">
-                <i class="ri-user-2-line auti-custom-input-icon"></i>
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" placeholder="Enter username">
-            </div>
-
-            <div class="form-group auth-form-group-custom mb-4">
-                <i class="ri-lock-2-line auti-custom-input-icon"></i>
-                <label for="userpassword">Password</label>
-                <input type="password" class="form-control" id="userpassword" placeholder="Enter password">
-            </div>
-
-            <div class="text-center">
-                <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Register</button>
-            </div>
-
-            <div class="mt-4 text-center">
-                <p class="mb-0">By registering you agree to the Nazox <a href="#" class="text-primary">Terms of Use</a></p>
-            </div>
-        </form> -->
-    </div>
-
 
     <div id="progrss-wizard" class="twitter-bs-wizard">
         <ul class="twitter-bs-wizard-nav nav-justified">
             <li class="nav-item">
-                <a href="#progress-seller-details" class="nav-link" data-toggle="tab">
+                <a href="#progress-account-details" class="nav-link" data-toggle="tab">
                     <span class="step-number">01</span>
                     <span class="step-title">账号信息</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#progress-school-details" class="nav-link" data-toggle="tab">
+                <a href="#progress-password-details" class="nav-link" data-toggle="tab">
                     <span class="step-number">02</span>
-                    <span class="step-title">学校信息</span>
+                    <span class="step-title">设置密码</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#progress-finish-register" class="nav-link" data-toggle="tab">
+                <a href="#progress-school-details" class="nav-link" data-toggle="tab">
                     <span class="step-number">03</span>
-                    <span class="step-title">完成注册</span>
+                    <span class="step-title">学校信息</span>
                 </a>
             </li>
         </ul>
@@ -74,46 +38,57 @@
         <div id="bar" class="progress mt-4">
             <div class="progress-bar bg-success progress-bar-striped progress-bar-animated"></div>
         </div>
-        <div class="tab-content twitter-bs-wizard-tab-content">
-            <div class="tab-pane" id="progress-seller-details">
-
-                <form class="form-horizontal needs-validation" action="{% url 'user:index' %}" novalidate>
+        <form class="form-horizontal custom-validation" action="{% url 'user:auth-register-done' %}" method="POST" novalidate>
+            {% csrf_token %}
+            <div class="tab-content twitter-bs-wizard-tab-content">
+                <div class="tab-pane" id="progress-account-details">
+                    <div class="form-group auth-form-group-custom mb-4">
+                        <i class="ri-shield-user-line auti-custom-input-icon"></i>
+                        <label for="username">用户名</label>
+                        <input type="text" class="form-control" id="username" name="username" data-parsley-error-message="请输入正确的用户名" placeholder="输入用户名" required>
+                    </div>
 
                     <div class="form-group auth-form-group-custom mb-4">
                         <i class="ri-mail-line auti-custom-input-icon"></i>
                         <label for="useremail">邮箱</label>
-                        <input type="email" class="form-control" id="useremail" placeholder="输入邮箱" required>
-                        <div class="invalid-feedback">
-                            请输入正确的电子邮箱地址
-                        </div>
+                        <input type="email" class="form-control" id="useremail" name="email" data-parsley-error-message="请输入正确的电子邮箱地址" placeholder="输入邮箱" required>
                     </div>
 
-                    <div class="form-group auth-form-group-custom mb-4">
-                        <i class="ri-lock-2-line auti-custom-input-icon"></i>
-                        <label for="userpassword">密码</label>
-                        <input type="password" class="form-control" id="userpassword" placeholder="输入密码" required>
-                    </div>
                     <ul class="pager wizard twitter-bs-wizard-pager-link">
                         <!-- <li class="previous"><a href="#"> <<< </a></li> -->
                         <li class="next" type="submit"><a href="#"> >>> </a></li>
                     </ul>
-                </form>
+                </div>
+                <div class="tab-pane" id="progress-password-details">
+                    <div class="form-group auth-form-group-custom mb-4">
+                        <i class="ri-lock-2-line auti-custom-input-icon"></i>
+                        <label for="password2">密码</label>
+                        <input type="password" class="form-control" id="password1" name="password1" data-parsley-error-message="请输入密码" placeholder="输入密码" required>
+                    </div>
+                    <div class="form-group auth-form-group-custom mb-4">
+                        <i class="ri-lock-2-line auti-custom-input-icon"></i>
+                        <label for="password2">确认密码</label>
+                        <input type="password" class="form-control" id="password2" name="password2" data-parsley-error-message="请输入相同的密码" placeholder="确认密码" data-parsley-equalto="#password1" required>
+                    </div>
 
-            </div>
-            <div class="tab-pane" id="progress-school-details">
-                <div>
-                    <form class="needs-validation custom-validation" action="{% url 'user:auth-register' %}" novalidate>
+                    <ul class="pager wizard twitter-bs-wizard-pager-link">
+                        <li class="previous"><a href="#"> <<< </a></li>
+                        <li class="next" type="submit"><a href="#"> >>> </a></li>
+                    </ul>
+                </div>
+                <div class="tab-pane" id="progress-school-details">
+                    <div>
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="progress-basicpill-school-input">学校全称</label>
-                                    <input type="text" class="form-control" id="progress-basicpill-school-input" placeholder="学校全称" value="西北工业大学" required>
+                                    <input type="text" class="form-control" id="progress-basicpill-school-input" name="school_name" data-parsley-error-message="请输入学校全称" placeholder="学校全称" value="西北工业大学" required>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="progress-basicpill-classno-input">班级编号</label>
-                                    <input type="text" class="form-control" id="progress-basicpill-classno-input" placeholder="NPU0001" required>
+                                    <input type="text" class="form-control" id="progress-basicpill-classno-input" name="class_id" placeholder="NPU0001">
                                 </div>
                             </div>
                         </div>
@@ -121,50 +96,27 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="progress-basicpill-fullname-input">真实姓名</label>
-                                    <input type="text" class="form-control" id="progress-basicpill-fullname-input" placeholder="Steve X" required>
+                                    <input type="text" class="form-control" id="progress-basicpill-fullname-input" name="full_name" data-parsley-error-message="请输入真实姓名" placeholder="Steve X" required>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group needs-validation">
                                     <label for="progress-basicpill-studno-input">学号</label>
-                                    <input type="digits" data-parsley-type="digits" class="form-control" id="progress-basicpill-studno-input" placeholder="2021000000" required>
+                                    <input type="digits" data-parsley-type="digits" class="form-control" id="progress-basicpill-studno-input" name="internal_id" data-parsley-error-message="请输入学号" placeholder="2021000000" required>
                                 </div>
                             </div>
                         </div>
-
-                    </form>
-                </div>
-                <ul class="pager wizard twitter-bs-wizard-pager-link">
-                    <li class="previous"><a href="#"> <<< </a></li>
-                    <li class="next"><a href="#"> >>> </a></li>
-                </ul>
-            </div>
-            <div class="tab-pane" id="progress-finish-register">
-                <div class="row justify-content-center">
-                    <div class="col-lg-6">
-                        <div class="text-center">
-                            <div class="mb-4">
-                                <i class="mdi mdi-check-circle-outline text-success display-4"></i>
-                            </div>
-                            <div>
-                                <h5>完成注册</h5>
-                                <p class="text-muted">请重新登录</p>
-                            </div>
-                        </div>
                     </div>
-                </div>
-                <ul class="pager wizard twitter-bs-wizard-pager-link">
-                    <!-- <li class="previous"><a href="#"> <<< </a></li>
-                    <li class="next"></li> -->
-                    <form action="{% url 'user:index' %}">
+                    <ul class="pager wizard twitter-bs-wizard-pager-link">
                         <div class="text-center">
-                            <button class="btn btn-primary w-md waves-effect waves-light" type="submit">注册</button>
+                            <button class="btn btn-primary w-md waves-effect waves-light" type="submit">完成注册</button>
                         </div>
-                    </form>
-                </ul>
+                    </ul>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
+
 
 
     <div class="mt-5 text-center">
@@ -180,8 +132,6 @@
 
     <!-- form wizard init -->
     <script src="{% static 'js/pages/form-wizard.init.js' %}"></script>
-
-    <script src="https://kwes.io/js/kwes.js"></script>
 
     <!-- validation -->
     <script src="{% static 'libs/parsleyjs/parsley.min.js' %}"></script>

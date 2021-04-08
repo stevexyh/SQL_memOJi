@@ -1,0 +1,60 @@
+{% extends 'user/auth-base.html' %}
+{% block title %}注册{% endblock title %}
+
+<!-- CSS -->
+{% block css %}
+
+{% endblock css %}
+
+<!-- Main Content -->
+{% block main %}
+    <div class="text-center">
+        <h4 class="font-size-18 mt-4">注册账号</h4>
+        <p class="text-muted">获取您的 memOJi 账号.</p>
+    </div>
+
+    <div class="p-2 mt-5">
+        <div class="tab-pane" id="progress-finish-register">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <div class="mb-4">
+                            <i class="mdi mdi-check-circle-outline text-success display-4"></i>
+                        </div>
+                        <div>
+                            <h5>完成注册</h5>
+                            <p class="text-muted">请登录</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="{% url 'user:auth-login' %}">
+                    <div class="btn btn-primary w-md waves-effect waves-light">登录</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="mt-5 text-center">
+        <p>已有账号 ? <a href="{% url 'user:auth-login' %}" class="font-weight-medium text-primary"> 登录</a> </p>
+    </div>
+{% endblock main %}
+
+<!-- JS -->
+{% block js %}
+    <!-- twitter-bootstrap-wizard js -->
+    <script src="{% static 'libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js' %}"></script>
+    <script src="{% static 'libs/twitter-bootstrap-wizard/prettify.js' %}"></script>
+
+    <!-- form wizard init -->
+    <script src="{% static 'js/pages/form-wizard.init.js' %}"></script>
+
+    <script src="https://kwes.io/js/kwes.js"></script>
+
+    <!-- validation -->
+    <script src="{% static 'libs/parsleyjs/parsley.min.js' %}"></script>
+    <script src="{% static 'js/pages/form-validation.init.js' %}"></script>
+{% endblock js %}

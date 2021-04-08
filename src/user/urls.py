@@ -32,7 +32,8 @@ urlpatterns = [
     path('auth-login/', views.AuthLogin.as_view(), name='auth-login'),
     path('auth-logout/', views.auth_logout, name='auth-logout'),
     path('auth-recoverpw/', views.auth_recoverpw, name='auth-recoverpw'),
-    path('auth-register/', views.auth_register, name='auth-register'),
+    path('auth-register/', views.AuthRegister.as_view(), name='auth-register'),
+    path('auth-register-done/', views.auth_register_done, name='auth-register-done'),
     path('auth-status/', views.auth_status, name='auth-status'),
 
     # Management Pages

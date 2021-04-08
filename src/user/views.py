@@ -22,6 +22,7 @@ from django.shortcuts import render
 from django.views import View
 from django.contrib import auth
 from django.utils.translation import gettext_lazy as _
+from user.models import User
 
 # Create your views here.
 
@@ -102,10 +103,25 @@ def auth_recoverpw(request):
     return render(request, 'user/auth-recoverpw.html')
 
 
-def auth_register(request):
-    '''Render auth-register template'''
+class AuthRegister(View):
+    '''Render auth-register template in CBV'''
 
-    return render(request, 'user/auth-register.html')
+    def get(self, request):
+        return render(request, 'user/auth-register.html')
+
+    # TODO(Steve X): Finish frontend validation for every tab on click 'next'
+    # TODO(Steve X): Finish register post
+    # def post(self, request):
+    #     username = request.POST.get('username')
+    #     password = request.POST.get('password')
+    #     new_user = User.objects.create_user(username=username, password=password)
+    #     pass
+
+
+def auth_register_done(request):
+    '''Render auth-register-done template'''
+
+    return render(request, 'user/auth-register-done.html')
 #--------------------------------------------END---------------------------------------------#
 
 
