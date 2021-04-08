@@ -238,10 +238,13 @@
                                     <a class="dropdown-item text-danger" href="{% url 'user:auth-logout' %}"><i class="ri-shut-down-line align-middle mr-1 text-danger"></i> Logout</a>
                                 </div>
                             {% else %}
-                                <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                    <span class="d-none d-xl-inline-block ml-1"> <a href="{% url 'user:auth-login' %}">未登录</a></span>
-                                </button>
+                                <span class="d-none d-xl-inline-block ml-1">
+                                    <a href="{% url 'user:auth-login' %}">
+                                        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                                            aria-haspopup="true" aria-expanded="false">未登录, 请登录
+                                        </button>
+                                    </a>
+                                </span>
                             {% endif %}
                         </div>
 
