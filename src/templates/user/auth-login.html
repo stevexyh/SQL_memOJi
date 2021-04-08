@@ -24,18 +24,18 @@
     </div>
 
     <div class="p-2 mt-5">
-        <form class="form-horizontal" action="{% url 'user:auth-login' %}" method="POST">
+        <form class="form-horizontal needs-validation" action="{% url 'user:auth-login' %}" method="POST" novalidate>
             {% csrf_token %}
             <div class="form-group auth-form-group-custom mb-4">
                 <i class="ri-user-2-line auti-custom-input-icon"></i>
                 <label for="username">用户名</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="输入用户名">
+                <input type="text" class="form-control" id="username" name="username" placeholder="输入用户名" required>
             </div>
 
             <div class="form-group auth-form-group-custom mb-4">
                 <i class="ri-lock-2-line auti-custom-input-icon"></i>
                 <label for="password">密码</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="输入密码">
+                <input type="password" class="form-control" id="password" name="password" placeholder="输入密码" required>
             </div>
 
             <div class="custom-control custom-checkbox">
@@ -60,5 +60,7 @@
 
 <!-- JS -->
 {% block js %}
-
+    <!-- validation -->
+    <script src="{% static 'libs/parsleyjs/parsley.min.js' %}"></script>
+    <script src="{% static 'js/pages/form-validation.init.js' %}"></script>
 {% endblock js %}
