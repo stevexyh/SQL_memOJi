@@ -176,5 +176,39 @@ def class_details(request):
 def user_info(request):
     '''Render user-info template'''
 
-    return render(request, 'user/user-info.html')
+    RBF = '# TODO(Steve X): REMOVE BEFORE FLIGHT'
+    not_login = _('未登录')
+    null = 'NULL'
+
+    user = request.user
+
+    full_name = user.full_name if user.is_authenticated else not_login
+    username = user.username if user.is_authenticated else not_login
+    email = user.email if user.is_authenticated else not_login
+    school_name = user.school_name if user.is_authenticated else not_login  # TODO(Steve X): REMOVE BEFORE FLIGHT
+    college_name = user.college_name if user.is_authenticated else not_login
+    internal_id = user.internal_id if user.is_authenticated else not_login
+    class_id = user.class_id if user.is_authenticated else not_login  # TODO(Steve X): REMOVE BEFORE FLIGHT
+    priority = user.get_priority_display() if user.is_authenticated else not_login
+    join_status = user.join_status if user.is_authenticated else not_login
+    teacher_name = RBF
+
+    content = {
+        'full_name': full_name,
+        'username': username,
+        'email': email,
+        'school_name': school_name,
+        'college_name': college_name,
+        'internal_id': internal_id,
+        'class_id': class_id,
+        'priority': priority,
+        'join_status': _('认证') if join_status != User.JoinStatus.OUT_OF_LIST else _('未认证'),
+        'join_status_color': 'success' if join_status != User.JoinStatus.OUT_OF_LIST else 'warning',
+        'teacher_name': teacher_name,
+    }
+
+    for k in content:
+        content[k] = content[k] if content[k] else f'{k}: {null}'
+
+    return render(request, 'user/user-info.html', context=content)
 #--------------------------------------------END---------------------------------------------#

@@ -32,23 +32,23 @@
             </div> -->
 
 
-            <div class="card border border-success">
+            <div class="card border border-{{ join_status_color }}">
                 <div class="card-header bg-transparent border-success">
-                    <!-- <h5 class="my-0 text-success"><i class="mdi mdi-check-all mr-3"></i>学生认证</h5> -->
-                    <h5 class="my-0 text-success"><i class="mdi mdi-check-decagram mr-3"></i>学生认证</h5>
+                    <!-- <h5 class="my-0 text-success"><i class="mdi mdi-check-decagram mr-3"></i>学生认证</h5> -->
+                    <h5 class="my-0 text-{{ join_status_color }}"><i class="mdi mdi-check-decagram mr-3"></i>{{ priority }}{{ join_status }}</h5>
                 </div>
-                <h1 class="card-header mt-0">Steve X</h1>
+                <h1 class="card-header mt-0">{{ full_name }}</h1>
                 <h7 class="card-header mt-0">
-                    @username<br>
-                    demo@mail.memoji.com
+                    @{{ username }}<br>
+                    {{ email }}
                 </h7>
                 <div class="card-body">
                     <!-- <h2><i class="mdi mdi-account mr-3"></i></h2> -->
-                    <h3 class="card-title mt-0">NPU</h3>
-                    <h3 class="card-title mt-0">计算机学院</h3>
-                    <h3 class="card-title mt-0">2017000000</h3>
-                    <h3 class="card-title mt-0">NPU_0001</h3>
-                    <h3 class="card-title mt-0">教师姓名</h3>
+                    <h3 class="card-title mt-0">{{ school_name }}</h3>
+                    <h3 class="card-title mt-0">{{ college_name }}</h3>
+                    <h3 class="card-title mt-0">{{ internal_id }}</h3>
+                    <h3 class="card-title mt-0">{{ class_id }}</h3>
+                    <h3 class="card-title mt-0">{{ teacher_name }}</h3>
                     <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio a voluptatibus excepturi cum, temporibus facilis, magni, quod officia accusamus asperiores soluta deleniti adipisci vel odit velit eum obcaecati nisi! Numquam! With supporting text below as a natural lead-in to
                         additional content.</p>
                     <a href="#" class="btn btn-primary">修改信息</a>
