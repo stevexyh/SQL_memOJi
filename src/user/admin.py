@@ -24,6 +24,8 @@ from django.utils.translation import gettext_lazy as _
 from . import models
 
 # Register your models here.
+admin.site.site_header = 'memOJi管理后台'
+admin.site.site_title = 'memOJi'
 
 
 # Fields: 'email','password','priority','school_name','full_name','internal_id','college_name','class_id','join_status'
