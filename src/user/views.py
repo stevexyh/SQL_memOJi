@@ -215,4 +215,7 @@ class UserInfo(View):
 
         return render(request, 'user/user-info.html', context=content)
 
+    def post(self, request):
+        # TODO(Steve X): edit user info
+        pass
 #--------------------------------------------END---------------------------------------------#
