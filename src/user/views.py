@@ -190,7 +190,7 @@ def user_info(request):
     internal_id = user.internal_id if user.is_authenticated else not_login
     class_id = user.class_id if user.is_authenticated else not_login  # TODO(Steve X): REMOVE BEFORE FLIGHT
     priority = user.get_priority_display() if user.is_authenticated else not_login
-    join_status = user.join_status if user.is_authenticated else not_login
+    join_status = user.is_authenticated and user.join_status != User.JoinStatus.OUT_OF_LIST or user.is_superuser
     teacher_name = RBF
 
     content = {
@@ -202,13 +202,14 @@ def user_info(request):
         'internal_id': internal_id,
         'class_id': class_id,
         'priority': priority,
-        'join_status': _('认证') if join_status != User.JoinStatus.OUT_OF_LIST else _('未认证'),
-        'join_status_color': 'success' if join_status != User.JoinStatus.OUT_OF_LIST else 'warning',
+        'join_status': join_status,
+        'join_status_display': _('认证') if join_status else _('未认证'),
+        'join_status_color': 'success' if join_status else 'warning',
         'teacher_name': teacher_name,
     }
 
     for k in content:
-        content[k] = content[k] if content[k] else f'{k}: {null}'
+        content[k] = content[k] if content[k] != '' else f'{k}: {null}'
 
     return render(request, 'user/user-info.html', context=content)
 #--------------------------------------------END---------------------------------------------#
