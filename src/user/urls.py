@@ -39,5 +39,5 @@ urlpatterns = [
     # Management Pages
     path('class-manage/', views.class_manage, name='class-manage'),
     path('class-details/', views.class_details, name='class-details'),
-    path('user-info/', views.user_info, name='user-info'),
+    path('user-info/', views.UserInfo.as_view(), name='user-info'),
 ]

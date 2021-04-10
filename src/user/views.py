@@ -173,43 +173,46 @@ def class_details(request):
     return render(request, 'user/class-details.html')
 
 
-def user_info(request):
+class UserInfo(View):
     '''Render user-info template'''
 
     RBF = '# TODO(Steve X): REMOVE BEFORE FLIGHT'
-    not_login = _('未登录')
-    null = 'NULL'
 
-    user = request.user
+    def get(self, request):
+        not_login = _('未登录')
+        null = 'NULL'
 
-    full_name = user.full_name if user.is_authenticated else not_login
-    username = user.username if user.is_authenticated else not_login
-    email = user.email if user.is_authenticated else not_login
-    school_name = user.school_name if user.is_authenticated else not_login  # TODO(Steve X): REMOVE BEFORE FLIGHT
-    college_name = user.college_name if user.is_authenticated else not_login
-    internal_id = user.internal_id if user.is_authenticated else not_login
-    class_id = user.class_id if user.is_authenticated else not_login  # TODO(Steve X): REMOVE BEFORE FLIGHT
-    priority = user.get_priority_display() if user.is_authenticated else not_login
-    join_status = user.is_authenticated and user.join_status != User.JoinStatus.OUT_OF_LIST or user.is_superuser
-    teacher_name = RBF
+        user = request.user
 
-    content = {
-        'full_name': full_name,
-        'username': username,
-        'email': email,
-        'school_name': school_name,
-        'college_name': college_name,
-        'internal_id': internal_id,
-        'class_id': class_id,
-        'priority': priority,
-        'join_status': join_status,
-        'join_status_display': _('认证') if join_status else _('未认证'),
-        'join_status_color': 'success' if join_status else 'warning',
-        'teacher_name': teacher_name,
-    }
+        full_name = user.full_name if user.is_authenticated else not_login
+        username = user.username if user.is_authenticated else not_login
+        email = user.email if user.is_authenticated else not_login
+        school_name = user.school_name if user.is_authenticated else not_login  # TODO(Steve X): REMOVE BEFORE FLIGHT
+        college_name = user.college_name if user.is_authenticated else not_login
+        internal_id = user.internal_id if user.is_authenticated else not_login
+        class_id = user.class_id if user.is_authenticated else not_login  # TODO(Steve X): REMOVE BEFORE FLIGHT
+        priority = user.get_priority_display() if user.is_authenticated else not_login
+        join_status = user.is_authenticated and user.join_status != User.JoinStatus.OUT_OF_LIST or user.is_superuser
+        teacher_name = self.RBF
 
-    for k in content:
-        content[k] = content[k] if content[k] != '' else f'{k}: {null}'
+        content = {
+            'full_name': full_name,
+            'username': username,
+            'email': email,
+            'school_name': school_name,
+            'college_name': college_name,
+            'internal_id': internal_id,
+            'class_id': class_id,
+            'priority': priority,
+            'join_status': join_status,
+            'join_status_display': _('认证') if join_status else _('未认证'),
+            'join_status_color': 'success' if join_status else 'warning',
+            'teacher_name': teacher_name,
+        }
 
-    return render(request, 'user/user-info.html', context=content)
+        for k in content:
+            content[k] = content[k] if content[k] != '' else f'{k}: {null}'
+
+        return render(request, 'user/user-info.html', context=content)
+
 #--------------------------------------------END---------------------------------------------#
