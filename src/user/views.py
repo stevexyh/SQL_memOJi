@@ -125,6 +125,8 @@ class AuthRegister(View):
             msg = _('此用户名已存在, 请更换另一个或求助管理员')
         elif User.objects.filter(email=email):
             msg = _('此邮箱已注册, 请更换另一个或求助管理员')
+        elif User.objects.filter(internal_id=internal_id):
+            msg = _('此学工号已注册, 请更换另一个或求助管理员')
         elif password1 != password2:
             msg = _('两次密码输入不一致')
         else:
