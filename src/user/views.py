@@ -68,7 +68,6 @@ class AuthLogin(View):
         msg = _('登录成功') if success else _('用户名或密码错误')
         content = {
             'user': user,
-            'success': success,
             'msg': msg,
         }
 
@@ -121,15 +120,13 @@ class AuthRegister(View):
         internal_id = request.POST.get('internal_id')
 
         msg = ''
+        fail = True
         if User.objects.filter(username=username):
             msg = _('此用户名已存在, 请更换另一个或求助管理员')
-            fail = True
         elif User.objects.filter(email=email):
             msg = _('此邮箱已注册, 请更换另一个或求助管理员')
-            fail = True
         elif password1 != password2:
             msg = _('两次密码输入不一致')
-            fail = True
         else:
             try:
                 new_user = User.objects.create_user(username=username, password=password2, email=email)
@@ -142,7 +139,6 @@ class AuthRegister(View):
                 fail = False
             except Exception as exc:
                 msg = _('注册异常: ') + str(exc)
-                fail = True
                 print(exc)
 
         content = {
