@@ -22,6 +22,7 @@ from django.shortcuts import render
 from django.views import View
 from django.contrib import auth
 from django.utils.translation import gettext_lazy as _
+from django.db import transaction
 from user.models import User
 
 # Create your views here.
@@ -131,14 +132,15 @@ class AuthRegister(View):
             msg = _('两次密码输入不一致')
         else:
             try:
-                new_user = User.objects.create_user(username=username, password=password2, email=email)
-                new_user.school_name = school_name
-                new_user.class_id = class_id
-                new_user.full_name = full_name
-                new_user.internal_id = internal_id
+                with transaction.atomic():
+                    new_user = User.objects.create_user(username=username, password=password2, email=email)
+                    new_user.school_name = school_name
+                    new_user.class_id = class_id
+                    new_user.full_name = full_name
+                    new_user.internal_id = internal_id
 
-                new_user.save()
-                fail = False
+                    new_user.save()
+                    fail = False
             except Exception as exc:
                 msg = _('注册异常: ') + str(exc)
                 print(exc)
