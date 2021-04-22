@@ -6,7 +6,7 @@ Online Judge for MySQL
 ## ==views中的函数（输入输出）（列表）（实现）==
 ## ==API（输入输出）（实现）==
 
-## 1. Auth App 认证模块
+## 1. User App 认证模块
 - 左边为表单区域, 右边为根据平台风格设计的背景装饰图
 
 ### 1.1 注册页面 `auth-register.html`
