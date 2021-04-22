@@ -23,9 +23,12 @@ from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 from . import models
 
-# Register your models here.
+
 admin.site.site_header = 'memOJi管理后台'
 admin.site.site_title = 'memOJi'
+
+
+# Register your models here.
 
 
 # Fields: 'email','password','priority','school_name','full_name','internal_id','college_name','class_id','join_status'
@@ -77,3 +80,15 @@ class CustomUserAdmin(UserAdmin):
 
     list_per_page = 30
     show_full_result_count = False
+
+
+# Fields: 'school_id', 'school_name', 'school_name_en', 'school_abbr'
+@admin.register(models.School)
+class SchoolAdmin(admin.ModelAdmin):
+    list_display = ['school_id', 'school_name', 'school_name_en', 'school_abbr']
+
+
+# Fields: 'class_id', 'school_id', 'class_name', 'teacher_name', 'class_desc', 'stud_list'
+@admin.register(models.Classroom)
+class ClassroomAdmin(admin.ModelAdmin):
+    list_display = ['class_id', 'school_id', 'class_name', 'teacher_name', 'class_desc', 'stud_list']

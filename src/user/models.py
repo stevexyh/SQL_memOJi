@@ -17,7 +17,7 @@
 ----------------------------------------------------------------------------------------------------
 '''
 
-
+import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
@@ -75,3 +75,49 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['full_name', 'internal_id']
+
+
+class School(models.Model):
+    '''
+    School Table
+    | 字段名                 | 数据类型             | 非空  | Key | 默认值       |
+    |-----------------------|---------------------|------|-----|-------------|
+    | school_id             | varchar             |      | PRI |             |
+    | school_name           | varchar             |      | UNI |             |
+    | school_name_en        | varchar             |      | UNI |             |
+    | school_abbr           | varchar             |      | UNI | NPU         |
+    '''
+
+    school_id = models.AutoField(verbose_name=_('学校ID'), primary_key=True)
+    school_name = models.CharField(verbose_name=_('学校全称'), max_length=150, default=_('西北工业大学'))
+    school_name_en = models.CharField(verbose_name=_('学校英文全称'), max_length=150, default='Northwestern Polytechnical University')
+    school_abbr = models.CharField(verbose_name=_('学校英文缩写'), max_length=50, default='NPU')
+
+    class Meta:
+        verbose_name = '学校'
+        verbose_name_plural = '学校'
+
+
+class Classroom(models.Model):
+    '''
+    Classroom Table
+    | 字段名                 | 数据类型             | 非空  | Key  | 默认值      |
+    |-----------------------|---------------------|------|------|------------|
+    | class_id              | varchar             |      | PRI  |            |
+    | school_id             | varchar             |      | FK   |            |
+    | class_name            | varchar             |      |      |            |
+    | teacher_name          | varchar             |      | FK   |            |
+    | class_desc            | varchar             |      | NULL |            |
+    | stud_list             | varchar(Python.List)|      |      |            |
+    '''
+
+    class_id = models.AutoField(primary_key=True)
+    school_id = models.CharField(verbose_name=_('学校ID'), max_length=150)  # TODO(Steve X): REMOVE BEFORE FLIGHT(FK)
+    class_name = models.CharField(verbose_name=_('班级名称'), max_length=150)
+    teacher_name = models.CharField(verbose_name=_('教师姓名'), max_length=150)  # TODO(Steve X): REMOVE BEFORE FLIGHT(FK)
+    class_desc = models.CharField(verbose_name=_('班级描述'), max_length=200)
+    stud_list = models.CharField(verbose_name=_('学生列表'), max_length=2000)
+
+    class Meta:
+        verbose_name = '班级'
+        verbose_name_plural = '班级'
