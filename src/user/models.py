@@ -111,7 +111,7 @@ class Classroom(models.Model):
     | stud_list             | varchar(Python.List)|      |      |            |
     '''
 
-    class_id = models.AutoField(primary_key=True)
+    class_id = models.AutoField(verbose_name=_('班级ID'), primary_key=True)
     school_id = models.CharField(verbose_name=_('学校ID'), max_length=150)  # TODO(Steve X): REMOVE BEFORE FLIGHT(FK)
     class_name = models.CharField(verbose_name=_('班级名称'), max_length=150)
     teacher_name = models.CharField(verbose_name=_('教师姓名'), max_length=150)  # TODO(Steve X): REMOVE BEFORE FLIGHT(FK)
