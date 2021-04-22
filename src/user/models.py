@@ -61,6 +61,7 @@ class User(AbstractUser):
     # password is defined in AbstractBaseUser.password
     # register_time is defined in AbstractUser.date_joined
 
+    # TODO(Steve X): REMOVE BEFORE FLIGHT(primary_key -> uuid)
     email = models.EmailField(verbose_name=_('电子邮件'), primary_key=True)
     priority = models.IntegerField(verbose_name=_('权限等级'), choices=UserType.choices, default=0)
 

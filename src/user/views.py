@@ -18,12 +18,13 @@
 '''
 
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib import auth
 from django.utils.translation import gettext_lazy as _
 from django.db import transaction
 from user.models import User
+from user.forms import UserInfoForm
 
 # Create your views here.
 
@@ -187,13 +188,14 @@ class UserInfo(View):
         full_name = user.full_name if user.is_authenticated else not_login
         username = user.username if user.is_authenticated else not_login
         email = user.email if user.is_authenticated else not_login
-        school_name = user.school_name if user.is_authenticated else not_login  # TODO(Steve X): REMOVE BEFORE FLIGHT
+        school_name = user.school_name if user.is_authenticated else not_login  # TODO(Steve X): REMOVE BEFORE FLIGHT(FK)
         college_name = user.college_name if user.is_authenticated else not_login
         internal_id = user.internal_id if user.is_authenticated else not_login
-        class_id = user.class_id if user.is_authenticated else not_login  # TODO(Steve X): REMOVE BEFORE FLIGHT
+        class_id = user.class_id if user.is_authenticated else not_login  # TODO(Steve X): REMOVE BEFORE FLIGHT(FK)
         priority = user.get_priority_display() if user.is_authenticated else not_login
         join_status = user.is_authenticated and user.join_status != User.JoinStatus.OUT_OF_LIST or user.is_superuser
         teacher_name = self.RBF
+        info_form = UserInfoForm(instance=user)
 
         content = {
             'full_name': full_name,
@@ -208,6 +210,7 @@ class UserInfo(View):
             'join_status_display': _('认证') if join_status else _('未认证'),
             'join_status_color': 'success' if join_status else 'warning',
             'teacher_name': teacher_name,
+            'info_form': info_form,
         }
 
         for k in content:
@@ -215,7 +218,12 @@ class UserInfo(View):
 
         return render(request, 'user/user-info.html', context=content)
 
+    # FIXME(Steve X): can't edit email, switch primary key to uuid
     def post(self, request):
-        # TODO(Steve X): edit user info
-        pass
+        info_form = UserInfoForm(request.POST, instance=request.user)
+        if info_form.is_valid():
+            info_form.save()
+
+        return redirect('/user-info')
+
 #--------------------------------------------END---------------------------------------------#
