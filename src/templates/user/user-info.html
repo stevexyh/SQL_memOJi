@@ -94,7 +94,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST">
+                    <form method="POST" class="needs-validation" novalidate>
                         {% csrf_token %}
                         <div class="row">
                             {% for info in info_form %}
@@ -118,6 +118,9 @@
 
 <!-- JS -->
 {% block js %}
+    <!-- Form Validation -->
+    <script src="{% static 'js/pages/form-validation.init.js' %}"></script>
+
     <!-- Form Advanced -->
     <script src="{% static 'libs/select2/js/select2.min.js' %}"></script>
     <script src="{% static 'js/pages/form-advanced.init.js' %}"></script>
