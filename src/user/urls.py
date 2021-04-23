@@ -38,6 +38,6 @@ urlpatterns = [
 
     # Management Pages
     path('class-manage/', views.class_manage, name='class-manage'),
-    path('class-details/<class_id>/', views.class_details, name='class-details'),
+    path('class-details/<class_id>/', views.ClassDetails.as_view(), name='class-details'),
     path('user-info/', views.UserInfo.as_view(), name='user-info'),
 ]
