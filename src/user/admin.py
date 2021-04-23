@@ -31,12 +31,12 @@ admin.site.site_title = 'memOJi'
 # Register your models here.
 
 
-# Fields: 'email','password','priority','school_name','full_name','internal_id','college_name','class_id','join_status'
+# Fields: 'email', 'password', 'priority', 'school', 'full_name', 'internal_id', 'college_name', 'join_status'
 @admin.register(models.User)
 class CustomUserAdmin(UserAdmin):
     '''Views displayed in admin backends'''
 
-    list_display = ['username', 'internal_id', 'email', 'priority', 'school_name', 'full_name', 'college_name', 'class_id', 'join_status']
+    list_display = ['username', 'internal_id', 'email', 'priority', 'school', 'full_name', 'college_name', 'join_status']
     list_filter = ['priority', 'is_staff', 'is_superuser', 'is_active']
     ordering = ['username']
     search_fields = list_display
@@ -51,9 +51,8 @@ class CustomUserAdmin(UserAdmin):
             'full_name',
             'email',
             'internal_id',
-            'school_name',
+            'school',
             'college_name',
-            'class_id',
             'join_status'
         )}),
         (_('权限'), {'fields': ('is_superuser', 'is_staff', 'is_active', 'groups', 'user_permissions')}),
@@ -71,9 +70,8 @@ class CustomUserAdmin(UserAdmin):
             'full_name',
             'email',
             'internal_id',
-            'school_name',
+            'school',
             'college_name',
-            'class_id',
             'join_status'
         )}),
     )
@@ -87,6 +85,11 @@ class TeacherAdmin(admin.ModelAdmin):
     list_display = ['user']
 
 
+@admin.register(models.Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ['user', 'classroom']
+
+
 # Fields: 'school_id', 'school_name', 'school_name_en', 'school_abbr'
 @admin.register(models.School)
 class SchoolAdmin(admin.ModelAdmin):
@@ -97,9 +100,3 @@ class SchoolAdmin(admin.ModelAdmin):
 @admin.register(models.Classroom)
 class ClassroomAdmin(admin.ModelAdmin):
     list_display = ['class_id', 'school', 'class_name', 'teacher', 'class_desc', 'stud_list']
-
-    def sclool(self, obj):
-        return obj.school.school_name
-
-    def teacher(self, obj):
-        return obj.teacher.username

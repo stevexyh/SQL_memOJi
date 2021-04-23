@@ -14,6 +14,8 @@
 
 <!-- CSS -->
 {% block css %}
+    <!-- Form Advanced Styles -->
+    <link href="{% static 'libs/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css" />
 
 {% endblock css %}
 
@@ -39,10 +41,10 @@
                 </h7>
                 <div class="card-body">
                     <!-- <h2><i class="mdi mdi-account mr-3"></i></h2> -->
-                    <h3 class="card-title mt-0">{{ school_name }}</h3>
+                    <h3 class="card-title mt-0">{{ school }}</h3>
                     <h3 class="card-title mt-0">{{ college_name }}</h3>
                     <h3 class="card-title mt-0">{{ internal_id }}</h3>
-                    <h3 class="card-title mt-0">{{ class_id }}</h3>
+                    <h3 class="card-title mt-0">{{ classroom }}</h3>
                     <h3 class="card-title mt-0">{{ teacher_name }}</h3>
                     <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio a voluptatibus excepturi cum, temporibus facilis, magni, quod officia accusamus asperiores soluta deleniti adipisci vel odit velit eum obcaecati nisi! Numquam! With supporting text below as a natural lead-in to
                         additional content.</p>
@@ -116,5 +118,8 @@
 
 <!-- JS -->
 {% block js %}
+    <!-- Form Advanced -->
+    <script src="{% static 'libs/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'js/pages/form-advanced.init.js' %}"></script>
 
 {% endblock js %}

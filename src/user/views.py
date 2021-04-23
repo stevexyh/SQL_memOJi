@@ -188,10 +188,11 @@ class UserInfo(View):
         full_name = user.full_name if user.is_authenticated else not_login
         username = user.username if user.is_authenticated else not_login
         email = user.email if user.is_authenticated else not_login
-        school_name = user.school_name if user.is_authenticated else not_login  # TODO(Steve X): REMOVE BEFORE FLIGHT(FK)
+        school = user.school if user.is_authenticated else not_login
         college_name = user.college_name if user.is_authenticated else not_login
         internal_id = user.internal_id if user.is_authenticated else not_login
-        class_id = user.class_id if user.is_authenticated else not_login  # TODO(Steve X): REMOVE BEFORE FLIGHT(FK)
+        # TODO(Steve X): REMOVE BEFORE FLIGHT(FK)
+        classroom = user.student.classroom if user.is_authenticated and user.priority == User.UserType.STUDENT else ''
         priority = user.get_priority_display() if user.is_authenticated else not_login
         join_status = user.is_authenticated and user.join_status != User.JoinStatus.OUT_OF_LIST or user.is_superuser
         teacher_name = self.RBF
@@ -201,10 +202,10 @@ class UserInfo(View):
             'full_name': full_name,
             'username': username,
             'email': email,
-            'school_name': school_name,
+            'school': school,
             'college_name': college_name,
             'internal_id': internal_id,
-            'class_id': class_id,
+            'classroom': classroom,
             'priority': priority,
             'join_status': join_status,
             'join_status_display': _('认证') if join_status else _('未认证'),
