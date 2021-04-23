@@ -154,7 +154,7 @@ Dropzone.options.fileDropzoneStud = {
     addRemoveLinks: true,
     method: "post",
     filesizeBase: 1024,
-    paramName: "filee", // The name that will be used to transfer the file
+    paramName: "file", // The name that will be used to transfer the file
     maxFilesize: 5, // MB
     dictResponseError: "上传失败",
     dictRemoveFile: "删除文件",

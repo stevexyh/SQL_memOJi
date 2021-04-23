@@ -14,14 +14,19 @@
 
 <!-- CSS -->
 {% block css %}
+    <!-- Form Advanced Styles -->
+    <link href="{% static 'libs/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css" />
 
+    <!-- Plugins css -->
+    <link href="{% static 'libs/dropzone/min/dropzone.min.css' %}" rel="stylesheet" type="text/css" />
 {% endblock css %}
 
 <!-- Main Content -->
 {% block main %}
     <div style="margin-bottom: 20px;">
-        {% comment %} <a href="{% url 'user:class-details' %}" class="btn btn-success mb-2"><i class="mdi mdi-plus mr-2"></i>创建班级</a> {% endcomment %}
+        <a href="" class="btn btn-success mb-2" data-toggle="modal" data-target="#new-classroom-modal"><i class="mdi mdi-plus mr-2"></i>创建班级</a>
     </div>
+
 
     <div class="row">
         {% for cls in class_list %}
@@ -60,9 +65,107 @@
     </div>
     <!-- end row -->
 
+    <!-- Modal -->
+    <div class="modal fade" id="new-classroom-modal" tabindex="-1" role="dialog" aria-labelledby="new-classroom-modalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="classroomTitle">创建班级</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="needs-validation" style="margin-bottom: 50px;" novalidate>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                    <label for="new-classroom-name">班级名称</label>
+                                    <input type="text" class="form-control" id="new-classroom-name" placeholder="班级名称" value="数据库1班" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="new-classroom-teacher" class="control-label">负责教师</label>
+                                <select class="form-control select2" required>
+                                    <option selected>请选择...</option>
+                                    <optgroup label="计算机学院">
+                                        <option value="NPU_T001">李老师</option>
+                                        <option value="NPU_T002">王老师</option>
+                                    </optgroup>
+                                    <optgroup label="软件学院">
+                                        <option value="NPU_T003">张老师</option>
+                                        <option value="NPU_T004">刘老师</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+
+                        <label for="new-classroom-desc">备注信息</label>
+                        <div style="margin-bottom: 20px;">
+                            <textarea id="new-classroom-desc" class="form-control" rows="3" required></textarea>
+                        </div>
+
+                        <div class="text-center mt-4" style="padding-top: 0px;">
+                            <button type="submit" class="btn btn-primary waves-effect waves-light">保存修改</button>
+                        </div>
+                    </form>
+
+                    <h4 class="card-title">批量导入题目</h4>
+                    <p class="card-title-desc">在此上传 <code>.csv</code> 格式题目列表可批量导入题目。<br><br>
+                        列表需包含以下字段: <br>
+                        <code>stud_no</code>(学号)<br>
+                        <code>stud_name</code>(姓名)<br>
+                    </p>
+
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <i class="mdi mdi-alert-outline mr-2"></i>
+                        不按格式将无法解析列表。
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div>
+                        <form action="#" class="dropzone" id="file-dropzone-CSV" method="POST" enctype="multipart/form-data">
+                            <div class="fallback">
+                                <input name="file" type="file" multiple="multiple">
+                            </div>
+                            <div class="dz-message needsclick">
+                                <div class="mb-3">
+                                    <i class="display-4 text-muted ri-upload-cloud-2-line"></i>
+                                </div>
+
+                                <h4>拖动文件至此或点击此处选择文件</h4>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn btn-primary waves-effect waves-light">上传文件</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">保存<i class="fab fa-telegram-plane ml-1"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 {% endblock main %}
 
 <!-- JS -->
 {% block js %}
+    <!-- Form Validation -->
+    <script src="{% static 'js/pages/form-validation.init.js' %}"></script>
+
+    <!-- Plugins js -->
+    <script src="{% static 'libs/dropzone/min/dropzone.min.js' %}"></script>
+
+    <!-- Form Advanced -->
+    <script src="{% static 'libs/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'js/pages/form-advanced.init.js' %}"></script>
+
+    <!-- Custom Pages -->
+    <script src="{% static 'js/custom-pages/class-manage.js' %}"></script>
 
 {% endblock js %}
