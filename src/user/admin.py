@@ -82,6 +82,11 @@ class CustomUserAdmin(UserAdmin):
     show_full_result_count = False
 
 
+@admin.register(models.Teacher)
+class TeacherAdmin(admin.ModelAdmin):
+    list_display = ['user']
+
+
 # Fields: 'school_id', 'school_name', 'school_name_en', 'school_abbr'
 @admin.register(models.School)
 class SchoolAdmin(admin.ModelAdmin):
@@ -91,4 +96,10 @@ class SchoolAdmin(admin.ModelAdmin):
 # Fields: 'class_id', 'school_id', 'class_name', 'teacher_name', 'class_desc', 'stud_list'
 @admin.register(models.Classroom)
 class ClassroomAdmin(admin.ModelAdmin):
-    list_display = ['class_id', 'school_id', 'class_name', 'teacher_name', 'class_desc', 'stud_list']
+    list_display = ['class_id', 'school', 'class_name', 'teacher', 'class_desc', 'stud_list']
+
+    def sclool(self, obj):
+        return obj.school.school_name
+
+    def teacher(self, obj):
+        return obj.teacher.username
