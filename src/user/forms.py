@@ -30,9 +30,9 @@ class UserInfoForm(ModelForm):
         super().__init__(*args, **kwargs)
 
         for field in self.fields.values():
-            field.widget.attrs = {
+            field.widget.attrs.update({
                 'class': 'form-control input-mask select2'
-            }
+            })
 
     class Meta:
         model = models.User
@@ -58,9 +58,9 @@ class StudentForm(ModelForm):
 
         # TODO(Steve X): style for `select2`
         for field in self.fields.values():
-            field.widget.attrs = {
+            field.widget.attrs.update({
                 'class': 'form-control input-mask select2'
-            }
+            })
 
     class Meta:
         model = models.Student
@@ -82,9 +82,9 @@ class ClassroomForm(ModelForm):
 
         # TODO(Steve X): style for `select2`
         for field in self.fields.values():
-            field.widget.attrs = {
+            field.widget.attrs.update({
                 'class': 'form-control input-mask select2'
-            }
+            })
 
     class Meta:
         model = models.Classroom
@@ -101,5 +101,5 @@ class ClassroomForm(ModelForm):
         }
 
         widgets = {
-            'class_desc': Textarea(attrs={'cols': 80, 'rows': 20}),
+            'class_desc': Textarea(attrs={'rows': 8}),
         }

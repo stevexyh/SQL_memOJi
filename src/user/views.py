@@ -193,12 +193,24 @@ class ClassDetails(View):
 
     def get(self, request, class_id):
         classroom = Classroom.objects.get(class_id=class_id)
+        class_form = ClassroomForm(instance=classroom)
 
         content = {
             'classroom': classroom,
+            'class_form': class_form,
         }
 
         return render(request, 'user/class-details.html', context=content)
+
+    # XXX(Steve X): add batch import func for students
+    def post(self, request, class_id):
+        classroom = Classroom.objects.get(class_id=class_id)
+        class_form = ClassroomForm(request.POST, instance=classroom)
+
+        if class_form.is_valid():
+            class_form.save()
+
+        return redirect(classroom.get_absolute_url())
 
 
 class UserInfo(View):

@@ -45,45 +45,29 @@
                             <div class="card" style="height: 100%;">
                                 <div class="card-body">
                                     <h3 class="text-truncate"><a href="#" class="text-dark">{{ classroom.class_name }}</a></h3>
-                                    <p class="text-muted">{{ classroom.class_id }}</p>
+                                    <p class="text-muted">{{ classroom.school.school_abbr }}_{{ classroom.class_id }}</p>
                                     <p class="text-muted">
                                         <i class="mdi mdi-account mr-1"></i> {{ classroom.teacher }}
                                     </p>
-                                    <form class="needs-validation" novalidate>
+                                    <form method="POST" class="needs-validation" style="margin-bottom: 50px;" novalidate>
+                                        {% csrf_token %}
                                         <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="validationCustom01">班级名称</label>
-                                                    <input type="text" class="form-control" id="validationCustom01" placeholder="班级名称" value="数据库1班" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="validationCustom01">班级编号</label>
-                                                    <input type="text" class="form-control" id="validationCustom01" placeholder="请输入唯一ID" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="validationCustom02" class="control-label">负责教师</label>
-                                                    <select class="form-control select2" required>
-                                                        <option selected>请选择...</option>
-                                                        <optgroup label="计算机学院">
-                                                            <option value="NPU_T001">李老师</option>
-                                                            <option value="NPU_T002">王老师</option>
-                                                        </optgroup>
-                                                        <optgroup label="软件学院">
-                                                            <option value="NPU_T003">张老师</option>
-                                                            <option value="NPU_T004">刘老师</option>
-                                                        </optgroup>
-                                                    </select>
-                                                </div>
-                                            </div>
+                                            {% for data in class_form %}
+                                                {% if data.name != 'class_desc' %}
+                                                    <div class="form-group mb-4 col-6">
+                                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
+                                                        <div>{{ data }}</div>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="form-group mb-4 col-12">
+                                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
+                                                        <div>{{ data }}</div>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                
                                         </div>
-                                        <label>备注信息</label>
-                                        <div style="margin-bottom: 20px;">
-                                            <textarea class="form-control" rows="9"></textarea>
-                                        </div>
+                
                                         <div class="text-center mt-4" style="padding-top: 0px;">
                                             <button type="submit" class="btn btn-primary waves-effect waves-light">保存修改</button>
                                         </div>
