@@ -97,6 +97,12 @@
                     <form method="POST" class="needs-validation" novalidate>
                         {% csrf_token %}
                         <div class="row">
+                            {% for studinfo in student_form %}
+                                <div class="form-group mb-4 col-6">
+                                    <label for="{{ studinfo.id_for_label}} ">{{ studinfo.label }}</label>
+                                    <div>{{ studinfo }}</div>
+                                </div>
+                            {% endfor %}
                             {% for info in info_form %}
                                 <div class="form-group mb-4 col-6">
                                     <label for="{{ info.id_for_label}} ">{{ info.label }}</label>

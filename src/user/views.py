@@ -24,7 +24,7 @@ from django.contrib import auth
 from django.utils.translation import gettext_lazy as _
 from django.db import transaction
 from user.models import User
-from user.forms import UserInfoForm
+from user.forms import UserInfoForm, StudentForm
 
 # Create your views here.
 
@@ -184,6 +184,7 @@ class UserInfo(View):
         null = 'NULL'
 
         user = request.user
+        is_student = user.is_authenticated and user.priority == User.UserType.STUDENT
 
         full_name = user.full_name if user.is_authenticated else not_login
         username = user.username if user.is_authenticated else not_login
@@ -192,11 +193,12 @@ class UserInfo(View):
         college_name = user.college_name if user.is_authenticated else not_login
         internal_id = user.internal_id if user.is_authenticated else not_login
         # TODO(Steve X): REMOVE BEFORE FLIGHT(FK)
-        classroom = user.student.classroom if user.is_authenticated and user.priority == User.UserType.STUDENT else ''
+        classroom = user.student.classroom if is_student else ''
         priority = user.get_priority_display() if user.is_authenticated else not_login
         join_status = user.is_authenticated and user.join_status != User.JoinStatus.OUT_OF_LIST or user.is_superuser
         teacher_name = self.RBF
-        info_form = UserInfoForm(instance=user)
+        info_form = UserInfoForm(instance=user) if user.is_authenticated else None
+        student_form = StudentForm(instance=user.student) if is_student else None
 
         content = {
             'full_name': full_name,
@@ -212,6 +214,7 @@ class UserInfo(View):
             'join_status_color': 'success' if join_status else 'warning',
             'teacher_name': teacher_name,
             'info_form': info_form,
+            'student_form': student_form,
         }
 
         for k in content:
@@ -221,9 +224,17 @@ class UserInfo(View):
 
     # FIXME(Steve X): can't edit email, switch primary key to uuid
     def post(self, request):
-        info_form = UserInfoForm(request.POST, instance=request.user)
-        if info_form.is_valid():
+        user = request.user
+        is_student = user.is_authenticated and user.priority == User.UserType.STUDENT
+
+        info_form = UserInfoForm(request.POST, instance=user) if user.is_authenticated else None
+        student_form = StudentForm(request.POST, instance=user.student) if is_student else None
+
+        if info_form and info_form.is_valid():
             info_form.save()
+
+        if student_form and student_form.is_valid():
+            student_form.save()
 
         return redirect('/user-info')
 

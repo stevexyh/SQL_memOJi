@@ -20,7 +20,7 @@
 
 from django.forms import ModelForm
 from django.utils.translation import gettext_lazy as _
-from user.models import User
+from user import models
 
 
 class UserInfoForm(ModelForm):
@@ -29,26 +29,46 @@ class UserInfoForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # TODO(Steve X): style for `select2`
         for field in self.fields.values():
             field.widget.attrs = {
-                'class': 'form-control input-mask'
+                'class': 'form-control input-mask select2'
             }
 
     class Meta:
-        model = User
+        model = models.User
 
         fields = [
-            'school',
             'full_name',
             'username',
             'email',
-            # 'class_id',
         ]
 
         error_messages = {
             'full_name': {'required': _("真实姓名不能为空"), },
             'username': {'required': _("用户名不能为空"), },
             'email': {'required': _("电子邮件不能为空"), },
-            # 'class_id': {'required': _("班级ID不能为空"), },
+        }
+
+
+class StudentForm(ModelForm):
+    '''For user/user-info.html'''
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # TODO(Steve X): style for `select2`
+        for field in self.fields.values():
+            field.widget.attrs = {
+                'class': 'form-control input-mask select2'
+            }
+
+    class Meta:
+        model = models.Student
+
+        fields = [
+            'classroom',
+        ]
+
+        error_messages = {
+            'classroom': {'required': _("班级不能为空"), },
         }
