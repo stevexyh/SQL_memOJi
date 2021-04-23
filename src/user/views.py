@@ -104,6 +104,7 @@ def auth_recoverpw(request):
     return render(request, 'user/auth-recoverpw.html')
 
 
+# TODO(Steve X): Modified register for Student
 class AuthRegister(View):
     '''Render auth-register template in CBV'''
 
