@@ -179,6 +179,7 @@ class ClassManage(View):
         return render(request, 'user/class-manage.html', context=content)
 
     # XXX(Steve X): add batch import func for students
+    # FIXME(Steve X): set current school as default school
     def post(self, request):
         class_form = ClassroomForm(request.POST)
 
