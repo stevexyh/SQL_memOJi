@@ -79,24 +79,6 @@
                     <form method="POST" class="needs-validation" style="margin-bottom: 50px;" novalidate>
                         {% csrf_token %}
                         <div class="row">
-                            {% comment %} <div class="form-group col-md-6">
-                                    <label for="new-classroom-name">班级名称</label>
-                                    <input type="text" class="form-control" id="new-classroom-name" placeholder="班级名称" value="数据库1班" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="new-classroom-teacher" class="control-label">负责教师</label>
-                                <select class="form-control select2" required>
-                                    <option selected>请选择...</option>
-                                    <optgroup label="计算机学院">
-                                        <option value="NPU_T001">李老师</option>
-                                        <option value="NPU_T002">王老师</option>
-                                    </optgroup>
-                                    <optgroup label="软件学院">
-                                        <option value="NPU_T003">张老师</option>
-                                        <option value="NPU_T004">刘老师</option>
-                                    </optgroup>
-                                </select>
-                            </div> {% endcomment %}
                             {% for data in class_form %}
                                 {% if data.name != 'class_desc' %}
                                     <div class="form-group mb-4 col-6">
@@ -111,11 +93,6 @@
                                 {% endif %}
                             {% endfor %}
 
-                        </div>
-
-                        <label for="new-classroom-desc">备注信息</label>
-                        <div style="margin-bottom: 20px;">
-                            <textarea id="new-classroom-desc" class="form-control" rows="3"></textarea>
                         </div>
 
                         <div class="text-center mt-4" style="padding-top: 0px;">
