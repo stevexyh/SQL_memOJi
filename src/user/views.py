@@ -23,7 +23,7 @@ from django.views import View
 from django.contrib import auth
 from django.utils.translation import gettext_lazy as _
 from django.db import transaction
-from user.models import User
+from user.models import User, Classroom
 from user.forms import UserInfoForm, StudentForm
 
 # Create your views here.
@@ -166,7 +166,13 @@ def auth_register_done(request):
 def class_manage(request):
     '''Render class-manage template'''
 
-    return render(request, 'user/class-manage.html')
+    class_list = Classroom.objects.all()
+
+    content = {
+        'class_list': class_list,
+    }
+
+    return render(request, 'user/class-manage.html', context=content)
 
 
 def class_details(request):
