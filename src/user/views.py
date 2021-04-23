@@ -167,6 +167,7 @@ def class_manage(request):
     '''Render class-manage template'''
 
     class_list = Classroom.objects.all()
+    # class_list = Classroom.objects.filter(class_id=1)
 
     content = {
         'class_list': class_list,
@@ -175,10 +176,16 @@ def class_manage(request):
     return render(request, 'user/class-manage.html', context=content)
 
 
-def class_details(request):
+def class_details(request, class_id):
     '''Render class-details template'''
 
-    return render(request, 'user/class-details.html')
+    classroom = Classroom.objects.get(class_id=class_id)
+
+    content = {
+        'classroom': classroom,
+    }
+
+    return render(request, 'user/class-details.html', context=content)
 
 
 class UserInfo(View):

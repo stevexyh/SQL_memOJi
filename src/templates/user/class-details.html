@@ -8,7 +8,7 @@
         <ol class="breadcrumb m-0">
             <li class="breadcrumb-item"><a href="javascript: void(0);">管理员</a></li>
             <li class="breadcrumb-item"><a href="{% url 'user:class-manage' %}">班级管理</a></li>
-            <li class="breadcrumb-item active"><a href="{% url 'user:class-details' %}">班级详情</a></li>
+            <li class="breadcrumb-item active"><a href="{% url 'user:class-details' classroom.class_id %}">班级详情</a></li>
         </ol>    
     </div>
 {% endblock breadcrumb %}
@@ -40,15 +40,14 @@
                     <div style="margin-bottom: 20px;">
                         <a href="javascript:void(0);" class="btn btn-success mb-2"><i class="mdi mdi-plus mr-2"></i>添加学生</a>
                     </div>
-
                     <div class="row">
                         <div class="col-6">
                             <div class="card" style="height: 100%;">
                                 <div class="card-body">
-                                    <h3 class="text-truncate"><a href="#" class="text-dark">数据库1班</a></h3>
-                                    <p class="text-muted">NPU2021030101</p>
+                                    <h3 class="text-truncate"><a href="#" class="text-dark">{{ classroom.class_name }}</a></h3>
+                                    <p class="text-muted">{{ classroom.class_id }}</p>
                                     <p class="text-muted">
-                                        <i class="mdi mdi-account mr-1"></i> 李老师
+                                        <i class="mdi mdi-account mr-1"></i> {{ classroom.teacher }}
                                     </p>
                                     <form class="needs-validation" novalidate>
                                         <div class="row">

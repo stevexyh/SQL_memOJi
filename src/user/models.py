@@ -141,6 +141,10 @@ class Classroom(models.Model):
     def __str__(self):
         return str(self.class_name)
 
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse("user:class-details", kwargs={"class_id": self.class_id})
+
     class Meta:
         verbose_name = '班级'
         verbose_name_plural = verbose_name
