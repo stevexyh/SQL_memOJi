@@ -189,14 +189,13 @@ class UserInfo(View):
         full_name = user.full_name if user.is_authenticated else not_login
         username = user.username if user.is_authenticated else not_login
         email = user.email if user.is_authenticated else not_login
+
         school = user.school if user.is_authenticated else not_login
         college_name = user.college_name if user.is_authenticated else not_login
         internal_id = user.internal_id if user.is_authenticated else not_login
-        # TODO(Steve X): REMOVE BEFORE FLIGHT(FK)
         classroom = user.student.classroom if is_student else ''
         priority = user.get_priority_display() if user.is_authenticated else not_login
         join_status = user.is_authenticated and user.join_status != User.JoinStatus.OUT_OF_LIST or user.is_superuser
-        teacher_name = self.RBF
         info_form = UserInfoForm(instance=user) if user.is_authenticated else None
         student_form = StudentForm(instance=user.student) if is_student else None
 
@@ -212,7 +211,6 @@ class UserInfo(View):
             'join_status': join_status,
             'join_status_display': _('认证') if join_status else _('未认证'),
             'join_status_color': 'success' if join_status else 'warning',
-            'teacher_name': teacher_name,
             'info_form': info_form,
             'student_form': student_form,
         }
