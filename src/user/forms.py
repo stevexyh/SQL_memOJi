@@ -17,8 +17,8 @@
 ----------------------------------------------------------------------------------------------------
 '''
 
-
-from django.forms import ModelForm
+import django.db.models
+from django.forms import ModelForm, Textarea
 from django.utils.translation import gettext_lazy as _
 from user import models
 
@@ -71,4 +71,35 @@ class StudentForm(ModelForm):
 
         error_messages = {
             'classroom': {'required': _("班级不能为空"), },
+        }
+
+
+class ClassroomForm(ModelForm):
+    '''For user/class-manage.html & class-details.html'''
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # TODO(Steve X): style for `select2`
+        for field in self.fields.values():
+            field.widget.attrs = {
+                'class': 'form-control input-mask select2'
+            }
+
+    class Meta:
+        model = models.Classroom
+
+        fields = [
+            'teacher',
+            'class_name',
+            'class_desc',
+        ]
+
+        error_messages = {
+            'classroom': {'required': _("班级不能为空"), },
+            'teacher': {'required': _("负责教师不能为空"), },
+        }
+
+        widgets = {
+            'class_desc': Textarea(attrs={'cols': 80, 'rows': 20}),
         }

@@ -37,7 +37,7 @@ urlpatterns = [
     path('auth-status/', views.auth_status, name='auth-status'),
 
     # Management Pages
-    path('class-manage/', views.class_manage, name='class-manage'),
+    path('class-manage/', views.ClassManage.as_view(), name='class-manage'),
     path('class-details/<class_id>/', views.ClassDetails.as_view(), name='class-details'),
     path('user-info/', views.UserInfo.as_view(), name='user-info'),
 ]

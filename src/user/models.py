@@ -134,7 +134,7 @@ class Classroom(models.Model):
     class_id = models.AutoField(verbose_name=_('班级ID'), primary_key=True)
     school = models.ForeignKey(verbose_name=_('学校'), to=School, on_delete=models.SET_NULL, default=None, null=True, blank=False)
     class_name = models.CharField(verbose_name=_('班级名称'), max_length=150)
-    teacher = models.ForeignKey(verbose_name=_('教师'), to=Teacher, on_delete=models.SET_NULL, default=None, null=True, blank=False)
+    teacher = models.ForeignKey(verbose_name=_('负责教师'), to=Teacher, on_delete=models.SET_NULL, default=None, null=True, blank=False)
     class_desc = models.CharField(verbose_name=_('班级描述'), max_length=200, null=True, blank=True)
     stud_list = models.CharField(verbose_name=_('学生列表'), max_length=2000, null=True, blank=True)
 

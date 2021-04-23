@@ -76,9 +76,10 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="needs-validation" style="margin-bottom: 50px;" novalidate>
+                    <form method="POST" class="needs-validation" style="margin-bottom: 50px;" novalidate>
+                        {% csrf_token %}
                         <div class="row">
-                            <div class="form-group col-md-6">
+                            {% comment %} <div class="form-group col-md-6">
                                     <label for="new-classroom-name">班级名称</label>
                                     <input type="text" class="form-control" id="new-classroom-name" placeholder="班级名称" value="数据库1班" required>
                             </div>
@@ -95,12 +96,26 @@
                                         <option value="NPU_T004">刘老师</option>
                                     </optgroup>
                                 </select>
-                            </div>
+                            </div> {% endcomment %}
+                            {% for data in class_form %}
+                                {% if data.name != 'class_desc' %}
+                                    <div class="form-group mb-4 col-6">
+                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
+                                        <div>{{ data }}</div>
+                                    </div>
+                                {% else %}
+                                    <div class="form-group mb-4 col-12">
+                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
+                                        <div>{{ data }}</div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+
                         </div>
 
                         <label for="new-classroom-desc">备注信息</label>
                         <div style="margin-bottom: 20px;">
-                            <textarea id="new-classroom-desc" class="form-control" rows="3" required></textarea>
+                            <textarea id="new-classroom-desc" class="form-control" rows="3"></textarea>
                         </div>
 
                         <div class="text-center mt-4" style="padding-top: 0px;">

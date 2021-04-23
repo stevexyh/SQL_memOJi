@@ -24,7 +24,7 @@ from django.contrib import auth
 from django.utils.translation import gettext_lazy as _
 from django.db import transaction
 from user.models import User, Classroom
-from user.forms import UserInfoForm, StudentForm
+from user.forms import UserInfoForm, StudentForm, ClassroomForm
 
 # Create your views here.
 
@@ -163,25 +163,35 @@ def auth_register_done(request):
 
 
 #--------------------------------------Management Pages--------------------------------------#
-def class_manage(request):
+class ClassManage(View):
     '''Render class-manage template'''
 
-    class_list = Classroom.objects.all()
-    # class_list = Classroom.objects.filter(class_id=1)
+    def get(self, request):
+        # TODO(Steve X): show classes of current teacher only
+        class_list = Classroom.objects.all()
+        class_form = ClassroomForm()
 
-    content = {
-        'class_list': class_list,
-    }
+        content = {
+            'class_list': class_list,
+            'class_form': class_form,
+        }
 
-    return render(request, 'user/class-manage.html', context=content)
+        return render(request, 'user/class-manage.html', context=content)
+
+    # XXX(Steve X): add batch import func for students
+    def post(self, request):
+        class_form = ClassroomForm(request.POST)
+
+        if class_form.is_valid():
+            class_form.save()
+
+        return redirect('/class-manage')
 
 
 class ClassDetails(View):
     '''Render class-details template'''
 
     def get(self, request, class_id):
-        '''Render class-details template'''
-
         classroom = Classroom.objects.get(class_id=class_id)
 
         content = {

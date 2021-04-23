@@ -108,7 +108,7 @@ DESCRIPTIONS
       - [x] 修改功能
     - [ ] 班级管理页面
       - [x] 创建学校
-      - [ ] 创建班级
+      - [x] 创建班级
       - [ ] 修改信息
   - [ ] Coding App/
   - [ ] iCalendar App/
