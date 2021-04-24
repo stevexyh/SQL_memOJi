@@ -67,7 +67,7 @@ class Question(models.Model):
     class Difficulty(models.IntegerChoices):
         '''Enumeration of question difficulty'''
 
-        UNKNOWN = -1, _('位置')
+        UNKNOWN = -1, _('未知')
         EASY = 0, _('简单')
         MEDIUM = 1, ('中等')
         HARD = 2, _('困难')
