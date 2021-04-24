@@ -42,7 +42,7 @@ class QuestionSet(models.Model):
     ques_set_name = models.CharField(verbose_name=_('题库名称'), max_length=100)
     ques_set_desc = models.TextField(verbose_name=_('题库描述'))
     create_sql = models.TextField(verbose_name=_('创建SQL'))
-    initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL, null=True)
+    initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = '题库'
@@ -78,7 +78,7 @@ class Question(models.Model):
     ques_difficulty = models.IntegerField(verbose_name=_('题目难度'), choices=Difficulty.choices, default=Difficulty.UNKNOWN)
     ques_desc = models.TextField(verbose_name=_('题目描述'))
     ques_ans = models.TextField(verbose_name=_('标准答案'))
-    initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL, null=True)
+    initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = '题目'
@@ -117,8 +117,8 @@ class Paper(models.Model):
     start_time = models.DateTimeField(verbose_name=_('开始时间'))
     end_time = models.DateTimeField(verbose_name=_('结束时间'))
     paper_active = models.BooleanField(verbose_name=_('发布状态'), default=False)
-    paper_desc = models.TextField(verbose_name=_('试卷描述'), null=True)
-    initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL, null=True)
+    paper_desc = models.TextField(verbose_name=_('试卷描述'), null=True, blank=True)
+    initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL)
     classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
     question = models.ManyToManyField(verbose_name=_('题目列表'), to=Question)
 
