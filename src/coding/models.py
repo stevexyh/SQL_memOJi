@@ -49,6 +49,7 @@ class QuestionSet(models.Model):
         verbose_name_plural = verbose_name
 
 
+# XXX(Steve X): many-to-many intermediary models
 class Question(models.Model):
     '''
     Question Table
@@ -84,6 +85,7 @@ class Question(models.Model):
         verbose_name_plural = verbose_name
 
 
+# XXX(Steve X): many-to-many intermediary models
 class Paper(models.Model):
     '''
     Paper Table
