@@ -157,11 +157,12 @@ class Student(models.Model):
     |-----------------------|---------------------|------|-----|-------------|
     | user                  | varchar             |      | FK  |             |
     | classroom             | varchar             |      | FK  |             |
-    # | join_status           | int                 |      |     | 0           |
+    | join_status           | int                 |      |     | 0           |
     '''
 
     user = models.OneToOneField(to=User, on_delete=models.CASCADE, primary_key=True)
     classroom = models.ForeignKey(verbose_name=_('班级'), to=Classroom, on_delete=models.SET_NULL, default=None, null=True, blank=False)
+    join_status = models.BooleanField(verbose_name=_('加入状态'), default=False)
 
     def __str__(self):
         return str(self.user)
