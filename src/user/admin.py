@@ -85,9 +85,10 @@ class TeacherAdmin(admin.ModelAdmin):
     list_display = ['user']
 
 
+# Fields: 'user', 'classroom', 'join_status'
 @admin.register(models.Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ['user', 'classroom']
+    list_display = ['user', 'classroom', 'join_status']
 
 
 # Fields: 'school_id', 'school_name', 'school_name_en', 'school_abbr'
