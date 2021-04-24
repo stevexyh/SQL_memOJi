@@ -18,7 +18,6 @@
 '''
 
 
-import datetime
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -42,7 +41,7 @@ class QuestionSet(models.Model):
     ques_set_name = models.CharField(verbose_name=_('题库名称'), max_length=100)
     ques_set_desc = models.TextField(verbose_name=_('题库描述'))
     create_sql = models.TextField(verbose_name=_('创建SQL'))
-    initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL)
+    initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL, null=True)
 
     class Meta:
         verbose_name = '题库'
@@ -78,7 +77,7 @@ class Question(models.Model):
     ques_difficulty = models.IntegerField(verbose_name=_('题目难度'), choices=Difficulty.choices, default=Difficulty.UNKNOWN)
     ques_desc = models.TextField(verbose_name=_('题目描述'))
     ques_ans = models.TextField(verbose_name=_('标准答案'))
-    initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL)
+    initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL, null=True)
 
     class Meta:
         verbose_name = '题目'
@@ -118,13 +117,9 @@ class Paper(models.Model):
     end_time = models.DateTimeField(verbose_name=_('结束时间'))
     paper_active = models.BooleanField(verbose_name=_('发布状态'), default=False)
     paper_desc = models.TextField(verbose_name=_('试卷描述'), null=True, blank=True)
-    initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL)
+    initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL, null=True)
     classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
     question = models.ManyToManyField(verbose_name=_('题目列表'), to=Question)
-
-    def __init__(self):
-        super().__init__()
-        self.publish_time = datetime.datetime.now()
 
     class Meta:
         verbose_name = '试卷'
