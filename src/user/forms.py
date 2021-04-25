@@ -17,10 +17,10 @@
 ----------------------------------------------------------------------------------------------------
 '''
 
-import django.db.models
+
 from django.forms import ModelForm, Textarea
 from django.utils.translation import gettext_lazy as _
-from user import models
+import user.models
 
 
 class UserInfoForm(ModelForm):
@@ -35,7 +35,7 @@ class UserInfoForm(ModelForm):
             })
 
     class Meta:
-        model = models.User
+        model = user.models.User
 
         fields = [
             'full_name',
@@ -63,7 +63,7 @@ class StudentForm(ModelForm):
             })
 
     class Meta:
-        model = models.Student
+        model = user.models.Student
 
         fields = [
             'classroom',
@@ -87,7 +87,7 @@ class ClassroomForm(ModelForm):
             })
 
     class Meta:
-        model = models.Classroom
+        model = user.models.Classroom
 
         fields = [
             'teacher',
