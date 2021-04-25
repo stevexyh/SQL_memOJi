@@ -39,9 +39,11 @@ def questions_manage(request):
     '''Render questions-manage template'''
 
     ques_set_form = forms.QuesSetForm()
+    question_form = forms.QuestionForm()
 
     content = {
         'ques_set_form': ques_set_form,
+        'question_form': question_form,
     }
 
     return render(request, 'coding/questions-manage.html', context=content)
@@ -54,6 +56,17 @@ def ques_set_add(request):
 
     if ques_set_form.is_valid():
         ques_set_form.save()
+
+    return redirect('coding:questions-manage')
+
+
+def question_add(request):
+    '''Add question in questions-manage page'''
+
+    question_form = forms.QuestionForm(request.POST)
+
+    if question_form.is_valid():
+        question_form.save()
 
     return redirect('coding:questions-manage')
 #--------------------------------------------END---------------------------------------------#

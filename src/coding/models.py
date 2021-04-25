@@ -56,9 +56,9 @@ class Question(models.Model):
     |-----------------------|---------------------|------|-----|-------------|
     | ques_id               | varchar             |      | PRI |             |
     | ques_name             | varchar             | NULL |     |             |
-    | ques_set_id           | varchar             |      | FK  |             |
+    | ques_set              | varchar             |      | FK  |             |
     | ques_difficulty       | int                 | NULL |     |             |
-    | ques_desc             | varchar             | NULL |     |             |
+    | ques_desc             | varchar             |      |     |             |
     | ques_ans              | varchar             |      |     |             |
     | initiator             | varchar             |      | API |             |
     '''

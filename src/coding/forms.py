@@ -31,7 +31,6 @@ class QuesSetForm(ModelForm):
         super().__init__(*args, **kwargs)
 
         for field in self.fields.values():
-            print('prev', field.widget.attrs.get('class'))
             if field.widget.attrs.get('class'):
                 field.widget.attrs['class'] += ' ' + ' '.join([
                     'form-control',
@@ -40,14 +39,13 @@ class QuesSetForm(ModelForm):
                 field.widget.attrs.update({
                     'class': 'form-control',
                 })
-            print('now', field.widget.attrs)
 
     class Meta:
         model = coding.models.QuestionSet
 
         fields = [
-            'initiator',
             'ques_set_name',
+            'initiator',
             'ques_set_desc',
             'create_sql',
         ]
@@ -59,5 +57,46 @@ class QuesSetForm(ModelForm):
         widgets = {
             'ques_set_desc': wid.Textarea(attrs={'rows': 3}),
             'create_sql': wid.Textarea(attrs={'rows': 8}),
-            'initiator': wid.Select(attrs={'class': 'form-control select2'}),
+            'initiator': wid.Select(attrs={'class': 'select2'}),
+        }
+
+
+class QuestionForm(ModelForm):
+    '''For coding/questions-manage.html'''
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.fields.values():
+            if field.widget.attrs.get('class'):
+                field.widget.attrs['class'] += ' ' + ' '.join([
+                    'form-control',
+                ])
+            else:
+                field.widget.attrs.update({
+                    'class': 'form-control',
+                })
+
+    class Meta:
+        model = coding.models.Question
+
+        fields = [
+            'ques_name',
+            'initiator',
+            'ques_set',
+            'ques_difficulty',
+            'ques_desc',
+            'ques_ans',
+        ]
+
+        error_messages = {
+            # 'xxx': {'required': _("xxx不能为空"), },
+        }
+
+        widgets = {
+            'initiator': wid.Select(attrs={'class': 'select2'}),
+            'ques_set': wid.Select(attrs={'class': 'select2'}),
+            'ques_difficulty': wid.Select(attrs={'class': 'select2'}),
+            'ques_desc': wid.Textarea(attrs={'rows': 3}),
+            'ques_ans': wid.Textarea(attrs={'rows': 3}),
         }
