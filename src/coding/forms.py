@@ -18,7 +18,8 @@
 '''
 
 
-from django.forms import ModelForm, Textarea
+from django.forms import ModelForm
+from django.forms import widgets as wid
 from django.utils.translation import gettext_lazy as _
 import coding.models
 
@@ -29,11 +30,17 @@ class QuesSetForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # TODO(Steve X): style for `select2`
         for field in self.fields.values():
-            field.widget.attrs.update({
-                'class': 'form-control input-mask select2'
-            })
+            print('prev', field.widget.attrs.get('class'))
+            if field.widget.attrs.get('class'):
+                field.widget.attrs['class'] += ' ' + ' '.join([
+                    'form-control',
+                ])
+            else:
+                field.widget.attrs.update({
+                    'class': 'form-control',
+                })
+            print('now', field.widget.attrs)
 
     class Meta:
         model = coding.models.QuestionSet
@@ -50,5 +57,6 @@ class QuesSetForm(ModelForm):
         }
 
         widgets = {
-            'ques_set_desc': Textarea(attrs={'rows': 8}),
+            'ques_set_desc': wid.Textarea(attrs={'rows': 8}),
+            'initiator': wid.Select(attrs={'class': 'form-control select2'}),
         }
