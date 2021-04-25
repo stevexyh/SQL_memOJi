@@ -36,6 +36,9 @@
                 <button type="button" class="btn btn-danger btn-block waves-effect waves-light" data-toggle="modal" data-target="#papermodal">
                     <i class="mdi mdi-plus mr-2"></i>新建试卷
                 </button>
+                <button type="button" class="btn btn-primary btn-block waves-effect waves-light" data-toggle="modal" data-target="#questionsetmodal">
+                    <i class="mdi mdi-plus mr-2"></i>新建题库
+                </button>
 
                 <h6 class="mt-4">题库</h6>
                 <div class="mail-list mt-1">
@@ -82,7 +85,7 @@
                                         <th>题号</th>
                                         <th>题目名</th>
                                         <th>描述</th>
-                                        <th>所属数据库</th>
+                                        <th>所属题库</th>
                                         <th>正确率</th>
                                         <th>难度</th>
                                         <th style="width: 120px;">操作</th>
@@ -258,6 +261,51 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="questionsetmodal" tabindex="-1" role="dialog" aria-labelledby="questionsetmodalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="questionsetmodalTitle">新建题库</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="To">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Subject">
+                        </div>
+                        <div class="form-group">
+                            <div class="summernote">
+                                <h6>Hello Summer note</h6>
+                                <ul>
+                                    <li>
+                                        Select a text to reveal the toolbar.
+                                    </li>
+                                    <li>
+                                        Edit rich document on-the-fly, so elastic!
+                                    </li>
+                                </ul>
+                                <p>
+                                    End of air-mode area
+                                </p>
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">保存<i class="fab fa-telegram-plane ml-1"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="questionmodal" tabindex="-1" role="dialog" aria-labelledby="questionmodalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -280,7 +328,7 @@
                                 <input id="question-name" class="form-control">
                             </div>
                             <div class="form-group mb-4 col-6">
-                                <label for="validationCustom02" class="control-label">所属数据库</label>
+                                <label for="validationCustom02" class="control-label">所属题库</label>
                                 <select class="form-control select2" required>
                                     <option selected>请选择...</option>
                                     <option value="NPU_DB1">NPU_DB1</option>
@@ -314,7 +362,7 @@
                         列表需包含以下字段: <br>
                         <code>ques_no</code>(题号)<br>
                         <code>ques_name</code>(题目名)<br>
-                        <code>ques_db</code>(所属数据库)<br>
+                        <code>ques_db</code>(所属题库)<br>
                         <code>ques_difficulty</code>(题目难度)<br>
                         <code>ques_desc</code>(描述)<br>
                         <code>ques_ans</code>(标准答案)<br>
@@ -376,7 +424,7 @@
                                 <input id="question-name" class="form-control">
                             </div>
                             <div class="form-group mb-4 col-6">
-                                <label for="validationCustom02" class="control-label">所属数据库</label>
+                                <label for="validationCustom02" class="control-label">所属题库</label>
                                 <select class="form-control select2" required>
                                     <option selected>请选择...</option>
                                     <option value="NPU_DB1">NPU_DB1</option>
