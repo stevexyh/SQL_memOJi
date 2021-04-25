@@ -18,7 +18,12 @@
 '''
 
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.views import View
+from django.contrib import auth
+from django.utils.translation import gettext_lazy as _
+from django.db import transaction
+from coding import forms
 
 # Create your views here.
 
@@ -29,10 +34,29 @@ def exams_manage(request):
     return render(request, 'coding/exams-manage.html')
 
 
+#------------------------------------Questions Manage Page-----------------------------------#
 def questions_manage(request):
     '''Render questions-manage template'''
 
-    return render(request, 'coding/questions-manage.html')
+    ques_set_form = forms.QuesSetForm()
+
+    content = {
+        'ques_set_form': ques_set_form,
+    }
+
+    return render(request, 'coding/questions-manage.html', context=content)
+
+
+def ques_set_add(request):
+    '''Add question set in questions-manage page'''
+
+    ques_set_form = forms.QuesSetForm(request.POST)
+
+    if ques_set_form.is_valid():
+        ques_set_form.save()
+
+    return redirect('coding:questions-manage')
+#--------------------------------------------END---------------------------------------------#
 
 
 def coding(request):
