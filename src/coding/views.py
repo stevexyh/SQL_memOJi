@@ -38,8 +38,8 @@ def exams_manage(request):
 def questions_manage(request):
     '''Render questions-manage template'''
 
-    ques_set_form = forms.QuesSetForm()
-    question_form = forms.QuestionForm()
+    ques_set_form = forms.QuesSetForm(auto_id='id_qset_%s')
+    question_form = forms.QuestionForm(auto_id='id_ques_%s')
 
     content = {
         'ques_set_form': ques_set_form,
