@@ -57,6 +57,7 @@ class QuesSetForm(ModelForm):
         }
 
         widgets = {
-            'ques_set_desc': wid.Textarea(attrs={'rows': 8}),
+            'ques_set_desc': wid.Textarea(attrs={'rows': 3}),
+            'create_sql': wid.Textarea(attrs={'rows': 8}),
             'initiator': wid.Select(attrs={'class': 'form-control select2'}),
         }
