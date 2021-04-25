@@ -39,7 +39,7 @@ class QuestionSet(models.Model):
 
     ques_set_id = models.AutoField(verbose_name=_('题库ID'), primary_key=True)
     ques_set_name = models.CharField(verbose_name=_('题库名称'), max_length=100)
-    ques_set_desc = models.TextField(verbose_name=_('题库描述'))
+    ques_set_desc = models.TextField(verbose_name=_('题库描述'), null=True, blank=True)
     create_sql = models.TextField(verbose_name=_('创建SQL'))
     initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL, null=True)
 
