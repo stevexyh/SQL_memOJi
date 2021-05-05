@@ -143,6 +143,7 @@ class PaperForm(ModelForm):
             # 'xxx': {'required': _("xxx不能为空"), },
         }
 
+        # FIXME(Steve X): datetime picker above modal
         widgets = {
             'initiator': wid.Select(attrs={'class': 'select2'}),
             'paper_type': wid.Select(attrs={'class': 'select2'}),
