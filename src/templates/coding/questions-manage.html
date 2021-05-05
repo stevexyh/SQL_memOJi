@@ -252,15 +252,6 @@
                                     </div>
                                 {% endif %}
                             {% endfor %}
-                            <div class="form-group mb-4">
-                                <label>Auto Close</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" data-provide="datepicker" data-date-format="dd M, yyyy" data-date-autoclose="true">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                    </div>
-                                </div><!-- input-group -->
-                            </div>
 
                         </div>
                         <div class="modal-footer">
@@ -483,5 +474,5 @@
 
     <!-- Custom Pages -->
     <script src="{% static 'js/custom-pages/questions-manage.js' %}"></script>
-    <!-- <script src="{% static 'js/pages/form-advanced.init.js' %}"></script> -->
+    <script src="{% static 'js/pages/form-advanced.init.js' %}"></script>
 {% endblock js %}

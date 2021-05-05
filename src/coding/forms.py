@@ -19,6 +19,7 @@
 
 
 from django.forms import ModelForm
+from django.forms import DateTimeInput
 from django.forms import widgets as wid
 from django.utils.translation import gettext_lazy as _
 import coding.models
@@ -101,6 +102,8 @@ class QuestionForm(ModelForm):
             'ques_ans': wid.Textarea(attrs={'rows': 3}),
         }
 
+class CustomDateInput(DateTimeInput):
+    input_type = 'datetime'
 
 class PaperForm(ModelForm):
     '''For coding/questions-manage.html'''
@@ -117,6 +120,8 @@ class PaperForm(ModelForm):
                 field.widget.attrs.update({
                     'class': 'form-control',
                 })
+
+
 
     class Meta:
         model = coding.models.Paper
@@ -144,22 +149,25 @@ class PaperForm(ModelForm):
             'classroom': wid.SelectMultiple(attrs={'class': 'select2'}),
             'question': wid.SelectMultiple(attrs={'class': 'select2'}),
             'paper_desc': wid.Textarea(attrs={'rows': 3}),
-            'publish_time': wid.DateTimeInput(attrs={
-                'type': 'text',
-                'data-provide': 'datepicker',
-                'data-date-format': 'dd M, yyyy',
+            'publish_time': CustomDateInput(attrs={
+                # 'type': 'datetime',
+                # 'data-provide': 'datepicker',
+                # 'data-date-format': 'yyyy-mm-dd hh:MM:ss',
+                'placeholder': 'yyyy-mm-dd hh:MM:ss',
                 'data-date-autoclose': 'true',
             }),
-            'start_time': wid.DateTimeInput(attrs={
-                'type': 'text',
-                'data-provide': 'datepicker',
-                'data-date-format': 'dd M, yyyy',
+            'start_time': CustomDateInput(attrs={
+                # 'type': 'datetime',
+                # 'data-provide': 'datepicker',
+                # 'data-date-format': 'yyyy-mm-dd hh:MM:ss',
+                'placeholder': 'yyyy-mm-dd hh:MM:ss',
                 'data-date-autoclose': 'true',
             }),
-            'end_time': wid.DateTimeInput(attrs={
-                'type': 'text',
-                'data-provide': 'datepicker',
-                'data-date-format': 'dd M, yyyy',
+            'end_time': CustomDateInput(attrs={
+                # 'type': 'datetime',
+                # 'data-provide': 'datepicker',
+                # 'data-date-format': 'yyyy-mm-dd hh:MM:ss',
+                'placeholder': 'yyyy-mm-dd hh:MM:ss',
                 'data-date-autoclose': 'true',
             }),
         }
