@@ -100,3 +100,66 @@ class QuestionForm(ModelForm):
             'ques_desc': wid.Textarea(attrs={'rows': 3}),
             'ques_ans': wid.Textarea(attrs={'rows': 3}),
         }
+
+
+class PaperForm(ModelForm):
+    '''For coding/questions-manage.html'''
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.fields.values():
+            if field.widget.attrs.get('class'):
+                field.widget.attrs['class'] += ' ' + ' '.join([
+                    'form-control',
+                ])
+            else:
+                field.widget.attrs.update({
+                    'class': 'form-control',
+                })
+
+    class Meta:
+        model = coding.models.Paper
+
+        fields = [
+            'paper_name',
+            'paper_type',
+            'initiator',
+            'publish_time',
+            'start_time',
+            'end_time',
+            'paper_desc',
+            'classroom',
+            'question',
+            'paper_active',
+        ]
+
+        error_messages = {
+            # 'xxx': {'required': _("xxx不能为空"), },
+        }
+
+        widgets = {
+            'initiator': wid.Select(attrs={'class': 'select2'}),
+            'paper_type': wid.Select(attrs={'class': 'select2'}),
+            'classroom': wid.SelectMultiple(attrs={'class': 'select2'}),
+            'question': wid.SelectMultiple(attrs={'class': 'select2'}),
+            'paper_desc': wid.Textarea(attrs={'rows': 3}),
+            'publish_time': wid.DateTimeInput(attrs={
+                'type': 'text',
+                'data-provide': 'datepicker',
+                'data-date-format': 'dd M, yyyy',
+                'data-date-autoclose': 'true',
+            }),
+            'start_time': wid.DateTimeInput(attrs={
+                'type': 'text',
+                'data-provide': 'datepicker',
+                'data-date-format': 'dd M, yyyy',
+                'data-date-autoclose': 'true',
+            }),
+            'end_time': wid.DateTimeInput(attrs={
+                'type': 'text',
+                'data-provide': 'datepicker',
+                'data-date-format': 'dd M, yyyy',
+                'data-date-autoclose': 'true',
+            }),
+        }

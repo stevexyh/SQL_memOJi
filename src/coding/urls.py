@@ -33,5 +33,6 @@ urlpatterns = [
     path('questions-manage/', views.questions_manage, name='questions-manage'),
     path('questions-manage/ques-set-add/', views.ques_set_add, name='ques-set-add'),
     path('questions-manage/question-add/', views.question_add, name='question-add'),
+    path('questions-manage/paper-add/', views.paper_add, name='paper-add'),
 
 ]

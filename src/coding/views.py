@@ -40,10 +40,12 @@ def questions_manage(request):
 
     ques_set_form = forms.QuesSetForm(auto_id='id_qset_%s')
     question_form = forms.QuestionForm(auto_id='id_ques_%s')
+    paper_form = forms.PaperForm(auto_id='id_paper_%s')
 
     content = {
         'ques_set_form': ques_set_form,
         'question_form': question_form,
+        'paper_form': paper_form,
     }
 
     return render(request, 'coding/questions-manage.html', context=content)
@@ -67,6 +69,20 @@ def question_add(request):
 
     if question_form.is_valid():
         question_form.save()
+
+    return redirect('coding:questions-manage')
+
+
+# FIXME(Steve X): date time picker
+def paper_add(request):
+    '''Add paper in questions-manage page'''
+
+    paper_form = forms.PaperForm(request.POST)
+
+    if paper_form.is_valid():
+        paper_form.save()
+    else:
+        print(paper_form.errors)
 
     return redirect('coding:questions-manage')
 #--------------------------------------------END---------------------------------------------#
