@@ -148,6 +148,7 @@ def ans_check(ans_sql: str, stud_sql: str) -> bool:
     return res
 
 
+# XXX(Steve X): cursor.close(), connection.close()
 if __name__ == "__main__":
     crct = ans_check(ans_sql='select * from employee;', stud_sql='select SEX from employee;')
     print(crct)
