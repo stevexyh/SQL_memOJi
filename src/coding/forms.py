@@ -102,8 +102,10 @@ class QuestionForm(ModelForm):
             'ques_ans': wid.Textarea(attrs={'rows': 3}),
         }
 
+
 class CustomDateInput(DateTimeInput):
     input_type = 'datetime'
+
 
 class PaperForm(ModelForm):
     '''For coding/questions-manage.html'''
@@ -120,8 +122,6 @@ class PaperForm(ModelForm):
                 field.widget.attrs.update({
                     'class': 'form-control',
                 })
-
-
 
     class Meta:
         model = coding.models.Paper
