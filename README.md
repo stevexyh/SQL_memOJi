@@ -123,6 +123,7 @@ DESCRIPTIONS
       - [x] 创建试卷
     - [ ] 答题目录页
     - [ ] 答题详情页
+      - [x] SQL正确性验证
     - [ ] 统计页面
 
   - [ ] iCalendar App/
