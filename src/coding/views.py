@@ -18,6 +18,7 @@
 '''
 
 
+import pymysql
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib import auth
@@ -25,6 +26,7 @@ from django.utils.translation import gettext_lazy as _
 from django.db import transaction
 from coding import forms
 from coding import models
+from utils import token as tk
 
 # Create your views here.
 
@@ -59,13 +61,45 @@ def questions_manage(request):
     return render(request, 'coding/questions-manage.html', context=content)
 
 
+# XXX(Steve X): database grants for teachers
 def ques_set_add(request):
     '''Add question set in questions-manage page'''
 
     ques_set_form = forms.QuesSetForm(request.POST)
+    host = tk.get_conf('mysql', 'host')
+    port = int(tk.get_conf('mysql', 'port'))
+    user = tk.get_conf('mysql', 'user')
+    passwd = tk.get_conf('mysql', 'password')
 
-    if ques_set_form.is_valid():
-        ques_set_form.save()
+    db = pymysql.Connect(host=host, port=port, user=user, passwd=passwd)
+    cur = db.cursor()
+    ques_set_name = request.POST.get('ques_set_name')
+    qset_db_name = f'qset_{ques_set_name}'
+    create_sql = request.POST.get('create_sql').replace('\n', '').replace('\\n', '')
+    create_sql_list = create_sql.split(';')
+
+    print(create_sql)
+    print(type(create_sql))
+    print('-'*40)
+    print(create_sql_list)
+
+    try:
+        cur.execute(f"""create database {qset_db_name};""")
+        cur.execute(f"""use {qset_db_name};""")
+
+        for sql in create_sql_list:
+            cur.execute(sql)
+
+        db.commit()
+        if ques_set_form.is_valid():
+            ques_set_form.save()
+    except Exception as exc:
+        cur.execute(f"""drop database if exists {qset_db_name}""")
+        db.rollback()
+        print(exc)
+
+    cur.close()
+    db.close()
 
     return redirect('coding:questions-manage')
 
