@@ -41,22 +41,29 @@
                     <i class="mdi mdi-plus mr-2"></i>新建题库
                 </button>
 
-                <h6 class="mt-4">题库</h6>
                 <div class="mail-list mt-1">
                     <a href="#" class="active"><i class="mdi mdi-email-outline mr-2"></i>全部题目<span class="ml-1 float-right">(18)</span></a>
                     <a href="#"><i class="mdi mdi-star-outline mr-2"></i>收藏</a>
                     <a href="#"><i class="mdi mdi-trash-can-outline mr-2"></i>Trash</a>
                 </div>
+                <h6 class="mt-4">题库</h6>
+                <div class="mail-list mt-1">
+                    {% for qset in ques_set_list %}
+                        <a href="#"><i class="mdi mdi-email-outline mr-2"></i>{{ qset }}</a>
+                    {% endfor %}
+                </div>
 
 
                 <h6 class="mt-4">试卷</h6>
                 <div class="mail-list mt-1">
-                    <a href="#"><span style="margin-right: 8px;" class="mdi mdi-circle-outline text-info float-left"></span>第1章练习</a>
+                    {% for paper in paper_list %}
+                        <a href="#"><span style="margin-right: 8px;" class="mdi mdi-circle-outline text-info float-left"></span>{{ paper.paper_name }}</a>
+                    {% endfor %}
+                    {% comment %} <a href="#"><span style="margin-right: 8px;" class="mdi mdi-circle-outline text-info float-left"></span>第1章练习</a>
                     <a href="#"><span style="margin-right: 8px;" class="mdi mdi-circle-outline text-warning float-left"></span>第2章练习</a>
                     <a href="#"><span style="margin-right: 8px;" class="mdi mdi-circle-outline text-primary float-left"></span>第3章练习</a>
                     <a href="#"><span style="margin-right: 8px;" class="mdi mdi-circle-outline text-danger float-left"></span>第4章练习</a>
-                    <a href="#"><span style="margin-right: 8px;" class="mdi mdi-circle-outline text-success float-left"></span>第5章练习</a>
-                    <a href="#"><span style="margin-right: 8px;" class="mdi mdi-circle-outline text-info float-left"></span>期中考试</a>
+                    <a href="#"><span style="margin-right: 8px;" class="mdi mdi-circle-outline text-success float-left"></span>第5章练习</a> {% endcomment %}
                 </div>
             </div>
             <!-- End Left sidebar -->

@@ -42,13 +42,18 @@ def questions_manage(request):
     ques_set_form = forms.QuesSetForm(auto_id='id_qset_%s')
     question_form = forms.QuestionForm(auto_id='id_ques_%s')
     paper_form = forms.PaperForm(auto_id='id_paper_%s')
+
     question_list = models.Question.objects.all()
+    ques_set_list = models.QuestionSet.objects.all()
+    paper_list = models.Paper.objects.all()
 
     content = {
         'ques_set_form': ques_set_form,
         'question_form': question_form,
         'paper_form': paper_form,
         'question_list': question_list,
+        'ques_set_list': ques_set_list,
+        'paper_list': paper_list,
     }
 
     return render(request, 'coding/questions-manage.html', context=content)

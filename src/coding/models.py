@@ -86,6 +86,9 @@ class Question(models.Model):
         verbose_name = '题目'
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return str(self.ques_id) + '-' + self.ques_name
+
 
 # XXX(Steve X): many-to-many intermediary models
 class Paper(models.Model):
@@ -127,6 +130,9 @@ class Paper(models.Model):
     class Meta:
         verbose_name = '试卷'
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return str(self.paper_id) + '-' + self.paper_name
 
 
 class QuesAnswerRec(models.Model):
