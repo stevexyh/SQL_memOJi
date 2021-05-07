@@ -24,6 +24,7 @@ from django.contrib import auth
 from django.utils.translation import gettext_lazy as _
 from django.db import transaction
 from coding import forms
+from coding import models
 
 # Create your views here.
 
@@ -41,11 +42,13 @@ def questions_manage(request):
     ques_set_form = forms.QuesSetForm(auto_id='id_qset_%s')
     question_form = forms.QuestionForm(auto_id='id_ques_%s')
     paper_form = forms.PaperForm(auto_id='id_paper_%s')
+    question_list = models.Question.objects.all()
 
     content = {
         'ques_set_form': ques_set_form,
         'question_form': question_form,
         'paper_form': paper_form,
+        'question_list': question_list,
     }
 
     return render(request, 'coding/questions-manage.html', context=content)

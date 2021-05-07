@@ -47,6 +47,9 @@ class QuestionSet(models.Model):
         verbose_name = '题库'
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return str(self.ques_set_id) + '-' + self.ques_set_name
+
 
 # XXX(Steve X): many-to-many intermediary models
 class Question(models.Model):
