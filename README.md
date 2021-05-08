@@ -109,6 +109,7 @@ DESCRIPTIONS
     - [x] 班级管理页面
       - [x] 创建学校
       - [x] 创建班级
+        - [ ] 添加`班级状态`字段
       - [x] 修改信息
 
   - [ ] Coding App/
@@ -119,15 +120,22 @@ DESCRIPTIONS
       - [x] 创建题库
         - [x] 库表结构SQL
         - [ ] 数据导入SQL
+        - [ ] 文件备份&恢复
       - [x] 创建题目
       - [x] 创建试卷
+        - [ ] 随机抽取题目组卷
     - [ ] 答题目录页
     - [ ] 答题详情页
       - [x] SQL正确性验证
+        - [ ] 优化效率: 答题正确则保留，错误则删除临时库(insert/delete)
+        - [ ] 检验索引(show create table)
+        - [ ] 检验视图(show tables, show create view)
     - [ ] 统计页面
 
   - [ ] iCalendar App/
     - [ ] 日历页面
+
+  - [ ] jmeter并发压力测试
 
 - [x] 数据模型
 - [x] 数据字典
