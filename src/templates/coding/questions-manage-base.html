@@ -1,0 +1,347 @@
+{% extends 'base.html' %}
+{% block title %}题库 & 试卷管理{% endblock title %}
+{% block page_title %}题库 & 试卷管理{% endblock page_title %}
+
+<!-- Breadcrumb -->
+{% block breadcrumb %}
+    <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="javascript: void(0);">管理员</a></li>
+            <li class="breadcrumb-item active"><a href="{% url 'coding:questions-manage' %}">题库 & 试卷管理</a></li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+
+<!-- CSS -->
+{% block css %}
+    <!-- DataTables -->
+    <link href="{% static 'libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- Responsive datatable examples -->
+    <link href="{% static 'libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- Form Advanced Styles -->
+    <link href="{% static 'libs/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- Plugins css -->
+    <link href="{% static 'libs/dropzone/min/dropzone.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock css %}
+
+<!-- Main Content -->
+{% block main %}
+    <div class="row">
+        <div class="col-12">
+            <!-- Left sidebar -->
+            <div class="email-leftbar card">
+                <button type="button" class="btn btn-danger btn-block waves-effect waves-light" data-toggle="modal" data-target="#papermodal">
+                    <i class="mdi mdi-plus mr-2"></i>新建试卷
+                </button>
+                <button type="button" class="btn btn-primary btn-block waves-effect waves-light" data-toggle="modal" data-target="#questionsetmodal">
+                    <i class="mdi mdi-plus mr-2"></i>新建题库
+                </button>
+
+                <div class="mail-list mt-1">
+                    <a href="#" class="active"><i class="mdi mdi-email-outline mr-2"></i>全部题目<span class="ml-1 float-right">(18)</span></a>
+                    <a href="#"><i class="mdi mdi-star-outline mr-2"></i>收藏</a>
+                    <a href="#"><i class="mdi mdi-trash-can-outline mr-2"></i>Trash</a>
+                </div>
+                <h6 class="mt-4">题库</h6>
+                <div class="mail-list mt-1">
+                    {% for qset in ques_set_list %}
+                        <a href="#"><i class="mdi mdi-email-outline mr-2"></i>{{ qset }}</a>
+                    {% endfor %}
+                </div>
+
+
+                <h6 class="mt-4">试卷</h6>
+                <div class="mail-list mt-1">
+                    {% for paper in paper_list %}
+                        <a href="#"><span style="margin-right: 8px;" class="mdi mdi-circle-outline text-info float-left"></span>{{ paper.paper_name }}</a>
+                    {% endfor %}
+                    {% comment %} <a href="#"><span style="margin-right: 8px;" class="mdi mdi-circle-outline text-info float-left"></span>第1章练习</a>
+                    <a href="#"><span style="margin-right: 8px;" class="mdi mdi-circle-outline text-warning float-left"></span>第2章练习</a>
+                    <a href="#"><span style="margin-right: 8px;" class="mdi mdi-circle-outline text-primary float-left"></span>第3章练习</a>
+                    <a href="#"><span style="margin-right: 8px;" class="mdi mdi-circle-outline text-danger float-left"></span>第4章练习</a>
+                    <a href="#"><span style="margin-right: 8px;" class="mdi mdi-circle-outline text-success float-left"></span>第5章练习</a> {% endcomment %}
+                </div>
+            </div>
+            <!-- End Left sidebar -->
+
+
+            <!-- Right Sidebar -->
+            <div class="email-rightbar mb-3">
+
+                <div class="card">
+                    {% block right_header %}
+
+                    {% endblock right_header %}
+
+                    <div class="btn-toolbar p-3" role="toolbar">
+                        <div style="padding: 4px 0px 0px 4px;">
+                            <a href="" class="btn btn-success mb-2" data-toggle="modal" data-target="#questionmodal"><i class="mdi mdi-plus mr-2"></i>添加题目</a>
+                        </div>
+                    </div>
+
+                    <div class="card-body  pt-0">
+                        {% block right_body %}
+
+                        {% endblock right_body %} <!-- right side content -->
+                    </div>
+
+                </div> <!-- card -->
+            </div> <!-- end Col-9 -->
+        </div>
+    </div><!-- End row -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="papermodal" tabindex="-1" role="dialog" aria-labelledby="papermodalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="papermodalTitle">新建试卷</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" class="needs-validation" action="{% url 'coding:paper-add' %}" novalidate>
+                        {% csrf_token %}
+                        <div class="row">
+                            {% for data in paper_form %}
+                                {% if data.name == 'paper_desc' %}
+                                    <div class="form-group mb-4 col-12">
+                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
+                                        <div>{{ data }}</div>
+                                    </div>
+                                {% else %}
+                                    <div class="form-group mb-4 col-6">
+                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
+                                        <div>{{ data }}</div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                            <button type="submit" class="btn btn-primary">保存<i class="fab fa-telegram-plane ml-1"></i></button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="questionsetmodal" tabindex="-1" role="dialog" aria-labelledby="questionsetmodalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="questionsetmodalTitle">新建题库</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" class="needs-validation" action="{% url 'coding:ques-set-add' %}" novalidate>
+                        {% csrf_token %}
+                        <div class="row">
+                            {% for data in ques_set_form %}
+                                {% if data.name == 'ques_set_desc' or data.name == 'create_sql' %}
+                                    <div class="form-group mb-4 col-12">
+                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
+                                        <div>{{ data }}</div>
+                                    </div>
+                                {% else %}
+                                    <div class="form-group mb-4 col-6">
+                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
+                                        <div>{{ data }}</div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                            <button type="submit" class="btn btn-primary">保存<i class="fab fa-telegram-plane ml-1"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="questionmodal" tabindex="-1" role="dialog" aria-labelledby="questionmodalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paperTitle">添加题目</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" class="needs-validation" action="{% url 'coding:question-add' %}" novalidate>
+                        {% csrf_token %}
+                        <div class="row">
+                            {% for data in question_form %}
+                                {% if data.name == 'ques_desc' or data.name == 'ques_ans' %}
+                                    <div class="form-group mb-4 col-12">
+                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
+                                        <div>{{ data }}</div>
+                                    </div>
+                                {% else %}
+                                    <div class="form-group mb-4 col-6">
+                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
+                                        <div>{{ data }}</div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="text-center mt-4" style="padding-bottom: 50px;">
+                            <button type="submit" class="btn btn-primary waves-effect waves-light">保存<i class="fab fa-telegram-plane ml-1"></i></button>
+                        </div>
+
+                    </form>
+                    <h4 class="card-title">批量导入题目</h4>
+                    <p class="card-title-desc">在此上传 <code>.csv</code> 格式题目列表可批量导入题目。<br><br>
+                        列表需包含以下字段:
+                        <ul>
+                            <li>
+                                <code>ques_name</code>(题目名)<br>
+                            </li>
+                            <li>
+                                <code>initiator</code>(发起人)<br>
+                            </li>
+                            <li>
+                                <code>ques_db</code>(所属题库)<br>
+                            </li>
+                            <li>
+                                <code>ques_difficulty</code>(题目难度)<br>
+                            </li>
+                            <li>
+                                <code>ques_desc</code>(描述)<br>
+                            </li>
+                            <li>
+                                <code>ques_ans</code>(标准答案)<br>
+                            </li>
+                        </ul>
+                    </p>
+
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <i class="mdi mdi-alert-outline mr-2"></i>
+                        不按格式将无法解析列表。
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div>
+                        <form action="#" class="dropzone" id="file-dropzone-CSV" method="POST" enctype="multipart/form-data">
+                            <div class="fallback">
+                                <input name="file" type="file" multiple="multiple">
+                            </div>
+                            <div class="dz-message needsclick">
+                                <div class="mb-3">
+                                    <i class="display-4 text-muted ri-upload-cloud-2-line"></i>
+                                </div>
+
+                                <h4>拖动文件至此或点击此处选择文件</h4>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn btn-primary waves-effect waves-light">上传文件</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">保存<i class="fab fa-telegram-plane ml-1"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="question-edit-modal" tabindex="-1" role="dialog" aria-labelledby="question-edit-modalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paperTitle">编辑题目</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="form-group mb-4 col-6">
+                                <label for="question-id">题号</label>
+                                <input id="question-id" class="form-control input-mask" data-inputmask="'mask': 'NPU9999'">
+                                <span class="text-muted">e.g "NPU0001"</span>
+                            </div>
+                            <div class="form-group mb-4 col-6">
+                                <label for="question-name">题目名</label>
+                                <input id="question-name" class="form-control">
+                            </div>
+                            <div class="form-group mb-4 col-6">
+                                <label for="validationCustom02" class="control-label">所属题库</label>
+                                <select class="form-control select2" required>
+                                    <option selected>请选择...</option>
+                                    <option value="NPU_DB1">NPU_DB1</option>
+                                    <option value="NPU_DB2">NPU_DB2</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-4 col-6">
+                                <label for="validationCustom02" class="control-label">题目难度</label>
+                                <select class="form-control select2" required>
+                                    <option selected>请选择...</option>
+                                    <option value="easy">简单</option>
+                                    <option value="medium">中等</option>
+                                    <option value="hard">困难</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-4 col-12">
+                                <label for="question-desc">题目描述</label>
+                                <textarea id="question-desc" class="form-control" rows="3"></textarea>
+                                <div class="col-12 text-center mt-4" style="padding-top: 10px;">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">保存<i class="fab fa-telegram-plane ml-1"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock main %}
+
+<!-- JS -->
+{% block js %}
+    <!-- Required datatable js -->
+    <script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+    <!-- Responsive examples -->
+    <script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+    <!-- Form Validation -->
+    <script src="{% static 'js/pages/form-validation.init.js' %}"></script>
+
+    <!-- Plugins js -->
+    <script src="{% static 'libs/dropzone/min/dropzone.min.js' %}"></script>
+
+    <!-- Form Advanced -->
+    <script src="{% static 'libs/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+
+    <!-- form mask -->
+    <script src="{% static 'libs/inputmask/jquery.inputmask.min.js' %}"></script>
+
+    <!-- form mask init -->
+    <script src="{% static 'js/pages/form-mask.init.js' %}"></script>
+
+    <!-- Custom Pages -->
+    <script src="{% static 'js/custom-pages/questions-manage.js' %}"></script>
+    <script src="{% static 'js/pages/form-advanced.init.js' %}"></script>
+{% endblock js %}

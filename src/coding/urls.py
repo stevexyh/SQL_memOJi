@@ -30,6 +30,7 @@ urlpatterns = [
     path('statistics/', views.statistics, name='statistics'),
 
     # Questions-Manage Page
+    path('questions-manage-base/', views.questions_manage_base, name='questions-manage-base'),
     path('questions-manage/', views.questions_manage, name='questions-manage'),
     path('questions-manage/ques-set-add/', views.ques_set_add, name='ques-set-add'),
     path('questions-manage/question-add/', views.question_add, name='question-add'),
