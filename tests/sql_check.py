@@ -103,6 +103,7 @@ def diff(cur_1: pymysql.Connect.cursor, cur_2: pymysql.Connect.cursor):
     tables = [tb[0] for tb in cur_1.fetchall()]
     res = True
 
+    # TODO(Steve X): 检验索引、视图
     for tb in tables:
         cur_1.execute(f"""select * from {tb};""")
         cur_2.execute(f"""select * from {tb};""")
