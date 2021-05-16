@@ -128,15 +128,15 @@ class PaperForm(ModelForm):
 
         fields = [
             'paper_name',
-            'paper_type',
             'initiator',
             'publish_time',
-            'start_time',
-            'end_time',
             'paper_desc',
-            'classroom',
             'question',
-            'paper_active',
+            # 'paper_type',
+            # 'start_time',
+            # 'end_time',
+            # 'paper_active',
+            # 'classroom',
         ]
 
         error_messages = {
@@ -146,8 +146,8 @@ class PaperForm(ModelForm):
         # FIXME(Steve X): datetime picker above modal
         widgets = {
             'initiator': wid.Select(attrs={'class': 'select2'}),
-            'paper_type': wid.Select(attrs={'class': 'select2'}),
-            'classroom': wid.SelectMultiple(attrs={'class': 'select2'}),
+            # 'paper_type': wid.Select(attrs={'class': 'select2'}),
+            # 'classroom': wid.SelectMultiple(attrs={'class': 'select2'}),
             'question': wid.SelectMultiple(attrs={'class': 'select2'}),
             'paper_desc': wid.Textarea(attrs={'rows': 3}),
             'publish_time': CustomDateInput(attrs={
@@ -157,18 +157,18 @@ class PaperForm(ModelForm):
                 'placeholder': 'yyyy-mm-dd hh:MM:ss',
                 'data-date-autoclose': 'true',
             }),
-            'start_time': CustomDateInput(attrs={
-                # 'type': 'datetime',
-                # 'data-provide': 'datepicker',
-                # 'data-date-format': 'yyyy-mm-dd hh:MM:ss',
-                'placeholder': 'yyyy-mm-dd hh:MM:ss',
-                'data-date-autoclose': 'true',
-            }),
-            'end_time': CustomDateInput(attrs={
-                # 'type': 'datetime',
-                # 'data-provide': 'datepicker',
-                # 'data-date-format': 'yyyy-mm-dd hh:MM:ss',
-                'placeholder': 'yyyy-mm-dd hh:MM:ss',
-                'data-date-autoclose': 'true',
-            }),
+            # 'start_time': CustomDateInput(attrs={
+            #     # 'type': 'datetime',
+            #     # 'data-provide': 'datepicker',
+            #     # 'data-date-format': 'yyyy-mm-dd hh:MM:ss',
+            #     'placeholder': 'yyyy-mm-dd hh:MM:ss',
+            #     'data-date-autoclose': 'true',
+            # }),
+            # 'end_time': CustomDateInput(attrs={
+            #     # 'type': 'datetime',
+            #     # 'data-provide': 'datepicker',
+            #     # 'data-date-format': 'yyyy-mm-dd hh:MM:ss',
+            #     'placeholder': 'yyyy-mm-dd hh:MM:ss',
+            #     'data-date-autoclose': 'true',
+            # }),
         }

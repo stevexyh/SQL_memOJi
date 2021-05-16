@@ -58,7 +58,7 @@ class Question(models.Model):
     | 字段名                 | 数据类型             | 非空  | Key | 默认值       |
     |-----------------------|---------------------|------|-----|-------------|
     | ques_id               | varchar             |      | PRI |             |
-    | ques_name             | varchar             | NULL |     |             |
+    | ques_name             | varchar             | NULL |     | 未命名       |
     | ques_set              | varchar             |      | FK  |             |
     | ques_difficulty       | int                 | NULL |     |             |
     | ques_desc             | varchar             |      |     |             |
@@ -75,7 +75,7 @@ class Question(models.Model):
         HARD = 2, _('困难')
 
     ques_id = models.AutoField(verbose_name=_('题目ID'), primary_key=True)
-    ques_name = models.CharField(verbose_name=_('题目名称'), max_length=100, null=True, default=_('未命名题目'))
+    ques_name = models.CharField(verbose_name=_('题目名称'), max_length=100, null=True, default=_('未命名'))
     ques_set = models.ForeignKey(verbose_name=_('所属题库'), to=QuestionSet, on_delete=models.CASCADE)
     ques_difficulty = models.IntegerField(verbose_name=_('题目难度'), choices=Difficulty.choices, default=Difficulty.UNKNOWN)
     ques_desc = models.TextField(verbose_name=_('题目描述'))
@@ -98,34 +98,30 @@ class Paper(models.Model):
     |-----------------------|---------------------|------|-----|-------------|
     | paper_id              | varchar             |      | PRI |             |
     | paper_name            | varchar             |      |     |             |
-    | paper_type            | int                 |      |     |             |
     | publish_time          | datetime            |      |     |             |
-    | start_time            | datetime            |      |     |             |
-    | end_time              | datetime            |      |     |             |
-    | paper_active          | bool                |      |     | True        |
     | paper_desc            | varchar             |      |     |             |
     | initiator             | varchar             |      | API |             |
-    | classroom             | varchar             |      | M2M |             |
     | question              | varchar             |      | M2M |             |
+    # | paper_type            | int                 |      |     |             |
+    # | start_time            | datetime            |      |     |             |
+    # | end_time              | datetime            |      |     |             |
+    # | paper_active          | bool                |      |     | True        |
+    # | classroom             | varchar             |      | M2M |             |
     '''
 
-    class PaperType(models.IntegerChoices):
-        '''Enumeration of paper type'''
+    # class PaperType(models.IntegerChoices):
+    #     '''Enumeration of paper type'''
 
-        EXERCISE = 0, _('练习')
-        EXAM = 1, ('考试')
+    #     EXERCISE = 0, _('练习')
+    #     EXAM = 1, ('考试')
 
     paper_id = models.AutoField(verbose_name=_('试卷ID'), primary_key=True)
     paper_name = models.CharField(verbose_name=_('试卷名称'), max_length=100)
-    paper_type = models.IntegerField(verbose_name=_('试卷类型'), choices=PaperType.choices)
     publish_time = models.DateTimeField(verbose_name=_('发布时间'))
-    start_time = models.DateTimeField(verbose_name=_('开始时间'))
-    end_time = models.DateTimeField(verbose_name=_('结束时间'))
-    paper_active = models.BooleanField(verbose_name=_('发布状态'), default=False)
     paper_desc = models.TextField(verbose_name=_('试卷描述'), null=True, blank=True)
     initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL, null=True)
-    classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
     question = models.ManyToManyField(verbose_name=_('题目列表'), to=Question)
+    # paper_type = models.IntegerField(verbose_name=_('试卷类型'), choices=PaperType.choices)
 
     class Meta:
         verbose_name = '试卷'
@@ -133,6 +129,66 @@ class Paper(models.Model):
 
     def __str__(self):
         return str(self.paper_id) + '-' + self.paper_name
+
+
+class Exam(models.Model):
+    '''
+    Exam Table
+    | 字段名                 | 数据类型             | 非空  | Key    | 默认值       |
+    |-----------------------|---------------------|------|--------|-------------|
+    | exam_id               | varchar             |      | PRI    |             |
+    | exam_name             | varchar             |      |        | 未命名       |
+    | paper                 | varchar             |      | FK     |             |
+    | start_time            | datetime            |      |        |             |
+    | end_time              | datetime            |      |        |             |
+    | publish_time          | datetime            |      |        |             |
+    | active                | bool                |      |        | True        |
+    | classroom             | varchar             |      | M2M    |             |
+    '''
+
+    exam_id = models.AutoField(verbose_name=_('考试ID'), primary_key=True)
+    exam_name = models.CharField(verbose_name=_('考试名称'), max_length=100, default=_('未命名'))
+    paper = models.OneToOneField(verbose_name=_('试卷'), to=Paper, on_delete=models.CASCADE)
+    start_time = models.DateTimeField(verbose_name=_('开始时间'), default=None)
+    end_time = models.DateTimeField(verbose_name=_('结束时间'), default=None)
+    publish_time = models.DateTimeField(verbose_name=_('发布时间'), default=None)
+    active = models.BooleanField(verbose_name=_('发布状态'), default=False)
+    classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
+
+    def __str__(self):
+        return str(self.paper)
+
+    class Meta:
+        verbose_name = '考试'
+        verbose_name_plural = verbose_name
+
+
+class Exercise(models.Model):
+    '''
+    Exercise Table
+    | 字段名                 | 数据类型             | 非空  | Key    | 默认值       |
+    |-----------------------|---------------------|------|--------|-------------|
+    | exer_id               | varchar             |      | PRI    |             |
+    | exer_name             | varchar             |      |        | 未命名       |
+    | paper                 | varchar             |      | FK,UNI |             |
+    | publish_time          | datetime            |      |        |             |
+    | active                | bool                |      |        | True        |
+    | classroom             | varchar             |      | M2M    |             |
+    '''
+
+    exer_id = models.AutoField(verbose_name=_('练习ID'), primary_key=True)
+    exer_name = models.CharField(verbose_name=_('练习名称'), max_length=100, default=_('未命名'))
+    paper = models.OneToOneField(verbose_name=_('试卷'), to=Paper, on_delete=models.CASCADE)
+    publish_time = models.DateTimeField(verbose_name=_('发布时间'), default=None)
+    active = models.BooleanField(verbose_name=_('发布状态'), default=False)
+    classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
+
+    def __str__(self):
+        return str(self.paper)
+
+    class Meta:
+        verbose_name = '练习'
+        verbose_name_plural = verbose_name
 
 
 class QuesAnswerRec(models.Model):
@@ -173,7 +229,7 @@ class PaperAnswerRec(models.Model):
 
     rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
     student = models.ForeignKey(verbose_name=_('学生'), to='user.Student', on_delete=models.CASCADE)
-    paper = models.ForeignKey(verbose_name=_('题目'), to=Paper, on_delete=models.DO_NOTHING)
+    paper = models.ForeignKey(verbose_name=_('试卷'), to=Paper, on_delete=models.DO_NOTHING)
     start_time = models.DateTimeField(verbose_name=_('开始时间'))
     end_time = models.DateTimeField(verbose_name=_('交卷时间'))
     score = models.IntegerField(verbose_name=_('总成绩'), default=0)
