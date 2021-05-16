@@ -60,8 +60,7 @@ class ExamAdmin(admin.ModelAdmin):
 
     # class ClassroomInline(admin.TabularInline):
     #     model = models.Exam.classroom.through
-    pass
-    # list_display = ['exam_name', 'paper', 'start_time', 'end_time', 'active']
+    list_display = ['exam_name', 'paper', 'start_time', 'end_time', 'publish_time', 'active']
     # inlines = [ClassroomInline]
 
 
@@ -71,8 +70,7 @@ class ExerciseAdmin(admin.ModelAdmin):
 
     # class ClassroomInline(admin.TabularInline):
     #     model = models.Exercise.classroom.through
-    pass
-    # list_display = ['exer_name', 'paper', 'active']
+    list_display = ['exer_name', 'paper', 'publish_time', 'active']
     # inlines = [ClassroomInline]
 
 

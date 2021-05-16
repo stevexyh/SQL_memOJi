@@ -117,7 +117,7 @@ class Paper(models.Model):
 
     paper_id = models.AutoField(verbose_name=_('试卷ID'), primary_key=True)
     paper_name = models.CharField(verbose_name=_('试卷名称'), max_length=100)
-    publish_time = models.DateTimeField(verbose_name=_('发布时间'))
+    publish_time = models.DateTimeField(verbose_name=_('发布时间'), auto_now_add=True)
     paper_desc = models.TextField(verbose_name=_('试卷描述'), null=True, blank=True)
     initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL, null=True)
     question = models.ManyToManyField(verbose_name=_('题目列表'), to=Question)
@@ -151,7 +151,7 @@ class Exam(models.Model):
     paper = models.OneToOneField(verbose_name=_('试卷'), to=Paper, on_delete=models.CASCADE)
     start_time = models.DateTimeField(verbose_name=_('开始时间'), default=None)
     end_time = models.DateTimeField(verbose_name=_('结束时间'), default=None)
-    publish_time = models.DateTimeField(verbose_name=_('发布时间'), default=None)
+    publish_time = models.DateTimeField(verbose_name=_('发布时间'), auto_now_add=True)
     active = models.BooleanField(verbose_name=_('发布状态'), default=False)
     classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
 
@@ -179,7 +179,7 @@ class Exercise(models.Model):
     exer_id = models.AutoField(verbose_name=_('练习ID'), primary_key=True)
     exer_name = models.CharField(verbose_name=_('练习名称'), max_length=100, default=_('未命名'))
     paper = models.OneToOneField(verbose_name=_('试卷'), to=Paper, on_delete=models.CASCADE)
-    publish_time = models.DateTimeField(verbose_name=_('发布时间'), default=None)
+    publish_time = models.DateTimeField(verbose_name=_('发布时间'), auto_now_add=True)
     active = models.BooleanField(verbose_name=_('发布状态'), default=False)
     classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
 

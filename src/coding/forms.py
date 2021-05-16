@@ -129,7 +129,6 @@ class PaperForm(ModelForm):
         fields = [
             'paper_name',
             'initiator',
-            'publish_time',
             'paper_desc',
             'question',
             # 'paper_type',
@@ -150,13 +149,6 @@ class PaperForm(ModelForm):
             # 'classroom': wid.SelectMultiple(attrs={'class': 'select2'}),
             'question': wid.SelectMultiple(attrs={'class': 'select2'}),
             'paper_desc': wid.Textarea(attrs={'rows': 3}),
-            'publish_time': CustomDateInput(attrs={
-                # 'type': 'datetime',
-                # 'data-provide': 'datepicker',
-                # 'data-date-format': 'yyyy-mm-dd hh:MM:ss',
-                'placeholder': 'yyyy-mm-dd hh:MM:ss',
-                'data-date-autoclose': 'true',
-            }),
             # 'start_time': CustomDateInput(attrs={
             #     # 'type': 'datetime',
             #     # 'data-provide': 'datepicker',
