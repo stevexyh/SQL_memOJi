@@ -128,6 +128,7 @@ class Classroom(models.Model):
     | class_name            | varchar             |      |      |            |
     | teacher               | varchar             |      | FK   |            |
     | class_desc            | varchar             |      | NULL |            |
+    | active                | bool                |      |      | True       |
     | stud_list             | varchar(Python.List)|      |      |            |
     '''
 
@@ -136,6 +137,7 @@ class Classroom(models.Model):
     class_name = models.CharField(verbose_name=_('班级名称'), max_length=150)
     teacher = models.ForeignKey(verbose_name=_('负责教师'), to=Teacher, on_delete=models.SET_NULL, default=None, null=True, blank=False)
     class_desc = models.CharField(verbose_name=_('班级描述'), max_length=200, null=True, blank=True)
+    active = models.BooleanField(verbose_name=_('有效状态'), default=True)
     stud_list = models.CharField(verbose_name=_('学生列表'), max_length=2000, null=True, blank=True)
 
     def __str__(self):

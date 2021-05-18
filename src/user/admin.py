@@ -97,7 +97,7 @@ class SchoolAdmin(admin.ModelAdmin):
     list_display = ['school_id', 'school_name', 'school_name_en', 'school_abbr']
 
 
-# Fields: 'class_id', 'school_id', 'class_name', 'teacher_name', 'class_desc', 'stud_list'
+# Fields: 'class_id', 'school_id', 'class_name', 'teacher_name', 'class_desc', 'active', 'stud_list'
 @admin.register(models.Classroom)
 class ClassroomAdmin(admin.ModelAdmin):
-    list_display = ['class_id', 'school', 'class_name', 'teacher', 'class_desc', 'stud_list']
+    list_display = ['class_id', 'school', 'class_name', 'teacher', 'class_desc', 'active', 'stud_list']
