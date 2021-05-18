@@ -99,7 +99,7 @@ class Paper(models.Model):
     | paper_id              | varchar             |      | PRI |             |
     | paper_name            | varchar             |      |     |             |
     | publish_time          | datetime            |      |     |             |
-    | paper_desc            | varchar             |      |     |             |
+    | paper_desc            | varchar             | NULL |     |             |
     | initiator             | varchar             |      | API |             |
     | question              | varchar             |      | M2M |             |
     '''
@@ -130,6 +130,7 @@ class Exam(models.Model):
     | start_time            | datetime            |      |        |             |
     | end_time              | datetime            |      |        |             |
     | publish_time          | datetime            |      |        |             |
+    | desc                  | varchar             | NULL |        |             |
     | active                | bool                |      |        | True        |
     | classroom             | varchar             |      | M2M    |             |
     '''
@@ -140,6 +141,7 @@ class Exam(models.Model):
     start_time = models.DateTimeField(verbose_name=_('开始时间'), default=None)
     end_time = models.DateTimeField(verbose_name=_('结束时间'), default=None)
     publish_time = models.DateTimeField(verbose_name=_('发布时间'), auto_now_add=True)
+    desc = models.TextField(verbose_name=_('描述'), null=True, blank=True)
     active = models.BooleanField(verbose_name=_('发布状态'), default=False)
     classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
 
@@ -160,6 +162,7 @@ class Exercise(models.Model):
     | exer_name             | varchar             |      |        | 未命名       |
     | paper                 | varchar             |      | FK,UNI |             |
     | publish_time          | datetime            |      |        |             |
+    | desc                  | varchar             | NULL |        |             |
     | active                | bool                |      |        | True        |
     | classroom             | varchar             |      | M2M    |             |
     '''
@@ -168,6 +171,7 @@ class Exercise(models.Model):
     exer_name = models.CharField(verbose_name=_('练习名称'), max_length=100, default=_('未命名'))
     paper = models.OneToOneField(verbose_name=_('试卷'), to=Paper, on_delete=models.CASCADE)
     publish_time = models.DateTimeField(verbose_name=_('发布时间'), auto_now_add=True)
+    desc = models.TextField(verbose_name=_('描述'), null=True, blank=True)
     active = models.BooleanField(verbose_name=_('发布状态'), default=False)
     classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
 
