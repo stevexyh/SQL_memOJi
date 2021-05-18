@@ -131,11 +131,6 @@ class PaperForm(ModelForm):
             'initiator',
             'paper_desc',
             'question',
-            # 'paper_type',
-            # 'start_time',
-            # 'end_time',
-            # 'paper_active',
-            # 'classroom',
         ]
 
         error_messages = {
@@ -145,8 +140,6 @@ class PaperForm(ModelForm):
         # FIXME(Steve X): datetime picker above modal
         widgets = {
             'initiator': wid.Select(attrs={'class': 'select2'}),
-            # 'paper_type': wid.Select(attrs={'class': 'select2'}),
-            # 'classroom': wid.SelectMultiple(attrs={'class': 'select2'}),
             'question': wid.SelectMultiple(attrs={'class': 'select2'}),
             'paper_desc': wid.Textarea(attrs={'rows': 3}),
             # 'start_time': CustomDateInput(attrs={

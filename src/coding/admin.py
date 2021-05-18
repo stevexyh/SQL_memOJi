@@ -39,7 +39,6 @@ class QuestionSetAdmin(admin.ModelAdmin):
 
 
 # Fields: 'paper_id', 'paper_name', 'publish_time', 'paper_desc', 'initiator', 'question',
-# Fields: ('paper_type', 'start_time', 'end_time', 'paper_active', 'classroom')
 @admin.register(models.Paper)
 class PaperAdmin(admin.ModelAdmin):
 
@@ -48,7 +47,6 @@ class PaperAdmin(admin.ModelAdmin):
 
     list_display = [
         'paper_id', 'paper_name', 'paper_desc', 'initiator', 'publish_time',
-        # 'paper_type', 'start_time', 'end_time', 'paper_active',
     ]
 
     inlines = [QuestionInline]
@@ -60,8 +58,9 @@ class ExamAdmin(admin.ModelAdmin):
 
     # class ClassroomInline(admin.TabularInline):
     #     model = models.Exam.classroom.through
-    list_display = ['exam_name', 'paper', 'start_time', 'end_time', 'publish_time', 'active']
+
     # inlines = [ClassroomInline]
+    list_display = ['exam_name', 'paper', 'start_time', 'end_time', 'publish_time', 'active']
 
 
 # Fields: 'exer_id', 'exer_name', 'paper', 'publish_time', 'active', 'classroom'
@@ -70,8 +69,9 @@ class ExerciseAdmin(admin.ModelAdmin):
 
     # class ClassroomInline(admin.TabularInline):
     #     model = models.Exercise.classroom.through
-    list_display = ['exer_name', 'paper', 'publish_time', 'active']
+
     # inlines = [ClassroomInline]
+    list_display = ['exer_name', 'paper', 'publish_time', 'active']
 
 
 # Fields: 'rec_id', 'student', 'question', 'ans_status', 'submit_cnt'

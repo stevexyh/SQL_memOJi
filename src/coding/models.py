@@ -102,18 +102,7 @@ class Paper(models.Model):
     | paper_desc            | varchar             |      |     |             |
     | initiator             | varchar             |      | API |             |
     | question              | varchar             |      | M2M |             |
-    # | paper_type            | int                 |      |     |             |
-    # | start_time            | datetime            |      |     |             |
-    # | end_time              | datetime            |      |     |             |
-    # | paper_active          | bool                |      |     | True        |
-    # | classroom             | varchar             |      | M2M |             |
     '''
-
-    # class PaperType(models.IntegerChoices):
-    #     '''Enumeration of paper type'''
-
-    #     EXERCISE = 0, _('练习')
-    #     EXAM = 1, ('考试')
 
     paper_id = models.AutoField(verbose_name=_('试卷ID'), primary_key=True)
     paper_name = models.CharField(verbose_name=_('试卷名称'), max_length=100)
@@ -121,7 +110,6 @@ class Paper(models.Model):
     paper_desc = models.TextField(verbose_name=_('试卷描述'), null=True, blank=True)
     initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL, null=True)
     question = models.ManyToManyField(verbose_name=_('题目列表'), to=Question)
-    # paper_type = models.IntegerField(verbose_name=_('试卷类型'), choices=PaperType.choices)
 
     class Meta:
         verbose_name = '试卷'
