@@ -34,7 +34,15 @@ from utils import token as tk
 def exams_manage(request):
     '''Render exams-manage template'''
 
-    return render(request, 'coding/exams-manage.html')
+    exams_list = models.Exam.objects.all()
+    exer_list = models.Exercise.objects.all()
+
+    content = {
+        'exams_list': exams_list,
+        'exer_list': exer_list,
+    }
+
+    return render(request, 'coding/exams-manage.html', context=content)
 
 
 #------------------------------------Questions Manage Page-----------------------------------#
