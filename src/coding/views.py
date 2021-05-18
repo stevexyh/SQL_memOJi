@@ -34,12 +34,14 @@ from utils import token as tk
 def exams_manage(request):
     '''Render exams-manage template'''
 
-    exams_list = models.Exam.objects.all()
-    exer_list = models.Exercise.objects.all()
+    exams_list = models.Exam.objects.order_by('publish_time')
+    exer_list = models.Exercise.objects.order_by('publish_time')
+    next_exam = exams_list.first()
 
     content = {
         'exams_list': exams_list,
         'exer_list': exer_list,
+        'next_exam': next_exam,
     }
 
     return render(request, 'coding/exams-manage.html', context=content)
