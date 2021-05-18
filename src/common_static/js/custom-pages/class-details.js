@@ -161,4 +161,4 @@ Dropzone.options.fileDropzoneStud = {
     dictCancelUpload: "dictCancelUpload",
     dictFileTooBig: "文件大小: {{filesize}} MB\n最大限制: {{maxFilesize}} MB",
 }
-alert("Dropzone.JS加载正常\nRemove Before Flight");
+// alert("Dropzone.JS加载正常\nRemove Before Flight");
