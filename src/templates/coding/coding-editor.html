@@ -15,6 +15,8 @@
 
 <!-- CSS -->
 {% block css %}
+    <!-- Plugins css -->
+    <link href="{% static 'libs/monaco-editor/min/vs/editor/editor.main.css' %}" rel="stylesheet" type="text/css" />
 
 {% endblock css %}
 
@@ -23,7 +25,29 @@
     <!-- Monaco Editor -->
     <div class="row">
         <div class="col-6">
-            
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">MySQL Editor</h4>
+                    <p class="card-title-desc">在此区域作答</p>
+
+                    <div id="container" style="width: 100%; height: 400px;"></div>
+
+                    <script>
+                        var require = { paths: { vs: "{% static 'libs/monaco-editor/min/vs' %}"} };
+                    </script>
+                    <script src="{% static 'libs/monaco-editor/min/vs/loader.js' %}"></script>
+                    <script src="{% static 'libs/monaco-editor/min/vs/editor/editor.main.nls.js' %}"></script>
+                    <script src="{% static 'libs/monaco-editor/min/vs/editor/editor.main.js' %}"></script>
+
+                    <script>
+                        var editor = monaco.editor.create(document.getElementById('container'), {
+                            value: ['# Write your MySQL statement here.', ''].join('\n'),
+                            language: 'mysql'
+                        });
+                    </script>
+                </div>
+            </div>
+
         </div>
         <div class="col-6">
 
