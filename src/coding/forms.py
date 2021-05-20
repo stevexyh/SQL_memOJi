@@ -48,6 +48,7 @@ class QuesSetForm(ModelForm):
             'ques_set_name',
             'initiator',
             'ques_set_desc',
+            'db_name',
             'create_sql',
         ]
 

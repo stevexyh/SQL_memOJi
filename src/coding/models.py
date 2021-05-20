@@ -33,6 +33,7 @@ class QuestionSet(models.Model):
     | ques_set_id           | varchar             |      | PRI |             |
     | ques_set_name         | varchar             |      |     |             |
     | ques_set_desc         | varchar             |      |     |             |
+    | db_name               | varchar             |      |     |             |
     | create_sql            | varchar             |      |     |             |
     | initiator             | varchar             |      | API |             |
     '''
@@ -40,6 +41,7 @@ class QuestionSet(models.Model):
     ques_set_id = models.AutoField(verbose_name=_('题库ID'), primary_key=True)
     ques_set_name = models.CharField(verbose_name=_('题库名称'), max_length=100)
     ques_set_desc = models.TextField(verbose_name=_('题库描述'), null=True, blank=True)
+    db_name = models.CharField(verbose_name=_('数据库名称'), max_length=100, default='null')
     create_sql = models.TextField(verbose_name=_('创建SQL'))
     initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL, null=True)
 

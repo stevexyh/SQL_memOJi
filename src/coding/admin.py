@@ -35,7 +35,13 @@ class QuestionAdmin(admin.ModelAdmin):
 # Fields: 'ques_set_id', 'ques_set_name', 'ques_set_desc', 'create_sql', 'initiator'
 @admin.register(models.QuestionSet)
 class QuestionSetAdmin(admin.ModelAdmin):
-    list_display = ['ques_set_id', 'ques_set_name', 'ques_set_desc', 'create_sql', 'initiator']
+    list_display = ['ques_set_id', 'ques_set_name', 'ques_set_desc', 'db_name', 'create_sql', 'initiator']
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return ["db_name"]
+        else:
+            return []
 
 
 # Fields: 'paper_id', 'paper_name', 'publish_time', 'paper_desc', 'initiator', 'question',
