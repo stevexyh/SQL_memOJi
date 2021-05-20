@@ -30,14 +30,14 @@
 
                     <div class="float-right ml-2">
                         <div>
-                            2021年4月17日 <br> 10:30-12:30
+                            开始: {{ next_exam.start_time }} <br> 结束: {{ next_exam.end_time }}
                         </div>
                     </div>
                     <div class="mb-3">
-                        <a href="#" class="">#QUIZ200417</a>
+                        <a href="#" class="">#EXAM{{ next_exam.exam_id }}</a>
                     </div>
                     <div>
-                        <h5 class="font-size-16"><a href="javascript: void(0);" class="text-dark">期中考试</a></h5>
+                        <h5 class="font-size-16"><a href="javascript: void(0);" class="text-dark">{{ next_exam.exam_name }}</a></h5>
                         <p class="mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi distinctio optio rerum blanditiis tempore illo aliquid cumque quos dolore sint suscipit placeat dignissimos molestiae, nisi nobis repudiandae cum. Dicta, tempora?</p>
                     </div>
 
@@ -57,7 +57,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="float-right"><a href="{% url 'coding:coding' %}" class="btn btn-primary mt-1 waves-effect waves-light"><i class="mdi mdi-arrow-left mr-3"></i>进入</a></div>
+                    <div class="float-right"><a href="{% url 'coding:coding-editor' 'exam' next_exam.exam_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light"><i class="mdi mdi-arrow-left mr-3"></i>进入</a></div>
 
                 </div>
             </div>
