@@ -166,7 +166,17 @@ def paper_add(request):
 def coding(request):
     '''Render coding template'''
 
-    return render(request, 'coding/coding.html')
+    exams_list = models.Exam.objects.order_by('publish_time')
+    exer_list = models.Exercise.objects.order_by('publish_time')
+    next_exam = exams_list.first()
+
+    content = {
+        'exams_list': exams_list,
+        'exer_list': exer_list,
+        'next_exam': next_exam,
+    }
+
+    return render(request, 'coding/coding.html', context=content)
 
 
 def coding_editor(request):
