@@ -182,7 +182,36 @@ def coding(request):
 def coding_editor(request, event_type, event_id, ques_id):
     '''Render coding-editor template'''
 
-    return render(request, 'coding/coding-editor.html')
+    question = models.Question.objects.get(ques_id=ques_id)
+
+    if event_type == 'exam':
+        event = models.Exam.objects.get(exam_id=event_id)
+        event_name = event.exam_name
+    elif event_type == 'exer':
+        event = models.Exercise.objects.get(exer_id=event_id)
+        event_name = event.exer_name
+    else:
+        # TODO(Steve X): 404 page
+        return render(request, 'coding/coding.html')
+
+    desc = '''
++----------------------------+
+| Tables_in_qset_0507testsql |
++----------------------------+
+| employee                   |
+| v                          |
++----------------------------+
+    '''
+
+    content = {
+        'event_type': event_type,
+        'event': event,
+        'event_name': event_name,
+        'question': question,
+        'desc': desc,
+    }
+
+    return render(request, 'coding/coding-editor.html', context=content)
 
 
 def statistics(request):
