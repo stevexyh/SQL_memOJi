@@ -134,6 +134,7 @@ DESCRIPTIONS
         - [ ] 优化效率: 答题正确则保留，错误则删除临时库(insert/delete)
         - [ ] 检验索引(show create table)
         - [ ] 检验视图(show tables, show create view)
+      - [x] 显示数据库结构
     - [ ] 统计页面
 
   - [ ] iCalendar App/
