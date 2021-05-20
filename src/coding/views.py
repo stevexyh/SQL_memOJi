@@ -24,9 +24,11 @@ from django.views import View
 from django.contrib import auth
 from django.utils.translation import gettext_lazy as _
 from django.db import transaction
+from prettytable import PrettyTable
 from coding import forms
 from coding import models
 from utils import token as tk
+
 
 # Create your views here.
 
@@ -106,8 +108,7 @@ def ques_set_add(request):
 
     db = pymysql.Connect(host=host, port=port, user=user, passwd=passwd)
     cur = db.cursor()
-    ques_set_name = request.POST.get('ques_set_name')
-    qset_db_name = f'qset_{ques_set_name}'
+    qset_db_name = f'qset_{request.POST.get("db_name")}'
     create_sql = request.POST.get('create_sql').replace('\n', '').replace('\\n', '')
     create_sql_list = create_sql.split(';')
 
@@ -126,6 +127,11 @@ def ques_set_add(request):
         db.commit()
         if ques_set_form.is_valid():
             ques_set_form.save()
+
+        # FIXME(Steve X): db_name 重名问题
+        qset = models.QuestionSet.objects.get(db_name=ques_set_form.cleaned_data.get('db_name'))
+        qset.db_name = qset_db_name
+        qset.save()
     except Exception as exc:
         cur.execute(f"""drop database if exists {qset_db_name}""")
         db.rollback()
@@ -183,6 +189,7 @@ def coding_editor(request, event_type, event_id, ques_id):
     '''Render coding-editor template'''
 
     question = models.Question.objects.get(ques_id=ques_id)
+    qset = question.ques_set
 
     if event_type == 'exam':
         event = models.Exam.objects.get(exam_id=event_id)
@@ -194,21 +201,38 @@ def coding_editor(request, event_type, event_id, ques_id):
         # TODO(Steve X): 404 page
         return render(request, 'coding/coding.html')
 
-    desc = '''
-+----------------------------+
-| Tables_in_qset_0507testsql |
-+----------------------------+
-| employee                   |
-| v                          |
-+----------------------------+
-    '''
+    host = tk.get_conf('mysql', 'host')
+    port = int(tk.get_conf('mysql', 'port'))
+    user = tk.get_conf('mysql', 'user')
+    passwd = tk.get_conf('mysql', 'password')
+    db = pymysql.Connect(host=host, port=port, user=user, passwd=passwd)
+    cur = db.cursor()
+
+    # Create PrettyTable for `show tables;`
+    pt_db_tables = PrettyTable(['Tables in this database'])
+    pt_db_tables.align = 'l'
+    cur.execute(f'''use {qset.db_name};''')
+    cur.execute(f'''show tables;''')
+    tables = [tb[0] for tb in cur.fetchall()]
+    pt_db_tables.add_rows([[tb] for tb in tables])
+
+    # Create PrettyTable for `desc <table_name>;`
+    tables_desc = [str(pt_db_tables)]
+    for tb in tables:
+        cur.execute(f'''desc {tb};''')
+        pt_table_desc = PrettyTable(['Field', 'Type'])
+        pt_table_desc.align = 'l'
+        pt_table_desc.add_rows([row[:2] for row in cur.fetchall()])
+        tables_desc.append(str(pt_table_desc))
+
+    db_desc = '\n'.join(tables_desc)
 
     content = {
         'event_type': event_type,
         'event': event,
         'event_name': event_name,
         'question': question,
-        'desc': desc,
+        'db_desc': db_desc,
     }
 
     return render(request, 'coding/coding-editor.html', context=content)
