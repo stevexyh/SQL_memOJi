@@ -179,7 +179,7 @@ def coding(request):
     return render(request, 'coding/coding.html', context=content)
 
 
-def coding_editor(request):
+def coding_editor(request, event_type, event_id, ques_id):
     '''Render coding-editor template'''
 
     return render(request, 'coding/coding-editor.html')
