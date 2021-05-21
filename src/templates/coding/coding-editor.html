@@ -43,29 +43,25 @@
 
             <div class="row">
                 <div class="col-6">
-                    {% if correct %}
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <i class="mdi mdi-check-all mr-2"></i>
-                            Accepted
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                    <div class="card border border-{{ ans_status_color }}">
+                        <div class="card-header bg-transparent border-success">
+                            <h4 class="card-title my-0 text-{{ ans_status_color }}">
+                                {% if correct %}
+                                    <i class="mdi mdi-check-decagram mr-3"></i>
+                                    Accepted
+                                {% endif %}
+                                {% if correct is False %}
+                                    <i class="mdi mdi-alert-decagram mr-3"></i>
+                                    Wrong Answer
+                                {% endif %}
+                                {% if correct is None %}
+                                    题目信息
+                                {% endif %}
+                            </h4>
                         </div>
 
-                    {% endif %}
-                    {% if correct is False %}
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <i class="mdi mdi-block-helper mr-2"></i>
-                            Wrong Answer
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    {% endif %}
-
-                    <div class="card pre-scrollable" style="min-height: 410px;">
-                        <div class="card-body">
-                            <h4 class="card-title">题目信息</h4>
+                        <div class="card-body pre-scrollable" style="min-height: 367px;">
+                            <h4 class="card-title">题目要求</h4>
                             {{ question.ques_desc }}
                             <p class="card-title-desc">
                                 <h4 class="card-title">数据库结构</h4>
@@ -77,10 +73,12 @@
 
                 <div class="col-6">
                     <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">MySQL Editor</h4>
-                            <p class="card-title-desc">在此区域作答</p>
+                        <div class="card-header bg-transparent border-success">
+                            <h4 class="card-title">MySQL 编辑器</h4>
+                            <h7 class="card-title-desc">在此区域作答</h7>
+                        </div>
 
+                        <div class="card-body">
                             <form method="POST" id="code-editor" action="{% url 'coding:coding-editor' 'exam' 1 1 %}">
                                 {% csrf_token %}
 
@@ -95,8 +93,11 @@
 
                                 <script>
                                     var editor = monaco.editor.create(document.getElementById('container'), {
-                                        value: ['# Write your MySQL statement here.', ''].join('\n'),
-                                        language: 'mysql'
+                                        value: [
+                                            // '# Write your MySQL statement here.',
+                                            '', ''
+                                        ].join('\n'),
+                                        language: 'mysql',
                                     });
 
                                     function setupFormPost() {
