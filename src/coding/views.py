@@ -185,59 +185,63 @@ def coding(request):
     return render(request, 'coding/coding.html', context=content)
 
 
-def coding_editor(request, event_type, event_id, ques_id):
+class CodingEditor(View):
     '''Render coding-editor template'''
 
-    question = models.Question.objects.get(ques_id=ques_id)
-    qset = question.ques_set
+    def get(self, request, event_type, event_id, ques_id):
 
-    if event_type == 'exam':
-        event = models.Exam.objects.get(exam_id=event_id)
-        event_name = event.exam_name
-    elif event_type == 'exer':
-        event = models.Exercise.objects.get(exer_id=event_id)
-        event_name = event.exer_name
-    else:
-        # TODO(Steve X): 404 page
-        return render(request, 'coding/coding.html')
+        question = models.Question.objects.get(ques_id=ques_id)
+        qset = question.ques_set
 
-    host = tk.get_conf('mysql', 'host')
-    port = int(tk.get_conf('mysql', 'port'))
-    user = tk.get_conf('mysql', 'user')
-    passwd = tk.get_conf('mysql', 'password')
-    db = pymysql.Connect(host=host, port=port, user=user, passwd=passwd)
-    cur = db.cursor()
+        if event_type == 'exam':
+            event = models.Exam.objects.get(exam_id=event_id)
+            event_name = event.exam_name
+        elif event_type == 'exer':
+            event = models.Exercise.objects.get(exer_id=event_id)
+            event_name = event.exer_name
+        else:
+            # TODO(Steve X): 404 page
+            return render(request, 'coding/coding.html')
 
-    # Create PrettyTable for `show tables;`
-    pt_db_tables = PrettyTable(['Tables in this database'])
-    pt_db_tables.align = 'l'
-    cur.execute(f'''use {qset.db_name};''')
-    cur.execute(f'''show tables;''')
-    tables = [tb[0] for tb in cur.fetchall()]
-    pt_db_tables.add_rows([[tb] for tb in tables])
+        host = tk.get_conf('mysql', 'host')
+        port = int(tk.get_conf('mysql', 'port'))
+        user = tk.get_conf('mysql', 'user')
+        passwd = tk.get_conf('mysql', 'password')
+        db = pymysql.Connect(host=host, port=port, user=user, passwd=passwd)
+        cur = db.cursor()
 
-    # Create PrettyTable for `desc <table_name>;`
-    tables_desc = [str(pt_db_tables)]
-    for tb in tables:
-        cur.execute(f'''desc {tb};''')
-        pt_table_desc = PrettyTable(['Field', 'Type'])
-        pt_table_desc.align = 'l'
-        pt_table_desc.add_rows([row[:2] for row in cur.fetchall()])
-        tables_desc.append('\n' + tb)
-        tables_desc.append(str(pt_table_desc))
+        # Create PrettyTable for `show tables;`
+        pt_db_tables = PrettyTable(['Tables in this database'])
+        pt_db_tables.align = 'l'
+        cur.execute(f'''use {qset.db_name};''')
+        cur.execute(f'''show tables;''')
+        tables = [tb[0] for tb in cur.fetchall()]
+        pt_db_tables.add_rows([[tb] for tb in tables])
 
-    db_desc = '\n'.join(tables_desc)
+        # Create PrettyTable for `desc <table_name>;`
+        tables_desc = [str(pt_db_tables)]
+        for tb in tables:
+            cur.execute(f'''desc {tb};''')
+            pt_table_desc = PrettyTable(['Field', 'Type'])
+            pt_table_desc.align = 'l'
+            pt_table_desc.add_rows([row[:2] for row in cur.fetchall()])
+            tables_desc.append('\n' + tb)
+            tables_desc.append(str(pt_table_desc))
 
-    content = {
-        'event_type': event_type,
-        'event': event,
-        'event_name': event_name,
-        'question': question,
-        'db_desc': db_desc,
-    }
+        db_desc = '\n'.join(tables_desc)
 
-    return render(request, 'coding/coding-editor.html', context=content)
+        content = {
+            'event_type': event_type,
+            'event': event,
+            'event_name': event_name,
+            'question': question,
+            'db_desc': db_desc,
+        }
 
+        return render(request, 'coding/coding-editor.html', context=content)
+
+    def post(self, request, event_type, event_id, ques_id):
+        return render(request, 'coding/coding-editor.html')
 
 def statistics(request):
     '''Render statistics template'''

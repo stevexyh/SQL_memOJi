@@ -61,7 +61,7 @@
                             <h4 class="card-title">MySQL Editor</h4>
                             <p class="card-title-desc">在此区域作答</p>
 
-                            <form method="POST" id="code-editor">
+                            <form method="POST" id="code-editor" action="{% url 'coding:coding-editor' 'exam' 1 1 %}">
                                 {% csrf_token %}
 
                                 <div id="container" style="width: 100%; min-height: 300px;"></div>
@@ -86,7 +86,7 @@
                                 </script>
 
 
-                                <input hidden name="code" id="code" />
+                                <input hidden name="submit_ans" id="code" />
                             </form>
 
                         </div>
