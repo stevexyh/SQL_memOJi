@@ -28,6 +28,7 @@ from prettytable import PrettyTable
 from coding import forms
 from coding import models
 from utils import token as tk
+from utils import sql_check
 
 
 # Create your views here.
@@ -188,8 +189,7 @@ def coding(request):
 class CodingEditor(View):
     '''Render coding-editor template'''
 
-    def get(self, request, event_type, event_id, ques_id):
-
+    def get_info(self, request, event_type, event_id, ques_id):
         question = models.Question.objects.get(ques_id=ques_id)
         qset = question.ques_set
 
@@ -229,6 +229,8 @@ class CodingEditor(View):
             tables_desc.append(str(pt_table_desc))
 
         db_desc = '\n'.join(tables_desc)
+        cur.close()
+        db.close()
 
         content = {
             'event_type': event_type,
@@ -238,10 +240,32 @@ class CodingEditor(View):
             'db_desc': db_desc,
         }
 
+        return content
+
+    def get(self, request, event_type, event_id, ques_id):
+        '''Show info'''
+
+        content = self.get_info(request, event_type, event_id, ques_id)
+
         return render(request, 'coding/coding-editor.html', context=content)
 
     def post(self, request, event_type, event_id, ques_id):
-        return render(request, 'coding/coding-editor.html')
+        '''Submit SQL'''
+
+        # FIXME(Steve X): Monaco Editor 输入内容换行会消失
+        submit_ans = request.POST.get('submit_ans')
+
+        content = self.get_info(request, event_type, event_id, ques_id)
+        question = content.get('question')
+        qset = question.ques_set
+        correct = sql_check.ans_check(db_nm=qset.db_name, ans_sql=question.ques_ans, stud_sql=submit_ans)
+
+        content.update({
+            'correct': correct,
+        })
+
+        return render(request, 'coding/coding-editor.html', context=content)
+
 
 def statistics(request):
     '''Render statistics template'''

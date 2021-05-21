@@ -19,6 +19,7 @@
 
 
 import pymysql
+from utils import token as tk
 
 
 def clear_db(cur: pymysql.Connect.cursor, db_name: str):
@@ -45,7 +46,7 @@ def copy_db(db: pymysql.Connect, new_db_name: str):
         db.commit()
     except Exception as exc:
         db.rollback()
-        print(exc)
+        print('copy_db:', exc)
 
 
 def copy_tables(db: pymysql.Connect, new_db: pymysql.Connect):
@@ -69,7 +70,7 @@ def copy_tables(db: pymysql.Connect, new_db: pymysql.Connect):
             new_db.commit()
     except Exception as exc:
         db.rollback()
-        print(exc)
+        print('copy_tables', exc)
 
     return tables
 
@@ -79,14 +80,27 @@ def deepcopy_db(db_name: str, new_db_name: str):
     '''Copy database, tables and data'''
     # cursor = db.cursor(cursor=pymysql.cursors.DictCursor)
 
-    db = pymysql.Connect(host='localhost', user='oj', passwd='ojtest+1S', db=db_name)
+    tmp_user = 'oj'
+    tmp_passwd = 'ojtest+1S'
 
-    copy_db(db=db, new_db_name=new_db_name)
-    new_db = pymysql.Connect(host='localhost', user='oj', passwd='ojtest+1S', db=new_db_name)
-    copy_tables(db=db, new_db=new_db)
-    db.close()
+    root_host = tk.get_conf('mysql', 'host')
+    root_port = int(tk.get_conf('mysql', 'port'))
+    root_user = tk.get_conf('mysql', 'user')
+    root_passwd = tk.get_conf('mysql', 'password')
 
-    return new_db.cursor()
+    root_db = pymysql.Connect(host=root_host, port=root_port, user=root_user, passwd=root_passwd, db=db_name)
+    root_cur = root_db.cursor()
+    root_cur.execute(f'''GRANT SELECT ON {db_name}.* to '{tmp_user}'@'localhost';''')
+    root_cur.execute(f'''GRANT ALL ON {new_db_name}.* to '{tmp_user}'@'localhost';''')
+
+    copy_db(db=root_db, new_db_name=new_db_name)
+    tmp_new_db = pymysql.Connect(host='localhost', user=tmp_user, passwd=tmp_passwd, db=new_db_name)
+    copy_tables(db=root_db, new_db=tmp_new_db)
+
+    root_cur.close()
+    root_db.close()
+
+    return tmp_new_db.cursor()
 
 
 def diff(cur_1: pymysql.Connect.cursor, cur_2: pymysql.Connect.cursor):
@@ -109,7 +123,7 @@ def diff(cur_1: pymysql.Connect.cursor, cur_2: pymysql.Connect.cursor):
     return res
 
 
-def ans_check(ans_sql: str, stud_sql: str) -> bool:
+def ans_check(db_nm: str, ans_sql: str, stud_sql: str) -> bool:
     '''
     Check the correctness of SQL from students
 
@@ -120,7 +134,6 @@ def ans_check(ans_sql: str, stud_sql: str) -> bool:
         res: bool - if the SQL is correct
     '''
 
-    db_nm = 'pymysql_test'
     new_db_nm = db_nm+'_copy'
     new_db_name_1 = new_db_nm+'1'
     new_db_name_2 = new_db_nm+'2'

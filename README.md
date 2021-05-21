@@ -136,7 +136,7 @@ DESCRIPTIONS
         - [ ] 检验视图(show tables, show create view)
       - [x] 显示数据库结构
       - [ ] 上一页 / 下一页
-      - [ ] 答案验证功能
+      - [x] 答案验证功能
       - [ ] 答题记录
     - [ ] 统计页面
 
