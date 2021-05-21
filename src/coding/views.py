@@ -258,11 +258,17 @@ class CodingEditor(View):
         content = self.get_info(request, event_type, event_id, ques_id)
         question = content.get('question')
         qset = question.ques_set
-        correct = sql_check.ans_check(db_nm=qset.db_name, ans_sql=question.ques_ans, stud_sql=submit_ans)
+
+        try:
+            correct = sql_check.ans_check(db_nm=qset.db_name, ans_sql=question.ques_ans, stud_sql=submit_ans)
+            ans_status_color = 'success' if correct else 'danger'
+        except:
+            correct = 'error'
+            ans_status_color = 'warning'
 
         content.update({
             'correct': correct,
-            'ans_status_color': 'success' if correct else 'danger',
+            'ans_status_color': ans_status_color,
         })
 
         return render(request, 'coding/coding-editor.html', context=content)

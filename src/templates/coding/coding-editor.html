@@ -46,13 +46,17 @@
                     <div class="card border border-{{ ans_status_color }}">
                         <div class="card-header bg-transparent border-success">
                             <h4 class="card-title my-0 text-{{ ans_status_color }}">
-                                {% if correct %}
-                                    <i class="mdi mdi-check-decagram mr-3"></i>
+                                {% if correct is True %}
+                                    <i class="mdi mdi-check-all mr-3"></i>
                                     Accepted
                                 {% endif %}
                                 {% if correct is False %}
-                                    <i class="mdi mdi-alert-decagram mr-3"></i>
+                                    <i class="mdi mdi-close-thick mr-3"></i>
                                     Wrong Answer
+                                {% endif %}
+                                {% if correct == 'error' %}
+                                    <i class="mdi mdi-alert-outline mr-3"></i>
+                                    Runtime Error
                                 {% endif %}
                                 {% if correct is None %}
                                     题目信息
