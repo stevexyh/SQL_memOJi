@@ -223,6 +223,7 @@ def coding_editor(request, event_type, event_id, ques_id):
         pt_table_desc = PrettyTable(['Field', 'Type'])
         pt_table_desc.align = 'l'
         pt_table_desc.add_rows([row[:2] for row in cur.fetchall()])
+        tables_desc.append('\n' + tb)
         tables_desc.append(str(pt_table_desc))
 
     db_desc = '\n'.join(tables_desc)
