@@ -23,7 +23,7 @@ from django.views import View
 from django.contrib import auth
 from django.utils.translation import gettext_lazy as _
 from django.db import transaction
-from user.models import User, Classroom
+from user.models import Student, User, Classroom
 from user.forms import UserInfoForm, StudentForm, ClassroomForm
 
 # Create your views here.
@@ -104,7 +104,6 @@ def auth_recoverpw(request):
     return render(request, 'user/auth-recoverpw.html')
 
 
-# TODO(Steve X): Modified register for Student
 class AuthRegister(View):
     '''Render auth-register template in CBV'''
 
@@ -140,7 +139,10 @@ class AuthRegister(View):
                     new_user.class_id = class_id
                     new_user.full_name = full_name
                     new_user.internal_id = internal_id
+                    new_user.priority = User.UserType.STUDENT
 
+                    user_student = Student.objects.create(user=new_user)
+                    user_student.save()
                     new_user.save()
                     fail = False
             except Exception as exc:
