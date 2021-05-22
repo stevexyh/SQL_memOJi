@@ -83,7 +83,7 @@ class ExerciseAdmin(admin.ModelAdmin):
 # Fields: 'rec_id', 'student', 'question', 'ans_status', 'submit_cnt'
 @admin.register(models.QuesAnswerRec)
 class QuesAnswerRecAdmin(admin.ModelAdmin):
-    list_display = ['rec_id', 'student', 'question', 'ans_status', 'submit_cnt']
+    list_display = ['rec_id', 'user', 'question', 'ans_status', 'submit_cnt']
 
 
 # Fields: 'rec_id', 'student', 'paper', 'start_time', 'end_time', 'score',

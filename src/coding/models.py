@@ -191,16 +191,24 @@ class QuesAnswerRec(models.Model):
     | 字段名                 | 数据类型             | 非空  | Key | 默认值       |
     |-----------------------|---------------------|------|-----|-------------|
     | rec_id                | varchar             |      | PRI |             |
-    | student               | varchar             |      | API |             |
+    | user                  | varchar             |      | API |             |
     | question              | varchar             |      | FK  |             |
-    | ans_status            | bool                |      |     | False       |
+    | ans_status            | int                 |      |     | -1          |
     | submit_cnt            | int                 |      |     | 0           |
     '''
 
+    class AnsStatus(models.IntegerChoices):
+        '''Enumeration of answer status'''
+
+        UNKNOWN = -1, _('未知')
+        AC = 0, _('答案正确')
+        WA = 1, ('答案错误')
+        RE = 2, _('运行异常')
+
     rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
-    student = models.ForeignKey(verbose_name=_('学生'), to='user.Student', on_delete=models.CASCADE)
+    user = models.ForeignKey(verbose_name=_('用户'), to='user.User', on_delete=models.CASCADE)
     question = models.ForeignKey(verbose_name=_('题目'), to=Question, on_delete=models.DO_NOTHING)
-    ans_status = models.BooleanField(verbose_name=_('答案正确性'), default=False)
+    ans_status = models.IntegerField(verbose_name=_('答案正确性'), choices=AnsStatus.choices, default=AnsStatus.UNKNOWN)
     submit_cnt = models.IntegerField(verbose_name=_('提交次数'), default=0)
 
     class Meta:
@@ -208,6 +216,7 @@ class QuesAnswerRec(models.Model):
         verbose_name_plural = verbose_name
 
 
+# TODO(Steve X): Exam & Exer record
 class PaperAnswerRec(models.Model):
     '''
     Paper Answer Record Table

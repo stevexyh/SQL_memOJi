@@ -260,11 +260,38 @@ class CodingEditor(View):
         qset = question.ques_set
 
         try:
+            submit_ans = '#' if submit_ans == '' else submit_ans
             correct = sql_check.ans_check(db_nm=qset.db_name, ans_sql=question.ques_ans, stud_sql=submit_ans)
-            ans_status_color = 'success' if correct else 'danger'
         except:
             correct = 'error'
-            ans_status_color = 'warning'
+
+        ans_status = {
+            True: models.QuesAnswerRec.AnsStatus.AC,
+            False: models.QuesAnswerRec.AnsStatus.WA,
+            'error': models.QuesAnswerRec.AnsStatus.RE,
+        }.get(correct)
+
+        ans_status_color = {
+            True: 'success',
+            False: 'danger',
+            'error': 'warning',
+        }.get(correct)
+
+        # Question-Answer record
+        cur_user = request.user
+        if cur_user.is_authenticated:
+            rec = models.QuesAnswerRec.objects.filter(user=cur_user, question=question).first()
+            if rec:
+                rec.ans_status = ans_status
+                rec.submit_cnt += 1
+                rec.save()
+            else:
+                models.QuesAnswerRec.objects.create(
+                    user=cur_user,
+                    question=question,
+                    ans_status=ans_status,
+                    submit_cnt=1,
+                )
 
         content.update({
             'correct': correct,
