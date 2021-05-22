@@ -83,7 +83,7 @@
                         </div>
 
                         <div class="card-body">
-                            <form method="POST" id="code-editor" action="{% url 'coding:coding-editor' 'exam' 1 1 %}">
+                            <form method="POST" id="code-editor" action="{% url 'coding:coding-editor' event_type event_id question.ques_id %}">
                                 {% csrf_token %}
 
                                 <div id="container" style="width: 100%; min-height: 300px;"></div>
@@ -94,14 +94,22 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <button type="previous" class="btn btn-outline-primary waves-effect waves-light" style="float: left;">
-                        <i class="ri-arrow-left-s-line align-middle"></i>
-                        上一题
-                    </button>
-                    <button type="next" class="btn btn-outline-primary waves-effect waves-light" style="float: right;">
-                        下一题
-                        <i class="ri-arrow-right-s-line align-middle"></i>
-                    </button>
+                    {% if prev_question %}
+                        <a href="{% url 'coding:coding-editor' event_type event_id prev_question.ques_id %}">
+                            <button type="previous" class="btn btn-outline-primary waves-effect waves-light" style="float: left;">
+                                <i class="ri-arrow-left-s-line align-middle"></i>
+                                上一题
+                            </button>
+                        </a>
+                    {% endif %}
+                    {% if next_question %}
+                        <a href="{% url 'coding:coding-editor' event_type event_id next_question.ques_id %}">
+                            <button type="next" class="btn btn-outline-primary waves-effect waves-light" style="float: right;">
+                                下一题
+                                <i class="ri-arrow-right-s-line align-middle"></i>
+                            </button>
+                        </a>
+                    {% endif %}
                 </div>
                 <div class="col-6">
                     <button type="submit" class="btn btn-success waves-effect waves-light" onclick="setupFormPost()" form="code-editor" style="float: right;">

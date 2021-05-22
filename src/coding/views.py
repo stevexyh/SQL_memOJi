@@ -203,6 +203,10 @@ class CodingEditor(View):
             # TODO(Steve X): 404 page
             return render(request, 'coding/coding.html')
 
+        # Previous & next question id
+        prev_question = event.paper.question.filter(ques_id__lt=ques_id).order_by('-ques_id').first()
+        next_question = event.paper.question.filter(ques_id__gt=ques_id).order_by('ques_id').first()
+
         host = tk.get_conf('mysql', 'host')
         port = int(tk.get_conf('mysql', 'port'))
         user = tk.get_conf('mysql', 'user')
@@ -233,11 +237,14 @@ class CodingEditor(View):
         db.close()
 
         content = {
-            'event_type': event_type,
             'event': event,
+            'event_id': event_id,
+            'event_type': event_type,
             'event_name': event_name,
             'question': question,
             'db_desc': db_desc,
+            'prev_question': prev_question if prev_question else None,
+            'next_question': next_question if next_question else None,
         }
 
         return content

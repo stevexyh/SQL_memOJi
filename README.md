@@ -135,7 +135,7 @@ DESCRIPTIONS
         - [ ] 检验索引(show create table)
         - [ ] 检验视图(show tables, show create view)
       - [x] 显示数据库结构
-      - [ ] 上一页 / 下一页
+      - [x] 上一页 / 下一页
       - [x] 答案验证功能
       - [x] 答题记录
       - [ ] 试卷记录
