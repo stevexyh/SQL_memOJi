@@ -87,30 +87,6 @@
                                 {% csrf_token %}
 
                                 <div id="container" style="width: 100%; min-height: 300px;"></div>
-
-                                <script>
-                                    var require = { paths: { vs: "{% static 'libs/monaco-editor/min/vs' %}"} };
-                                </script>
-                                <script src="{% static 'libs/monaco-editor/min/vs/loader.js' %}"></script>
-                                <script src="{% static 'libs/monaco-editor/min/vs/editor/editor.main.nls.js' %}"></script>
-                                <script src="{% static 'libs/monaco-editor/min/vs/editor/editor.main.js' %}"></script>
-
-                                <script>
-                                    var editor = monaco.editor.create(document.getElementById('container'), {
-                                        value: [
-                                            // '# Write your MySQL statement here.',
-                                            '', ''
-                                        ].join('\n'),
-                                        language: 'mysql',
-                                    });
-
-                                    function setupFormPost() {
-                                        var value = window.editor.getValue()
-                                        $("#code").val(value);
-                                    }
-                                </script>
-
-
                                 <input hidden name="submit_ans" id="code" />
                             </form>
 
@@ -141,5 +117,26 @@
 
 <!-- JS -->
 {% block js %}
+    <script>
+        var require = { paths: { vs: "{% static 'libs/monaco-editor/min/vs' %}"} };
+    </script>
 
+    <script src="{% static 'libs/monaco-editor/min/vs/loader.js' %}"></script>
+    <script src="{% static 'libs/monaco-editor/min/vs/editor/editor.main.nls.js' %}"></script>
+    <script src="{% static 'libs/monaco-editor/min/vs/editor/editor.main.js' %}"></script>
+
+    <script>
+        var editor = monaco.editor.create(document.getElementById('container'), {
+            value: [
+                // '# Write your MySQL statement here.',
+                '', ''
+            ].join('\n'),
+            language: 'mysql',
+        });
+
+        function setupFormPost() {
+            var value = window.editor.getValue()
+            $("#code").val(value);
+        }
+    </script>
 {% endblock js %}
