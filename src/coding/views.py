@@ -20,6 +20,7 @@
 
 import pymysql
 from django.shortcuts import render, redirect
+from django.urls import Resolver404
 from django.views import View
 from django.contrib import auth
 from django.utils.translation import gettext_lazy as _
@@ -190,18 +191,21 @@ class CodingEditor(View):
     '''Render coding-editor template'''
 
     def get_info(self, request, event_type, event_id, ques_id):
-        question = models.Question.objects.get(ques_id=ques_id)
-        qset = question.ques_set
 
-        if event_type == 'exam':
-            event = models.Exam.objects.get(exam_id=event_id)
-            event_name = event.exam_name
-        elif event_type == 'exer':
-            event = models.Exercise.objects.get(exer_id=event_id)
-            event_name = event.exer_name
-        else:
-            # TODO(Steve X): 404 page
-            return render(request, 'coding/coding.html')
+        try:
+            question = models.Question.objects.get(ques_id=ques_id)
+            qset = question.ques_set
+
+            if event_type == 'exam':
+                event = models.Exam.objects.get(exam_id=event_id)
+                event_name = event.exam_name
+            elif event_type == 'exer':
+                event = models.Exercise.objects.get(exer_id=event_id)
+                event_name = event.exer_name
+            else:
+                raise Resolver404
+        except:
+            raise Resolver404
 
         # Previous & next question id
         prev_question = event.paper.question.filter(ques_id__lt=ques_id).order_by('-ques_id').first()
