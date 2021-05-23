@@ -33,13 +33,17 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from django.views import static
+from django.conf.urls import url
 import user.urls
 import iCalendar.urls
 import coding.urls
 from user.views import e404, e500
+from . import settings
 
 
 urlpatterns = [
+    url('^static/(?P<path>.*)$', static.serve, {'document_root': settings.STATIC_ROOT}, name='static'),
     path('admin/', admin.site.urls),
 
     path('', include(user.urls)),

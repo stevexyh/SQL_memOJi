@@ -163,3 +163,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     BASE_DIR / 'common_static',
 )
+
+# Static fiels while debug = False
+STATIC_ROOT = BASE_DIR / 'static_collected'
