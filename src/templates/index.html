@@ -34,7 +34,7 @@
                         <div class="card-body">
                             <div class="media">
                                 <div class="media-body overflow-hidden">
-                                    <p class="text-truncate font-size-14 mb-2">Number of Sales</p>
+                                    <p class="text-truncate font-size-14 mb-2">题目数量</p>
                                     <h4 class="mb-0">1452</h4>
                                 </div>
                                 <div class="text-primary">
@@ -56,8 +56,8 @@
                         <div class="card-body">
                             <div class="media">
                                 <div class="media-body overflow-hidden">
-                                    <p class="text-truncate font-size-14 mb-2">Sales Revenue</p>
-                                    <h4 class="mb-0">$ 38452</h4>
+                                    <p class="text-truncate font-size-14 mb-2">总提交次数</p>
+                                    <h4 class="mb-0">38452</h4>
                                 </div>
                                 <div class="text-primary">
                                     <i class="ri-store-2-line font-size-24"></i>
@@ -77,8 +77,8 @@
                         <div class="card-body">
                             <div class="media">
                                 <div class="media-body overflow-hidden">
-                                    <p class="text-truncate font-size-14 mb-2">Average Price</p>
-                                    <h4 class="mb-0">$ 15.4</h4>
+                                    <p class="text-truncate font-size-14 mb-2">平均通过率</p>
+                                    <h4 class="mb-0">15.4%</h4>
                                 </div>
                                 <div class="text-primary">
                                     <i class="ri-briefcase-4-line font-size-24"></i>
@@ -105,7 +105,7 @@
                             <button type="button" class="btn btn-sm btn-light">Monthly</button>
                         </div>
                     </div>
-                    <h4 class="card-title mb-4">Revenue Analytics</h4>
+                    <h4 class="card-title mb-4">成绩分析</h4>
                     <div>
                         <div id="line-column-chart" class="apex-charts" dir="ltr"></div>
                     </div>
@@ -114,20 +114,20 @@
                 <div class="card-body border-top text-center">
                     <div class="row">
                         <div class="col-sm-4">
+                            <p class="text-muted text-truncate mb-2"><i class="mdi mdi-circle text-info font-size-10 mr-1"></i>This month</p>
                             <div class="d-inline-flex">
-                                <h5 class="mr-2">$12,253</h5>
+                                <h5 class="mb-0 mr-2">12,253</h5>
                                 <div class="text-success">
                                     <i class="mdi mdi-menu-up font-size-14"> </i>2.2 %
                                 </div>
                             </div>
-                            <p class="text-muted text-truncate mb-0">This month</p>
                         </div>
 
                         <div class="col-sm-4">
                             <div class="mt-4 mt-sm-0">
                                 <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-primary font-size-10 mr-1"></i> This Year :</p>
                                 <div class="d-inline-flex">
-                                    <h5 class="mb-0 mr-2">$ 34,254</h5>
+                                    <h5 class="mb-0 mr-2"> 34,254</h5>
                                     <div class="text-success">
                                         <i class="mdi mdi-menu-up font-size-14"> </i>2.1 %
                                     </div>
@@ -138,7 +138,7 @@
                             <div class="mt-4 mt-sm-0">
                                 <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-success font-size-10 mr-1"></i> Previous Year :</p>
                                 <div class="d-inline-flex">
-                                    <h5 class="mb-0">$ 32,695</h5>
+                                    <h5 class="mb-0"> 32,695</h5>
                                 </div>
                             </div>
                         </div>
@@ -159,26 +159,26 @@
                             <option value="3">Jan</option>
                         </select>
                     </div>
-                    <h4 class="card-title mb-4">Sales Analytics</h4>
+                    <h4 class="card-title mb-4">难度分布</h4>
 
                     <div id="donut-chart" class="apex-charts"></div>
 
                     <div class="row">
                         <div class="col-4">
                             <div class="text-center mt-4">
-                                <p class="mb-2 text-truncate"><i class="mdi mdi-circle text-primary font-size-10 mr-1"></i> Product A</p>
+                                <p class="mb-2 text-truncate"><i class="mdi mdi-circle text-primary font-size-10 mr-1"></i> 简单</p>
                                 <h5>42 %</h5>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="text-center mt-4">
-                                <p class="mb-2 text-truncate"><i class="mdi mdi-circle text-success font-size-10 mr-1"></i> Product B</p>
+                                <p class="mb-2 text-truncate"><i class="mdi mdi-circle text-success font-size-10 mr-1"></i> 中等</p>
                                 <h5>26 %</h5>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="text-center mt-4">
-                                <p class="mb-2 text-truncate"><i class="mdi mdi-circle text-warning font-size-10 mr-1"></i> Product C</p>
+                                <p class="mb-2 text-truncate"><i class="mdi mdi-circle text-warning font-size-10 mr-1"></i> 困难</p>
                                 <h5>42 %</h5>
                             </div>
                         </div>
@@ -204,7 +204,7 @@
                         </div>
                     </div>
 
-                    <h4 class="card-title mb-4">Earning Reports</h4>
+                    <h4 class="card-title mb-4">提交记录</h4>
                     <div class="text-center">
                         <div class="row">
                             <div class="col-sm-6">
@@ -213,8 +213,8 @@
                                         <div id="radialchart-1" class="apex-charts"></div>
                                     </div>
 
-                                    <p class="text-muted text-truncate mb-2">Weekly Earnings</p>
-                                    <h5 class="mb-0">$2,523</h5>
+                                    <p class="text-muted text-truncate mb-2">周提交数</p>
+                                    <h5 class="mb-0">2,523</h5>
                                 </div>
                             </div>
 
@@ -224,8 +224,8 @@
                                         <div id="radialchart-2" class="apex-charts"></div>
                                     </div>
 
-                                    <p class="text-muted text-truncate mb-2">Monthly Earnings</p>
-                                    <h5 class="mb-0">$11,235</h5>
+                                    <p class="text-muted text-truncate mb-2">月提交数</p>
+                                    <h5 class="mb-0">11,235</h5>
                                 </div>
                             </div>
                             
@@ -263,7 +263,7 @@
                     <div>
                         <div class="text-center">
                             <p class="mb-2">Total sources</p>
-                            <h4>$ 7652</h4>
+                            <h4> 7652</h4>
                             <div class="text-success">
                                 <i class="mdi mdi-menu-up font-size-14"> </i>2.2 %
                             </div>
@@ -286,7 +286,7 @@
                                         </td>
                                         <td><div id="spak-chart1"></div></td>
                                         <td>
-                                            <p class="text-muted mb-0">$ 2478</p>
+                                            <p class="text-muted mb-0"> 2478</p>
                                         </td>
                                     </tr>
                                     <tr>
@@ -303,7 +303,7 @@
                                         
                                         <td><div id="spak-chart2"></div></td>
                                         <td>
-                                            <p class="text-muted mb-0">$ 2625</p>
+                                            <p class="text-muted mb-0"> 2625</p>
                                         </td>
                                     </tr>
                                     <tr>
@@ -319,7 +319,7 @@
                                         </td>
                                         <td><div id="spak-chart3"></div></td>
                                         <td>
-                                            <p class="text-muted mb-0">$ 2856</p>
+                                            <p class="text-muted mb-0"> 2856</p>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -500,12 +500,12 @@
                         <div class="col-xl-5 col-md-6">
                             <div class="mt-2">
                                 <div class="clearfix py-2">
-                                    <h5 class="float-right font-size-16 m-0">$ 2542</h5>
+                                    <h5 class="float-right font-size-16 m-0"> 2542</h5>
                                     <p class="text-muted mb-0 text-truncate">California :</p>
                                     
                                 </div>
                                 <div class="clearfix py-2">
-                                    <h5 class="float-right font-size-16 m-0">$ 2245</h5>
+                                    <h5 class="float-right font-size-16 m-0"> 2245</h5>
                                     <p class="text-muted mb-0 text-truncate">Nevada :</p>
                                     
                                 </div>
@@ -514,12 +514,12 @@
                         <div class="col-xl-5 offset-xl-1 col-md-6">
                             <div class="mt-2">
                                 <div class="clearfix py-2">
-                                    <h5 class="float-right font-size-16 m-0">$ 2156</h5>
+                                    <h5 class="float-right font-size-16 m-0"> 2156</h5>
                                     <p class="text-muted mb-0 text-truncate">Montana :</p>
                                     
                                 </div>
                                 <div class="clearfix py-2">
-                                    <h5 class="float-right font-size-16 m-0">$ 1845</h5>
+                                    <h5 class="float-right font-size-16 m-0"> 1845</h5>
                                     <p class="text-muted mb-0 text-truncate">Texas :</p>
                                     
                                 </div>
@@ -797,7 +797,7 @@
                                     <td>Walter Brown</td>
                                     
                                     <td>
-                                        $172
+                                        172
                                     </td>
                                     <td>
                                         <div class="badge badge-soft-success font-size-12">Paid</div>
@@ -822,7 +822,7 @@
                                     <td>Jimmy Barker</td>
                                     
                                     <td>
-                                        $165
+                                        165
                                     </td>
                                     <td>
                                         <div class="badge badge-soft-warning font-size-12">unpaid</div>
@@ -848,7 +848,7 @@
                                     <td>Donald Bailey</td>
                                     
                                     <td>
-                                        $146
+                                        146
                                     </td>
                                     <td>
                                         <div class="badge badge-soft-success font-size-12">Paid</div>
@@ -873,7 +873,7 @@
                                     <td>Paul Jones</td>
                                     
                                     <td>
-                                        $183
+                                        183
                                     </td>
                                     <td>
                                         <div class="badge badge-soft-success font-size-12">Paid</div>
@@ -898,7 +898,7 @@
                                     <td>Jefferson Allen</td>
                                     
                                     <td>
-                                        $160
+                                        160
                                     </td>
                                     <td>
                                         <div class="badge badge-soft-danger font-size-12">Chargeback</div>
@@ -923,7 +923,7 @@
                                     <td>Jeffrey Waltz</td>
                                     
                                     <td>
-                                        $105
+                                        105
                                     </td>
                                     <td>
                                         <div class="badge badge-soft-warning font-size-12">unpaid</div>
@@ -948,7 +948,7 @@
                                     <td>Jewel Buckley</td>
                                     
                                     <td>
-                                        $112
+                                        112
                                     </td>
                                     <td>
                                         <div class="badge badge-soft-success font-size-12">Paid</div>
@@ -973,7 +973,7 @@
                                     <td>Jamison Clark</td>
                                     
                                     <td>
-                                        $123
+                                        123
                                     </td>
                                     <td>
                                         <div class="badge badge-soft-success font-size-12">Paid</div>
@@ -998,7 +998,7 @@
                                     <td>Eddy Torres</td>
                                     
                                     <td>
-                                        $141
+                                        141
                                     </td>
                                     <td>
                                         <div class="badge badge-soft-success font-size-12">Paid</div>
@@ -1023,7 +1023,7 @@
                                     <td>Frank Dean</td>
                                     
                                     <td>
-                                        $164
+                                        164
                                     </td>
                                     <td>
                                         <div class="badge badge-soft-warning font-size-12">unpaid</div>
