@@ -36,6 +36,7 @@ from django.urls import path, include
 import user.urls
 import iCalendar.urls
 import coding.urls
+from user.views import e404, e500
 
 
 urlpatterns = [
@@ -45,3 +46,6 @@ urlpatterns = [
     path('calendar/', include(iCalendar.urls)),
     path('coding/', include(coding.urls)),
 ]
+
+handler404 = e404
+handler500 = e500

@@ -26,6 +26,8 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('base/', views.base, name='base'),
     path('blank/', views.blank, name='blank'),
+    path('e404/', views.e404, name='e404'),
+    path('e500/', views.e500, name='e500'),
 
     # Auth Pages
     path('auth-base/', views.auth_base, name='auth-base'),

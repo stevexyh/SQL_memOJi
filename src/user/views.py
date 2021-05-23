@@ -46,6 +46,28 @@ def index(request):
     '''Render index template'''
 
     return render(request, 'index.html')
+
+
+def e404(request, exception=None):
+    '''Render 404 err page'''
+
+    content = {
+        'err_code': '404',
+        'err_message': _('页面不存在'),
+    }
+
+    return render(request, 'error.html', context=content)
+
+
+def e500(request):
+    '''Render 500 err page'''
+
+    content = {
+        'err_code': '500',
+        'err_message': _('服务器错误'),
+    }
+
+    return render(request, 'error.html', context=content)
 #--------------------------------------------END---------------------------------------------#
 
 
