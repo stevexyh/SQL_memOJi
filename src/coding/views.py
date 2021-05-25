@@ -295,11 +295,13 @@ class CodingEditor(View):
             if rec:
                 rec.ans_status = ans_status
                 rec.submit_cnt += 1
+                rec.ans = submit_ans
                 rec.save()
             else:
                 models.QuesAnswerRec.objects.create(
                     user=cur_user,
                     question=question,
+                    ans=submit_ans,
                     ans_status=ans_status,
                     submit_cnt=1,
                 )
