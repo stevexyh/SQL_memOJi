@@ -43,6 +43,23 @@
 
             <div class="row">
                 <div class="col-6">
+                    <div class="card border">
+                        <div class="card-header bg-transparent border-success">
+                            <h4 class="card-title my-0">题目信息</h4>
+                        </div>
+
+                        <div class="card-body pre-scrollable" style="min-height: 385px;">
+                            <h4 class="card-title">题目要求</h4>
+                            {{ question.ques_desc }}
+                            <p class="card-title-desc">
+                                <h4 class="card-title">数据库结构</h4>
+                                <pre><code>{{ db_desc }}</code></pre>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6">
                     <div class="card border border-{{ ans_status_color }}">
                         <div class="card-header bg-transparent border-success">
                             <h4 class="card-title my-0 text-{{ ans_status_color }}">
@@ -59,26 +76,11 @@
                                     Runtime Error
                                 {% endif %}
                                 {% if correct is None %}
-                                    题目信息
+                                    MySQL 编辑器
                                 {% endif %}
                             </h4>
                         </div>
-
-                        <div class="card-body pre-scrollable" style="min-height: 367px;">
-                            <h4 class="card-title">题目要求</h4>
-                            {{ question.ques_desc }}
-                            <p class="card-title-desc">
-                                <h4 class="card-title">数据库结构</h4>
-                                <pre><code>{{ db_desc }}</code></pre>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-6">
-                    <div class="card">
                         <div class="card-header bg-transparent border-success">
-                            <h4 class="card-title">MySQL 编辑器</h4>
                             <h7 class="card-title-desc">在此区域作答</h7>
                         </div>
 
@@ -86,7 +88,7 @@
                             <form method="POST" id="code-editor" action="{% url 'coding:coding-editor' event_type event_id question.ques_id %}">
                                 {% csrf_token %}
 
-                                <div id="container" style="width: 100%; min-height: 300px;"></div>
+                                <div class="card border" id="container" style="width: 100%; min-height: 300px; margin-bottom: 0px;"></div>
                                 <input hidden name="submit_ans" id="code" />
                             </form>
 
