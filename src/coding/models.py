@@ -193,6 +193,7 @@ class QuesAnswerRec(models.Model):
     | rec_id                | varchar             |      | PRI |             |
     | user                  | varchar             |      | API |             |
     | question              | varchar             | NULL | FK  |             |
+    | ans                   | varchar             | NULL |     |             |
     | ans_status            | int                 |      |     | -1          |
     | submit_cnt            | int                 |      |     | 0           |
     '''
@@ -208,6 +209,7 @@ class QuesAnswerRec(models.Model):
     rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
     user = models.ForeignKey(verbose_name=_('用户'), to='user.User', on_delete=models.CASCADE)
     question = models.ForeignKey(verbose_name=_('题目'), to=Question, null=True, on_delete=models.SET_NULL)
+    ans = models.TextField(verbose_name=_('上次答案'), null=True, blank=True)
     ans_status = models.IntegerField(verbose_name=_('答案正确性'), choices=AnsStatus.choices, default=AnsStatus.UNKNOWN)
     submit_cnt = models.IntegerField(verbose_name=_('提交次数'), default=0)
 
