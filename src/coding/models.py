@@ -195,6 +195,7 @@ class QuesAnswerRec(models.Model):
     | question              | varchar             | NULL | FK  |             |
     | ans                   | varchar             | NULL |     |             |
     | ans_status            | int                 |      |     | -1          |
+    | submit_time           | datetime            |      |     |             |
     | submit_cnt            | int                 |      |     | 0           |
     '''
 
@@ -211,6 +212,7 @@ class QuesAnswerRec(models.Model):
     question = models.ForeignKey(verbose_name=_('题目'), to=Question, null=True, on_delete=models.SET_NULL)
     ans = models.TextField(verbose_name=_('最新答案'), null=True, blank=True)
     ans_status = models.IntegerField(verbose_name=_('答案正确性'), choices=AnsStatus.choices, default=AnsStatus.UNKNOWN)
+    submit_time = models.DateTimeField(verbose_name=_('最后提交时间'), auto_now=True)
     submit_cnt = models.IntegerField(verbose_name=_('提交次数'), default=0)
 
     class Meta:

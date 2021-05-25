@@ -80,10 +80,10 @@ class ExerciseAdmin(admin.ModelAdmin):
     list_display = ['exer_name', 'paper', 'publish_time', 'active']
 
 
-# Fields: 'rec_id', 'student', 'question', 'ans', 'ans_status', 'submit_cnt'
+# Fields: 'rec_id', 'student', 'question', 'ans', 'ans_status', 'submit_time', 'submit_cnt'
 @admin.register(models.QuesAnswerRec)
 class QuesAnswerRecAdmin(admin.ModelAdmin):
-    list_display = ['rec_id', 'user', 'question', 'ans', 'ans_status', 'submit_cnt']
+    list_display = ['rec_id', 'user', 'question', 'ans', 'ans_status', 'submit_time', 'submit_cnt']
 
 
 # Fields: 'rec_id', 'student', 'paper', 'start_time', 'end_time', 'score',
