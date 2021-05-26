@@ -23,8 +23,10 @@ from django.views import View
 from django.contrib import auth
 from django.utils.translation import gettext_lazy as _
 from django.db import transaction
+from django.db.models import Sum
 from user.models import Student, User, Classroom
 from user.forms import UserInfoForm, StudentForm, ClassroomForm
+from coding.models import Exam, QuesAnswerRec, Question, QuestionSet
 
 # Create your views here.
 
@@ -45,7 +47,21 @@ def blank(request):
 def index(request):
     '''Render index template'''
 
-    return render(request, 'index.html')
+    ques_cnt = Question.objects.count()
+    ques_set_cnt = QuestionSet.objects.count()
+    exam_cnt = Exam.objects.count()
+    exam_active = Exam.objects.filter(active=True).count()
+    submit_cnt = QuesAnswerRec.objects.aggregate(Sum('submit_cnt'))
+
+    content = {
+        'ques_cnt': ques_cnt,
+        'ques_set_cnt': ques_set_cnt,
+        'exam_cnt': exam_cnt,
+        'exam_active': exam_active,
+        'submit_cnt': submit_cnt['submit_cnt__sum'],
+    }
+
+    return render(request, 'index.html', context=content)
 
 
 def e404(request, exception=None):
