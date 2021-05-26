@@ -25,6 +25,8 @@ app_name = 'coding'
 urlpatterns = [
     # Management Pages
     path('exams-manage/', views.exams_manage, name='exams-manage'),
+    path('exams-manage/exam-add/', views.exam_add, name='exam-add'),
+    path('exams-manage/exer-add/', views.exer_add, name='exer-add'),
     path('coding/', views.coding, name='coding'),
     path('coding-editor/<event_type>/<event_id>/<ques_id>/', views.CodingEditor.as_view(), name='coding-editor'),
     path('statistics/', views.statistics, name='statistics'),

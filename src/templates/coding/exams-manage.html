@@ -223,7 +223,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" class="needs-validation" action="{% url 'coding:paper-add' %}" novalidate>
+                    <form method="POST" class="needs-validation" action="{% url 'coding:exam-add' %}" novalidate>
                         {% csrf_token %}
                         <div class="row">
                             {% for data in exam_form %}
@@ -262,7 +262,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" class="needs-validation" action="{% url 'coding:paper-add' %}" novalidate>
+                    <form method="POST" class="needs-validation" action="{% url 'coding:exer-add' %}" novalidate>
                         {% csrf_token %}
                         <div class="row">
                             {% for data in exer_form %}

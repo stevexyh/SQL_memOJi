@@ -57,7 +57,30 @@ def exams_manage(request):
     return render(request, 'coding/exams-manage.html', context=content)
 
 
+def exam_add(request):
+    '''Add exams in exams-manage page'''
+
+    exam_form = forms.ExamForm(request.POST)
+
+    if exam_form.is_valid():
+        exam_form.save()
+
+    return redirect('coding:exams-manage')
+
+
+def exer_add(request):
+    '''Add exercises in exams-manage page'''
+
+    exer_form = forms.ExerciseForm(request.POST)
+
+    if exer_form.is_valid():
+        exer_form.save()
+
+    return redirect('coding:exams-manage')
+
 #------------------------------------Questions Manage Page-----------------------------------#
+
+
 def questions_manage_base(request):
     '''Render questions-manage-base template'''
 
