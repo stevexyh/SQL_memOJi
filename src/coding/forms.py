@@ -138,11 +138,51 @@ class PaperForm(ModelForm):
             # 'xxx': {'required': _("xxx不能为空"), },
         }
 
-        # FIXME(Steve X): datetime picker above modal
         widgets = {
             'initiator': wid.Select(attrs={'class': 'select2'}),
             'question': wid.SelectMultiple(attrs={'class': 'select2'}),
             'paper_desc': wid.Textarea(attrs={'rows': 3}),
+        }
+
+
+class ExamForm(ModelForm):
+    '''For coding/exams-manage.html'''
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.fields.values():
+            if field.widget.attrs.get('class'):
+                field.widget.attrs['class'] += ' ' + ' '.join([
+                    'form-control',
+                ])
+            else:
+                field.widget.attrs.update({
+                    'class': 'form-control',
+                })
+
+    class Meta:
+        model = coding.models.Exam
+
+        fields = [
+            'exam_name',
+            'paper',
+            'start_time',
+            'end_time',
+            'desc',
+            'active',
+            'classroom',
+        ]
+
+        error_messages = {
+            # 'xxx': {'required': _("xxx不能为空"), },
+        }
+
+        # FIXME(Steve X): datetime picker above modal
+        widgets = {
+            'paper': wid.Select(attrs={'class': 'select2'}),
+            'classroom': wid.SelectMultiple(attrs={'class': 'select2'}),
+            'desc': wid.Textarea(attrs={'rows': 3}),
             # 'start_time': CustomDateInput(attrs={
             #     # 'type': 'datetime',
             #     # 'data-provide': 'datepicker',
@@ -157,4 +197,43 @@ class PaperForm(ModelForm):
             #     'placeholder': 'yyyy-mm-dd hh:MM:ss',
             #     'data-date-autoclose': 'true',
             # }),
+        }
+
+
+class ExerciseForm(ModelForm):
+    '''For coding/exams-manage.html'''
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.fields.values():
+            if field.widget.attrs.get('class'):
+                field.widget.attrs['class'] += ' ' + ' '.join([
+                    'form-control',
+                ])
+            else:
+                field.widget.attrs.update({
+                    'class': 'form-control',
+                })
+
+    class Meta:
+        model = coding.models.Exercise
+
+        fields = [
+            'exer_name',
+            'paper',
+            'desc',
+            'active',
+            'classroom',
+        ]
+
+        error_messages = {
+            # 'xxx': {'required': _("xxx不能为空"), },
+        }
+
+        # FIXME(Steve X): datetime picker above modal
+        widgets = {
+            'paper': wid.Select(attrs={'class': 'select2'}),
+            'classroom': wid.SelectMultiple(attrs={'class': 'select2'}),
+            'desc': wid.Textarea(attrs={'rows': 3}),
         }

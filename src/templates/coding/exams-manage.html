@@ -14,6 +14,9 @@
 
 <!-- CSS -->
 {% block css %}
+    <!-- Form Advanced Styles -->
+    <link href="{% static 'libs/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}" rel="stylesheet" type="text/css" />
 
 {% endblock css %}
 
@@ -63,7 +66,7 @@
             </div>
         </div>
         <div class="col-lg-4">
-            <div class="card bg-danger text-white-50">
+            <div class="card bg-danger text-white-50" data-toggle="modal" data-target='#exammodal'>
                 <a href="#">
                     <div class="card-body" style="height: 100%;">
                         <h5 class="mt-0 mb-4 text-white"><i class="mdi mdi-plus mr-1"></i> 发起考试</h5>
@@ -71,7 +74,7 @@
                     </div>
                 </a>
             </div>
-            <div class="card bg-primary text-white-50">
+            <div class="card bg-primary text-white-50" data-toggle="modal" data-target="#exermodal">
                 <a href="#">
                     <div class="card-body" style="height: 100%;">
                         <h5 class="mt-0 mb-4 text-white"><i class="mdi mdi-plus mr-1"></i> 发起练习 </h5>
@@ -208,9 +211,95 @@
     </div>
     <!-- end row -->
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="exammodal" tabindex="-1" role="dialog" aria-labelledby="exammodalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exammodalTitle">发起考试</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" class="needs-validation" action="{% url 'coding:paper-add' %}" novalidate>
+                        {% csrf_token %}
+                        <div class="row">
+                            {% for data in exam_form %}
+                                {% if data.name == 'desc' %}
+                                    <div class="form-group mb-4 col-12">
+                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
+                                        <div>{{ data }}</div>
+                                    </div>
+                                {% else %}
+                                    <div class="form-group mb-4 col-6">
+                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
+                                        <div>{{ data }}</div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                            <button type="submit" class="btn btn-primary">保存<i class="fab fa-telegram-plane ml-1"></i></button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exermodal" tabindex="-1" role="dialog" aria-labelledby="exermodalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exermodalTitle">发起练习</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" class="needs-validation" action="{% url 'coding:paper-add' %}" novalidate>
+                        {% csrf_token %}
+                        <div class="row">
+                            {% for data in exer_form %}
+                                {% if data.name == 'desc' %}
+                                    <div class="form-group mb-4 col-12">
+                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
+                                        <div>{{ data }}</div>
+                                    </div>
+                                {% else %}
+                                    <div class="form-group mb-4 col-6">
+                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
+                                        <div>{{ data }}</div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                            <button type="submit" class="btn btn-primary">保存<i class="fab fa-telegram-plane ml-1"></i></button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock main %}
 
 <!-- JS -->
 {% block js %}
+    <!-- Form Advanced -->
+    <script src="{% static 'libs/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+
+    <!-- Custom Pages -->
+    <script src="{% static 'js/pages/form-advanced.init.js' %}"></script>
 
 {% endblock js %}

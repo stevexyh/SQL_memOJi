@@ -39,11 +39,16 @@ from utils import sql_check
 def exams_manage(request):
     '''Render exams-manage template'''
 
+    exam_form = forms.ExamForm(auto_id='id_exam_%s')
+    exer_form = forms.ExerciseForm(auto_id='id_exer_%s')
+
     exams_list = models.Exam.objects.order_by('publish_time')
     exer_list = models.Exercise.objects.order_by('publish_time')
     next_exam = exams_list.first()
 
     content = {
+        'exam_form': exam_form,
+        'exer_form': exer_form,
         'exams_list': exams_list,
         'exer_list': exer_list,
         'next_exam': next_exam,
