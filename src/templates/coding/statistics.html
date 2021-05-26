@@ -20,6 +20,101 @@
 <!-- Main Content -->
 {% block main %}
     <div class="row">
+        <div class="col-xl-12">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="media">
+                                <div class="media-body overflow-hidden">
+                                    <p class="text-truncate font-size-14 mb-2">题目数量</p>
+                                    <h4 class="mb-0">{{ ques_cnt }}</h4>
+                                </div>
+                                <div class="text-primary">
+                                    <i class="ri-stack-line font-size-24"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body border-top py-3">
+                            <div class="text-truncate">
+                                <span class="badge badge-soft-success font-size-11"> {{ ques_set_cnt }} </span>
+                                <span class="text-muted ml-2">题库数量</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="media">
+                                <div class="media-body overflow-hidden">
+                                    <p class="text-truncate font-size-14 mb-2">总提交次数</p>
+                                    <h4 class="mb-0">{{ submit_cnt }}</h4>
+                                </div>
+                                <div class="text-primary">
+                                    <i class="ri-stack-line font-size-24"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body border-top py-3">
+                            <div class="text-truncate">
+                                <span class="badge badge-soft-success font-size-11"><i class="mdi mdi-menu-up"> </i> 2.4% </span>
+                                <span class="text-muted ml-2">From previous period</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="media">
+                                <div class="media-body overflow-hidden">
+                                    <p class="text-truncate font-size-14 mb-2">考试数量</p>
+                                    <h4 class="mb-0">{{ exam_cnt }}</h4>
+                                </div>
+                                <div class="text-primary">
+                                    <i class="ri-stack-line font-size-24"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body border-top py-3">
+                            <div class="text-truncate">
+                                <span class="badge badge-soft-success font-size-11"> {{ exam_active }} </span>
+                                <span class="text-muted ml-2">正在进行的考试</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="media">
+                                <div class="media-body overflow-hidden">
+                                    <p class="text-truncate font-size-14 mb-2">练习数量</p>
+                                    <h4 class="mb-0">{{ exer_cnt }}</h4>
+                                </div>
+                                <div class="text-primary">
+                                    <i class="ri-stack-line font-size-24"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body border-top py-3">
+                            <div class="text-truncate">
+                                <span class="badge badge-soft-success font-size-11"> {{ exer_active }} </span>
+                                <span class="text-muted ml-2">正在进行的练习</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+
+        </div>
+
+    </div> <!-- end row -->
+
+    <div class="row">
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
@@ -74,7 +169,6 @@
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
-
 
     <div class="row">
         <div class="col-lg-6">
@@ -185,6 +279,7 @@
             </div>
         </div> <!-- end col -->
     </div> <!-- end row -->
+
 {% endblock main %}
 
 <!-- JS -->

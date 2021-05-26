@@ -25,6 +25,7 @@ from django.views import View
 from django.contrib import auth
 from django.utils.translation import gettext_lazy as _
 from django.db import transaction
+from django.db.models import Sum
 from prettytable import PrettyTable
 from coding import forms
 from coding import models
@@ -317,4 +318,22 @@ class CodingEditor(View):
 def statistics(request):
     '''Render statistics template'''
 
-    return render(request, 'coding/statistics.html')
+    ques_cnt = models.Question.objects.count()
+    ques_set_cnt = models.QuestionSet.objects.count()
+    exam_cnt = models.Exam.objects.count()
+    exam_active = models.Exam.objects.filter(active=True).count()
+    exer_cnt = models.Exercise.objects.count()
+    # exer_active = models.Exercise.objects.filter().count()
+    submit_cnt = models.QuesAnswerRec.objects.aggregate(Sum('submit_cnt'))
+
+    content = {
+        'ques_cnt': ques_cnt,
+        'ques_set_cnt': ques_set_cnt,
+        'exam_cnt': exam_cnt,
+        'exam_active': exam_active,
+        'exer_cnt': exam_cnt,
+        'exer_active': 0,
+        'submit_cnt': submit_cnt['submit_cnt__sum'],
+    }
+
+    return render(request, 'coding/statistics.html', context=content)
