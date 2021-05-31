@@ -139,7 +139,7 @@
         var editor = monaco.editor.create(document.getElementById('container'), {
             value: [
                 // '# Write your MySQL statement here.',
-                '', ''
+                '{{ submit_ans }}', '', ''
             ].join('\n'),
             language: 'mysql',
         });

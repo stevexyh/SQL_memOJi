@@ -338,6 +338,7 @@ class CodingEditor(View):
         content.update({
             'correct': correct,
             'ans_status_color': ans_status_color,
+            'submit_ans': submit_ans,
         })
 
         return render(request, 'coding/coding-editor.html', context=content)
