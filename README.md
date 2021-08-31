@@ -63,8 +63,8 @@ DESCRIPTIONS
     - [x] 登录
     - [x] 找回密码
     - [x] 注册
-      - [ ] `auth-register.html` 实现分步表单注册
-      - [ ] form validation
+      - [ ] // `auth-register.html` 实现分步表单注册
+      - [ ] // form validation
 
   - [x] 日历 `calendar.html`
   - [x] 统计数据 `statistics.html`
@@ -72,7 +72,7 @@ DESCRIPTIONS
     - [ ] 老师：练习/考试 已完成/未完成，通过率
   - [x] 个人信息 `user-info.html`
   - [x] 答题 `coding.html`
-    - [ ] 编辑器 `coding-editor.html`
+    - [x] 编辑器 `coding-editor.html`
     - [ ] 取消“已完成”列，整合到考试、练习中
   - [x] 练习 & 考试 `exams-manage.html`
     - [ ] 练习详情编辑 `modal`
@@ -89,7 +89,7 @@ DESCRIPTIONS
     - [x] 题目详情编辑
       - [ ] 正确答案
     - [ ] 试卷详情编辑
-    - [ ] 创建题库（可选项）
+    - [x] 创建题库
     - [ ] 二级菜单
     - [ ] 取消垃圾箱
     - [ ] 批量管理工具栏
