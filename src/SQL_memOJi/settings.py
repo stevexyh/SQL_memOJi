@@ -48,10 +48,15 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    # Custom apps
     'user',
     'coding',
     'iCalendar',
 
+    # PIP lib
+    'rest_framework',
+
+    # Django core
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
