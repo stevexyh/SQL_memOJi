@@ -20,6 +20,8 @@
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from . import serializers as srlz
+from . import models
 
 
 @api_view(['GET'])
@@ -29,5 +31,14 @@ def test_api(request):
     content = {
         'test key': 'TEST API',
     }
+
+    return Response(data=content)
+
+
+@api_view(['GET'])
+def question_list(request):
+    questions = models.Question.objects.all()
+    serializer = srlz.QuestionSerializer(instance=questions, many=True)
+    content = serializer.data
 
     return Response(data=content)

@@ -40,5 +40,6 @@ urlpatterns = [
     path('questions-manage/paper-add/', views.paper_add, name='paper-add'),
 
     # APIs
-    path('api/test/', apis.test_api, name='api-test')
+    path('api/test/', apis.test_api, name='api-test'),
+    path('api/question-list/', apis.question_list, name='question-list'),
 ]
