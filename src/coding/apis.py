@@ -26,6 +26,8 @@ from rest_framework.response import Response
 def test_api(request):
     '''an API for test'''
 
-    content = 'TEST API'
+    content = {
+        'test key': 'TEST API',
+    }
 
     return Response(data=content)
