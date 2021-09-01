@@ -20,6 +20,7 @@
 
 from django.urls import path
 from . import views
+from . import apis
 
 app_name = 'coding'
 urlpatterns = [
@@ -38,4 +39,6 @@ urlpatterns = [
     path('questions-manage/question-add/', views.question_add, name='question-add'),
     path('questions-manage/paper-add/', views.paper_add, name='paper-add'),
 
+    # APIs
+    path('api/test/', apis.test_api, name='api-test')
 ]
