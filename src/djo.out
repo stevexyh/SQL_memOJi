@@ -1,0 +1,4 @@
+nohup: ignoring input
+Watching for file changes with StatReloader
+[28/Dec/2021 11:23:23] "GET /auth-login/ HTTP/1.1" 200 6384
+[28/Dec/2021 11:23:30] "GET / HTTP/1.1" 200 33044
