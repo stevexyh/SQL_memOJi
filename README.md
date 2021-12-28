@@ -2,7 +2,7 @@
 DESCRIPTIONS
 A Online-Judge Platform for NWPU DataBase Course.
 Modify By SeddonShen
-From Steve-X
+From Steve-Xyh
 
 ## Files  
 ```  
