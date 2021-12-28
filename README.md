@@ -25,6 +25,7 @@ From Steve-Xyh
 
 ## Environment
 - `env`
+- Mysql Need use MyISAM engine,in order to avoid foreign key error!
 
 ## Usage  
 - `To be finished.`  

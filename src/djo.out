@@ -1,4 +1,213 @@
 nohup: ignoring input
 Watching for file changes with StatReloader
-[28/Dec/2021 11:23:23] "GET /auth-login/ HTTP/1.1" 200 6384
-[28/Dec/2021 11:23:30] "GET / HTTP/1.1" 200 33044
+[28/Dec/2021 19:29:05] "GET / HTTP/1.1" 200 34281
+[28/Dec/2021 19:29:05] "GET /static/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET / HTTP/1.1" 200 34281
+[28/Dec/2021 19:29:06] "GET /static/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css HTTP/1.1" 200 692
+[28/Dec/2021 19:29:06] "GET /static/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css HTTP/1.1" 200 5395
+[28/Dec/2021 19:29:06] "GET /static/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css HTTP/1.1" 200 4162
+[28/Dec/2021 19:29:06] "GET /static/css/app.min.css HTTP/1.1" 200 72968
+[28/Dec/2021 19:29:06] "GET /static/libs/jquery/jquery.min.js HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/libs/bootstrap/js/bootstrap.bundle.min.js HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/libs/metismenu/metisMenu.min.js HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/libs/simplebar/simplebar.min.js HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/libs/node-waves/waves.min.js HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/libs/apexcharts/apexcharts.min.js HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/libs/datatables.net/js/jquery.dataTables.min.js HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/css/bootstrap.min.css HTTP/1.1" 200 184155
+[28/Dec/2021 19:29:06] "GET /static/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/libs/datatables.net-responsive/js/dataTables.responsive.min.js HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/js/custom-pages/dashboard.js HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/js/app.js HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/images/logo-sm-dark.png HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/images/logo-dark.png HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/images/logo-sm-light.png HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/images/logo-light.png HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/images/users/avatar-3.jpg HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/images/users/avatar-4.jpg HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/images/users/avatar-2.jpg HTTP/1.1" 304 0
+[28/Dec/2021 19:29:06] "GET /static/images/layouts/layout-1.jpg HTTP/1.1" 304 0
+[28/Dec/2021 19:29:07] "GET /static/images/layouts/layout-2.jpg HTTP/1.1" 304 0
+[28/Dec/2021 19:29:08] "GET /static/css/icons.min.css HTTP/1.1" 200 389432
+[28/Dec/2021 19:29:08] "GET /static/fonts/remixicon.woff2?t=1587359857360 HTTP/1.1" 304 0
+[28/Dec/2021 19:29:08] "GET /static/fonts/materialdesignicons-webfont.woff2?v=5.0.45 HTTP/1.1" 304 0
+[28/Dec/2021 19:29:08] "GET /static/fonts/inter-bold.woff2?v=3.13 HTTP/1.1" 304 0
+[28/Dec/2021 19:29:08] "GET /static/fonts/inter-medium.woff2?v=3.13 HTTP/1.1" 304 0
+[28/Dec/2021 19:29:09] "GET /static/images/favicon.ico HTTP/1.1" 200 101751
+[28/Dec/2021 19:29:13] "GET /calendar/ HTTP/1.1" 200 23270
+[28/Dec/2021 19:29:13] "GET /static/libs/fullcalendar/fullcalendar.min.css HTTP/1.1" 200 16140
+[28/Dec/2021 19:29:13] "GET /static/libs/moment/min/moment.min.js HTTP/1.1" 200 53324
+[28/Dec/2021 19:29:13] "GET /static/js/custom-pages/calendar.js HTTP/1.1" 200 4192
+[28/Dec/2021 19:29:13] "GET /static/libs/jquery-ui-dist/jquery-ui.min.js HTTP/1.1" 200 253669
+[28/Dec/2021 19:29:14] "GET /static/libs/fullcalendar/fullcalendar.min.js HTTP/1.1" 200 217026
+Internal Server Error: /coding/coding/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/ubuntu/SQL_memOJi/src/coding/views.py", line 216, in coding
+    return render(request, 'coding/coding.html', context=content)
+  File "/usr/local/lib/python3.8/dist-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/usr/local/lib/python3.8/dist-packages/django/urls/base.py", line 87, in reverse
+    return iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
+  File "/usr/local/lib/python3.8/dist-packages/django/urls/resolvers.py", line 685, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'coding-editor' with arguments '('exam', '', 1)' not found. 1 pattern(s) tried: ['coding/coding\\-editor/(?P<event_type>[^/]+)/(?P<event_id>[^/]+)/(?P<ques_id>[^/]+)/$']
+[28/Dec/2021 19:29:16] "GET /coding/coding/ HTTP/1.1" 500 177648
+[28/Dec/2021 19:29:19] "GET /admin HTTP/1.1" 301 0
+[28/Dec/2021 19:29:20] "GET /admin/ HTTP/1.1" 200 8802
+[28/Dec/2021 19:29:20] "GET /static/admin/css/base.css HTTP/1.1" 200 16307
+[28/Dec/2021 19:29:20] "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2138
+[28/Dec/2021 19:29:20] "GET /static/admin/css/dashboard.css HTTP/1.1" 200 380
+[28/Dec/2021 19:29:20] "GET /static/admin/css/responsive.css HTTP/1.1" 200 18344
+[28/Dec/2021 19:29:20] "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 1360
+[28/Dec/2021 19:29:20] "GET /static/admin/css/fonts.css HTTP/1.1" 200 423
+[28/Dec/2021 19:29:20] "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+[28/Dec/2021 19:29:20] "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+[28/Dec/2021 19:29:20] "GET /static/admin/fonts/Roboto-Regular-webfont.woff HTTP/1.1" 200 85876
+[28/Dec/2021 19:29:20] "GET /static/admin/fonts/Roboto-Bold-webfont.woff HTTP/1.1" 200 86184
+[28/Dec/2021 19:29:20] "GET /static/admin/fonts/Roboto-Light-webfont.woff HTTP/1.1" 200 85692
+[28/Dec/2021 19:29:25] "GET /admin/ HTTP/1.1" 200 8802
+[28/Dec/2021 19:29:27] "GET / HTTP/1.1" 200 34281
+[28/Dec/2021 19:29:29] "GET /calendar/ HTTP/1.1" 200 23270
+Internal Server Error: /coding/coding/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/ubuntu/SQL_memOJi/src/coding/views.py", line 216, in coding
+    return render(request, 'coding/coding.html', context=content)
+  File "/usr/local/lib/python3.8/dist-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/usr/local/lib/python3.8/dist-packages/django/urls/base.py", line 87, in reverse
+    return iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
+  File "/usr/local/lib/python3.8/dist-packages/django/urls/resolvers.py", line 685, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'coding-editor' with arguments '('exam', '', 1)' not found. 1 pattern(s) tried: ['coding/coding\\-editor/(?P<event_type>[^/]+)/(?P<event_id>[^/]+)/(?P<ques_id>[^/]+)/$']
+[28/Dec/2021 19:29:30] "GET /coding/coding/ HTTP/1.1" 500 177648
+[28/Dec/2021 19:29:51] "GET /admin/coding/exam/ HTTP/1.1" 200 8112
+[28/Dec/2021 19:29:51] "GET /static/admin/css/changelists.css HTTP/1.1" 200 6302
+[28/Dec/2021 19:29:51] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[28/Dec/2021 19:29:51] "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+[28/Dec/2021 19:29:51] "GET /static/admin/js/core.js HTTP/1.1" 200 5418
+[28/Dec/2021 19:29:51] "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 6078
+[28/Dec/2021 19:29:51] "GET /static/admin/js/actions.js HTTP/1.1" 200 6783
+[28/Dec/2021 19:29:51] "GET /static/admin/js/urlify.js HTTP/1.1" 200 8632
+[28/Dec/2021 19:29:51] "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+[28/Dec/2021 19:29:51] "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 232381
+[28/Dec/2021 19:29:51] "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 287630
+[28/Dec/2021 19:29:52] "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 331
+[28/Dec/2021 19:29:56] "GET /admin/coding/exam/add/ HTTP/1.1" 200 13193
+[28/Dec/2021 19:29:56] "GET /static/admin/css/forms.css HTTP/1.1" 200 8423
+[28/Dec/2021 19:29:56] "GET /static/admin/js/calendar.js HTTP/1.1" 200 7788
+[28/Dec/2021 19:29:56] "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 19750
+[28/Dec/2021 19:29:56] "GET /static/admin/css/widgets.css HTTP/1.1" 200 10592
+[28/Dec/2021 19:29:57] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[28/Dec/2021 19:29:57] "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 492
+[28/Dec/2021 19:29:57] "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+[28/Dec/2021 19:29:57] "GET /static/admin/img/icon-calendar.svg HTTP/1.1" 200 1086
+[28/Dec/2021 19:29:57] "GET /static/admin/img/icon-clock.svg HTTP/1.1" 200 677
+[28/Dec/2021 19:30:09] "GET /admin/coding/paper/add/?_to_field=paper_id&_popup=1 HTTP/1.1" 200 12759
+[28/Dec/2021 19:30:09] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[28/Dec/2021 19:30:09] "GET /static/admin/js/inlines.js HTTP/1.1" 200 15225
+[28/Dec/2021 19:30:09] "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
+[28/Dec/2021 19:30:09] "GET /static/admin/img/inline-delete.svg HTTP/1.1" 200 560
+[28/Dec/2021 19:30:17] "GET /coding/questions-manage/ HTTP/1.1" 200 45394
+[28/Dec/2021 19:30:17] "GET /static/libs/select2/css/select2.min.css HTTP/1.1" 200 14966
+[28/Dec/2021 19:30:17] "GET /static/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css HTTP/1.1" 200 15731
+[28/Dec/2021 19:30:17] "GET /static/libs/dropzone/min/dropzone.min.css HTTP/1.1" 200 9846
+[28/Dec/2021 19:30:18] "GET /static/js/pages/form-validation.init.js HTTP/1.1" 200 385
+[28/Dec/2021 19:30:18] "GET /static/libs/dropzone/min/dropzone.min.js HTTP/1.1" 200 48149
+[28/Dec/2021 19:30:18] "GET /static/libs/select2/js/select2.min.js HTTP/1.1" 200 70851
+[28/Dec/2021 19:30:18] "GET /static/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js HTTP/1.1" 200 33693
+[28/Dec/2021 19:30:18] "GET /static/js/pages/form-mask.init.js HTTP/1.1" 200 60
+[28/Dec/2021 19:30:18] "GET /static/js/custom-pages/questions-manage.js HTTP/1.1" 200 6576
+[28/Dec/2021 19:30:18] "GET /static/js/pages/form-advanced.init.js HTTP/1.1" 200 1836
+[28/Dec/2021 19:30:18] "GET /static/libs/inputmask/jquery.inputmask.min.js HTTP/1.1" 200 120321
+[28/Dec/2021 19:30:20] "GET /static/fonts/fa-brands-400.woff2 HTTP/1.1" 200 76612
+Internal Server Error: /coding/questions-manage/ques-set-add/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/ubuntu/SQL_memOJi/src/coding/views.py", line 135, in ques_set_add
+    host = tk.get_conf('mysql', 'host')
+  File "/home/ubuntu/SQL_memOJi/src/utils/token.py", line 73, in get_conf
+    res = conf.get(section=section, option=option)
+  File "/usr/lib/python3.8/configparser.py", line 781, in get
+    d = self._unify_values(section, vars)
+  File "/usr/lib/python3.8/configparser.py", line 1149, in _unify_values
+    raise NoSectionError(section) from None
+configparser.NoSectionError: No section: 'mysql'
+[28/Dec/2021 19:31:07] "POST /coding/questions-manage/ques-set-add/ HTTP/1.1" 500 82496
+[28/Dec/2021 19:38:24] "GET / HTTP/1.1" 200 34281
+Performing system checks...
+
+System check identified no issues (0 silenced).
+December 28, 2021 - 19:26:11
+Django version 3.1.7, using settings 'SQL_memOJi.settings'
+Starting development server at http://10.0.4.13:8000/
+Quit the server with CONTROL-C.

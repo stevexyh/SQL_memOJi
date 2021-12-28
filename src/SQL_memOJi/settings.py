@@ -103,8 +103,8 @@ WSGI_APPLICATION = 'SQL_memOJi.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-DB = 'sqlite'
-
+# DB = 'sqlite'
+DB = 'mysql'
 if DB == 'sqlite':
     DATABASES = {
         'default': {
