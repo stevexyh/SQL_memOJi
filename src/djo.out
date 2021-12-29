@@ -1,48 +1,53 @@
 nohup: ignoring input
 Watching for file changes with StatReloader
-[28/Dec/2021 19:29:05] "GET / HTTP/1.1" 200 34281
-[28/Dec/2021 19:29:05] "GET /static/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET / HTTP/1.1" 200 34281
-[28/Dec/2021 19:29:06] "GET /static/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css HTTP/1.1" 200 692
-[28/Dec/2021 19:29:06] "GET /static/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css HTTP/1.1" 200 5395
-[28/Dec/2021 19:29:06] "GET /static/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css HTTP/1.1" 200 4162
-[28/Dec/2021 19:29:06] "GET /static/css/app.min.css HTTP/1.1" 200 72968
-[28/Dec/2021 19:29:06] "GET /static/libs/jquery/jquery.min.js HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/libs/bootstrap/js/bootstrap.bundle.min.js HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/libs/metismenu/metisMenu.min.js HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/libs/simplebar/simplebar.min.js HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/libs/node-waves/waves.min.js HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/libs/apexcharts/apexcharts.min.js HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/libs/datatables.net/js/jquery.dataTables.min.js HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/css/bootstrap.min.css HTTP/1.1" 200 184155
-[28/Dec/2021 19:29:06] "GET /static/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/libs/datatables.net-responsive/js/dataTables.responsive.min.js HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/js/custom-pages/dashboard.js HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/js/app.js HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/images/logo-sm-dark.png HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/images/logo-dark.png HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/images/logo-sm-light.png HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/images/logo-light.png HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/images/users/avatar-3.jpg HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/images/users/avatar-4.jpg HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/images/users/avatar-2.jpg HTTP/1.1" 304 0
-[28/Dec/2021 19:29:06] "GET /static/images/layouts/layout-1.jpg HTTP/1.1" 304 0
-[28/Dec/2021 19:29:07] "GET /static/images/layouts/layout-2.jpg HTTP/1.1" 304 0
-[28/Dec/2021 19:29:08] "GET /static/css/icons.min.css HTTP/1.1" 200 389432
-[28/Dec/2021 19:29:08] "GET /static/fonts/remixicon.woff2?t=1587359857360 HTTP/1.1" 304 0
-[28/Dec/2021 19:29:08] "GET /static/fonts/materialdesignicons-webfont.woff2?v=5.0.45 HTTP/1.1" 304 0
-[28/Dec/2021 19:29:08] "GET /static/fonts/inter-bold.woff2?v=3.13 HTTP/1.1" 304 0
-[28/Dec/2021 19:29:08] "GET /static/fonts/inter-medium.woff2?v=3.13 HTTP/1.1" 304 0
-[28/Dec/2021 19:29:09] "GET /static/images/favicon.ico HTTP/1.1" 200 101751
-[28/Dec/2021 19:29:13] "GET /calendar/ HTTP/1.1" 200 23270
-[28/Dec/2021 19:29:13] "GET /static/libs/fullcalendar/fullcalendar.min.css HTTP/1.1" 200 16140
-[28/Dec/2021 19:29:13] "GET /static/libs/moment/min/moment.min.js HTTP/1.1" 200 53324
-[28/Dec/2021 19:29:13] "GET /static/js/custom-pages/calendar.js HTTP/1.1" 200 4192
-[28/Dec/2021 19:29:13] "GET /static/libs/jquery-ui-dist/jquery-ui.min.js HTTP/1.1" 200 253669
-[28/Dec/2021 19:29:14] "GET /static/libs/fullcalendar/fullcalendar.min.js HTTP/1.1" 200 217026
+[29/Dec/2021 10:44:53] "GET /calendar/ HTTP/1.1" 200 22033
+[29/Dec/2021 10:44:55] "GET /calendar/ HTTP/1.1" 200 22033
+[29/Dec/2021 10:44:57] "GET /admin/ HTTP/1.1" 302 0
+[29/Dec/2021 10:44:57] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 2185
+[29/Dec/2021 10:44:57] "GET /admin/ HTTP/1.1" 302 0
+[29/Dec/2021 10:44:57] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 2185
+[29/Dec/2021 10:45:00] "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+[29/Dec/2021 10:45:00] "GET /admin/ HTTP/1.1" 200 8456
+[29/Dec/2021 10:45:03] "GET /admin/user/school/ HTTP/1.1" 200 8111
+[29/Dec/2021 10:45:03] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:45:05] "GET /admin/user/school/add/ HTTP/1.1" 200 9953
+[29/Dec/2021 10:45:05] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:45:07] "POST /admin/user/school/add/ HTTP/1.1" 302 0
+[29/Dec/2021 10:45:07] "GET /admin/user/school/ HTTP/1.1" 200 10154
+[29/Dec/2021 10:45:07] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:45:08] "GET /admin/user/ HTTP/1.1" 200 4365
+[29/Dec/2021 10:45:11] "GET /admin/user/school/ HTTP/1.1" 200 9956
+[29/Dec/2021 10:45:11] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:45:13] "GET /admin/user/ HTTP/1.1" 200 4365
+[29/Dec/2021 10:46:13] "GET /admin/user/student/ HTTP/1.1" 200 8113
+[29/Dec/2021 10:46:13] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:46:14] "GET /admin/user/ HTTP/1.1" 200 4365
+[29/Dec/2021 10:46:15] "GET /admin/user/teacher/ HTTP/1.1" 200 8113
+[29/Dec/2021 10:46:15] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:46:16] "GET /admin/user/teacher/add/ HTTP/1.1" 200 9444
+[29/Dec/2021 10:46:17] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:46:19] "POST /admin/user/teacher/add/ HTTP/1.1" 200 9581
+[29/Dec/2021 10:46:19] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:46:21] "GET /admin/user/user/add/?_to_field=email&_popup=1 HTTP/1.1" 200 9300
+[29/Dec/2021 10:46:21] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:46:54] "POST /admin/user/user/add/?_to_field=email&_popup=1 HTTP/1.1" 200 366
+[29/Dec/2021 10:46:57] "POST /admin/user/teacher/add/ HTTP/1.1" 302 0
+[29/Dec/2021 10:46:57] "GET /admin/user/teacher/ HTTP/1.1" 200 9554
+[29/Dec/2021 10:46:57] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:46:59] "GET /admin/user/ HTTP/1.1" 200 4365
+[29/Dec/2021 10:47:00] "GET /admin/user/classroom/ HTTP/1.1" 200 8117
+[29/Dec/2021 10:47:01] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:47:02] "GET /admin/user/classroom/add/ HTTP/1.1" 200 13070
+[29/Dec/2021 10:47:02] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:47:03] "GET /admin/user/classroom/ HTTP/1.1" 200 8117
+[29/Dec/2021 10:47:03] "GET /admin/user/ HTTP/1.1" 200 4365
+[29/Dec/2021 10:47:05] "GET /admin/user/student/ HTTP/1.1" 200 8113
+[29/Dec/2021 10:47:05] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:47:06] "GET /admin/user/student/add/ HTTP/1.1" 200 11333
+[29/Dec/2021 10:47:06] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:47:11] "GET /admin/user/student/ HTTP/1.1" 200 8113
+[29/Dec/2021 10:47:12] "GET /admin/user/ HTTP/1.1" 200 4365
+[29/Dec/2021 10:47:23] "GET / HTTP/1.1" 200 34281
 Internal Server Error: /coding/coding/
 Traceback (most recent call last):
   File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 47, in inner
@@ -86,23 +91,151 @@ Traceback (most recent call last):
   File "/usr/local/lib/python3.8/dist-packages/django/urls/resolvers.py", line 685, in _reverse_with_prefix
     raise NoReverseMatch(msg)
 django.urls.exceptions.NoReverseMatch: Reverse for 'coding-editor' with arguments '('exam', '', 1)' not found. 1 pattern(s) tried: ['coding/coding\\-editor/(?P<event_type>[^/]+)/(?P<event_id>[^/]+)/(?P<ques_id>[^/]+)/$']
-[28/Dec/2021 19:29:16] "GET /coding/coding/ HTTP/1.1" 500 177648
-[28/Dec/2021 19:29:19] "GET /admin HTTP/1.1" 301 0
-[28/Dec/2021 19:29:20] "GET /admin/ HTTP/1.1" 200 8802
-[28/Dec/2021 19:29:20] "GET /static/admin/css/base.css HTTP/1.1" 200 16307
-[28/Dec/2021 19:29:20] "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2138
-[28/Dec/2021 19:29:20] "GET /static/admin/css/dashboard.css HTTP/1.1" 200 380
-[28/Dec/2021 19:29:20] "GET /static/admin/css/responsive.css HTTP/1.1" 200 18344
-[28/Dec/2021 19:29:20] "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 1360
-[28/Dec/2021 19:29:20] "GET /static/admin/css/fonts.css HTTP/1.1" 200 423
-[28/Dec/2021 19:29:20] "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
-[28/Dec/2021 19:29:20] "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
-[28/Dec/2021 19:29:20] "GET /static/admin/fonts/Roboto-Regular-webfont.woff HTTP/1.1" 200 85876
-[28/Dec/2021 19:29:20] "GET /static/admin/fonts/Roboto-Bold-webfont.woff HTTP/1.1" 200 86184
-[28/Dec/2021 19:29:20] "GET /static/admin/fonts/Roboto-Light-webfont.woff HTTP/1.1" 200 85692
-[28/Dec/2021 19:29:25] "GET /admin/ HTTP/1.1" 200 8802
-[28/Dec/2021 19:29:27] "GET / HTTP/1.1" 200 34281
-[28/Dec/2021 19:29:29] "GET /calendar/ HTTP/1.1" 200 23270
+[29/Dec/2021 10:47:25] "GET /coding/coding/ HTTP/1.1" 500 178458
+[29/Dec/2021 10:47:27] "GET /class-manage/ HTTP/1.1" 200 28487
+[29/Dec/2021 10:47:51] "POST /class-manage/ HTTP/1.1" 302 0
+[29/Dec/2021 10:47:52] "GET /class-manage HTTP/1.1" 301 0
+[29/Dec/2021 10:47:52] "GET /class-manage/ HTTP/1.1" 200 30147
+[29/Dec/2021 10:48:01] "GET /admin/user/student/add/ HTTP/1.1" 200 11379
+[29/Dec/2021 10:48:01] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:48:09] "GET /admin/user/ HTTP/1.1" 200 4365
+[29/Dec/2021 10:48:10] "GET /admin/user/student/ HTTP/1.1" 200 8113
+[29/Dec/2021 10:48:11] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:48:11] "GET /admin/user/ HTTP/1.1" 200 4365
+[29/Dec/2021 10:48:12] "GET /admin/user/user/ HTTP/1.1" 200 13062
+[29/Dec/2021 10:48:12] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:48:14] "GET /admin/user/user/add/ HTTP/1.1" 200 15240
+[29/Dec/2021 10:48:14] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:48:21] "GET /auth-register/ HTTP/1.1" 200 11650
+[29/Dec/2021 10:48:21] "GET /static/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js HTTP/1.1" 200 5988
+[29/Dec/2021 10:48:21] "GET /static/libs/parsleyjs/parsley.min.js HTTP/1.1" 200 42773
+[29/Dec/2021 10:48:21] "GET /static/libs/twitter-bootstrap-wizard/prettify.js HTTP/1.1" 200 13631
+[29/Dec/2021 10:48:21] "GET /static/js/pages/form-wizard.init.js HTTP/1.1" 200 279
+[29/Dec/2021 10:48:21] "GET /static/images/backgrounds/auth_bg_code.png HTTP/1.1" 200 308042
+[29/Dec/2021 10:48:44] "POST /auth-register/ HTTP/1.1" 200 6087
+[29/Dec/2021 10:48:45] "GET /auth-login/ HTTP/1.1" 200 6384
+[29/Dec/2021 10:48:50] "POST /auth-login/ HTTP/1.1" 200 22736
+----------------------------------------
+Exception happened during processing of request from ('222.90.96.229', 11946)
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/socketserver.py", line 683, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/usr/lib/python3.8/socketserver.py", line 360, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/usr/lib/python3.8/socketserver.py", line 747, in __init__
+    self.handle()
+  File "/usr/local/lib/python3.8/dist-packages/django/core/servers/basehttp.py", line 174, in handle
+    self.handle_one_request()
+  File "/usr/local/lib/python3.8/dist-packages/django/core/servers/basehttp.py", line 182, in handle_one_request
+    self.raw_requestline = self.rfile.readline(65537)
+  File "/usr/lib/python3.8/socket.py", line 669, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [Errno 104] Connection reset by peer
+----------------------------------------
+[29/Dec/2021 10:48:50] "POST /auth-login/ HTTP/1.1" 200 22736
+[29/Dec/2021 10:48:53] "GET /class-manage/ HTTP/1.1" 200 30147
+[29/Dec/2021 10:48:55] "GET /calendar/ HTTP/1.1" 200 23270
+[29/Dec/2021 10:48:56] "GET / HTTP/1.1" 200 34281
+[29/Dec/2021 10:48:59] "GET /admin/user/user/ HTTP/1.1" 302 0
+[29/Dec/2021 10:48:59] "GET /admin/login/?next=/admin/user/user/ HTTP/1.1" 200 2342
+[29/Dec/2021 10:49:00] "GET /admin/user/ HTTP/1.1" 302 0
+[29/Dec/2021 10:49:00] "GET /admin/login/?next=/admin/user/ HTTP/1.1" 200 2332
+[29/Dec/2021 10:49:03] "GET /coding/exams-manage/ HTTP/1.1" 200 35930
+[29/Dec/2021 10:49:04] "GET /class-manage/ HTTP/1.1" 200 30147
+[29/Dec/2021 10:49:05] "GET /coding/questions-manage/ HTTP/1.1" 200 45394
+[29/Dec/2021 10:49:06] "GET /user-info/ HTTP/1.1" 200 28786
+[29/Dec/2021 10:49:12] "POST /admin/login/?next=/admin/user/ HTTP/1.1" 302 0
+[29/Dec/2021 10:49:12] "GET /admin/user/ HTTP/1.1" 200 4365
+[29/Dec/2021 10:49:14] "GET /admin/user/student/ HTTP/1.1" 200 9769
+[29/Dec/2021 10:49:14] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:49:14] "GET /static/admin/img/icon-no.svg HTTP/1.1" 200 560
+[29/Dec/2021 10:49:15] "GET /admin/user/student/cyx_40qq.com/change/ HTTP/1.1" 200 11673
+[29/Dec/2021 10:49:15] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:49:18] "POST /admin/user/student/cyx_40qq.com/change/ HTTP/1.1" 302 0
+[29/Dec/2021 10:49:18] "GET /admin/user/student/ HTTP/1.1" 200 9995
+[29/Dec/2021 10:49:18] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+Internal Server Error: /user-info/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/ubuntu/SQL_memOJi/src/user/views.py", line 276, in get
+    classroom = user.student.classroom if is_student else ''
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/functional.py", line 241, in inner
+    return func(self._wrapped, *args)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/fields/related_descriptors.py", line 421, in __get__
+    raise self.RelatedObjectDoesNotExist(
+user.models.User.student.RelatedObjectDoesNotExist: User has no student.
+[29/Dec/2021 10:49:20] "GET /user-info/ HTTP/1.1" 500 85867
+Internal Server Error: /user-info/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/ubuntu/SQL_memOJi/src/user/views.py", line 276, in get
+    classroom = user.student.classroom if is_student else ''
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/functional.py", line 241, in inner
+    return func(self._wrapped, *args)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/fields/related_descriptors.py", line 421, in __get__
+    raise self.RelatedObjectDoesNotExist(
+user.models.User.student.RelatedObjectDoesNotExist: User has no student.
+[29/Dec/2021 10:49:21] "GET /user-info/ HTTP/1.1" 500 85867
+Internal Server Error: /user-info/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/views/generic/base.py", line 70, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/django/views/generic/base.py", line 98, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/home/ubuntu/SQL_memOJi/src/user/views.py", line 276, in get
+    classroom = user.student.classroom if is_student else ''
+  File "/usr/local/lib/python3.8/dist-packages/django/utils/functional.py", line 241, in inner
+    return func(self._wrapped, *args)
+  File "/usr/local/lib/python3.8/dist-packages/django/db/models/fields/related_descriptors.py", line 421, in __get__
+    raise self.RelatedObjectDoesNotExist(
+user.models.User.student.RelatedObjectDoesNotExist: User has no student.
+[29/Dec/2021 10:49:22] "GET /user-info/ HTTP/1.1" 500 85867
+[29/Dec/2021 10:49:27] "GET /admin/logout/ HTTP/1.1" 302 0
+[29/Dec/2021 10:49:27] "GET /auth-login/ HTTP/1.1" 200 6384
+[29/Dec/2021 10:49:31] "POST /auth-login/ HTTP/1.1" 200 22736
+[29/Dec/2021 10:49:33] "GET /user-info/ HTTP/1.1" 200 28818
+[29/Dec/2021 10:49:42] "GET /admin/ HTTP/1.1" 302 0
+[29/Dec/2021 10:49:42] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 2322
+[29/Dec/2021 10:49:57] "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+[29/Dec/2021 10:49:58] "GET /admin/ HTTP/1.1" 200 9721
+[29/Dec/2021 10:50:00] "GET /admin/user/student/ HTTP/1.1" 200 9783
+[29/Dec/2021 10:50:00] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:50:01] "GET /admin/user/student/cyx_40qq.com/change/ HTTP/1.1" 200 11681
+[29/Dec/2021 10:50:01] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:50:03] "GET /admin/user/student/ HTTP/1.1" 200 9783
+[29/Dec/2021 10:50:03] "GET /admin/ HTTP/1.1" 200 9721
+[29/Dec/2021 10:50:13] "GET /admin/user/school/ HTTP/1.1" 200 9956
+[29/Dec/2021 10:50:13] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:50:16] "GET /coding/questions-manage/ HTTP/1.1" 200 45394
+[29/Dec/2021 10:50:18] "GET /admin/ HTTP/1.1" 200 9721
+[29/Dec/2021 10:50:20] "GET /admin/user/teacher/ HTTP/1.1" 200 9336
+[29/Dec/2021 10:50:20] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:50:21] "GET /admin/user/teacher/283481855_40qq.com/change/ HTTP/1.1" 200 9816
+[29/Dec/2021 10:50:22] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:50:22] "GET /admin/user/teacher/ HTTP/1.1" 200 9336
+[29/Dec/2021 10:50:24] "GET /class-manage/ HTTP/1.1" 200 30147
+[29/Dec/2021 10:50:25] "GET /class-details/1/ HTTP/1.1" 200 41165
+[29/Dec/2021 10:50:32] "GET /calendar/ HTTP/1.1" 200 23270
+[29/Dec/2021 10:50:33] "GET / HTTP/1.1" 200 34281
+[29/Dec/2021 10:50:34] "GET /calendar/ HTTP/1.1" 200 23270
 Internal Server Error: /coding/coding/
 Traceback (most recent call last):
   File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 47, in inner
@@ -146,68 +279,338 @@ Traceback (most recent call last):
   File "/usr/local/lib/python3.8/dist-packages/django/urls/resolvers.py", line 685, in _reverse_with_prefix
     raise NoReverseMatch(msg)
 django.urls.exceptions.NoReverseMatch: Reverse for 'coding-editor' with arguments '('exam', '', 1)' not found. 1 pattern(s) tried: ['coding/coding\\-editor/(?P<event_type>[^/]+)/(?P<event_id>[^/]+)/(?P<ques_id>[^/]+)/$']
-[28/Dec/2021 19:29:30] "GET /coding/coding/ HTTP/1.1" 500 177648
-[28/Dec/2021 19:29:51] "GET /admin/coding/exam/ HTTP/1.1" 200 8112
-[28/Dec/2021 19:29:51] "GET /static/admin/css/changelists.css HTTP/1.1" 200 6302
-[28/Dec/2021 19:29:51] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
-[28/Dec/2021 19:29:51] "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
-[28/Dec/2021 19:29:51] "GET /static/admin/js/core.js HTTP/1.1" 200 5418
-[28/Dec/2021 19:29:51] "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 6078
-[28/Dec/2021 19:29:51] "GET /static/admin/js/actions.js HTTP/1.1" 200 6783
-[28/Dec/2021 19:29:51] "GET /static/admin/js/urlify.js HTTP/1.1" 200 8632
-[28/Dec/2021 19:29:51] "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
-[28/Dec/2021 19:29:51] "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 232381
-[28/Dec/2021 19:29:51] "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 287630
-[28/Dec/2021 19:29:52] "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 331
-[28/Dec/2021 19:29:56] "GET /admin/coding/exam/add/ HTTP/1.1" 200 13193
-[28/Dec/2021 19:29:56] "GET /static/admin/css/forms.css HTTP/1.1" 200 8423
-[28/Dec/2021 19:29:56] "GET /static/admin/js/calendar.js HTTP/1.1" 200 7788
-[28/Dec/2021 19:29:56] "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 19750
-[28/Dec/2021 19:29:56] "GET /static/admin/css/widgets.css HTTP/1.1" 200 10592
-[28/Dec/2021 19:29:57] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
-[28/Dec/2021 19:29:57] "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 492
-[28/Dec/2021 19:29:57] "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
-[28/Dec/2021 19:29:57] "GET /static/admin/img/icon-calendar.svg HTTP/1.1" 200 1086
-[28/Dec/2021 19:29:57] "GET /static/admin/img/icon-clock.svg HTTP/1.1" 200 677
-[28/Dec/2021 19:30:09] "GET /admin/coding/paper/add/?_to_field=paper_id&_popup=1 HTTP/1.1" 200 12759
-[28/Dec/2021 19:30:09] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
-[28/Dec/2021 19:30:09] "GET /static/admin/js/inlines.js HTTP/1.1" 200 15225
-[28/Dec/2021 19:30:09] "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
-[28/Dec/2021 19:30:09] "GET /static/admin/img/inline-delete.svg HTTP/1.1" 200 560
-[28/Dec/2021 19:30:17] "GET /coding/questions-manage/ HTTP/1.1" 200 45394
-[28/Dec/2021 19:30:17] "GET /static/libs/select2/css/select2.min.css HTTP/1.1" 200 14966
-[28/Dec/2021 19:30:17] "GET /static/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css HTTP/1.1" 200 15731
-[28/Dec/2021 19:30:17] "GET /static/libs/dropzone/min/dropzone.min.css HTTP/1.1" 200 9846
-[28/Dec/2021 19:30:18] "GET /static/js/pages/form-validation.init.js HTTP/1.1" 200 385
-[28/Dec/2021 19:30:18] "GET /static/libs/dropzone/min/dropzone.min.js HTTP/1.1" 200 48149
-[28/Dec/2021 19:30:18] "GET /static/libs/select2/js/select2.min.js HTTP/1.1" 200 70851
-[28/Dec/2021 19:30:18] "GET /static/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js HTTP/1.1" 200 33693
-[28/Dec/2021 19:30:18] "GET /static/js/pages/form-mask.init.js HTTP/1.1" 200 60
-[28/Dec/2021 19:30:18] "GET /static/js/custom-pages/questions-manage.js HTTP/1.1" 200 6576
-[28/Dec/2021 19:30:18] "GET /static/js/pages/form-advanced.init.js HTTP/1.1" 200 1836
-[28/Dec/2021 19:30:18] "GET /static/libs/inputmask/jquery.inputmask.min.js HTTP/1.1" 200 120321
-[28/Dec/2021 19:30:20] "GET /static/fonts/fa-brands-400.woff2 HTTP/1.1" 200 76612
-Internal Server Error: /coding/questions-manage/ques-set-add/
+[29/Dec/2021 10:50:35] "GET /coding/coding/ HTTP/1.1" 500 178467
+[29/Dec/2021 10:50:37] "GET /coding/statistics/ HTTP/1.1" 200 33558
+[29/Dec/2021 10:50:37] "GET /class-manage/ HTTP/1.1" 200 30147
+[29/Dec/2021 10:50:40] "GET /class-manage/ HTTP/1.1" 200 30147
+[29/Dec/2021 10:50:41] "GET /class-details/1/ HTTP/1.1" 200 41165
+[29/Dec/2021 10:50:44] "GET /class-manage/ HTTP/1.1" 200 30147
+[29/Dec/2021 10:50:45] "GET /coding/exams-manage/ HTTP/1.1" 200 35930
+[29/Dec/2021 10:50:47] "GET /coding/questions-manage/ HTTP/1.1" 200 45394
+[29/Dec/2021 10:51:19] "POST /coding/questions-manage/ques-set-add/ HTTP/1.1" 302 0
+[29/Dec/2021 10:51:19] "GET /coding/questions-manage/ HTTP/1.1" 200 45394
+[29/Dec/2021 10:51:26] "GET /coding/questions-manage/ HTTP/1.1" 200 45394
+[29/Dec/2021 10:51:28] "GET /coding/questions-manage/ HTTP/1.1" 200 45394
+[29/Dec/2021 10:51:35] "GET /admin/user/ HTTP/1.1" 200 4365
+[29/Dec/2021 10:51:38] "GET /admin/ HTTP/1.1" 200 9721
+[29/Dec/2021 10:51:39] "GET /admin/coding/questionset/ HTTP/1.1" 200 8129
+[29/Dec/2021 10:51:39] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:51:41] "GET /admin/coding/questionset/add/ HTTP/1.1" 200 11847
+[29/Dec/2021 10:51:41] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:52:38] "POST /admin/coding/questionset/add/ HTTP/1.1" 302 0
+[29/Dec/2021 10:52:39] "GET /admin/coding/questionset/ HTTP/1.1" 200 10543
+[29/Dec/2021 10:52:39] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:52:45] "GET /coding/questions-manage/ HTTP/1.1" 200 45539
+[29/Dec/2021 10:53:19] "POST /coding/questions-manage/question-add/ HTTP/1.1" 302 0
+[29/Dec/2021 10:53:19] "GET /coding/questions-manage/ HTTP/1.1" 200 47101
+[29/Dec/2021 10:53:58] "POST /coding/questions-manage/paper-add/ HTTP/1.1" 302 0
+[29/Dec/2021 10:53:58] "GET /coding/questions-manage/ HTTP/1.1" 200 47262
+[29/Dec/2021 10:54:07] "GET / HTTP/1.1" 200 34281
+[29/Dec/2021 10:54:08] "GET /calendar/ HTTP/1.1" 200 23270
+[29/Dec/2021 10:54:09] "GET /class-manage/ HTTP/1.1" 200 30147
+[29/Dec/2021 10:54:10] "GET /coding/questions-manage/ HTTP/1.1" 200 47262
+[29/Dec/2021 10:54:11] "GET /coding/exams-manage/ HTTP/1.1" 200 36010
+[29/Dec/2021 10:54:32] "POST /coding/exams-manage/exer-add/ HTTP/1.1" 302 0
+[29/Dec/2021 10:54:32] "GET /coding/exams-manage/ HTTP/1.1" 200 38783
+[29/Dec/2021 10:54:41] "GET /admin/coding/ HTTP/1.1" 200 5351
+[29/Dec/2021 10:54:44] "GET /admin/coding/exam/ HTTP/1.1" 200 8115
+[29/Dec/2021 10:54:44] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:54:45] "GET /admin/coding/ HTTP/1.1" 200 5351
+[29/Dec/2021 10:54:47] "GET /admin/coding/exercise/ HTTP/1.1" 200 9982
+[29/Dec/2021 10:54:47] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:54:49] "GET /admin/coding/exercise/1/change/ HTTP/1.1" 200 12058
+[29/Dec/2021 10:54:49] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:54:52] "GET /admin/coding/exercise/1/history/ HTTP/1.1" 200 7026
+[29/Dec/2021 10:54:53] "GET /admin/coding/exercise/1/change/ HTTP/1.1" 200 12058
+[29/Dec/2021 10:55:07] "GET /auth-logout/ HTTP/1.1" 200 6568
+[29/Dec/2021 10:55:10] "POST /auth-login/ HTTP/1.1" 200 22736
+[29/Dec/2021 10:55:11] "GET /coding/exams-manage/ HTTP/1.1" 200 38783
+Internal Server Error: /coding/coding/
 Traceback (most recent call last):
   File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 47, in inner
     response = get_response(request)
   File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 181, in _get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/home/ubuntu/SQL_memOJi/src/coding/views.py", line 135, in ques_set_add
-    host = tk.get_conf('mysql', 'host')
-  File "/home/ubuntu/SQL_memOJi/src/utils/token.py", line 73, in get_conf
-    res = conf.get(section=section, option=option)
-  File "/usr/lib/python3.8/configparser.py", line 781, in get
-    d = self._unify_values(section, vars)
-  File "/usr/lib/python3.8/configparser.py", line 1149, in _unify_values
-    raise NoSectionError(section) from None
-configparser.NoSectionError: No section: 'mysql'
-[28/Dec/2021 19:31:07] "POST /coding/questions-manage/ques-set-add/ HTTP/1.1" 500 82496
-[28/Dec/2021 19:38:24] "GET / HTTP/1.1" 200 34281
-Performing system checks...
+  File "/home/ubuntu/SQL_memOJi/src/coding/views.py", line 216, in coding
+    return render(request, 'coding/coding.html', context=content)
+  File "/usr/local/lib/python3.8/dist-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/usr/local/lib/python3.8/dist-packages/django/urls/base.py", line 87, in reverse
+    return iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
+  File "/usr/local/lib/python3.8/dist-packages/django/urls/resolvers.py", line 685, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'coding-editor' with arguments '('exam', '', 1)' not found. 1 pattern(s) tried: ['coding/coding\\-editor/(?P<event_type>[^/]+)/(?P<event_id>[^/]+)/(?P<ques_id>[^/]+)/$']
+[29/Dec/2021 10:55:16] "GET /coding/coding/ HTTP/1.1" 500 178943
+[29/Dec/2021 10:55:21] "GET /user-info/ HTTP/1.1" 200 28818
+[29/Dec/2021 10:55:23] "GET /coding/statistics/ HTTP/1.1" 200 33558
+[29/Dec/2021 10:55:25] "GET /class-manage/ HTTP/1.1" 200 30147
+[29/Dec/2021 10:55:26] "GET /coding/questions-manage/ HTTP/1.1" 200 47262
+[29/Dec/2021 10:55:28] "GET /coding/exams-manage/ HTTP/1.1" 200 38783
+[29/Dec/2021 10:56:15] "GET / HTTP/1.1" 200 34281
+[29/Dec/2021 10:56:17] "GET /class-manage/ HTTP/1.1" 200 30147
+[29/Dec/2021 10:56:17] "GET /coding/questions-manage/ HTTP/1.1" 200 47262
+[29/Dec/2021 10:56:19] "GET /user-info/ HTTP/1.1" 200 28818
+Internal Server Error: /coding/coding/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/ubuntu/SQL_memOJi/src/coding/views.py", line 216, in coding
+    return render(request, 'coding/coding.html', context=content)
+  File "/usr/local/lib/python3.8/dist-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/usr/local/lib/python3.8/dist-packages/django/urls/base.py", line 87, in reverse
+    return iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
+  File "/usr/local/lib/python3.8/dist-packages/django/urls/resolvers.py", line 685, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'coding-editor' with arguments '('exam', '', 1)' not found. 1 pattern(s) tried: ['coding/coding\\-editor/(?P<event_type>[^/]+)/(?P<event_id>[^/]+)/(?P<ques_id>[^/]+)/$']
+[29/Dec/2021 10:56:20] "GET /coding/coding/ HTTP/1.1" 500 178933
+Internal Server Error: /coding/coding/
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/ubuntu/SQL_memOJi/src/coding/views.py", line 216, in coding
+    return render(request, 'coding/coding.html', context=content)
+  File "/usr/local/lib/python3.8/dist-packages/django/shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/usr/local/lib/python3.8/dist-packages/django/template/defaulttags.py", line 446, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "/usr/local/lib/python3.8/dist-packages/django/urls/base.py", line 87, in reverse
+    return iri_to_uri(resolver._reverse_with_prefix(view, prefix, *args, **kwargs))
+  File "/usr/local/lib/python3.8/dist-packages/django/urls/resolvers.py", line 685, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'coding-editor' with arguments '('exam', '', 1)' not found. 1 pattern(s) tried: ['coding/coding\\-editor/(?P<event_type>[^/]+)/(?P<event_id>[^/]+)/(?P<ques_id>[^/]+)/$']
+[29/Dec/2021 10:56:26] "GET /coding/coding/ HTTP/1.1" 500 178933
+[29/Dec/2021 10:56:31] "GET /calendar/ HTTP/1.1" 200 23270
+[29/Dec/2021 10:56:32] "GET / HTTP/1.1" 200 34281
+[29/Dec/2021 10:56:36] "GET /class-manage/ HTTP/1.1" 200 30147
+[29/Dec/2021 10:56:37] "GET /coding/questions-manage/ HTTP/1.1" 200 47262
+[29/Dec/2021 10:56:38] "GET /coding/exams-manage/ HTTP/1.1" 200 38783
+[29/Dec/2021 10:56:42] "GET /auth-logout/ HTTP/1.1" 200 6568
+[29/Dec/2021 10:56:45] "POST /auth-login/ HTTP/1.1" 200 22739
+[29/Dec/2021 10:56:47] "GET /coding/exams-manage/ HTTP/1.1" 200 38783
+[29/Dec/2021 10:56:48] "GET /coding/questions-manage/ HTTP/1.1" 200 47262
+[29/Dec/2021 10:56:50] "GET /coding/exams-manage/ HTTP/1.1" 200 38783
+[29/Dec/2021 10:57:00] "POST /coding/exams-manage/exam-add/ HTTP/1.1" 302 0
+[29/Dec/2021 10:57:00] "GET /coding/exams-manage/ HTTP/1.1" 200 38783
+[29/Dec/2021 10:57:03] "GET /coding/exams-manage/ HTTP/1.1" 200 38783
+[29/Dec/2021 10:57:05] "GET /admin/coding/exercise/ HTTP/1.1" 200 9982
+[29/Dec/2021 10:57:05] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:57:05] "GET /admin/coding/ HTTP/1.1" 200 5351
+[29/Dec/2021 10:57:07] "GET /admin/coding/exam/ HTTP/1.1" 200 8115
+[29/Dec/2021 10:57:07] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:57:08] "GET /admin/coding/exam/add/ HTTP/1.1" 200 13233
+[29/Dec/2021 10:57:08] "GET /static/admin/js/calendar.js HTTP/1.1" 200 7788
+[29/Dec/2021 10:57:08] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:57:08] "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 19750
+[29/Dec/2021 10:57:08] "GET /static/admin/img/icon-calendar.svg HTTP/1.1" 200 1086
+[29/Dec/2021 10:57:08] "GET /static/admin/img/icon-clock.svg HTTP/1.1" 200 677
+[29/Dec/2021 10:57:23] "POST /admin/coding/exam/add/ HTTP/1.1" 302 0
+[29/Dec/2021 10:57:23] "GET /admin/coding/exam/ HTTP/1.1" 200 10604
+[29/Dec/2021 10:57:23] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:57:25] "GET /admin/coding/exam/ HTTP/1.1" 200 10415
+[29/Dec/2021 10:57:25] "GET /admin/jsi18n/ HTTP/1.1" 200 7732
+[29/Dec/2021 10:57:28] "GET /auth-login/ HTTP/1.1" 200 6384
+[29/Dec/2021 10:57:31] "POST /auth-login/ HTTP/1.1" 200 22736
+[29/Dec/2021 10:57:32] "GET /coding/exams-manage/ HTTP/1.1" 200 41584
+[29/Dec/2021 10:57:34] "GET /calendar/ HTTP/1.1" 200 23270
+[29/Dec/2021 10:57:35] "GET /coding/coding/ HTTP/1.1" 200 48957
+[29/Dec/2021 10:57:40] "GET /coding/coding-editor/exer/1/1/ HTTP/1.1" 200 34520
+[29/Dec/2021 10:57:40] "GET /static/libs/monaco-editor/min/vs/editor/editor.main.css HTTP/1.1" 200 70275
+[29/Dec/2021 10:57:40] "GET /static/libs/monaco-editor/min/vs/loader.js HTTP/1.1" 200 32170
+[29/Dec/2021 10:57:40] "GET /static/libs/monaco-editor/min/vs/editor/editor.main.nls.js HTTP/1.1" 200 62955
+[29/Dec/2021 10:57:42] "GET /static/libs/monaco-editor/min/vs/editor/editor.main.js HTTP/1.1" 200 2568106
+[29/Dec/2021 10:57:43] "GET /static/libs/monaco-editor/min/vs/basic-languages/mysql/mysql.js HTTP/1.1" 200 14909
+[29/Dec/2021 10:57:44] "GET /static/libs/monaco-editor/min/vs/base/worker/workerMain.js HTTP/1.1" 200 179196
+[29/Dec/2021 10:57:57] "GET /static/libs/monaco-editor/min/vs/base/browser/ui/codicons/codicon/codicon.ttf HTTP/1.1" 200 70964
+[29/Dec/2021 10:57:59] "POST /coding/coding-editor/exer/1/1/ HTTP/1.1" 200 34629
+[29/Dec/2021 10:58:04] "POST /coding/coding-editor/exer/1/1/ HTTP/1.1" 200 34628
+[29/Dec/2021 10:58:27] "POST /coding/coding-editor/exer/1/1/ HTTP/1.1" 200 34628
+[29/Dec/2021 10:58:46] "GET /calendar/ HTTP/1.1" 200 23270
+[29/Dec/2021 10:59:15] "GET /coding/coding/ HTTP/1.1" 200 48957
+[29/Dec/2021 10:59:23] "GET /coding/coding-editor/exam/1/1/ HTTP/1.1" 200 34519
+[29/Dec/2021 10:59:34] "POST /coding/coding-editor/exam/1/1/ HTTP/1.1" 200 34627
+[29/Dec/2021 11:05:59] "POST /coding/coding-editor/exam/1/1/ HTTP/1.1" 200 34627
+[29/Dec/2021 11:05:59] "GET /static/fonts/inter-regular.woff2?v=3.13 HTTP/1.1" 200 100368
+[29/Dec/2021 11:06:00] "GET /user-info/ HTTP/1.1" 200 28818
+[29/Dec/2021 11:06:01] "GET /coding/coding/ HTTP/1.1" 200 48957
+[29/Dec/2021 11:06:02] "GET /calendar/ HTTP/1.1" 200 23270
+[29/Dec/2021 11:06:02] "GET / HTTP/1.1" 200 34278
+[29/Dec/2021 11:06:03] "GET / HTTP/1.1" 200 34278
+[29/Dec/2021 11:16:18] "GET /static/images/logo-light.png HTTP/1.1" 200 11238
+[29/Dec/2021 13:35:10] code 400, message Bad request syntax ('\x03\x00\x00\x13\x0eà\x00\x00\x00\x00\x00\x01\x00\x08\x00\x02\x00\x00\x00')
+[29/Dec/2021 13:35:10] "  à          " 400 -
+[29/Dec/2021 15:41:20] code 400, message Bad request syntax ('\x04\x01\x00\x19h/\x12á\x00')
+[29/Dec/2021 15:41:20] " h/á " 400 -
+[29/Dec/2021 15:41:20,934] - Broken pipe from ('89.248.165.52', 56258)
 
-System check identified no issues (0 silenced).
-December 28, 2021 - 19:26:11
-Django version 3.1.7, using settings 'SQL_memOJi.settings'
-Starting development server at http://10.0.4.13:8000/
-Quit the server with CONTROL-C.
+[29/Dec/2021 15:42:21] code 400, message Bad request syntax ('\x05\x01\x00')
+[29/Dec/2021 15:42:21] " " 400 -
+[29/Dec/2021 15:42:21,192] - Broken pipe from ('89.248.165.52', 55928)
+
+Not Found: /hotmail-com.olc.protection.outlook.com:25
+[29/Dec/2021 15:42:21] "CONNECT hotmail-com.olc.protection.outlook.com:25 HTTP/1.1" 404 1766
+[29/Dec/2021 15:49:29] code 400, message Bad request version ('À\x14À')
+[29/Dec/2021 15:49:29] You're accessing the development server over HTTPS, but it only supports HTTP.
+
+[29/Dec/2021 16:40:44] "GET / HTTP/1.1" 200 34278
+[29/Dec/2021 16:40:44] "GET /static/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css HTTP/1.1" 304 0
+[29/Dec/2021 16:40:44] "GET /static/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css HTTP/1.1" 304 0
+[29/Dec/2021 16:40:44] "GET /static/css/bootstrap.min.css HTTP/1.1" 304 0
+[29/Dec/2021 16:40:44] "GET /static/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css HTTP/1.1" 304 0
+[29/Dec/2021 16:40:44] "GET /static/css/icons.min.css HTTP/1.1" 304 0
+[29/Dec/2021 16:40:44] "GET /static/css/app.min.css HTTP/1.1" 304 0
+[29/Dec/2021 16:40:44] "GET /static/images/logo-sm-dark.png HTTP/1.1" 304 0
+[29/Dec/2021 16:40:44] "GET /static/images/logo-dark.png HTTP/1.1" 304 0
+[29/Dec/2021 16:40:44] "GET /static/images/logo-sm-light.png HTTP/1.1" 304 0
+[29/Dec/2021 16:40:44] "GET /static/images/logo-light.png HTTP/1.1" 304 0
+[29/Dec/2021 16:40:44] "GET /static/images/users/avatar-3.jpg HTTP/1.1" 304 0
+[29/Dec/2021 16:40:44] "GET /static/images/users/avatar-4.jpg HTTP/1.1" 304 0
+[29/Dec/2021 16:40:45] "GET /static/images/users/avatar-2.jpg HTTP/1.1" 304 0
+[29/Dec/2021 16:40:45] "GET /static/images/layouts/layout-1.jpg HTTP/1.1" 304 0
+[29/Dec/2021 16:40:45] "GET /static/images/layouts/layout-2.jpg HTTP/1.1" 304 0
+[29/Dec/2021 16:40:45] "GET /static/libs/jquery/jquery.min.js HTTP/1.1" 304 0
+[29/Dec/2021 16:40:45] "GET /static/libs/bootstrap/js/bootstrap.bundle.min.js HTTP/1.1" 304 0
+[29/Dec/2021 16:40:45] "GET /static/libs/metismenu/metisMenu.min.js HTTP/1.1" 304 0
+[29/Dec/2021 16:40:45] "GET /static/libs/simplebar/simplebar.min.js HTTP/1.1" 304 0
+[29/Dec/2021 16:40:45] "GET /static/libs/node-waves/waves.min.js HTTP/1.1" 304 0
+[29/Dec/2021 16:40:45] "GET /static/libs/apexcharts/apexcharts.min.js HTTP/1.1" 304 0
+[29/Dec/2021 16:40:45] "GET /static/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js HTTP/1.1" 304 0
+[29/Dec/2021 16:40:45] "GET /static/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js HTTP/1.1" 304 0
+[29/Dec/2021 16:40:45] "GET /static/libs/datatables.net/js/jquery.dataTables.min.js HTTP/1.1" 304 0
+[29/Dec/2021 16:40:45] "GET /static/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js HTTP/1.1" 304 0
+[29/Dec/2021 16:40:45] "GET /static/libs/datatables.net-responsive/js/dataTables.responsive.min.js HTTP/1.1" 304 0
+[29/Dec/2021 16:40:45] "GET /static/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js HTTP/1.1" 304 0
+[29/Dec/2021 16:40:45] "GET /static/js/custom-pages/dashboard.js HTTP/1.1" 304 0
+[29/Dec/2021 16:40:45] "GET /static/js/app.js HTTP/1.1" 304 0
+[29/Dec/2021 16:53:51] code 400, message Bad HTTP/0.9 request type ('\x04\x01\x00PUÎ')
+[29/Dec/2021 16:53:51] " PUÎ s " 400 -
+[29/Dec/2021 16:54:51] code 400, message Bad request syntax ('\x05\x01\x00')
+[29/Dec/2021 16:54:51] " " 400 -
+[29/Dec/2021 16:54:51,941] - Broken pipe from ('89.248.165.52', 42736)
+
+Not Found: /85.206.160.115:80
+[29/Dec/2021 16:54:52] "CONNECT 85.206.160.115:80 HTTP/1.1" 404 1670
+[29/Dec/2021 18:39:54] "GET / HTTP/1.0" 200 33041
+[29/Dec/2021 18:45:27] "GET /coding/statistics/ HTTP/1.1" 200 32318
+[29/Dec/2021 18:45:28] "GET /static/images/logo-sm-dark.png HTTP/1.1" 200 1282
+[29/Dec/2021 18:45:28] "GET /static/images/users/avatar-4.jpg HTTP/1.1" 200 1877
+[29/Dec/2021 18:45:28] "GET /static/images/logo-dark.png HTTP/1.1" 200 11213
+[29/Dec/2021 18:45:28] "GET /static/images/logo-sm-light.png HTTP/1.1" 200 1282
+[29/Dec/2021 18:45:28] "GET /static/images/layouts/layout-2.jpg HTTP/1.1" 200 174264
+[29/Dec/2021 18:45:28] "GET /static/images/layouts/layout-1.jpg HTTP/1.1" 200 166316
+[29/Dec/2021 19:16:42] "GET / HTTP/1.1" 200 34278
+[29/Dec/2021 19:16:42] "GET /static/fonts/materialdesignicons-webfont.woff2?v=5.0.45 HTTP/1.1" 304 0
+[29/Dec/2021 19:16:42] "GET /static/fonts/remixicon.woff2?t=1587359857360 HTTP/1.1" 304 0
+[29/Dec/2021 19:16:42] "GET /static/fonts/inter-medium.woff2?v=3.13 HTTP/1.1" 304 0
+[29/Dec/2021 19:16:42] "GET /static/fonts/inter-bold.woff2?v=3.13 HTTP/1.1" 304 0
+[29/Dec/2021 19:16:45] "GET /calendar/ HTTP/1.1" 200 23270
+[29/Dec/2021 19:16:45] "GET /static/libs/fullcalendar/fullcalendar.min.css HTTP/1.1" 304 0
+[29/Dec/2021 19:16:45] "GET /static/libs/moment/min/moment.min.js HTTP/1.1" 304 0
+[29/Dec/2021 19:16:45] "GET /static/libs/jquery-ui-dist/jquery-ui.min.js HTTP/1.1" 304 0
+[29/Dec/2021 19:16:45] "GET /static/libs/fullcalendar/fullcalendar.min.js HTTP/1.1" 304 0
+[29/Dec/2021 19:16:45] "GET /static/js/custom-pages/calendar.js HTTP/1.1" 304 0
+[29/Dec/2021 19:16:47] "GET / HTTP/1.1" 200 34278
+[29/Dec/2021 20:03:31] code 400, message Bad request version ('À\x14À')
+[29/Dec/2021 20:03:31] You're accessing the development server over HTTPS, but it only supports HTTP.
+
+[29/Dec/2021 22:37:55] code 400, message Bad HTTP/0.9 request type ('\x03\x00\x00/*à\x00\x00\x00\x00\x00Cookie:')
+[29/Dec/2021 22:37:55] "  /*à     Cookie: mstshash=Administr" 400 -
+[29/Dec/2021 22:52:09] code 400, message Bad request syntax ('\x05\x01\x00')
+[29/Dec/2021 22:52:09] " " 400 -
+Not Found: /http:/passport.baidu.com/
+[29/Dec/2021 22:52:10] "GET http://passport.baidu.com/ HTTP/1.1" 404 1696
+[29/Dec/2021 23:23:36] code 400, message Bad HTTP/0.9 request type ('Z¥\x01')
+[29/Dec/2021 23:23:36] "Z¥     " 400 -
+[29/Dec/2021 23:28:57] "GET /calendar/ HTTP/1.1" 200 22033
+[29/Dec/2021 23:28:57] "GET /static/images/users/avatar-4.jpg HTTP/1.1" 200 1877
+[29/Dec/2021 23:28:57] "GET /static/images/logo-dark.png HTTP/1.1" 200 11213
+[29/Dec/2021 23:28:57] "GET /static/images/logo-sm-light.png HTTP/1.1" 200 1282
+[29/Dec/2021 23:28:57] "GET /static/images/logo-sm-dark.png HTTP/1.1" 200 1282
+[29/Dec/2021 23:28:57] "GET /static/images/layouts/layout-2.jpg HTTP/1.1" 200 174264
+[29/Dec/2021 23:28:57] "GET /static/images/layouts/layout-1.jpg HTTP/1.1" 200 166316
