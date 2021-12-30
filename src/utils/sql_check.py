@@ -105,7 +105,7 @@ def deepcopy_db(db_name: str, new_db_name: str):
 
 def diff(cur_1: pymysql.Connect.cursor, cur_2: pymysql.Connect.cursor):
     '''Check if two databases are identical'''
-
+    # Seddon has seen
     cur_1.execute("""show tables;""")
     tables = [tb[0] for tb in cur_1.fetchall()]
     res = True
@@ -116,8 +116,9 @@ def diff(cur_1: pymysql.Connect.cursor, cur_2: pymysql.Connect.cursor):
         cur_2.execute(f"""select * from {tb};""")
         res_1 = cur_1.fetchall()
         res_2 = cur_2.fetchall()
-
-        print(tb, res_1 == res_2)
+        # XXX:此处可以查看每张表是否一致
+        # TODO:尝试可以加入日志功能 方便用户更快知道自己错在哪了
+        # print(tb, res_1 == res_2)
         res &= res_1 == res_2
 
     return res
@@ -133,20 +134,27 @@ def ans_check(db_nm: str, ans_sql: str, stud_sql: str) -> bool:
     Returns::
         res: bool - if the SQL is correct
     '''
-
+    print("判断执行结果.....")
     new_db_nm = db_nm+'_copy'
     new_db_name_1 = new_db_nm+'1'
     new_db_name_2 = new_db_nm+'2'
-
+    #Copy the Database
     cur_1 = deepcopy_db(db_name=db_nm, new_db_name=new_db_name_1)
     cur_2 = deepcopy_db(db_name=db_nm, new_db_name=new_db_name_2)
-
+    print("双数据库拷贝成功")
     cur_1.execute(ans_sql)
     cur_2.execute(stud_sql)
     res_1 = cur_1.fetchall()
     res_2 = cur_2.fetchall()
-
-    res = (res_1 == res_2) and diff(cur_1=cur_1, cur_2=cur_2)
+    exe_diff = res_1 == res_2
+    data_diff = diff(cur_1=cur_1,cur_2=cur_2)
+    print("Execute identify",exe_diff)
+    #XXX 可以在前端提示是数据不一致还是返回结果不一致
+    # print(res_1)
+    # print("----------------------------")
+    # print(res_2)
+    print("Data identify:",data_diff)
+    res = (exe_diff) and data_diff
     clear_db(cur=cur_1, db_name=new_db_name_1)
     clear_db(cur=cur_2, db_name=new_db_name_2)
     cur_1.close()

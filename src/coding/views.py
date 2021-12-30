@@ -223,14 +223,14 @@ class CodingEditor(View):
         try:
             question = models.Question.objects.get(ques_id=ques_id)
             qset = question.ques_set
-            print("Question:",question,"Qset:",qset)
+            # print("Question:",question,"Qset:",qset)
             if event_type == 'exam':
-                print("Exam")
+                # print("Exam")
                 event = models.Exam.objects.get(exam_id=event_id)
                 event_name = event.exam_name
-                print("Event_name:",event_name)
+                # print("Event_name:",event_name)
             elif event_type == 'exer':
-                print("Exercise")
+                # print("Exercise")
                 event = models.Exercise.objects.get(exer_id=event_id)
                 event_name = event.exer_name
             else:
@@ -296,15 +296,17 @@ class CodingEditor(View):
 
         # FIXME(Steve X): Monaco Editor 输入内容换行会消失
         submit_ans = request.POST.get('submit_ans')
-        print("输入的答案:",submit_ans)
+        # print("输入的答案:",submit_ans)
         content = self.get_info(request, event_type, event_id, ques_id)
         question = content.get('question')
         qset = question.ques_set
-        print("数据比对:",qset.db_name,question.ques_ans,submit_ans)
+        # print("数据比对:",qset.db_name,question.ques_ans,submit_ans)
         try:
             submit_ans = '#' if submit_ans == '' else submit_ans
             correct = sql_check.ans_check(db_nm=qset.db_name, ans_sql=question.ques_ans, stud_sql=submit_ans)
-        except:
+            # print("判断动作执行成功")
+        except Exception as e:
+            print(e)
             correct = 'error'
 
         ans_status = {
