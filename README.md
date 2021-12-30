@@ -26,7 +26,9 @@ From Steve-Xyh
 ## Environment
 - `env`
 - Mysql Need use MyISAM engine,in order to avoid foreign key error!
-
+- Need two Mysql database account(root and oj)
+- Warn:now account oj's password is ojtest+1S. Very dangerous.
+- 需要手动建立一个名为oj，上述密码的用户
 ## Usage  
 - `To be finished.`  
 
