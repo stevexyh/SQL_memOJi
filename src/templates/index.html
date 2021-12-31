@@ -67,7 +67,7 @@
                         <div class="card-body border-top py-3">
                             <div class="text-truncate">
                                 <span class="badge badge-soft-success font-size-11"> {{ac_cnt}} </span>
-                                <span class="text-muted ml-2">累计通过题目数</span>
+                                <span class="text-muted ml-2">题目累计通过次数</span>
                             </div>
                         </div>
                     </div>
@@ -98,13 +98,13 @@
 
             <div class="card">
                 <div class="card-body">
-                    <div class="float-right d-none d-md-inline-block">
+                    <!-- <div class="float-right d-none d-md-inline-block">
                         <div class="btn-group mb-2">
                             <button type="button" class="btn btn-sm btn-light">Today</button>
                             <button type="button" class="btn btn-sm btn-light active">Weekly</button>
                             <button type="button" class="btn btn-sm btn-light">Monthly</button>
                         </div>
-                    </div>
+                    </div> -->
                     <h4 class="card-title mb-4">成绩分析</h4>
                     <div>
                         <div id="line-column-chart" class="apex-charts" dir="ltr"></div>
@@ -188,21 +188,6 @@
 
             <div class="card">
                 <div class="card-body">
-                    <div class="dropdown float-right">
-                        <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
-                            <i class="mdi mdi-dots-vertical"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item">Profit</a>
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item">Action</a>
-                        </div>
-                    </div>
 
                     <h4 class="card-title mb-4">提交记录</h4>
                     <div class="text-center">
@@ -213,8 +198,8 @@
                                         <div id="radialchart-1" class="apex-charts"></div>
                                     </div>
 
-                                    <p class="text-muted text-truncate mb-2">周提交数</p>
-                                    <h5 class="mb-0">2,523</h5>
+                                    <p class="text-muted text-truncate mb-2">7日提交数</p>
+                                    <h5 class="mb-0">{{week_submit}}</h5>
                                 </div>
                             </div>
 
@@ -224,8 +209,8 @@
                                         <div id="radialchart-2" class="apex-charts"></div>
                                     </div>
 
-                                    <p class="text-muted text-truncate mb-2">月提交数</p>
-                                    <h5 class="mb-0">11,235</h5>
+                                    <p class="text-muted text-truncate mb-2">30日提交数</p>
+                                    <h5 class="mb-0">{{mouth_submit}}</h5>
                                 </div>
                             </div>
                             

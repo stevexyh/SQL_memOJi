@@ -27,6 +27,8 @@ from django.db.models import Sum
 from user.models import Student, User, Classroom
 from user.forms import UserInfoForm, StudentForm, ClassroomForm
 from coding.models import Exam, QuesAnswerRec, Question, QuestionSet
+import datetime
+from django.utils import timezone
 
 # Create your views here.
 
@@ -56,8 +58,16 @@ def index(request):
     ques_middle = Question.objects.filter(ques_difficulty=1).count()
     ques_difficult = Question.objects.filter(ques_difficulty=2).count()
     ac_cnt = QuesAnswerRec.objects.filter(ans_status=0).count()
+    # FIXME:实际上是七日内提交，烦得很
+    monday = timezone.now() - datetime.timedelta(days=7)
+    mouth = timezone.now() - datetime.timedelta(days=30)    
+    week_submit = QuesAnswerRec.objects.filter(submit_time__gte=monday).count()
+    mouth_submit = QuesAnswerRec.objects.filter(submit_time__gte=mouth).count()
+    # mouth_submit = QuesAnswerRec.objects.filter()
+    # print(week_submit)
     # print(ques_easy,ques_middle,ques_difficult)
     # print(ac_cnt)
+    # print(mouth_submit)
     content = {
         'ques_cnt': ques_cnt,
         'ques_set_cnt': ques_set_cnt,
@@ -67,11 +77,13 @@ def index(request):
         'ques_easy':ques_easy,
         'ques_middle':ques_middle,
         'ques_difficult':ques_difficult,
-        'ac_cnt':ac_cnt
+        'ac_cnt':ac_cnt,
+        'week_submit':week_submit,
+        'mouth_submit':mouth_submit
     }
-
+    # print(get_current_week())
     return render(request, 'index.html', context=content)
-
+ 
 
 def e404(request, exception=None):
     '''Render 404 err page'''
