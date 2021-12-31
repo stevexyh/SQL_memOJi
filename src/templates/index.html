@@ -66,8 +66,8 @@
                         </div>
                         <div class="card-body border-top py-3">
                             <div class="text-truncate">
-                                <span class="badge badge-soft-success font-size-11"><i class="mdi mdi-menu-up"> </i> 2.4% </span>
-                                <span class="text-muted ml-2">From previous period</span>
+                                <span class="badge badge-soft-success font-size-11"> {{ac_cnt}} </span>
+                                <span class="text-muted ml-2">累计通过题目数</span>
                             </div>
                         </div>
                     </div>
@@ -152,12 +152,12 @@
             <div class="card">
                 <div class="card-body">
                     <div class="float-right">
-                        <select class="custom-select custom-select-sm">
+                        <!-- <select class="custom-select custom-select-sm">
                             <option selected>Apr</option>
                             <option value="1">Mar</option>
                             <option value="2">Feb</option>
                             <option value="3">Jan</option>
-                        </select>
+                        </select> -->
                     </div>
                     <h4 class="card-title mb-4">难度分布</h4>
 
@@ -167,19 +167,19 @@
                         <div class="col-4">
                             <div class="text-center mt-4">
                                 <p class="mb-2 text-truncate"><i class="mdi mdi-circle text-primary font-size-10 mr-1"></i> 简单</p>
-                                <h5>42 %</h5>
+                                <h5>{%  widthratio ques_easy ques_cnt 100 %}%</h5>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="text-center mt-4">
                                 <p class="mb-2 text-truncate"><i class="mdi mdi-circle text-success font-size-10 mr-1"></i> 中等</p>
-                                <h5>26 %</h5>
+                                <h5>{%  widthratio ques_middle ques_cnt 100 %} %</h5>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="text-center mt-4">
                                 <p class="mb-2 text-truncate"><i class="mdi mdi-circle text-warning font-size-10 mr-1"></i> 困难</p>
-                                <h5>42 %</h5>
+                                <h5>{%  widthratio ques_difficult ques_cnt 100 %} %</h5>
                             </div>
                         </div>
                     </div>
@@ -256,7 +256,27 @@
     <!-- Responsive examples -->
     <script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
     <script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
-
+    <!-- 仪表板图表控制 -->
+    <script>
+        // 题目难度分布环形图
+        var easy = parseInt("{{ques_easy}}")
+        var middle = parseInt("{{ques_middle}}")
+        var difficult = parseInt("{{ques_difficult}}")
+        options = {
+            series: [easy,middle,difficult],
+            chart: { height: 230, type: "donut" },
+            labels: ["简单", "中等", "困难"],
+            plotOptions: { pie: { donut: { size: "75%" } } },
+            dataLabels: { enabled: !1 },
+            legend: { show: !1 },
+            colors: ["#5664d2", "#1cbb8c", "#eeb902"],
+        };
+        (chart = new ApexCharts(
+            document.querySelector("#donut-chart"),
+            options
+        )).render();
+        
+        </script>
     <script src="{% static 'js/custom-pages/dashboard.js' %}"></script>
 {% endblock js %}
 

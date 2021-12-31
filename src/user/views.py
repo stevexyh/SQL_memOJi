@@ -46,19 +46,28 @@ def blank(request):
 
 def index(request):
     '''Render index template'''
-
+    # print("在首页")
     ques_cnt = Question.objects.count()
     ques_set_cnt = QuestionSet.objects.count()
     exam_cnt = Exam.objects.count()
     exam_active = Exam.objects.filter(active=True).count()
     submit_cnt = QuesAnswerRec.objects.aggregate(Sum('submit_cnt'))
-
+    ques_easy = Question.objects.filter(ques_difficulty=0).count()
+    ques_middle = Question.objects.filter(ques_difficulty=1).count()
+    ques_difficult = Question.objects.filter(ques_difficulty=2).count()
+    ac_cnt = QuesAnswerRec.objects.filter(ans_status=0).count()
+    # print(ques_easy,ques_middle,ques_difficult)
+    # print(ac_cnt)
     content = {
         'ques_cnt': ques_cnt,
         'ques_set_cnt': ques_set_cnt,
         'exam_cnt': exam_cnt,
         'exam_active': exam_active,
         'submit_cnt': submit_cnt['submit_cnt__sum'],
+        'ques_easy':ques_easy,
+        'ques_middle':ques_middle,
+        'ques_difficult':ques_difficult,
+        'ac_cnt':ac_cnt
     }
 
     return render(request, 'index.html', context=content)
