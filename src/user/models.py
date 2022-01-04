@@ -59,7 +59,7 @@ class User(AbstractUser):
     | school                | varchar             |      | FK  | 西北工业大学  |
     | full_name             | varchar             |      |     |             |
     | internal_id           | varchar             |      | UNI |             |
-    | college_name          | varchar             |      |     |             |
+    | college_name          | varchar             |      |     | 计算机学院   |
     | register_time         | datetime            |      |     |             |
     '''
 
@@ -90,7 +90,7 @@ class User(AbstractUser):
     school = models.ForeignKey(verbose_name=_('学校'), to=School, on_delete=models.SET_NULL, default=None, null=True, blank=False)
     full_name = models.CharField(verbose_name=_('真实姓名'), max_length=30)
     internal_id = models.CharField(verbose_name=_('学工号'), max_length=30, unique=True)
-    college_name = models.CharField(verbose_name=_('学院全称'), max_length=150, blank=True)
+    college_name = models.CharField(verbose_name=_('学院全称'), max_length=150, blank=True,default=_('计算机学院'))
     join_status = models.IntegerField(verbose_name=_('加入状态'), choices=JoinStatus.choices, default=0)
 
     USERNAME_FIELD = 'username'

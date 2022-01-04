@@ -115,6 +115,11 @@ def questions_manage(request):
     ques_set_list = models.QuestionSet.objects.all()
     paper_list = models.Paper.objects.all()
 
+    print(question_list.values())
+
+
+    # questions_cnt = models.Question.objects.filter(ques_difficulty=0).count()
+
     content = {
         'ques_set_form': ques_set_form,
         'question_form': question_form,
@@ -122,6 +127,7 @@ def questions_manage(request):
         'question_list': question_list,
         'ques_set_list': ques_set_list,
         'paper_list': paper_list,
+        'questions_cnt': 0
     }
 
     return render(request, 'coding/questions-manage.html', context=content)

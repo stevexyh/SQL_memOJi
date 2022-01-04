@@ -58,7 +58,7 @@ def index(request):
     ques_middle = Question.objects.filter(ques_difficulty=1).count()
     ques_difficult = Question.objects.filter(ques_difficulty=2).count()
     ac_cnt = QuesAnswerRec.objects.filter(ans_status=0).count()
-    # FIXME:实际上是七日内提交，烦得很
+    # FIXME(Seddon):实际上是七日内提交，烦得很
     monday = timezone.now() - datetime.timedelta(days=7)
     mouth = timezone.now() - datetime.timedelta(days=30)    
     week_submit = QuesAnswerRec.objects.filter(submit_time__gte=monday).count()
@@ -291,18 +291,15 @@ class UserInfo(View):
     def get(self, request):
         not_login = _('未登录')
         null = 'NULL'
-
         user = request.user
         is_student = user.is_authenticated and user.priority == User.UserType.STUDENT
-
         full_name = user.full_name if user.is_authenticated else not_login
         username = user.username if user.is_authenticated else not_login
         email = user.email if user.is_authenticated else not_login
-
         school = user.school if user.is_authenticated else not_login
         college_name = user.college_name if user.is_authenticated else not_login
         internal_id = user.internal_id if user.is_authenticated else not_login
-        classroom = user.student.classroom if is_student else ''
+        classroom = user.student.classroom if is_student else False
         priority = user.get_priority_display() if user.is_authenticated else not_login
         join_status = user.is_authenticated and user.join_status != User.JoinStatus.OUT_OF_LIST or user.is_superuser
         info_form = UserInfoForm(instance=user) if user.is_authenticated else None
@@ -324,6 +321,7 @@ class UserInfo(View):
             'student_form': student_form,
         }
 
+        print(content)
         for k in content:
             content[k] = content[k] if content[k] != '' else f'{k}: {null}'
 
