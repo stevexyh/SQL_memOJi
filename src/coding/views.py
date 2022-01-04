@@ -358,15 +358,18 @@ def statistics(request):
     exer_cnt = models.Exercise.objects.count()
     # exer_active = models.Exercise.objects.filter().count()
     submit_cnt = models.QuesAnswerRec.objects.aggregate(Sum('submit_cnt'))
-
+    ac_cnt = models.QuesAnswerRec.objects.filter(ans_status=0).count()
+    exer_active = models.Exercise.objects.filter(active=True).count()
+    print("ssd_flag:",exer_active,exer_cnt)
     content = {
         'ques_cnt': ques_cnt,
         'ques_set_cnt': ques_set_cnt,
         'exam_cnt': exam_cnt,
         'exam_active': exam_active,
-        'exer_cnt': exam_cnt,
-        'exer_active': 0,
+        'exer_cnt': exer_cnt,
+        'exer_active': exer_active,
         'submit_cnt': submit_cnt['submit_cnt__sum'],
+        'ac_cnt' : ac_cnt
     }
 
     return render(request, 'coding/statistics.html', context=content)

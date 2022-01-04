@@ -229,14 +229,22 @@ class ClassManage(View):
 
     def get(self, request):
         # TODO(Steve X): show classes of current teacher only
+        # XXX(Seddon Shen): 使用反向查询_set()去找学生 需注意全部字段小写
         class_list = Classroom.objects.all()
         class_form = ClassroomForm()
-
+        class_test = Classroom.objects.get(pk=1)
+        stus = class_test.student_set.count()
+        # print(stus)
+        # print(class_list.values())
+        # print(class_list[1].students_count)
+        # class_list 用于显示当前班级
+        # class_form use to add new class
         content = {
             'class_list': class_list,
             'class_form': class_form,
         }
-
+        # print(class_list)
+        # print(class_form)
         return render(request, 'user/class-manage.html', context=content)
 
     # XXX(Steve X): add batch import func for students

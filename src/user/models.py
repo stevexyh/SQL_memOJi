@@ -129,8 +129,9 @@ class Classroom(models.Model):
     | teacher               | varchar             |      | FK   |            |
     | class_desc            | varchar             |      | NULL |            |
     | active                | bool                |      |      | True       |
-    | stud_list             | varchar(Python.List)|      |      |            |
     '''
+    # | stud_list             | varchar(Python.List)|      |      |            |
+
 
     class_id = models.AutoField(verbose_name=_('班级ID'), primary_key=True)
     school = models.ForeignKey(verbose_name=_('学校'), to=School, on_delete=models.SET_NULL, default=None, null=True, blank=False)
@@ -138,7 +139,7 @@ class Classroom(models.Model):
     teacher = models.ForeignKey(verbose_name=_('负责教师'), to=Teacher, on_delete=models.SET_NULL, default=None, null=True, blank=False)
     class_desc = models.CharField(verbose_name=_('班级描述'), max_length=200, null=True, blank=True)
     active = models.BooleanField(verbose_name=_('有效状态'), default=True)
-    stud_list = models.CharField(verbose_name=_('学生列表'), max_length=2000, null=True, blank=True)
+    # stud_list = models.CharField(verbose_name=_('学生列表'), max_length=2000, null=True, blank=True)
 
     def __str__(self):
         return str(self.class_name)
@@ -146,6 +147,15 @@ class Classroom(models.Model):
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse("user:class-details", kwargs={"class_id": self.class_id})
+
+    # 装饰器
+    @property
+    def students_count(self):
+        # class-manage page students number
+        detail = Classroom.objects.get(pk=self.class_id)
+        count = detail.student_set.count()
+        return count
+
 
     class Meta:
         verbose_name = '班级'
