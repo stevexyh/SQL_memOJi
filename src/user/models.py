@@ -148,7 +148,7 @@ class Classroom(models.Model):
         from django.urls import reverse
         return reverse("user:class-details", kwargs={"class_id": self.class_id})
 
-    # 装饰器
+    # 装饰器property
     @property
     def students_count(self):
         # class-manage page students number
