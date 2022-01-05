@@ -21,6 +21,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
+from django.db.models import Q
 from . import models
 
 
@@ -35,6 +36,36 @@ admin.site.site_title = 'memOJi'
 @admin.register(models.User)
 class CustomUserAdmin(UserAdmin):
     '''Views displayed in admin backends'''
+    # 显示作者创建的文章
+    def get_queryset(self, request):
+        # 接管查询请求
+        results = super(CustomUserAdmin, self).get_queryset(request)
+        identity = request.user.identity()
+        if request.user.is_superuser:  # 超级用户可查看所有数据
+            return results
+        if identity == 'student' :
+            # is student
+            return results.filter(email=request.user.email)
+        elif identity == 'teacher':
+            # is teacher
+            rooms = request.user.teacher.teach_room()
+            students = models.Student.objects.filter(classroom__in = rooms)
+            query_stu = models.User.objects.filter(email__in=students)
+            return results.filter(email=request.user.email) | query_stu
+        else:
+            # unknown
+            return results.filter(email=request.user.email)
+            # unknown,only show himself
+        # print(students)
+        # print(rooms)
+        # print("Flag1",models.Teacher.objects.get(user=request.user))
+        # print("Flag2",request.user.teacher)
+        # print("Flag3",models.Classroom.objects.filter(teacher=request.user.teacher))
+        # print("Flag4",models.User.objects.filter(email__in=students))
+        # print(results.filter(email=request.user.email))
+        # user_test = students.User
+        # print(user_test)
+        # return qs
 
     list_display = ['username', 'internal_id', 'email', 'priority', 'school', 'full_name', 'college_name', 'join_status']
     list_filter = ['priority', 'is_staff', 'is_superuser', 'is_active']

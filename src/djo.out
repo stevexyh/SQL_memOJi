@@ -1,13 +1,30 @@
 nohup: ignoring input
 Watching for file changes with StatReloader
-[04/Jan/2022 11:27:04] "GET /coding/statistics/ HTTP/1.1" 200 27242
-[04/Jan/2022 11:27:08] "GET /coding/statistics/ HTTP/1.1" 200 27242
+[05/Jan/2022 16:15:52] "GET /admin/logout/ HTTP/1.1" 302 0
+[05/Jan/2022 16:15:52] "GET /auth-login/ HTTP/1.1" 200 6384
+[05/Jan/2022 16:15:52] "GET /static/images/favicon.ico HTTP/1.1" 304 0
+[05/Jan/2022 16:15:56] "POST /auth-login/ HTTP/1.1" 200 16457
+[05/Jan/2022 16:15:59] "GET /admin/ HTTP/1.1" 200 11476
+[05/Jan/2022 16:15:59] "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+[05/Jan/2022 16:15:59] "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+[05/Jan/2022 16:15:59] "GET /static/admin/css/base.css HTTP/1.1" 304 0
+[05/Jan/2022 16:15:59] "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+[05/Jan/2022 16:15:59] "GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
+[05/Jan/2022 16:16:00] "GET /admin/ HTTP/1.1" 200 11476
+[05/Jan/2022 16:16:00] "GET /static/admin/css/fonts.css HTTP/1.1" 304 0
+[05/Jan/2022 16:16:00] "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+[05/Jan/2022 16:16:00] "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+[05/Jan/2022 16:16:00] "GET /static/admin/fonts/Roboto-Light-webfont.woff HTTP/1.1" 304 0
+[05/Jan/2022 16:16:00] "GET /static/admin/fonts/Roboto-Bold-webfont.woff HTTP/1.1" 304 0
+[05/Jan/2022 16:16:01] "GET /static/admin/fonts/Roboto-Regular-webfont.woff HTTP/1.1" 304 0
+[05/Jan/2022 16:16:03] "GET /admin/logout/ HTTP/1.1" 302 0
+[05/Jan/2022 16:16:03] "GET /auth-login/ HTTP/1.1" 200 6384
+[05/Jan/2022 16:16:05] "POST /auth-login/ HTTP/1.1" 200 16454
+[05/Jan/2022 16:16:17] "GET /admin/ HTTP/1.1" 200 3876
 Performing system checks...
 
 System check identified no issues (0 silenced).
-January 04, 2022 - 11:27:04
+January 05, 2022 - 16:15:52
 Django version 3.1.7, using settings 'SQL_memOJi.settings'
 Starting development server at http://10.0.4.13:8000/
 Quit the server with CONTROL-C.
-ssd_flag: 2
-ssd_flag: 2

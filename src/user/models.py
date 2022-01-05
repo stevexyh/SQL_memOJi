@@ -99,6 +99,13 @@ class User(AbstractUser):
     def __str__(self):
         return str(self.internal_id + '-' + self.full_name)
 
+    def identity(self):
+        if hasattr(self, 'student') and self.student is not None:
+            return 'student'
+        elif hasattr(self, 'teacher') and self.teacher is not None:
+            return 'teacher'
+        else:
+            return 'unknown'
 
 class Teacher(models.Model):
     '''
@@ -112,6 +119,10 @@ class Teacher(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+    def teach_room(self):
+        rooms = Classroom.objects.filter(teacher=self)
+        return rooms
 
     class Meta:
         verbose_name = '教师'
