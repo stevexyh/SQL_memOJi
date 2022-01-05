@@ -56,6 +56,9 @@ INSTALLED_APPS = [
     # PIP lib
     'rest_framework',
 
+    # # Simpleui
+    # 'simpleui',
+    
     # Django core
     'django.contrib.admin',
     'django.contrib.auth',
