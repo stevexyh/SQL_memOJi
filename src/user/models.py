@@ -100,9 +100,13 @@ class User(AbstractUser):
         return str(self.internal_id + '-' + self.full_name)
 
     def identity(self):
-        if hasattr(self, 'student') and self.student is not None:
+        is_student = hasattr(self, 'student') and self.student is not None
+        is_teacher = hasattr(self, 'teacher') and self.teacher is not None
+        if is_student and is_teacher:
+            return 'teacher_student'
+        elif is_student:
             return 'student'
-        elif hasattr(self, 'teacher') and self.teacher is not None:
+        elif is_teacher:
             return 'teacher'
         else:
             return 'unknown'

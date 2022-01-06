@@ -46,7 +46,7 @@ class CustomUserAdmin(UserAdmin):
         if identity == 'student' :
             # is student
             return results.filter(email=request.user.email)
-        elif identity == 'teacher':
+        elif identity == 'teacher' or identity =='teacher_student':
             # is teacher
             rooms = request.user.teacher.teach_room()
             students = models.Student.objects.filter(classroom__in = rooms)
@@ -66,7 +66,15 @@ class CustomUserAdmin(UserAdmin):
         # user_test = students.User
         # print(user_test)
         # return qs
-
+    def get_readonly_fields(self,request,obj=None):
+        if request.user.is_superuser:
+            return []
+        else:
+            if obj:
+                # 之后就不可编辑
+                return ['priority','email','is_superuser','is_staff','groups','user_permissions','last_login','date_joined']
+            else:
+                return ['priority']
     list_display = ['username', 'internal_id', 'email', 'priority', 'school', 'full_name', 'college_name', 'join_status']
     list_filter = ['priority', 'is_staff', 'is_superuser', 'is_active']
     ordering = ['username']
@@ -113,6 +121,7 @@ class CustomUserAdmin(UserAdmin):
 
 @admin.register(models.Teacher)
 class TeacherAdmin(admin.ModelAdmin):
+    # forbid the normal user to view this model!
     def get_queryset(self, request):
         # 接管查询请求
         results = super(TeacherAdmin, self).get_queryset(request)
@@ -121,24 +130,49 @@ class TeacherAdmin(admin.ModelAdmin):
         if request.user.is_superuser:  # 超级用户可查看所有数据
             return results
         return models.Teacher.objects.none()    
-        # if identity == 'student' :
-        #     # is student
-        #     return results.filter(email=request.user.email)
-        # elif identity == 'teacher':
-        #     # is teacher
-        #     rooms = request.user.teacher.teach_room()
-        #     students = models.Student.objects.filter(classroom__in = rooms)
-        #     query_stu = models.User.objects.filter(email__in=students)
-        #     return results.filter(email=request.user.email) | query_stu
-        # else:
-        #     # unknown
-        #     return results.filter(email=request.user.email)
     list_display = ['user']
 
 
 # Fields: 'user', 'classroom', 'join_status'
 @admin.register(models.Student)
 class StudentAdmin(admin.ModelAdmin):
+    def get_queryset(self,request):
+        results = super(StudentAdmin, self).get_queryset(request)
+        identity = request.user.identity()
+        print(identity)
+        if request.user.is_superuser:  # 超级用户可查看所有数据
+            return results
+        if identity == 'student' :
+            # is student
+            return results.filter(user=request.user)
+        elif identity == 'teacher' or identity == 'teacher_student':
+            # is teacher
+            rooms = request.user.teacher.teach_room()
+            students = models.Student.objects.filter(classroom__in = rooms)
+            return results.filter(user=request.user) | students            
+        else:
+            # unknown
+            return results.filter(user=request.user)
+        # Django-admin 后台设置字段是否可编辑
+    def get_readonly_fields(self,request,obj=None):
+        if request.user.is_superuser:
+            return []
+        else:
+            if obj:
+                # 之后就不可编辑
+                return ['user']
+            else:
+                return []
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+        if not (request.user.is_superuser):
+            if db_field.name == 'classroom':
+                identity = request.user.identity()
+                if identity == 'teacher' or identity == 'teacher_student':
+                    kwargs['queryset'] = models.Classroom.objects.filter(teacher=request.user.teacher)
+                else:
+                    kwargs['queryset'] = models.Classroom.objects.none()
+        return super(StudentAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+    
     list_display = ['user', 'classroom', 'join_status']
     list_filter = ['classroom' , 'join_status']
 
@@ -156,16 +190,11 @@ class ClassroomAdmin(admin.ModelAdmin):
         # 接管查询请求
         results = super(ClassroomAdmin, self).get_queryset(request)
         identity = request.user.identity()
-        # print(identity)
         if request.user.is_superuser:  # 超级用户可查看所有数据
             return results
-        if identity == 'teacher' :
-            readonly_fields = ['teacher']
-
+        if identity == 'teacher' or identity == 'teacher_student':
             return models.Classroom.objects.filter(teacher=request.user.teacher)
         elif identity == 'student':
-            # print(request.user.student)
-            # return results
             return models.Classroom.objects.filter(class_id=request.user.student.classroom.class_id)
         else:
             return models.Classroom.objects.none()
@@ -175,18 +204,13 @@ class ClassroomAdmin(admin.ModelAdmin):
             return []
         else:
             if obj:
+                # 之后就不可编辑
                 return ['teacher']
             else:
                 return []
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
-        if request.user.is_superuser:
-            print("是超级")
-        else:
+        if not (request.user.is_superuser):
             if db_field.name == 'teacher':
                 kwargs['queryset'] = models.Teacher.objects.filter(user=request.user)
-                print("-")
-            # if db_field.name == 'school':
-            #     print("-")
-            #     kwargs['queryset'] = models.School.objects.all()
         return super(ClassroomAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
     list_display = ['class_id', 'school', 'class_name', 'teacher', 'class_desc', 'active']
