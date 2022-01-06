@@ -21,8 +21,8 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from . import models
-
-
+from user.models import Classroom
+from django import forms
 # Register your models here.
 
 
@@ -66,7 +66,38 @@ class ExamAdmin(admin.ModelAdmin):
     #     model = models.Exam.classroom.through
 
     # inlines = [ClassroomInline]
-    list_display = ['exam_name', 'paper', 'start_time', 'end_time', 'publish_time', 'active']
+    def get_queryset(self, request):
+        # 接管查询请求
+        results = super(ExamAdmin, self).get_queryset(request)
+        identity = request.user.identity()
+        if request.user.is_superuser:  # 超级用户可查看所有数据
+            return results
+        if identity == 'teacher' or identity == 'teacher_student':
+            rooms = request.user.teacher.teach_room()
+            return models.Exam.objects.filter(classroom__in = rooms).distinct()
+        elif identity == 'student':
+            return models.Exam.objects.none()
+        else:
+            return models.Exam.objects.none()
+
+    def formfield_for_dbfield(self, field, **kwargs):
+        # print(kwargs['request'][0])
+        login_user = kwargs['request'].user
+        if not (login_user.is_superuser):
+            if field.name == 'classroom':
+                identity = login_user.identity()
+                if identity == 'teacher' or identity == 'teacher_student':
+                    units = Classroom.objects.filter(teacher=login_user.teacher)
+                else:
+                    units = Classroom.objects.none()
+                return forms.ModelMultipleChoiceField (queryset=units,label="分配班级",help_text='按住 Ctrl 键(Mac 上的 Command) 键来选择多个班级。如需多位老师多个班级同时考试，请使用管理员账号发布！')
+        return super(ExamAdmin, self).formfield_for_dbfield(field, **kwargs)
+
+    def classrooms(self,obj):
+        #XXX(Seddon):还是会显示别人的班级，暂未想到完善方法
+        return [bt.class_name for bt in obj.classroom.all()]
+    classrooms.short_description = "分配班级"
+    list_display = ['exam_name', 'paper', 'start_time', 'end_time', 'publish_time', 'active', 'classrooms']
 
 
 # Fields: 'exer_id', 'exer_name', 'paper', 'publish_time', 'active', 'classroom'
@@ -77,7 +108,36 @@ class ExerciseAdmin(admin.ModelAdmin):
     #     model = models.Exercise.classroom.through
 
     # inlines = [ClassroomInline]
-    list_display = ['exer_name', 'paper', 'publish_time', 'active']
+    def get_queryset(self, request):
+        # 接管查询请求
+        results = super(ExerciseAdmin, self).get_queryset(request)
+        identity = request.user.identity()
+        if request.user.is_superuser:  # 超级用户可查看所有数据
+            return results
+        if identity == 'teacher' or identity == 'teacher_student':
+            rooms = request.user.teacher.teach_room()
+            return models.Exercise.objects.filter(classroom__in = rooms).distinct()
+        elif identity == 'student':
+            return models.Exercise.objects.none()
+        else:
+            return models.Exercise.objects.none()
+    def formfield_for_dbfield(self, field, **kwargs):
+        # print(kwargs['request'][0])
+        login_user = kwargs['request'].user
+        if not (login_user.is_superuser):
+            if field.name == 'classroom':
+                identity = login_user.identity()
+                if identity == 'teacher' or identity == 'teacher_student':
+                    units = Classroom.objects.filter(teacher=login_user.teacher)
+                else:
+                    units = Classroom.objects.none()
+                return forms.ModelMultipleChoiceField (queryset=units,label="分配班级",help_text='按住 Ctrl 键(Mac 上的 Command) 键来选择多个班级。如需多位老师多个班级同时练习，请使用管理员账号发布！')
+        return super(ExerciseAdmin, self).formfield_for_dbfield(field, **kwargs)
+
+    def classrooms(self,obj):
+        return [bt.class_name for bt in obj.classroom.all()]
+    classrooms.short_description = "分配班级"
+    list_display = ['exer_name', 'paper', 'publish_time', 'active', 'classrooms']
 
 
 # Fields: 'rec_id', 'student', 'question', 'ans', 'ans_status', 'submit_time', 'submit_cnt'
