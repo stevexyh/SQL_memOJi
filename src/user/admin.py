@@ -178,15 +178,15 @@ class ClassroomAdmin(admin.ModelAdmin):
                 return ['teacher']
             else:
                 return []
-    #FIXME:(Seddon) 完善数据显示 先睡觉了
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
-        print(db_field.name)
-        print("ssd",kwargs)
-        if db_field.name == 'teacher':
-            # kwargs['teacher'] = models.Classroom.objects.none()
-            print("-")
-        if db_field.name == 'school':
-            print("-")
-            # kwargs['School'] = models.School.objects.all()
+        if request.user.is_superuser:
+            print("是超级")
+        else:
+            if db_field.name == 'teacher':
+                kwargs['queryset'] = models.Teacher.objects.filter(user=request.user)
+                print("-")
+            # if db_field.name == 'school':
+            #     print("-")
+            #     kwargs['queryset'] = models.School.objects.all()
         return super(ClassroomAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
     list_display = ['class_id', 'school', 'class_name', 'teacher', 'class_desc', 'active']
