@@ -87,17 +87,21 @@ class ExamAdmin(admin.ModelAdmin):
             if field.name == 'classroom':
                 identity = login_user.identity()
                 if identity == 'teacher' or identity == 'teacher_student':
+                    exam_id = kwargs['request'].path.split('/')[4]
                     units = Classroom.objects.filter(teacher=login_user.teacher)
+                    other_class = models.Exam.objects.get(exam_id=exam_id).classroom.all()
+                    units = units | other_class
+                    units = units.distinct()
                 else:
                     units = Classroom.objects.none()
-                return forms.ModelMultipleChoiceField (queryset=units,label="分配班级",help_text='按住 Ctrl 键(Mac 上的 Command) 键来选择多个班级。如需多位老师多个班级同时考试，请使用管理员账号发布！')
+                return forms.ModelMultipleChoiceField (queryset=units,label="分配班级",help_text='按住 Ctrl 键(Mac 上的 Command 键) 来选择多个班级。如需多位老师多个班级同时考试，请使用管理员账号发布！')
         return super(ExamAdmin, self).formfield_for_dbfield(field, **kwargs)
 
     def classrooms(self,obj):
         #XXX(Seddon):还是会显示别人的班级，暂未想到完善方法
         return [bt.class_name for bt in obj.classroom.all()]
     classrooms.short_description = "分配班级"
-    list_display = ['exam_name', 'paper', 'start_time', 'end_time', 'publish_time', 'active', 'classrooms']
+    list_display = ['exam_id', 'exam_name', 'paper', 'start_time', 'end_time', 'publish_time', 'active', 'classrooms']
 
 
 # Fields: 'exer_id', 'exer_name', 'paper', 'publish_time', 'active', 'classroom'
@@ -122,22 +126,26 @@ class ExerciseAdmin(admin.ModelAdmin):
         else:
             return models.Exercise.objects.none()
     def formfield_for_dbfield(self, field, **kwargs):
-        # print(kwargs['request'][0])
         login_user = kwargs['request'].user
         if not (login_user.is_superuser):
             if field.name == 'classroom':
                 identity = login_user.identity()
                 if identity == 'teacher' or identity == 'teacher_student':
+                    #XXX(Seddon):这种URL截断的方法非常难看 暂时没找到好的方法
+                    exer_id = kwargs['request'].path.split('/')[4]
                     units = Classroom.objects.filter(teacher=login_user.teacher)
+                    other_class = models.Exercise.objects.get(exer_id=exer_id).classroom.all()
+                    units = units | other_class
+                    units = units.distinct()
                 else:
                     units = Classroom.objects.none()
-                return forms.ModelMultipleChoiceField (queryset=units,label="分配班级",help_text='按住 Ctrl 键(Mac 上的 Command) 键来选择多个班级。如需多位老师多个班级同时练习，请使用管理员账号发布！')
+                return forms.ModelMultipleChoiceField (queryset=units,label="分配班级",help_text='按住 Ctrl 键(Mac 上的 Command 键) 来选择多个班级。如需多位老师多个班级同时练习，请使用管理员账号发布！')
         return super(ExerciseAdmin, self).formfield_for_dbfield(field, **kwargs)
 
     def classrooms(self,obj):
         return [bt.class_name for bt in obj.classroom.all()]
     classrooms.short_description = "分配班级"
-    list_display = ['exer_name', 'paper', 'publish_time', 'active', 'classrooms']
+    list_display = ['exer_id', 'exer_name', 'paper', 'publish_time', 'active', 'classrooms']
 
 
 # Fields: 'rec_id', 'student', 'question', 'ans', 'ans_status', 'submit_time', 'submit_cnt'
