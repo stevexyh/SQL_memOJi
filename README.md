@@ -1,7 +1,22 @@
 # SQL_memOJi  
 DESCRIPTIONS
+A Online-Judge Platform for NWPU DataBase Course.
+Modify By SeddonShen
+From Steve-Xyh
 
 
+## Some Questions
+- Xadmin can't use
+The version of Xadmin is too old, next time we will use simpleui to beautify the admin page.
+- User Auth
+定义用户权限，减轻教师和SuperAdmin权限控制的工作量
+暂且使用Django-admin 进行实现
+- 大数据统计
+这个放前端实现吧，难搞
+- SQL判卷的消息队列机制
+轮流判卷，减少服务器压力
+
+2021/12/28 Xi'an
 ## Files  
 ```  
 .
@@ -23,7 +38,10 @@ DESCRIPTIONS
 
 ## Environment
 - `env`
-
+- Mysql Need use MyISAM engine,in order to avoid foreign key error!
+- Need two Mysql database account(root and oj)
+- Warn:now account oj's password is ojtest+1S. Very dangerous.
+- 需要手动建立一个名为oj，上述密码的用户
 ## Usage  
 - `To be finished.`  
 
@@ -346,3 +364,4 @@ API_4 = {
 
 ---  
 **Developed by [Steve X](https://github.com/Steve-Xyh/SQL_memOJi)**
+**Modified by [Seddon Shen](https://github.com/SeddonShen/SQL_memOJi)**

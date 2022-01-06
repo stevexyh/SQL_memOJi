@@ -52,13 +52,9 @@
                         <hr class="my-4">
 
                         <div class="row text-center">
-                            <div class="col-6">
+                            <div class="col-12">
                                 <p class="text-muted mb-2">人数</p>
-                                <h5>(86)</h5>
-                            </div>
-                            <div class="col-6">
-                                <p class="text-muted mb-2">平均分</p>
-                                <h5>(80.12)</h5>
+                                <h5>{{cls.students_count}}</h5>
                             </div>
                         </div>
                         <div class="text-center"><a href="{% url 'user:class-details' cls.class_id %}" class="btn btn-primary mt-1 waves-effect waves-light">管理</a></div>

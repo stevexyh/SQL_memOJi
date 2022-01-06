@@ -59,7 +59,7 @@ class User(AbstractUser):
     | school                | varchar             |      | FK  | 西北工业大学  |
     | full_name             | varchar             |      |     |             |
     | internal_id           | varchar             |      | UNI |             |
-    | college_name          | varchar             |      |     |             |
+    | college_name          | varchar             |      |     | 计算机学院   |
     | register_time         | datetime            |      |     |             |
     '''
 
@@ -90,7 +90,7 @@ class User(AbstractUser):
     school = models.ForeignKey(verbose_name=_('学校'), to=School, on_delete=models.SET_NULL, default=None, null=True, blank=False)
     full_name = models.CharField(verbose_name=_('真实姓名'), max_length=30)
     internal_id = models.CharField(verbose_name=_('学工号'), max_length=30, unique=True)
-    college_name = models.CharField(verbose_name=_('学院全称'), max_length=150, blank=True)
+    college_name = models.CharField(verbose_name=_('学院全称'), max_length=150, blank=True,default=_('计算机学院'))
     join_status = models.IntegerField(verbose_name=_('加入状态'), choices=JoinStatus.choices, default=0)
 
     USERNAME_FIELD = 'username'
@@ -99,6 +99,17 @@ class User(AbstractUser):
     def __str__(self):
         return str(self.internal_id + '-' + self.full_name)
 
+    def identity(self):
+        is_student = hasattr(self, 'student') and self.student is not None
+        is_teacher = hasattr(self, 'teacher') and self.teacher is not None
+        if is_student and is_teacher:
+            return 'teacher_student'
+        elif is_student:
+            return 'student'
+        elif is_teacher:
+            return 'teacher'
+        else:
+            return 'unknown'
 
 class Teacher(models.Model):
     '''
@@ -112,6 +123,15 @@ class Teacher(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+    def teach_room(self):
+        rooms = Classroom.objects.filter(teacher=self)
+        return rooms
+    def teach_stu(self):
+        rooms = self.teach_room()
+        students = Student.objects.filter(classroom__in = rooms)
+        # query_stu = User.objects.filter(email__in=students)
+        return students
 
     class Meta:
         verbose_name = '教师'
@@ -129,8 +149,9 @@ class Classroom(models.Model):
     | teacher               | varchar             |      | FK   |            |
     | class_desc            | varchar             |      | NULL |            |
     | active                | bool                |      |      | True       |
-    | stud_list             | varchar(Python.List)|      |      |            |
     '''
+    # | stud_list             | varchar(Python.List)|      |      |            |
+
 
     class_id = models.AutoField(verbose_name=_('班级ID'), primary_key=True)
     school = models.ForeignKey(verbose_name=_('学校'), to=School, on_delete=models.SET_NULL, default=None, null=True, blank=False)
@@ -138,7 +159,7 @@ class Classroom(models.Model):
     teacher = models.ForeignKey(verbose_name=_('负责教师'), to=Teacher, on_delete=models.SET_NULL, default=None, null=True, blank=False)
     class_desc = models.CharField(verbose_name=_('班级描述'), max_length=200, null=True, blank=True)
     active = models.BooleanField(verbose_name=_('有效状态'), default=True)
-    stud_list = models.CharField(verbose_name=_('学生列表'), max_length=2000, null=True, blank=True)
+    # stud_list = models.CharField(verbose_name=_('学生列表'), max_length=2000, null=True, blank=True)
 
     def __str__(self):
         return str(self.class_name)
@@ -146,6 +167,15 @@ class Classroom(models.Model):
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse("user:class-details", kwargs={"class_id": self.class_id})
+
+    # 装饰器property
+    @property
+    def students_count(self):
+        # class-manage page students number
+        detail = Classroom.objects.get(pk=self.class_id)
+        count = detail.student_set.count()
+        return count
+
 
     class Meta:
         verbose_name = '班级'

@@ -27,6 +27,8 @@ from django.db.models import Sum
 from user.models import Student, User, Classroom
 from user.forms import UserInfoForm, StudentForm, ClassroomForm
 from coding.models import Exam, QuesAnswerRec, Question, QuestionSet
+import datetime
+from django.utils import timezone
 
 # Create your views here.
 
@@ -46,23 +48,42 @@ def blank(request):
 
 def index(request):
     '''Render index template'''
-
+    # print("在首页")
     ques_cnt = Question.objects.count()
     ques_set_cnt = QuestionSet.objects.count()
     exam_cnt = Exam.objects.count()
     exam_active = Exam.objects.filter(active=True).count()
     submit_cnt = QuesAnswerRec.objects.aggregate(Sum('submit_cnt'))
-
+    ques_easy = Question.objects.filter(ques_difficulty=0).count()
+    ques_middle = Question.objects.filter(ques_difficulty=1).count()
+    ques_difficult = Question.objects.filter(ques_difficulty=2).count()
+    ac_cnt = QuesAnswerRec.objects.filter(ans_status=0).count()
+    # FIXME(Seddon):实际上是七日内提交，烦得很
+    monday = timezone.now() - datetime.timedelta(days=7)
+    mouth = timezone.now() - datetime.timedelta(days=30)    
+    week_submit = QuesAnswerRec.objects.filter(submit_time__gte=monday).count()
+    mouth_submit = QuesAnswerRec.objects.filter(submit_time__gte=mouth).count()
+    # mouth_submit = QuesAnswerRec.objects.filter()
+    # print(week_submit)
+    # print(ques_easy,ques_middle,ques_difficult)
+    # print(ac_cnt)
+    # print(mouth_submit)
     content = {
         'ques_cnt': ques_cnt,
         'ques_set_cnt': ques_set_cnt,
         'exam_cnt': exam_cnt,
         'exam_active': exam_active,
         'submit_cnt': submit_cnt['submit_cnt__sum'],
+        'ques_easy':ques_easy,
+        'ques_middle':ques_middle,
+        'ques_difficult':ques_difficult,
+        'ac_cnt':ac_cnt,
+        'week_submit':week_submit,
+        'mouth_submit':mouth_submit
     }
-
+    # print(get_current_week())
     return render(request, 'index.html', context=content)
-
+ 
 
 def e404(request, exception=None):
     '''Render 404 err page'''
@@ -208,14 +229,22 @@ class ClassManage(View):
 
     def get(self, request):
         # TODO(Steve X): show classes of current teacher only
+        # XXX(Seddon Shen): 使用反向查询_set()去找学生 需注意全部字段小写
         class_list = Classroom.objects.all()
         class_form = ClassroomForm()
-
+        class_test = Classroom.objects.get(pk=1)
+        stus = class_test.student_set.count()
+        # print(stus)
+        # print(class_list.values())
+        # print(class_list[1].students_count)
+        # class_list 用于显示当前班级
+        # class_form use to add new class
         content = {
             'class_list': class_list,
             'class_form': class_form,
         }
-
+        # print(class_list)
+        # print(class_form)
         return render(request, 'user/class-manage.html', context=content)
 
     # XXX(Steve X): add batch import func for students
@@ -262,18 +291,15 @@ class UserInfo(View):
     def get(self, request):
         not_login = _('未登录')
         null = 'NULL'
-
         user = request.user
         is_student = user.is_authenticated and user.priority == User.UserType.STUDENT
-
         full_name = user.full_name if user.is_authenticated else not_login
         username = user.username if user.is_authenticated else not_login
         email = user.email if user.is_authenticated else not_login
-
         school = user.school if user.is_authenticated else not_login
         college_name = user.college_name if user.is_authenticated else not_login
         internal_id = user.internal_id if user.is_authenticated else not_login
-        classroom = user.student.classroom if is_student else ''
+        classroom = user.student.classroom if is_student else False
         priority = user.get_priority_display() if user.is_authenticated else not_login
         join_status = user.is_authenticated and user.join_status != User.JoinStatus.OUT_OF_LIST or user.is_superuser
         info_form = UserInfoForm(instance=user) if user.is_authenticated else None
@@ -295,6 +321,7 @@ class UserInfo(View):
             'student_form': student_form,
         }
 
+        print(content)
         for k in content:
             content[k] = content[k] if content[k] != '' else f'{k}: {null}'
 

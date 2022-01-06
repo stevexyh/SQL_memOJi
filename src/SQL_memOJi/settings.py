@@ -56,6 +56,9 @@ INSTALLED_APPS = [
     # PIP lib
     'rest_framework',
 
+    # # Simpleui
+    # 'simpleui',
+    
     # Django core
     'django.contrib.admin',
     'django.contrib.auth',
@@ -103,8 +106,8 @@ WSGI_APPLICATION = 'SQL_memOJi.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-DB = 'sqlite'
-
+# DB = 'sqlite'
+DB = 'mysql'
 if DB == 'sqlite':
     DATABASES = {
         'default': {

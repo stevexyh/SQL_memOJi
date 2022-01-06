@@ -102,18 +102,22 @@ def questions_manage_base(request):
     }
 
     return render(request, 'coding/questions-manage-base.html', context=content)
-
-
+# XXX(Seddon Shen):need to modify the user control logic more
 def questions_manage(request):
     '''Render questions-manage template'''
 
     ques_set_form = forms.QuesSetForm(auto_id='id_qset_%s')
     question_form = forms.QuestionForm(auto_id='id_ques_%s')
     paper_form = forms.PaperForm(auto_id='id_paper_%s')
+    question_list = models.Question.objects.filter(initiator_id=request.user.email)
+    ques_set_list = models.QuestionSet.objects.filter(initiator_id=request.user.email)
+    paper_list = models.Paper.objects.filter(initiator_id=request.user.email)
 
-    question_list = models.Question.objects.all()
-    ques_set_list = models.QuestionSet.objects.all()
-    paper_list = models.Paper.objects.all()
+    questions_cnt = models.Question.objects.filter(initiator_id=request.user.email).count()
+    # print(questions_cnt)
+    # print(question_list.values())
+
+
 
     content = {
         'ques_set_form': ques_set_form,
@@ -122,6 +126,7 @@ def questions_manage(request):
         'question_list': question_list,
         'ques_set_list': ques_set_list,
         'paper_list': paper_list,
+        'questions_cnt': questions_cnt
     }
 
     return render(request, 'coding/questions-manage.html', context=content)
@@ -218,17 +223,19 @@ def coding(request):
 
 class CodingEditor(View):
     '''Render coding-editor template'''
-
+    # 今天读了一下审题逻辑 Seddon 2021/12/30
     def get_info(self, request, event_type, event_id, ques_id):
-
         try:
             question = models.Question.objects.get(ques_id=ques_id)
             qset = question.ques_set
-
+            # print("Question:",question,"Qset:",qset)
             if event_type == 'exam':
+                # print("Exam")
                 event = models.Exam.objects.get(exam_id=event_id)
                 event_name = event.exam_name
+                # print("Event_name:",event_name)
             elif event_type == 'exer':
+                # print("Exercise")
                 event = models.Exercise.objects.get(exer_id=event_id)
                 event_name = event.exer_name
             else:
@@ -294,15 +301,17 @@ class CodingEditor(View):
 
         # FIXME(Steve X): Monaco Editor 输入内容换行会消失
         submit_ans = request.POST.get('submit_ans')
-
+        # print("输入的答案:",submit_ans)
         content = self.get_info(request, event_type, event_id, ques_id)
         question = content.get('question')
         qset = question.ques_set
-
+        # print("数据比对:",qset.db_name,question.ques_ans,submit_ans)
         try:
             submit_ans = '#' if submit_ans == '' else submit_ans
             correct = sql_check.ans_check(db_nm=qset.db_name, ans_sql=question.ques_ans, stud_sql=submit_ans)
-        except:
+            # print("判断动作执行成功")
+        except Exception as e:
+            print(e)
             correct = 'error'
 
         ans_status = {
@@ -354,15 +363,18 @@ def statistics(request):
     exer_cnt = models.Exercise.objects.count()
     # exer_active = models.Exercise.objects.filter().count()
     submit_cnt = models.QuesAnswerRec.objects.aggregate(Sum('submit_cnt'))
-
+    ac_cnt = models.QuesAnswerRec.objects.filter(ans_status=0).count()
+    exer_active = models.Exercise.objects.filter(active=True).count()
+    print("ssd_flag:",exer_active,exer_cnt)
     content = {
         'ques_cnt': ques_cnt,
         'ques_set_cnt': ques_set_cnt,
         'exam_cnt': exam_cnt,
         'exam_active': exam_active,
-        'exer_cnt': exam_cnt,
-        'exer_active': 0,
+        'exer_cnt': exer_cnt,
+        'exer_active': exer_active,
         'submit_cnt': submit_cnt['submit_cnt__sum'],
+        'ac_cnt' : ac_cnt
     }
 
     return render(request, 'coding/statistics.html', context=content)
