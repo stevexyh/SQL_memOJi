@@ -127,6 +127,11 @@ class Teacher(models.Model):
     def teach_room(self):
         rooms = Classroom.objects.filter(teacher=self)
         return rooms
+    def teach_stu(self):
+        rooms = self.teach_room()
+        students = Student.objects.filter(classroom__in = rooms)
+        # query_stu = User.objects.filter(email__in=students)
+        return students
 
     class Meta:
         verbose_name = '教师'

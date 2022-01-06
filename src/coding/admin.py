@@ -50,6 +50,17 @@ class PaperAdmin(admin.ModelAdmin):
 
     class QuestionInline(admin.TabularInline):
         model = models.Paper.question.through
+    def get_queryset(self, request):
+        # 接管查询请求
+        results = super(PaperAdmin, self).get_queryset(request)
+        identity = request.user.identity()
+        if request.user.is_superuser:  # 超级用户可查看所有数据
+            return results
+        if identity == 'teacher' or identity == 'teacher_student':
+            #TODO:(Seddon)设置公开字段 也可以看公开的试卷
+            return models.Paper.objects.filter(initiator = request.user.teacher)
+        else:
+            return models.Paper.objects.none()
 
     list_display = [
         'paper_id', 'paper_name', 'paper_desc', 'initiator', 'publish_time',
@@ -81,7 +92,6 @@ class ExamAdmin(admin.ModelAdmin):
             return models.Exam.objects.none()
 
     def formfield_for_dbfield(self, field, **kwargs):
-        # print(kwargs['request'][0])
         login_user = kwargs['request'].user
         if not (login_user.is_superuser):
             if field.name == 'classroom':
@@ -98,7 +108,6 @@ class ExamAdmin(admin.ModelAdmin):
         return super(ExamAdmin, self).formfield_for_dbfield(field, **kwargs)
 
     def classrooms(self,obj):
-        #XXX(Seddon):还是会显示别人的班级，暂未想到完善方法
         return [bt.class_name for bt in obj.classroom.all()]
     classrooms.short_description = "分配班级"
     list_display = ['exam_id', 'exam_name', 'paper', 'start_time', 'end_time', 'publish_time', 'active', 'classrooms']
@@ -157,4 +166,25 @@ class QuesAnswerRecAdmin(admin.ModelAdmin):
 # Fields: 'rec_id', 'student', 'paper', 'start_time', 'end_time', 'score',
 @admin.register(models.PaperAnswerRec)
 class PaperAnswerRecAdmin(admin.ModelAdmin):
+    # TODO:(Seddon) 源代码中限定学生无论如何都无法修改自己的试卷内容
+    # 非admin权限控制
+    # 双重保险！
+    # 剩余 试卷公开字段、试卷作答、题库、题目、题目作答
+    # 需要半天时间搞定与测试
+    # 接下来阉割部分前端页面
+    # 做图表
+    # 做调度！
+    def get_queryset(self, request):
+        # 接管查询请求
+        results = super(PaperAnswerRecAdmin, self).get_queryset(request)
+        identity = request.user.identity()
+        if request.user.is_superuser:  # 超级用户可查看所有数据
+            return results
+        if identity == 'teacher' or identity == 'teacher_student':
+            students = request.user.teacher.teach_stu()
+            return results.filter(student__in = students)
+        elif identity == 'student':
+            return results.filter(student = request.user.student)
+        else:
+            return results.none()
     list_display = ['rec_id', 'student', 'paper', 'start_time', 'end_time', 'score', ]
