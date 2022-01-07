@@ -114,6 +114,7 @@ class Paper(models.Model):
     paper_desc = models.TextField(verbose_name=_('试卷描述'), null=True, blank=True)
     initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL, null=True)
     question = models.ManyToManyField(verbose_name=_('题目列表'), to=Question)
+    share = models.BooleanField(verbose_name=_('其他老师可查看'), default=False)
 
     class Meta:
         verbose_name = '试卷'

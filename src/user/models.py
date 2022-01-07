@@ -129,6 +129,7 @@ class Teacher(models.Model):
         return rooms
     def teach_stu(self):
         rooms = self.teach_room()
+        print(rooms)
         students = Student.objects.filter(classroom__in = rooms)
         # query_stu = User.objects.filter(email__in=students)
         return students
