@@ -321,7 +321,7 @@ class UserInfo(View):
             'student_form': student_form,
         }
 
-        print(content)
+        # print(content)
         for k in content:
             content[k] = content[k] if content[k] != '' else f'{k}: {null}'
 

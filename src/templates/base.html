@@ -146,12 +146,14 @@
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <!-- item-->
-                                    <a class="dropdown-item" href="#"><i class="ri-user-line align-middle mr-1"></i> Profile</a>
-                                    <a class="dropdown-item" href="#"><i class="ri-wallet-2-line align-middle mr-1"></i> My Wallet</a>
-                                    <a class="dropdown-item d-block" href="#"><span class="badge badge-success float-right mt-1">11</span><i class="ri-settings-2-line align-middle mr-1"></i> Settings</a>
-                                    <a class="dropdown-item" href="#"><i class="ri-lock-unlock-line align-middle mr-1"></i> Lock screen</a>
+                                    <a class="dropdown-item" href="{% url 'user:user-info' %}"><i class="ri-user-line align-middle mr-1"></i> 个人信息</a>
+                                    <a class="dropdown-item" href="/admin/password_change/"><i class="ri-lock-unlock-line align-middle mr-1"></i> 修改密码</a>
+                                    <a class="right-bar-toggle dropdown-item"><i class="ri-settings-2-line align-middle mr-1"></i> 样式设置</a>
+                                    {%if user.canview %}
+                                    <a class="dropdown-item" href="/admin"><i class="ri-list-check align-middle mr-1"></i> 后台管理</a>
+                                    {% endif %}
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-danger" href="{% url 'user:auth-logout' %}"><i class="ri-shut-down-line align-middle mr-1 text-danger"></i> Logout</a>
+                                    <a class="dropdown-item text-danger" href="{% url 'user:auth-logout' %}"><i class="ri-shut-down-line align-middle mr-1 text-danger"></i> 退出账号 </a>
                                 </div>
                             {% else %}
                                 <span class="d-none d-xl-inline-block ml-1">
@@ -164,11 +166,6 @@
                             {% endif %}
                         </div>
 
-                        <div class="dropdown d-inline-block">
-                            <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
-                                <i class="ri-settings-2-line"></i>
-                            </button>
-                        </div>
             
                     </div>
                 </div>
@@ -211,13 +208,7 @@
                                     <span>个人信息</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="{% url 'coding:statistics' %}" class=" waves-effect">
-                                    <i class="ri-line-chart-line"></i>
-                                    <span>统计数据</span>
-                                </a>
-                            </li>
-
+                            {%if user.canview %}
                             <li class="menu-title">管理员</li>
                             <li>
                                 <a href="{% url 'user:class-manage' %}" class=" waves-effect">
@@ -237,7 +228,12 @@
                                     <span>练习 & 考试管理</span>
                                 </a>
                             </li>
-
+                            <li>
+                                <a href="{% url 'coding:statistics' %}" class=" waves-effect">
+                                    <i class="ri-line-chart-line"></i>
+                                    <span>统计数据</span>
+                                </a>
+                            </li>
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
                                     <i class="ri-account-circle-line"></i>
@@ -250,6 +246,7 @@
                                     <li><a href="{% url 'user:auth-status' %}">登录状态</a></li>
                                 </ul>
                             </li>
+                            {% endif %}
                         </ul>
                     </div>
                     <!-- Sidebar -->

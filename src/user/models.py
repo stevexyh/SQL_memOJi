@@ -111,6 +111,20 @@ class User(AbstractUser):
         else:
             return 'unknown'
 
+    def canview(self):
+        is_student = hasattr(self, 'student') and self.student is not None
+        is_teacher = hasattr(self, 'teacher') and self.teacher is not None
+        if self.is_superuser:
+            return True
+        if is_student and is_teacher:
+            return True
+        elif is_teacher:
+            return True
+        elif is_student:
+            return False
+        else:
+            return False
+
 class Teacher(models.Model):
     '''
     Teacher Table

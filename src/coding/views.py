@@ -365,7 +365,6 @@ def statistics(request):
     submit_cnt = models.QuesAnswerRec.objects.aggregate(Sum('submit_cnt'))
     ac_cnt = models.QuesAnswerRec.objects.filter(ans_status=0).count()
     exer_active = models.Exercise.objects.filter(active=True).count()
-    print("ssd_flag:",exer_active,exer_cnt)
     content = {
         'ques_cnt': ques_cnt,
         'ques_set_cnt': ques_set_cnt,
