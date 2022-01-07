@@ -21,7 +21,7 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from . import models
-from user.models import Classroom
+from user.models import Classroom ,Student, Teacher
 from django import forms
 # Register your models here.
 
@@ -48,8 +48,8 @@ class QuestionSetAdmin(admin.ModelAdmin):
 @admin.register(models.Paper)
 class PaperAdmin(admin.ModelAdmin):
 
-    class QuestionInline(admin.TabularInline):
-        model = models.Paper.question.through
+    # class QuestionInline(admin.TabularInline):
+    #     model = models.Paper.question.through
     def get_queryset(self, request):
         # 接管查询请求
         results = super(PaperAdmin, self).get_queryset(request)
@@ -62,11 +62,47 @@ class PaperAdmin(admin.ModelAdmin):
         else:
             return models.Paper.objects.none()
 
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+        if not (request.user.is_superuser):
+            if db_field.name == 'initiator':
+                identity = request.user.identity()
+                if identity == 'teacher' or identity == 'teacher_student':
+                    kwargs['queryset'] = Teacher.objects.filter(user=request.user)
+                else:
+                    kwargs['queryset'] = Teacher.objects.none()
+        return super(PaperAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def formfield_for_dbfield(self, field, **kwargs):
+        login_user = kwargs['request'].user
+        if not (login_user.is_superuser):
+            if field.name == 'question':
+                identity = login_user.identity()
+                if identity == 'teacher' or identity == 'teacher_student':
+                    paper_id = kwargs['request'].path.split('/')[4]
+                    units = models.Question.objects.filter(initiator=login_user.teacher)
+                    if paper_id.isdigit():
+                        other_question = models.Paper.objects.get(paper_id=paper_id).question.all()
+                        units = units | other_question
+                        units = units.distinct()
+                else:
+                    units = models.Question.objects.none()
+                return forms.ModelMultipleChoiceField (queryset=units,label="题目列表",help_text='按住 Ctrl 键(Mac 上的 Command 键) 来选择多个题目。如需添加其他教师的题目，请联系相关老师公开或使用管理员账号发布！')
+        return super(PaperAdmin,self).formfield_for_dbfield(field, **kwargs)
+
+    # def get_readonly_fields(self,request,obj=None):
+    #     if request.user.is_superuser:
+    #         return []
+    #     else:
+    #         if obj:
+    #             # 之后就不可编辑
+    #             return ['student', 'paper']
+    #         else:
+    #             return ['initiator']
     list_display = [
         'paper_id', 'paper_name', 'paper_desc', 'initiator', 'publish_time',
     ]
 
-    inlines = [QuestionInline]
+    # inlines = [QuestionInline]
 
 
 # Fields: 'exam_id', 'exam_name', 'paper', 'start_time', 'end_time', 'publish_time', 'active', 'classroom'
@@ -99,9 +135,10 @@ class ExamAdmin(admin.ModelAdmin):
                 if identity == 'teacher' or identity == 'teacher_student':
                     exam_id = kwargs['request'].path.split('/')[4]
                     units = Classroom.objects.filter(teacher=login_user.teacher)
-                    other_class = models.Exam.objects.get(exam_id=exam_id).classroom.all()
-                    units = units | other_class
-                    units = units.distinct()
+                    if exam_id.isdigit():
+                        other_class = models.Exam.objects.get(exam_id=exam_id).classroom.all()
+                        units = units | other_class
+                        units = units.distinct()
                 else:
                     units = Classroom.objects.none()
                 return forms.ModelMultipleChoiceField (queryset=units,label="分配班级",help_text='按住 Ctrl 键(Mac 上的 Command 键) 来选择多个班级。如需多位老师多个班级同时考试，请使用管理员账号发布！')
@@ -143,9 +180,10 @@ class ExerciseAdmin(admin.ModelAdmin):
                     #XXX(Seddon):这种URL截断的方法非常难看 暂时没找到好的方法
                     exer_id = kwargs['request'].path.split('/')[4]
                     units = Classroom.objects.filter(teacher=login_user.teacher)
-                    other_class = models.Exercise.objects.get(exer_id=exer_id).classroom.all()
-                    units = units | other_class
-                    units = units.distinct()
+                    if exer_id.isdigit():
+                        other_class = models.Exercise.objects.get(exer_id=exer_id).classroom.all()
+                        units = units | other_class
+                        units = units.distinct()
                 else:
                     units = Classroom.objects.none()
                 return forms.ModelMultipleChoiceField (queryset=units,label="分配班级",help_text='按住 Ctrl 键(Mac 上的 Command 键) 来选择多个班级。如需多位老师多个班级同时练习，请使用管理员账号发布！')
@@ -187,4 +225,31 @@ class PaperAnswerRecAdmin(admin.ModelAdmin):
             return results.filter(student = request.user.student)
         else:
             return results.none()
+
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+        if not (request.user.is_superuser):
+            identity = request.user.identity()
+            print(identity)
+            if db_field.name == 'student':
+                if identity == 'teacher' or identity == 'teacher_student':
+                    kwargs['queryset'] = request.user.teacher.teach_stu()
+                else:
+                    kwargs['queryset'] = Student.objects.none()
+            if db_field.name == 'paper':
+                if identity == 'teacher' or identity == 'teacher_student':
+                    kwargs['queryset'] = models.Paper.objects.filter(initiator=request.user.teacher)
+                else:
+                    kwargs['queryset'] = Student.objects.none()
+        return super(PaperAnswerRecAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+    def get_readonly_fields(self,request,obj=None):
+        if request.user.is_superuser:
+            return []
+        else:
+            if obj:
+                # 之后就不可编辑
+                return ['student', 'paper']
+            else:
+                return []
     list_display = ['rec_id', 'student', 'paper', 'start_time', 'end_time', 'score', ]
