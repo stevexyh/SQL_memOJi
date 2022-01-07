@@ -21,7 +21,7 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from . import models
-from user.models import Classroom ,Student, Teacher
+from user.models import Classroom ,Student, Teacher, User
 from django import forms
 # Register your models here.
 
@@ -29,13 +29,13 @@ from django import forms
 # Fields: 'ques_id', 'ques_name', 'ques_set_id', 'ques_difficulty', 'ques_desc', 'ques_ans', 'initiator'
 @admin.register(models.Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ['ques_id', 'ques_name', 'ques_set_id', 'ques_difficulty', 'ques_desc', 'ques_ans', 'initiator']
+    list_display = ['ques_id', 'ques_name', 'ques_set_id', 'ques_difficulty', 'ques_desc', 'ques_ans', 'initiator', 'share']
 
 
 # Fields: 'ques_set_id', 'ques_set_name', 'ques_set_desc', 'create_sql', 'initiator'
 @admin.register(models.QuestionSet)
 class QuestionSetAdmin(admin.ModelAdmin):
-    list_display = ['ques_set_id', 'ques_set_name', 'ques_set_desc', 'db_name', 'create_sql', 'initiator']
+    list_display = ['ques_set_id', 'ques_set_name', 'ques_set_desc', 'db_name', 'create_sql', 'initiator', 'share']
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
@@ -198,8 +198,24 @@ class ExerciseAdmin(admin.ModelAdmin):
 # Fields: 'rec_id', 'student', 'question', 'ans', 'ans_status', 'submit_time', 'submit_cnt'
 @admin.register(models.QuesAnswerRec)
 class QuesAnswerRecAdmin(admin.ModelAdmin):
+    # list_filter = ['question']
     list_display = ['rec_id', 'user', 'question', 'ans', 'ans_status', 'submit_time', 'submit_cnt']
+    def get_queryset(self, request):
+        # 接管查询请求
+        results = super(QuesAnswerRecAdmin, self).get_queryset(request)
+        identity = request.user.identity()
+        if request.user.is_superuser:  # 超级用户可查看所有数据
+            return results
+        if identity == 'teacher' or identity == 'teacher_student':
+            students = request.user.teacher.teach_stu()
+            query_stu = User.objects.filter(email__in=students)
+            # return results.filter(email__in = students.user)
+            return results.filter(user__in = query_stu)
 
+        elif identity == 'student':
+            return results.filter(user = request.user)
+        else:
+            return results.none()
 
 # Fields: 'rec_id', 'student', 'paper', 'start_time', 'end_time', 'score',
 @admin.register(models.PaperAnswerRec)

@@ -44,6 +44,7 @@ class QuestionSet(models.Model):
     db_name = models.CharField(verbose_name=_('数据库名称'), unique=True, max_length=100, default='null')
     create_sql = models.TextField(verbose_name=_('创建SQL'))
     initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL, null=True)
+    share = models.BooleanField(verbose_name=_('其他老师可查看'), default=False)
 
     class Meta:
         verbose_name = '题库'
@@ -83,6 +84,7 @@ class Question(models.Model):
     ques_desc = models.TextField(verbose_name=_('题目描述'))
     ques_ans = models.TextField(verbose_name=_('标准答案'))
     initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL, null=True)
+    share = models.BooleanField(verbose_name=_('其他老师可查看'), default=False)
 
     class Meta:
         verbose_name = '题目'

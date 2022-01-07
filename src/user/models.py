@@ -89,7 +89,7 @@ class User(AbstractUser):
 
     school = models.ForeignKey(verbose_name=_('学校'), to=School, on_delete=models.SET_NULL, default=None, null=True, blank=False)
     full_name = models.CharField(verbose_name=_('真实姓名'), max_length=30)
-    internal_id = models.CharField(verbose_name=_('学工号'), max_length=30, unique=True)
+    internal_id = models.CharField(verbose_name=_('学工号'), max_length=30)
     college_name = models.CharField(verbose_name=_('学院全称'), max_length=150, blank=True,default=_('计算机学院'))
     join_status = models.IntegerField(verbose_name=_('加入状态'), choices=JoinStatus.choices, default=0)
 
