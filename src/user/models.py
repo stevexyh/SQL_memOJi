@@ -130,7 +130,6 @@ class User(AbstractUser):
         # use cavatar to replace gavatar
         m5 = hashlib.md5(f'{self.email}'.encode('utf-8')).hexdigest()
         url = f'https://cravatar.cn/avatar/{m5}?s=128'
-        print(url)
         return url
 
 

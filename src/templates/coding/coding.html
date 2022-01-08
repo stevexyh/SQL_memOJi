@@ -19,7 +19,8 @@
 
 <!-- Main Content -->
 {% block main %}
-    <h1>下一场考试</h1>
+    {% if next_exam is not None%}
+    <h1>下一场考试{{ next_exam }}</h1>
     <div class="row">
         <div class="col-8">
             <div class="card task-box">
@@ -55,13 +56,31 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="float-right"><a href="{% url 'coding:coding-editor' 'exam' next_exam.exam_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light"><i class="mdi mdi-arrow-left mr-3"></i>进入</a></div>
-
+                {% if next_exam.active %}
+                    <div class="float-right">
+                        <a href="{% url 'coding:coding' %}" class="btn btn-success mt-1 waves-effect waves-light">
+                            <i class="mdi mdi-check-decagram mr-3"></i>已完成
+                        </a>
+                    </div>
+                    <div class="float-right">
+                        <a href="{% url 'coding:coding-editor' 'exam' next_exam.exam_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light">
+                            <i class="mdi mdi-arrow-left mr-3"></i>进入
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="float-right">
+                        <a href="{% url 'coding:coding' %}" class="btn btn-danger mt-1 waves-effect waves-light">
+                            <i class="mdi mdi-alert-octagon mr-3"></i>已结束
+                        </a>
+                    </div>
+                {% endif %}
                 </div>
             </div>
         </div>
 
     </div>
+    {% endif%}
+
     <!-- end row -->
     <div class="row">
         <div class="col-lg-6">
@@ -105,12 +124,25 @@
                                                 </a>
                                             {% endfor %}
                                         </div>
-
                                     </div>
-                                    <div class="float-right"><a href="{% url 'coding:coding' %}" class="btn btn-danger mt-1 waves-effect waves-light"><i class="mdi mdi-alert-octagon mr-3"></i>已结束</a></div>
-                                    <div class="float-right"><a href="{% url 'coding:coding' %}" class="btn btn-success mt-1 waves-effect waves-light"><i class="mdi mdi-check-decagram mr-3"></i>已完成</a></div>
-                                    <div class="float-right"><a href="{% url 'coding:coding-editor' 'exam' exam.exam_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light"><i class="mdi mdi-arrow-left mr-3"></i>进入</a></div>
-
+                                    {% if exam.active %}
+                                        <div class="float-right">
+                                            <a href="{% url 'coding:coding' %}" class="btn btn-success mt-1 waves-effect waves-light">
+                                                <i class="mdi mdi-check-decagram mr-3"></i>已完成
+                                            </a>
+                                        </div>
+                                        <div class="float-right">
+                                            <a href="{% url 'coding:coding-editor' 'exam' exam.exam_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light">
+                                                <i class="mdi mdi-arrow-left mr-3"></i>进入
+                                            </a>
+                                        </div>
+                                    {% else %}
+                                        <div class="float-right">
+                                            <a href="{% url 'coding:coding' %}" class="btn btn-danger mt-1 waves-effect waves-light">
+                                                <i class="mdi mdi-alert-octagon mr-3"></i>已结束
+                                            </a>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <!-- end task card -->
