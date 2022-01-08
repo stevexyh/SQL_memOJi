@@ -45,12 +45,14 @@
 
                     <div class="d-inline-flex team mb-0">
                         <div class="mr-3 align-self-center">
-                            发起人 :
+                            负责老师 :
                         </div>
                         <div class="team-member">
-                            <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
-                                <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                            </a>
+                            {% for class in next_exam.classroom.all %}
+                                <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="{{class.teacher.user.full_name}}">
+                                    {{class}}
+                                </a>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="float-right"><a href="{% url 'coding:coding-editor' 'exam' next_exam.exam_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light"><i class="mdi mdi-arrow-left mr-3"></i>进入</a></div>
@@ -94,12 +96,14 @@
 
                                     <div class="d-inline-flex team mb-0">
                                         <div class="mr-3 align-self-center">
-                                            发起人 :
+                                            负责老师 :
                                         </div>
                                         <div class="team-member">
-                                            <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
-                                                <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                                            </a>
+                                            {% for class in exam.classroom.all %}
+                                                <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="{{class.teacher.user.school}}">
+                                                    {{class}}
+                                                </a>
+                                            {% endfor %}
                                         </div>
 
                                     </div>
@@ -151,13 +155,14 @@
 
                                     <div class="d-inline-flex team mb-0">
                                         <div class="mr-3 align-self-center">
-                                            发起人 :
+                                            开放班级 :
                                         </div>
                                         <div class="team-member">
-                                            
-                                            <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="David Martinez">
-                                                {{ exer.exer_name }}
-                                            </a>
+                                            {% for class in exer.classroom.all %}
+                                                <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="{{class.teacher.user.full_name}}">
+                                                    {{class}}
+                                                </a>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                     <div class="float-right"><a href="{% url 'coding:coding-editor' 'exer' exer.exer_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light"><i class="mdi mdi-arrow-left mr-3"></i>进入</a></div>

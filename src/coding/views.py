@@ -207,9 +207,12 @@ def paper_add(request):
 
 def coding(request):
     '''Render coding template'''
-
-    exams_list = models.Exam.objects.order_by('publish_time')
-    exer_list = models.Exercise.objects.order_by('publish_time')
+    conditions = {
+        'classroom' : request.user.student.classroom,
+        'active' : True
+    }
+    exams_list = models.Exam.objects.order_by('publish_time').filter(**conditions)
+    exer_list = models.Exercise.objects.order_by('publish_time').filter(**conditions)
     next_exam = exams_list.first()
 
     content = {

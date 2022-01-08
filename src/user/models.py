@@ -20,7 +20,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
-
+import hashlib # for avatar
 # Create your models here.
 
 
@@ -124,6 +124,15 @@ class User(AbstractUser):
             return False
         else:
             return False
+
+    @property
+    def avatar(self):
+        # use cavatar to replace gavatar
+        m5 = hashlib.md5(f'{self.email}'.encode('utf-8')).hexdigest()
+        url = f'https://cravatar.cn/avatar/{m5}?s=128'
+        print(url)
+        return url
+
 
 class Teacher(models.Model):
     '''

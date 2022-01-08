@@ -135,8 +135,10 @@
                             {% if user.is_authenticated %}
                                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img class="rounded-circle header-profile-user" src="{% static 'images/users/avatar-2.jpg' %}"
-                                        alt="Header Avatar">
+                                    <img class="rounded-circle header-profile-user" src="{{user.avatar }}"
+                                        alt="User Avatar">
+
+                                        
                                     {% if user.full_name %}
                                         <span class="d-none d-xl-inline-block ml-1">{{ user.full_name }}</span>
                                     {% else %}
@@ -148,7 +150,7 @@
                                     <!-- item-->
                                     <a class="dropdown-item" href="{% url 'user:user-info' %}"><i class="ri-user-line align-middle mr-1"></i> 个人信息</a>
                                     <a class="dropdown-item" href="/admin/password_change/"><i class="ri-lock-unlock-line align-middle mr-1"></i> 修改密码</a>
-                                    <a class="right-bar-toggle dropdown-item"><i class="ri-settings-2-line align-middle mr-1"></i> 样式设置</a>
+                                    <a class="dropdown-item right-bar-toggle"><i class="ri-settings-2-line align-middle mr-1"></i> 样式设置</a>
                                     {%if user.canview %}
                                     <a class="dropdown-item" href="/admin"><i class="ri-list-check align-middle mr-1"></i> 后台管理</a>
                                     {% endif %}
@@ -233,18 +235,6 @@
                                     <i class="ri-line-chart-line"></i>
                                     <span>统计数据</span>
                                 </a>
-                            </li>
-                            <li>
-                                <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <i class="ri-account-circle-line"></i>
-                                    <span>账号设置</span>
-                                </a>
-                                <ul class="sub-menu" aria-expanded="false">
-                                    <li><a href="{% url 'user:auth-login' %}">登录</a></li>
-                                    <li><a href="{% url 'user:auth-register' %}">注册</a></li>
-                                    <li><a href="{% url 'user:auth-recoverpw' %}">找回密码</a></li>
-                                    <li><a href="{% url 'user:auth-status' %}">登录状态</a></li>
-                                </ul>
                             </li>
                             {% endif %}
                         </ul>
