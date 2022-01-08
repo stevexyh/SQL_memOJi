@@ -56,6 +56,7 @@
                             {% endfor %}
                         </div>
                     </div>
+                <!-- TODO:active用来判断前端是否显示，到期是按照截止时间来，可以封装到model里面 -->
                 {% if next_exam.active %}
                     <div class="float-right">
                         <a href="{% url 'coding:coding' %}" class="btn btn-success mt-1 waves-effect waves-light">
