@@ -219,7 +219,6 @@ def coding(request):
         have_finished_paper.append(element.paper_id)
     unfinished = exams_list.exclude(paper_id__in=have_finished_paper)
     have_finished = models.Exam.objects.order_by('publish_time').filter(paper_id__in=have_finished_paper)
-    print(have_finished)
     next_exam = unfinished.first()
     content = {
         'exams_list': unfinished,
