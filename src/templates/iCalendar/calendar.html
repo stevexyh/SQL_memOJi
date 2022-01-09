@@ -37,7 +37,6 @@
     <script src="{% static 'libs/moment/min/moment.min.js' %}"></script>
     <script src="{% static 'libs/jquery-ui-dist/jquery-ui.min.js' %}"></script>
     <script src="{% static 'libs/fullcalendar/fullcalendar.min.js' %}"></script>
-
     <!-- Custom Calendar init -->
     <script>
         !(function (i) {
@@ -76,40 +75,7 @@
                                   i("#calendar").fullCalendar("renderEvent", n, !0),
                                   i("#drop-remove").is(":checked") && i(this).remove();
                           },
-                          events: [
-                              { title: "复习", start: new Date(n, a, 1) },
-                              {
-                                  title: "复习",
-                                  start: new Date(n, a, t - 5),
-                                  end: new Date(n, a, t - 2),
-                              },
-                              {
-                                  id: 999,
-                                  title: "第三章1测试",
-                                  start: new Date(n, a, t - 3, 16, 0),
-                                  end: new Date(n, a, t - 3, 18, 0),
-                                  allDay: !1,
-                                  url: "exams-manage.html"
-                              },
-                              {
-                                  title: "第四章测试",
-                                  start: new Date(n, a, t, 12, 0),
-                                  end: new Date(n, a, t, 14, 0),
-                                  allDay: !1,
-                              },
-                              {
-                                  title: "第五章测试",
-                                  start: new Date(n, a, t + 1, 19, 0),
-                                  end: new Date(n, a, t + 1, 22, 30),
-                                  allDay: !1,
-                              },
-                              {
-                                  title: "期中考试",
-                                  start: new Date(n, a, 28),
-                                  end: new Date(n, a, 29),
-                                  url: "exams-manage.html",
-                              },
-                          ],
+                          events :{{spots|safe}},
                       }),
                       i("#add_event_form").on("submit", function (e) {
                           e.preventDefault();
