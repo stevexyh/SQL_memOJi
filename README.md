@@ -91,7 +91,7 @@ The version of Xadmin is too old, next time we will use simpleui to beautify the
   - [x] 个人信息 `user-info.html`
   - [x] 答题 `coding.html`
     - [x] 编辑器 `coding-editor.html`
-    - [ ] 取消“已完成”列，整合到考试、练习中
+    - [x] 取消“已完成”列，整合到考试、练习中
   - [x] 练习 & 考试 `exams-manage.html`
     - [ ] 练习详情编辑 `modal`
     - [ ] 考试详情编辑 `modal`
@@ -168,8 +168,8 @@ The version of Xadmin is too old, next time we will use simpleui to beautify the
       - [ ] //试卷记录
     - [x] 统计页面
 
-  - [ ] //iCalendar App/
-    - [ ] 日历页面
+  - [x] //iCalendar App/
+    - [x] 日历页面
 
   - [ ] jmeter并发压力测试
 
