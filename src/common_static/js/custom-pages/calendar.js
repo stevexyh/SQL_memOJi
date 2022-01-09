@@ -4,7 +4,8 @@
     (e.prototype.init = function () {
         var e, t, a, n;
         i.isFunction(i.fn.fullCalendar)
-            ? (i("#external-events .fc-event").each(function () {
+            ?
+             (i("#external-events .fc-event").each(function () {
                   var e = { title: i.trim(i(this).text()) };
                   i(this).data("eventObject", e),
                       i(this).draggable({
@@ -42,7 +43,7 @@
                       },
                       {
                           id: 999,
-                          title: "第三章测试",
+                          title: "第三章1测试",
                           start: new Date(n, a, t - 3, 16, 0),
                           end: new Date(n, a, t - 3, 18, 0),
                           allDay: !1,
@@ -93,7 +94,8 @@
                         n.val("").focus())
                       : n.focus();
               }))
-            : alert("Calendar plugin is not installed");
+            : 
+            alert("Calendar plugin is not installed");
     }),
         (i.CalendarPage = new e()),
         (i.CalendarPage.Constructor = e);

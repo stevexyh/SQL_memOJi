@@ -57,7 +57,13 @@
                         </div>
                     </div>
                 <!-- TODO:active用来判断前端是否显示，到期是按照截止时间来，可以封装到model里面 -->
-                {% if next_exam.active %}
+                {% if next_exam.is_over %}
+                    <div class="float-right">
+                        <a href="{% url 'coding:coding' %}" class="btn btn-danger mt-1 waves-effect waves-light">
+                            <i class="mdi mdi-alert-octagon mr-3"></i>已结束
+                        </a>
+                    </div>
+                {% else %}
                     <div class="float-right">
                         <a href="{% url 'coding:coding' %}" class="btn btn-success mt-1 waves-effect waves-light">
                             <i class="mdi mdi-check-decagram mr-3"></i>已完成
@@ -66,12 +72,6 @@
                     <div class="float-right">
                         <a href="{% url 'coding:coding-editor' 'exam' next_exam.exam_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light">
                             <i class="mdi mdi-arrow-left mr-3"></i>进入
-                        </a>
-                    </div>
-                {% else %}
-                    <div class="float-right">
-                        <a href="{% url 'coding:coding' %}" class="btn btn-danger mt-1 waves-effect waves-light">
-                            <i class="mdi mdi-alert-octagon mr-3"></i>已结束
                         </a>
                     </div>
                 {% endif %}

@@ -20,7 +20,7 @@
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
+from django.utils import timezone
 
 # Create your models here.
 
@@ -157,6 +157,9 @@ class Exam(models.Model):
         verbose_name = '考试'
         verbose_name_plural = verbose_name
 
+    @property
+    def is_over(self):
+        return timezone.now() > self.end_time
 
 class Exercise(models.Model):
     '''
