@@ -26,10 +26,11 @@ from django.db import transaction
 from django.db.models import Sum
 from user.models import Student, User, Classroom
 from user.forms import UserInfoForm, StudentForm, ClassroomForm
-from coding.models import Exam, QuesAnswerRec, Question, QuestionSet
+from coding.models import Exam, QuesAnswerRec, Question, QuestionSet ,ExerAnswerRec,ExamAnswerRec
 import datetime
 from django.utils import timezone
 from django.http import HttpResponse,HttpResponseRedirect,HttpResponseForbidden
+import json
 # Create your views here.
 
 
@@ -63,6 +64,20 @@ def index(request):
     mouth = timezone.now() - datetime.timedelta(days=30)    
     week_submit = QuesAnswerRec.objects.filter(submit_time__gte=monday).count()
     mouth_submit = QuesAnswerRec.objects.filter(submit_time__gte=mouth).count()
+    exam_cont = ExamAnswerRec.objects.filter(student=request.user.student).count()
+    exam_labels_query = ExamAnswerRec.objects.filter(student=request.user.student)
+    exam_labels = []
+    exam_data = []
+    for label in exam_labels_query:
+        exam_labels.append(str(label.exam.exam_id) + '-' + label.exam.exam_name)
+        exam_data.append(label.score)
+    exer_cont = ExerAnswerRec.objects.filter(student=request.user.student).count()
+    exer_labels_query = ExerAnswerRec.objects.filter(student=request.user.student)
+    exer_labels = []
+    exer_data = []
+    for label in exer_labels_query:
+        exer_labels.append(str(label.exer.exer_id) + '-' + label.exer.exer_name)
+        exer_data.append(label.score)
     # mouth_submit = QuesAnswerRec.objects.filter()
     # print(week_submit)
     # print(ques_easy,ques_middle,ques_difficult)
@@ -79,7 +94,13 @@ def index(request):
         'ques_difficult':ques_difficult,
         'ac_cnt':ac_cnt,
         'week_submit':week_submit,
-        'mouth_submit':mouth_submit
+        'mouth_submit':mouth_submit,
+        'exam_cont':exam_cont,
+        'exam_labels':exam_labels,
+        'exam_data':exam_data,
+        'exer_cont':exer_cont,
+        'exer_labels':exer_labels,
+        'exer_data':exer_data
     }
     # print(get_current_week())
     return render(request, 'index.html', context=content)

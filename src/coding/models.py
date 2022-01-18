@@ -151,7 +151,7 @@ class Exam(models.Model):
     classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
 
     def __str__(self):
-        return str(self.paper)
+        return str(self.exam_id) + str(self.exam_name)
 
     class Meta:
         verbose_name = '考试'
@@ -184,7 +184,7 @@ class Exercise(models.Model):
     classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
 
     def __str__(self):
-        return str(self.paper)
+        return str(self.exer_name) + str(self.paper)
 
     class Meta:
         verbose_name = '练习'
@@ -222,7 +222,7 @@ class QuesAnswerRec(models.Model):
     submit_cnt = models.IntegerField(verbose_name=_('提交次数'), default=0)
 
     class Meta:
-        verbose_name = '题目作答记录'
+        verbose_name = '题目作答记录(*)'
         verbose_name_plural = verbose_name
 
 
@@ -239,6 +239,13 @@ class PaperAnswerRec(models.Model):
     | end_time              | datetime            |      |     |             |
     | score                 | int                 |      |     | 0           |
     '''
+    class Recclass(models.IntegerChoices):
+        '''Enumeration of rec classes exam/exec'''
+
+        UNKNOWN = -1, _('未知')
+        EXAM = 0, _('考试')
+        EXEC = 1, ('练习')
+
 
     rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
     student = models.ForeignKey(verbose_name=_('学生'), to='user.Student', on_delete=models.CASCADE)
@@ -246,7 +253,58 @@ class PaperAnswerRec(models.Model):
     start_time = models.DateTimeField(verbose_name=_('开始时间'))
     end_time = models.DateTimeField(verbose_name=_('交卷时间'))
     score = models.IntegerField(verbose_name=_('总成绩'), default=0)
+    #Seddon New Add
+    paper_class = models.IntegerField(verbose_name=_('试卷类型'), choices=Recclass.choices, default=Recclass.UNKNOWN)
 
     class Meta:
-        verbose_name = '试卷作答记录'
+        verbose_name = '试卷作答记录(*)'
+        verbose_name_plural = verbose_name
+
+class ExamAnswerRec(models.Model):
+    '''
+    Paper Answer Record Table
+    | 字段名                 | 数据类型             | 非空  | Key | 默认值       |
+    |-----------------------|---------------------|------|-----|-------------|
+    | rec_id                | varchar             |      | PRI |             |
+    | student               | varchar             |      | API |             |
+    | paper                 | varchar             |      | FK  |             |
+    | start_time            | datetime            |      |     |             |
+    | end_time              | datetime            |      |     |             |
+    | score                 | int                 |      |     | 0           |
+    '''
+
+    rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
+    student = models.ForeignKey(verbose_name=_('学生'), to='user.Student', on_delete=models.CASCADE)
+    exam = models.ForeignKey(verbose_name=_('考试'), to=Exam, on_delete=models.DO_NOTHING)
+    start_time = models.DateTimeField(verbose_name=_('开始时间'))
+    end_time = models.DateTimeField(verbose_name=_('交卷时间'))
+    score = models.IntegerField(verbose_name=_('总成绩'), default=0)
+
+    class Meta:
+        verbose_name = '考试作答记录(**)'
+        verbose_name_plural = verbose_name
+
+
+class ExerAnswerRec(models.Model):
+    '''
+    Paper Answer Record Table
+    | 字段名                 | 数据类型             | 非空  | Key | 默认值       |
+    |-----------------------|---------------------|------|-----|-------------|
+    | rec_id                | varchar             |      | PRI |             |
+    | student               | varchar             |      | API |             |
+    | paper                 | varchar             |      | FK  |             |
+    | start_time            | datetime            |      |     |             |
+    | end_time              | datetime            |      |     |             |
+    | score                 | int                 |      |     | 0           |
+    '''
+
+    rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
+    student = models.ForeignKey(verbose_name=_('学生'), to='user.Student', on_delete=models.CASCADE)
+    exer = models.ForeignKey(verbose_name=_('练习'), to=Exercise, on_delete=models.DO_NOTHING)
+    start_time = models.DateTimeField(verbose_name=_('开始时间'))
+    end_time = models.DateTimeField(verbose_name=_('交卷时间'))
+    score = models.IntegerField(verbose_name=_('总成绩'), default=0)
+
+    class Meta:
+        verbose_name = '练习作答记录(**)'
         verbose_name_plural = verbose_name

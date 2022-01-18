@@ -95,54 +95,127 @@
                 </div>
             </div>
             <!-- end row -->
-
-            <div class="card">
-                <div class="card-body">
-                    <!-- <div class="float-right d-none d-md-inline-block">
-                        <div class="btn-group mb-2">
-                            <button type="button" class="btn btn-sm btn-light">Today</button>
-                            <button type="button" class="btn btn-sm btn-light active">Weekly</button>
-                            <button type="button" class="btn btn-sm btn-light">Monthly</button>
-                        </div>
-                    </div> -->
-                    <h4 class="card-title mb-4">成绩分析</h4>
-                    <div>
-                        <div id="line-column-chart" class="apex-charts" dir="ltr"></div>
-                    </div>
-                </div>
-
-                <div class="card-body border-top text-center">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <p class="text-muted text-truncate mb-2"><i class="mdi mdi-circle text-info font-size-10 mr-1"></i>This month</p>
-                            <div class="d-inline-flex">
-                                <h5 class="mb-0 mr-2">12,253</h5>
-                                <div class="text-success">
-                                    <i class="mdi mdi-menu-up font-size-14"> </i>2.2 %
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- <div class="float-right d-none d-md-inline-block">
+                                <div class="btn-group mb-2">
+                                    <button type="button" class="btn btn-sm btn-light">Today</button>
+                                    <button type="button" class="btn btn-sm btn-light active">Weekly</button>
+                                    <button type="button" class="btn btn-sm btn-light">Monthly</button>
                                 </div>
+                            </div> -->
+                            <h4 class="card-title mb-4">考试成绩分析</h4>
+                            <div>
+                                <div id="line-column-chart_exam" class="apex-charts" dir="ltr"></div>
                             </div>
                         </div>
-
-                        <div class="col-sm-4">
-                            <div class="mt-4 mt-sm-0">
-                                <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-primary font-size-10 mr-1"></i> This Year :</p>
-                                <div class="d-inline-flex">
-                                    <h5 class="mb-0 mr-2"> 34,254</h5>
-                                    <div class="text-success">
-                                        <i class="mdi mdi-menu-up font-size-14"> </i>2.1 %
+    
+                        <!-- <div class="card-body border-top text-center">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p class="text-muted text-truncate mb-2"><i class="mdi mdi-circle text-info font-size-10 mr-1"></i>This month</p>
+                                    <div class="d-inline-flex">
+                                        <h5 class="mb-0 mr-2">12,253</h5>
+                                        <div class="text-success">
+                                            <i class="mdi mdi-menu-up font-size-14"> </i>2.2 %
+                                        </div>
                                     </div>
                                 </div>
+    
+                                <div class="col-sm-6">
+                                    <div class="mt-4 mt-sm-0">
+                                        <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-primary font-size-10 mr-1"></i> This Year :</p>
+                                        <div class="d-inline-flex">
+                                            <h5 class="mb-0 mr-2"> 34,254</h5>
+                                            <div class="text-success">
+                                                <i class="mdi mdi-menu-up font-size-14"> </i>2.1 %
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="mt-4 mt-sm-0">
+                                        <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-success font-size-10 mr-1"></i> Previous Year :</p>
+                                        <div class="d-inline-flex">
+                                            <h5 class="mb-0"> 32,695</h5>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                            </div>
+                        </div> -->
+                        
+                        <div class="card-body border-top text-center">
+                            <div class="mt-4 mt-sm-0">
+                                <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-success font-size-10 mr-1"></i> 累计考试次数 :</p>
+                                <div class="d-inline-flex">
+                                    <h5 class="mb-0"> {{exam_cont}}</h5>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- <div class="float-right d-none d-md-inline-block">
+                                <div class="btn-group mb-2">
+                                    <button type="button" class="btn btn-sm btn-light">Today</button>
+                                    <button type="button" class="btn btn-sm btn-light active">Weekly</button>
+                                    <button type="button" class="btn btn-sm btn-light">Monthly</button>
+                                </div>
+                            </div> -->
+                            <h4 class="card-title mb-4">练习成绩分析</h4>
+                            <div>
+                                <div id="line-column-chart_exer" class="apex-charts" dir="ltr"></div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+    
+                        <!-- <div class="card-body border-top text-center">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p class="text-muted text-truncate mb-2"><i class="mdi mdi-circle text-info font-size-10 mr-1"></i>This month</p>
+                                    <div class="d-inline-flex">
+                                        <h5 class="mb-0 mr-2">12,253</h5>
+                                        <div class="text-success">
+                                            <i class="mdi mdi-menu-up font-size-14"> </i>2.2 %
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <div class="col-sm-6">
+                                    <div class="mt-4 mt-sm-0">
+                                        <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-primary font-size-10 mr-1"></i> This Year :</p>
+                                        <div class="d-inline-flex">
+                                            <h5 class="mb-0 mr-2"> 34,254</h5>
+                                            <div class="text-success">
+                                                <i class="mdi mdi-menu-up font-size-14"> </i>2.1 %
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="mt-4 mt-sm-0">
+                                        <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-success font-size-10 mr-1"></i> Previous Year :</p>
+                                        <div class="d-inline-flex">
+                                            <h5 class="mb-0"> 32,695</h5>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                            </div>
+                        </div> -->
+                        
+                        <div class="card-body border-top text-center">
                             <div class="mt-4 mt-sm-0">
-                                <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-success font-size-10 mr-1"></i> Previous Year :</p>
+                                <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-primary font-size-10 mr-1"></i> 累计练习次数：</p>
                                 <div class="d-inline-flex">
-                                    <h5 class="mb-0"> 32,695</h5>
+                                    <h5 class="mb-0 mr-2"> {{exer_cont}}</h5>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -261,7 +334,148 @@
             options
         )).render();
         
-        </script>
+    </script>
+    <script>
+        var exam_labels = {{exam_labels | safe}}
+        var exam_data = {{exam_data | safe}}
+        var options = {
+        series: [
+            {
+                name: "考试成绩",
+                type: "line",
+                data: exam_data,
+            },
+        ],
+        chart: { height: 280, type: "line",   toolbar: {
+        show: true,
+        offsetX: 0,
+        offsetY: 0,
+        tools: {
+          download: true,
+          selection: true,
+          zoom: true,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+          reset: true | '<img src="/static/icons/reset.png" width="20">',
+          customIcons: []
+        },
+        export: {
+          csv: {
+            filename: undefined,
+            columnDelimiter: ',',
+            headerCategory: 'category',
+            headerValue: 'value',
+            dateFormatter(timestamp) {
+              return new Date(timestamp).toDateString()
+            }
+          },
+          svg: {
+            filename: undefined,
+          },
+          png: {
+            filename: undefined,
+          }
+        },
+        autoSelected: 'zoom' 
+      } },
+        stroke: {  curve: "smooth" },
+        plotOptions: { bar: { horizontal: !1, columnWidth: "20%" } },
+        dataLabels: { enabled: !1 },
+        legend: { show: !1 },
+        colors: ["#1cbb8c"],
+        labels: exam_labels,
+        yaxis: [
+        {
+            labels: {
+                // rotate: -60,
+                formatter: function (y) {
+                    return y.toFixed(0) + "分";
+                }
+            },
+            tooltip: {
+                enabled: true
+            }
+        },
+    ],
+        },
+        chart = new ApexCharts(
+            document.querySelector("#line-column-chart_exam"),
+            options
+        );
+        chart.render();
+    </script>
+    <script>
+        var exer_labels = {{exer_labels | safe}}
+        var exer_data = {{exer_data | safe}}
+        var options = {
+        series: [
+            {
+                name: "练习成绩",
+                type: "line",
+                data: exer_data,
+            },
+        ],
+        chart: { height: 280, type: "line",   toolbar: {
+        show: true,
+        offsetX: 0,
+        offsetY: 0,
+        tools: {
+          download: true,
+          selection: true,
+          zoom: true,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+          reset: true | '<img src="/static/icons/reset.png" width="20">',
+          customIcons: []
+        },
+        export: {
+          csv: {
+            filename: undefined,
+            columnDelimiter: ',',
+            headerCategory: 'category',
+            headerValue: 'value',
+            dateFormatter(timestamp) {
+              return new Date(timestamp).toDateString()
+            }
+          },
+          svg: {
+            filename: undefined,
+          },
+          png: {
+            filename: undefined,
+          }
+        },
+        autoSelected: 'zoom' 
+      } },
+        stroke: {  curve: "smooth" },
+        plotOptions: { bar: { horizontal: !1, columnWidth: "20%" } },
+        dataLabels: { enabled: !1 },
+        legend: { show: !1 },
+        colors: ["#5664d2"],
+        labels: exer_labels,
+        yaxis: [
+        {
+            labels: {
+                // rotate: -60,
+                formatter: function (y) {
+                    return y.toFixed(0) + "分";
+                }
+            },
+            tooltip: {
+                enabled: true
+            }
+        },
+    ],
+        },
+        chart = new ApexCharts(
+            document.querySelector("#line-column-chart_exer"),
+            options
+        );
+        chart.render();
+    </script>
+
     <script src="{% static 'js/custom-pages/dashboard.js' %}"></script>
 {% endblock js %}
 
