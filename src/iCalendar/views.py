@@ -22,7 +22,7 @@ from django.shortcuts import render
 import datetime
 from user.models import Student, User, Classroom
 from coding.models import Exam,Exercise
-#XXX(Seddon):默认按照中国市区
+#XXX(Seddon):默认按照中国时区
 class DateEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj,datetime.datetime):
@@ -32,12 +32,47 @@ class DateEncoder(json.JSONEncoder):
 
 def calendar(request):
     '''Render calendar template'''
-    conditions = {
-        'classroom' : request.user.student.classroom,
-        'active' : True
-    }
-    exams_list = Exam.objects.order_by('publish_time').filter(**conditions)
-    exer_list = Exercise.objects.order_by('publish_time').filter(**conditions)
+    identity = request.user.identity()
+    print(identity)
+    if request.user.is_superuser:  # 超级用户可查看所有数据
+        conditions = {
+            'active' : True
+        }
+        exams_list = Exam.objects.order_by('publish_time').filter(**conditions)
+        exer_list = Exercise.objects.order_by('publish_time').filter(**conditions)
+    elif identity == 'teacher':
+        conditions = {
+            'classroom__in' : request.user.teacher.teach_room(),
+            'active' : True
+        }
+        exams_list = Exam.objects.order_by('publish_time').filter(**conditions)
+        exer_list = Exercise.objects.order_by('publish_time').filter(**conditions)
+    elif identity == 'teacher_student':
+        conditions_teacher = {
+            'classroom__in' : request.user.teacher.teach_room(),
+            'active' : True
+        }
+        conditions_student = {
+            'classroom' : request.user.student.classroom,
+            'active' : True
+        }
+        exams_list_teacher = Exam.objects.order_by('publish_time').filter(**conditions_teacher)
+        exer_list_teacher = Exercise.objects.order_by('publish_time').filter(**conditions_teacher)
+        exams_list_student = Exam.objects.order_by('publish_time').filter(**conditions_student)
+        exer_list_student = Exercise.objects.order_by('publish_time').filter(**conditions_student)
+        exams_list = exams_list_teacher | exams_list_student
+        exer_list  = exer_list_teacher  | exer_list_student
+    elif identity == 'student':
+        conditions = {
+            'classroom' : request.user.student.classroom,
+            'active' : True
+        }
+        exams_list = Exam.objects.order_by('publish_time').filter(**conditions)
+        exer_list = Exercise.objects.order_by('publish_time').filter(**conditions)
+    else:
+        exams_list = Exam.objects.none()
+        exer_list = Exercise.objects.none()
+
     content = {
         'exams_list': exams_list,
         'exer_list': exer_list,
