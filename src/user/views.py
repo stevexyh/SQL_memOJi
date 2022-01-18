@@ -29,7 +29,7 @@ from user.forms import UserInfoForm, StudentForm, ClassroomForm
 from coding.models import Exam, QuesAnswerRec, Question, QuestionSet
 import datetime
 from django.utils import timezone
-
+from django.http import HttpResponse,HttpResponseRedirect,HttpResponseForbidden
 # Create your views here.
 
 
@@ -226,8 +226,20 @@ def auth_register_done(request):
 #--------------------------------------Management Pages--------------------------------------#
 class ClassManage(View):
     '''Render class-manage template'''
-
     def get(self, request):
+        # key = request.user.is_authenticated & request.user.is_superuser
+        # if request.user.identity() == 'teacher_student':
+        #     print('OK')
+
+        # if request.user.is_superuser:
+        #     print("超级用户")
+        # identity = request.user.identity()
+        # print(identity)
+        # content = {
+        #     'err_code': '403',
+        #     'err_message': _('没有权限'),
+        # }
+        # return render(request, 'error.html', context=content)
         # TODO(Steve X): show classes of current teacher only
         # XXX(Seddon Shen): 使用反向查询_set()去找学生 需注意全部字段小写
         class_list = Classroom.objects.all()
