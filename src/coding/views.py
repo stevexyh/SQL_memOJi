@@ -32,6 +32,7 @@ from coding import models
 from utils import token as tk
 from utils import sql_check
 from django.db.models import Q
+from django.utils import timezone
 
 # Create your views here.
 
@@ -303,7 +304,47 @@ class CodingEditor(View):
         '''Show info'''
 
         content = self.get_info(request, event_type, event_id, ques_id)
-
+        if ques_id == '1':
+            cur_user = request.user
+            if cur_user.is_authenticated:
+                if event_type == 'exam':
+                    print('是考试')
+                    exam = models.Exam.objects.get(pk=event_id)
+                    rec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=exam).first()
+                    if rec:
+                        print("已存在记录")
+                        print(rec)
+                        # rec.ans_status = ans_status
+                        # rec.submit_cnt += 1
+                        # rec.ans = submit_ans
+                        # rec.save()
+                    else:
+                        print("不存在")
+                        models.ExamAnswerRec.objects.create(
+                            student=cur_user.student,
+                            exam=exam,
+                            start_time = timezone.now()
+                            # question=question,
+                            # ans=submit_ans,
+                            # ans_status=ans_status,
+                            # submit_cnt=1,
+                        )
+                else:
+                    print("是练习")
+                    # rec = models.QuesAnswerRec.objects.filter(user=cur_user, question=question).first()
+                    # if rec:
+                    #     rec.ans_status = ans_status
+                    #     rec.submit_cnt += 1
+                    #     rec.ans = submit_ans
+                    #     rec.save()
+                    # else:
+                    #     models.QuesAnswerRec.objects.create(
+                    #         user=cur_user,
+                    #         question=question,
+                    #         ans=submit_ans,
+                    #         ans_status=ans_status,
+                    #         submit_cnt=1,
+                    #     )
         return render(request, 'coding/coding-editor.html', context=content)
 
     def post(self, request, event_type, event_id, ques_id):

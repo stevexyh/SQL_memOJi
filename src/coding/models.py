@@ -269,7 +269,7 @@ class PaperAnswerRec(models.Model):
     paper_class = models.IntegerField(verbose_name=_('试卷类型'), choices=Recclass.choices, default=Recclass.UNKNOWN)
 
     class Meta:
-        verbose_name = '试卷作答记录(*)'
+        verbose_name = '试卷作答记录(应该是没用了)'
         verbose_name_plural = verbose_name
 
 class ExamAnswerRec(models.Model):
@@ -285,12 +285,12 @@ class ExamAnswerRec(models.Model):
     | score                 | int                 |      |     | 0           |
     '''
 
-    rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
+    rec_id = models.AutoField(verbose_name=_('考试记录ID'), primary_key=True)
     student = models.ForeignKey(verbose_name=_('学生'), to='user.Student', on_delete=models.CASCADE)
     exam = models.ForeignKey(verbose_name=_('考试'), to=Exam, on_delete=models.DO_NOTHING)
     start_time = models.DateTimeField(verbose_name=_('开始时间'))
-    end_time = models.DateTimeField(verbose_name=_('交卷时间'))
-    score = models.IntegerField(verbose_name=_('总成绩'), default=0)
+    end_time = models.DateTimeField(verbose_name=_('交卷时间'),null=True, blank=True)
+    score = models.IntegerField(verbose_name=_('总成绩'), default=0,null=True, blank=True)
 
     class Meta:
         verbose_name = '考试作答记录(**)'
@@ -310,12 +310,12 @@ class ExerAnswerRec(models.Model):
     | score                 | int                 |      |     | 0           |
     '''
 
-    rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
+    rec_id = models.AutoField(verbose_name=_('练习记录ID'), primary_key=True)
     student = models.ForeignKey(verbose_name=_('学生'), to='user.Student', on_delete=models.CASCADE)
     exer = models.ForeignKey(verbose_name=_('练习'), to=Exercise, on_delete=models.DO_NOTHING)
     start_time = models.DateTimeField(verbose_name=_('开始时间'))
-    end_time = models.DateTimeField(verbose_name=_('交卷时间'))
-    score = models.IntegerField(verbose_name=_('总成绩'), default=0)
+    end_time = models.DateTimeField(verbose_name=_('交卷时间'),null=True, blank=True)
+    score = models.IntegerField(verbose_name=_('总成绩'), default=0,null=True, blank=True)
 
     class Meta:
         verbose_name = '练习作答记录(**)'
