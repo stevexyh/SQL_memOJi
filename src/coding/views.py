@@ -31,7 +31,7 @@ from coding import forms
 from coding import models
 from utils import token as tk
 from utils import sql_check
-
+from django.db.models import Q
 
 # Create your views here.
 
@@ -255,7 +255,7 @@ class CodingEditor(View):
         # Previous & next question id
         prev_question = event.paper.question.filter(ques_id__lt=ques_id).order_by('-ques_id').first()
         next_question = event.paper.question.filter(ques_id__gt=ques_id).order_by('ques_id').first()
-
+        now_paperquestion = models.PaperQuestion.objects.get(Q(question=question) & Q(paper=event.paper))
         host = tk.get_conf('mysql', 'host')
         port = int(tk.get_conf('mysql', 'port'))
         user = tk.get_conf('mysql', 'user')
@@ -291,6 +291,7 @@ class CodingEditor(View):
             'event_type': event_type,
             'event_name': event_name,
             'question': question,
+            'paperquestion':now_paperquestion,
             'db_desc': db_desc,
             'prev_question': prev_question if prev_question else None,
             'next_question': next_question if next_question else None,

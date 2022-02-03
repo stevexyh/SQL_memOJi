@@ -125,14 +125,16 @@ class Paper(models.Model):
 
 class PaperQuestion(models.Model):
     #XXX(Seddon):应该就是级联删除CASCADE 具体有待商榷
-    question = models.ForeignKey(Question,on_delete=models.CASCADE)
+    question = models.ForeignKey(verbose_name=_('题目列表'),to=Question,on_delete=models.CASCADE)
     paper = models.ForeignKey(Paper,on_delete=models.CASCADE)
-    score = models.IntegerField(default=10)
+    score = models.IntegerField(verbose_name=_('分值'),default=10)
 
     def __str__(self):
         return str(self.paper)
 
     class Meta:
+        verbose_name = '题目和分值'
+        verbose_name_plural = verbose_name
         db_table = "Paper_Question_relationship"
 class Exam(models.Model):
     '''
