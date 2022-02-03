@@ -159,7 +159,11 @@ class QuestionSetAdmin(admin.ModelAdmin):
 # Fields: 'paper_id', 'paper_name', 'publish_time', 'paper_desc', 'initiator', 'question',
 @admin.register(models.Paper)
 class PaperAdmin(admin.ModelAdmin):
-
+    class PaperQuestionInline(admin.TabularInline):
+        model = models.PaperQuestion
+    inlines = [
+        PaperQuestionInline
+    ]
     # class QuestionInline(admin.TabularInline):
     #     model = models.Paper.question.through
 

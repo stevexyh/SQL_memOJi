@@ -113,7 +113,7 @@ class Paper(models.Model):
     publish_time = models.DateTimeField(verbose_name=_('发布时间'), auto_now_add=True)
     paper_desc = models.TextField(verbose_name=_('试卷描述'), null=True, blank=True)
     initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL, null=True)
-    question = models.ManyToManyField(verbose_name=_('题目列表'), to=Question)
+    question = models.ManyToManyField(verbose_name=_('题目列表'),to=Question,through='PaperQuestion')
     share = models.BooleanField(verbose_name=_('其他老师可查看'), default=False)
 
     class Meta:
@@ -123,7 +123,17 @@ class Paper(models.Model):
     def __str__(self):
         return str(self.paper_id) + '-' + self.paper_name
 
+class PaperQuestion(models.Model):
+    #XXX(Seddon):应该就是级联删除CASCADE 具体有待商榷
+    question = models.ForeignKey(Question,on_delete=models.CASCADE)
+    paper = models.ForeignKey(Paper,on_delete=models.CASCADE)
+    score = models.IntegerField(default=10)
 
+    def __str__(self):
+        return str(self.paper)
+
+    class Meta:
+        db_table = "Paper_Question_relationship"
 class Exam(models.Model):
     '''
     Exam Table
