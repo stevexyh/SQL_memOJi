@@ -1,4 +1,5 @@
 # SQL_memOJi  
+## [![wakatime](https://wakatime.com/badge/user/85efde0e-7abf-4300-bb1c-105061b3bb5e/project/c2332eb9-e904-4302-8c0b-3d12c3374e99.svg)](https://wakatime.com/badge/user/85efde0e-7abf-4300-bb1c-105061b3bb5e/project/c2332eb9-e904-4302-8c0b-3d12c3374e99)
 DESCRIPTIONS
 A Online-Judge Platform for NWPU DataBase Course.
 Modify By SeddonShen
