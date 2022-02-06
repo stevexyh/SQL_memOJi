@@ -324,27 +324,25 @@ class CodingEditor(View):
                             student=cur_user.student,
                             exam=exam,
                             start_time = timezone.now()
+                        )
+                else:
+                    print("是练习")
+                    exer = models.Exercise.objects.get(pk=event_id)
+                    rec = models.ExerAnswerRec.objects.filter(student=cur_user.student, exer=exer).first()
+                    if rec:
+                        print("已存在记录")
+                        print(rec)
+                    else:
+                        print("不存在")
+                        models.ExerAnswerRec.objects.create(
+                            student=cur_user.student,
+                            exer=exer,
+                            start_time = timezone.now()
                             # question=question,
                             # ans=submit_ans,
                             # ans_status=ans_status,
                             # submit_cnt=1,
                         )
-                else:
-                    print("是练习")
-                    # rec = models.QuesAnswerRec.objects.filter(user=cur_user, question=question).first()
-                    # if rec:
-                    #     rec.ans_status = ans_status
-                    #     rec.submit_cnt += 1
-                    #     rec.ans = submit_ans
-                    #     rec.save()
-                    # else:
-                    #     models.QuesAnswerRec.objects.create(
-                    #         user=cur_user,
-                    #         question=question,
-                    #         ans=submit_ans,
-                    #         ans_status=ans_status,
-                    #         submit_cnt=1,
-                    #     )
         return render(request, 'coding/coding-editor.html', context=content)
 
     def post(self, request, event_type, event_id, ques_id):
@@ -379,21 +377,57 @@ class CodingEditor(View):
 
         # Question-Answer record
         cur_user = request.user
+        print(event_type)
         if cur_user.is_authenticated:
-            rec = models.QuesAnswerRec.objects.filter(user=cur_user, question=question).first()
+            if event_type == 'exam':
+                exam = models.Exam.objects.get(pk=event_id)    
+                rec = models.ExamQuesAnswerRec.objects.filter(user=cur_user, question=question, exam=exam).first()
+            elif event_type == 'exer':
+                exer = models.Exercise.objects.get(pk=event_id)
+                rec = models.ExerQuesAnswerRec.objects.filter(user=cur_user, question=question, exer=exer).first()
+            else:
+                raise Resolver404
             if rec:
                 rec.ans_status = ans_status
                 rec.submit_cnt += 1
                 rec.ans = submit_ans
+                if ans_status == 0:
+                    if event_type == 'exam':
+                        event = models.Exam.objects.get(exam_id=event_id)
+                    elif event_type == 'exer':
+                        event = models.Exercise.objects.get(exer_id=event_id)
+                    else:
+                        raise Resolver404
+                    now_paperquestion = models.PaperQuestion.objects.get(Q(question=question) & Q(paper=event.paper))
+                    print(now_paperquestion.score)
+                    rec.score = now_paperquestion.score
+                else:
+                    rec.score = 0
+                    #XXX:(Seddon)把一道正确的题再交错，到底是按正确的还是错误的分数，有待商榷
                 rec.save()
             else:
-                models.QuesAnswerRec.objects.create(
-                    user=cur_user,
-                    question=question,
-                    ans=submit_ans,
-                    ans_status=ans_status,
-                    submit_cnt=1,
-                )
+                if event_type == 'exam':
+                    models.ExamQuesAnswerRec.objects.create(
+                        user=cur_user,
+                        question=question,
+                        ans=submit_ans,
+                        ans_status=ans_status,
+                        submit_cnt=1,
+                        exam=exam,
+                        score=0
+                    )
+                elif event_type == 'exer':
+                    models.ExerQuesAnswerRec.objects.create(
+                        user=cur_user,
+                        question=question,
+                        ans=submit_ans,
+                        ans_status=ans_status,
+                        submit_cnt=1,
+                        exer=exer,
+                        score=0
+                    )
+                else:
+                    raise Resolver404
 
         content.update({
             'correct': correct,

@@ -16,7 +16,11 @@ The version of Xadmin is too old, next time we will use simpleui to beautify the
 这个放前端实现吧，难搞
 - SQL判卷的消息队列机制
 轮流判卷，减少服务器压力
-
+## Known Bugs
+- Table name
+Can't use Database Table name begin with numbers, remember!
+- QuestionSet add questions' score
+Don't add same questions in the same questionset(TODO:这个需要用提交检测控制一下待办)
 2021/12/28 Xi'an
 ## Files  
 ```  

@@ -84,7 +84,7 @@ class User(AbstractUser):
     # password is defined in AbstractBaseUser.password
     # register_time is defined in AbstractUser.date_joined
 
-    email = models.EmailField(verbose_name=_('电子邮件'), primary_key=True)
+    email = models.EmailField(verbose_name=_('电子邮件'), primary_key=True, max_length=100)
     priority = models.IntegerField(verbose_name=_('权限等级'), choices=UserType.choices, default=0)
 
     school = models.ForeignKey(verbose_name=_('学校'), to=School, on_delete=models.SET_NULL, default=None, null=True, blank=False)
