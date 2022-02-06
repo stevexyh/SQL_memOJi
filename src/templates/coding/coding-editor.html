@@ -88,7 +88,6 @@
                         <div class="card-body">
                             <form method="POST" id="code-editor" action="{% url 'coding:coding-editor' event_type event_id question.ques_id %}">
                                 {% csrf_token %}
-
                                 <div class="card border" id="container" style="width: 100%; min-height: 300px; margin-bottom: 0px;"></div>
                                 <input hidden name="submit_ans" id="code" />
                             </form>
@@ -113,12 +112,14 @@
                             </button>
                         </a>
                     {% else %}
-                        <a href="">
-                            <button type="next" class="btn btn-outline-danger waves-effect waves-light" style="float: right;">
-                                交卷
-                                <i class="ri-check-line align-middle mr-2"></i>
-                            </button>
-                        </a>
+                        <form method="POST" id="code-submit" action="{% url 'coding:coding-editor' event_type event_id question.ques_id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="movement" value="submit">
+                        </form>
+                        <button type="next" class="btn btn-outline-danger waves-effect waves-light" form="code-submit" style="float: right;">
+                            交卷
+                            <i class="ri-check-line align-middle mr-2"></i>
+                        </button>
                     {% endif %}
                 </div>
                 <div class="col-6">

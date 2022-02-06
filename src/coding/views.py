@@ -302,10 +302,12 @@ class CodingEditor(View):
         if cur_user.is_authenticated:
             if event_type == 'exam':
                 exam = models.Exam.objects.get(pk=event_id)    
-                rec = models.ExamQuesAnswerRec.objects.filter(user=cur_user, question=question, exam=exam).first()
+                examrec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=exam).first()
+                rec = models.ExamQuesAnswerRec.objects.filter(user=cur_user, question=question, exam=examrec).first()
             elif event_type == 'exer':
                 exer = models.Exercise.objects.get(pk=event_id)
-                rec = models.ExerQuesAnswerRec.objects.filter(user=cur_user, question=question, exer=exer).first()
+                exerrec = models.ExerAnswerRec.objects.filter(student=cur_user.student, exer=exer).first()
+                rec = models.ExerQuesAnswerRec.objects.filter(user=cur_user, question=question, exer=exerrec).first()
             else:
                 raise Resolver404
             if rec:
@@ -370,11 +372,51 @@ class CodingEditor(View):
 
     def post(self, request, event_type, event_id, ques_id):
         '''Submit SQL'''
-
-        # FIXME(Steve X): Monaco Editor 输入内容换行会消失
-        submit_ans = request.POST.get('submit_ans')
-        # print("输入的答案:",submit_ans)
         content = self.get_info(request, event_type, event_id, ques_id)
+        cur_user = request.user
+        # FIXME(Steve X): Monaco Editor 输入内容换行会消失
+        if request.POST.get('movement') == 'submit':
+            print('提交成功')
+            if cur_user.is_authenticated:
+                if event_type == 'exam':
+                    print('是考试')
+                    exam = models.Exam.objects.get(pk=event_id)
+                    rec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=exam).first()
+                    if rec:
+                        # rec.score = final_score
+                        per_question = models.ExamQuesAnswerRec.objects.filter(user=cur_user,exam=rec)
+                        total_score = 0
+                        for question in per_question:
+                            total_score += question.score
+                        rec.score = total_score 
+                        rec.end_time = timezone.now()
+                        rec.status = True
+                        rec.save()
+                        print("已存在记录")
+
+                else:
+                    print("是练习")
+                    exer = models.Exercise.objects.get(pk=event_id)
+                    rec = models.ExerAnswerRec.objects.filter(student=cur_user.student, exer=exer).first()
+                    if rec:
+                        per_question = models.ExerQuesAnswerRec.objects.filter(user=cur_user,exer=rec)
+                        total_score = 0
+                        for question in per_question:
+                            total_score += question.score
+                        rec.score = total_score 
+                        rec.end_time = timezone.now()
+                        rec.status = True
+                        rec.save()
+                        print("已存在记录")
+
+
+
+
+
+
+            return render(request, 'coding/coding-editor.html', context=content)
+        submit_ans = request.POST.get('submit_ans')
+        print("输入的答案:",submit_ans)
         question = content.get('question')
         qset = question.ques_set
         # print("数据比对:",qset.db_name,question.ques_ans,submit_ans)
@@ -399,34 +441,30 @@ class CodingEditor(View):
         }.get(correct)
 
         # Question-Answer record
-        cur_user = request.user
         # print(event_type)
         if cur_user.is_authenticated:
             if event_type == 'exam':
-                exam = models.Exam.objects.get(pk=event_id)    
-                rec = models.ExamQuesAnswerRec.objects.filter(user=cur_user, question=question, exam=exam).first()
+                event = models.Exam.objects.get(exam_id=event_id)
+                # print(type(event))
+                examrec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=event).first()
+                rec = models.ExamQuesAnswerRec.objects.filter(user=cur_user, question=question, exam=examrec).first()
             elif event_type == 'exer':
-                exer = models.Exercise.objects.get(pk=event_id)
-                rec = models.ExerQuesAnswerRec.objects.filter(user=cur_user, question=question, exer=exer).first()
+                event = models.Exercise.objects.get(exer_id=event_id)
+                exerrec = models.ExerAnswerRec.objects.filter(student=cur_user.student, exer=event).first()
+                rec = models.ExerQuesAnswerRec.objects.filter(user=cur_user, question=question, exer=exerrec).first()
             else:
                 raise Resolver404
+            now_paperquestion = models.PaperQuestion.objects.get(Q(question=question) & Q(paper=event.paper))
+            if ans_status == 0:
+                final_score = now_paperquestion.score
+            else:
+                final_score = 0
+                #XXX:(Seddon)把一道正确的题再交错，到底是按正确的还是错误的分数，有待商榷            
             if rec:
                 rec.ans_status = ans_status
                 rec.submit_cnt += 1
                 rec.ans = submit_ans
-                if ans_status == 0:
-                    if event_type == 'exam':
-                        event = models.Exam.objects.get(exam_id=event_id)
-                    elif event_type == 'exer':
-                        event = models.Exercise.objects.get(exer_id=event_id)
-                    else:
-                        raise Resolver404
-                    now_paperquestion = models.PaperQuestion.objects.get(Q(question=question) & Q(paper=event.paper))
-                    # print(now_paperquestion.score)
-                    rec.score = now_paperquestion.score
-                else:
-                    rec.score = 0
-                    #XXX:(Seddon)把一道正确的题再交错，到底是按正确的还是错误的分数，有待商榷
+                rec.score = final_score
                 rec.save()
             else:
                 if event_type == 'exam':
@@ -436,8 +474,8 @@ class CodingEditor(View):
                         ans=submit_ans,
                         ans_status=ans_status,
                         submit_cnt=1,
-                        exam=exam,
-                        score=0
+                        exam=examrec,
+                        score=final_score
                     )
                 elif event_type == 'exer':
                     models.ExerQuesAnswerRec.objects.create(
@@ -446,8 +484,8 @@ class CodingEditor(View):
                         ans=submit_ans,
                         ans_status=ans_status,
                         submit_cnt=1,
-                        exer=exer,
-                        score=0
+                        exer=exerrec,
+                        score=final_score
                     )
                 else:
                     raise Resolver404

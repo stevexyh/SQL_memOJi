@@ -250,20 +250,10 @@ class PaperAdmin(admin.ModelAdmin):
                 return forms.ModelMultipleChoiceField (queryset=units,label="题目列表",help_text='按住 Ctrl 键(Mac 上的 Command 键) 来选择多个题目。如需添加其他教师的题目，请联系相关老师公开或使用管理员账号发布！')
         return super(PaperAdmin,self).formfield_for_dbfield(field, **kwargs)
 
-    # def get_readonly_fields(self,request,obj=None):
-    #     if request.user.is_superuser:
-    #         return []
-    #     else:
-    #         if obj:
-    #             # 之后就不可编辑
-    #             return ['student', 'paper']
-    #         else:
-    #             return ['initiator']
     list_display = [
-        'paper_id', 'paper_name', 'paper_desc', 'initiator', 'publish_time', 'share'
+        'paper_id', 'paper_name', 'paper_desc', 'initiator', 'publish_time', 'total_score', 'share'
     ]
 
-    # inlines = [QuestionInline]
 
 
 # Fields: 'exam_id', 'exam_name', 'paper', 'start_time', 'end_time', 'publish_time', 'active', 'classroom'
@@ -507,7 +497,6 @@ class ExerAnswerRecAdmin(admin.ModelAdmin):
 @admin.register(models.ExamQuesAnswerRec)
 class ExamQuesAnswerRecAdmin(admin.ModelAdmin):
     list_display = ['rec_id', 'user', 'exam', 'question', 'ans', 'ans_status', 'submit_time', 'submit_cnt', 'score']
-
 
 @admin.register(models.ExerQuesAnswerRec)
 class ExerQuesAnswerRecAdmin(admin.ModelAdmin):

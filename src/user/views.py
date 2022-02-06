@@ -64,15 +64,15 @@ def index(request):
     mouth = timezone.now() - datetime.timedelta(days=30)    
     week_submit = QuesAnswerRec.objects.filter(submit_time__gte=monday).count()
     mouth_submit = QuesAnswerRec.objects.filter(submit_time__gte=mouth).count()
-    exam_cont = ExamAnswerRec.objects.filter(student=request.user.student).count()
-    exam_labels_query = ExamAnswerRec.objects.filter(student=request.user.student)
+    exam_cont = ExamAnswerRec.objects.filter(student=request.user.student, status=True).count()
+    exam_labels_query = ExamAnswerRec.objects.filter(student=request.user.student, status=True)
     exam_labels = []
     exam_data = []
     for label in exam_labels_query:
         exam_labels.append(str(label.exam.exam_id) + '-' + label.exam.exam_name)
         exam_data.append(label.score)
-    exer_cont = ExerAnswerRec.objects.filter(student=request.user.student).count()
-    exer_labels_query = ExerAnswerRec.objects.filter(student=request.user.student)
+    exer_cont = ExerAnswerRec.objects.filter(student=request.user.student, status=True).count()
+    exer_labels_query = ExerAnswerRec.objects.filter(student=request.user.student, status=True)
     exer_labels = []
     exer_data = []
     for label in exer_labels_query:

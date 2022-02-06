@@ -116,6 +116,13 @@ class Paper(models.Model):
     question = models.ManyToManyField(verbose_name=_('题目列表'),to=Question,through='PaperQuestion')
     share = models.BooleanField(verbose_name=_('其他老师可查看'), default=False)
 
+    def total_score(self):
+        questions = self.paperquestion_set.filter(paper=self)
+        total_score = 0
+        for question in questions:
+            total_score += question.score
+        return total_score
+    total_score.short_description = '试卷总分'
     class Meta:
         verbose_name = '试卷'
         verbose_name_plural = verbose_name
@@ -136,6 +143,7 @@ class PaperQuestion(models.Model):
         verbose_name = '题目和分值'
         verbose_name_plural = verbose_name
         db_table = "Paper_Question_relationship"
+        
 class Exam(models.Model):
     '''
     Exam Table
@@ -237,82 +245,6 @@ class QuesAnswerRec(models.Model):
         verbose_name = '题目作答记录(*)'
         verbose_name_plural = verbose_name
 
-class ExamQuesAnswerRec(models.Model):
-    '''
-    Exam Question Answer Record Table
-    | 字段名                 | 数据类型             | 非空  | Key | 默认值       |
-    |-----------------------|---------------------|------|-----|-------------|
-    | rec_id                | varchar             |      | PRI |             |
-    | user                  | varchar             |      | API |             |
-    | exam                  | varchar             | NULL | FK  |             |
-    | question              | varchar             | NULL | FK  |             |
-    | ans                   | varchar             | NULL |     |             |
-    | ans_status            | int                 |      |     | -1          |
-    | score                 | int                 |      |     | 0           |
-    | submit_time           | datetime            |      |     |             |
-    | submit_cnt            | int                 |      |     | 0           |
-    '''
-
-    class AnsStatus(models.IntegerChoices):
-        '''Enumeration of answer status'''
-
-        UNKNOWN = -1, _('未知')
-        AC = 0, _('答案正确')
-        WA = 1, ('答案错误')
-        RE = 2, _('运行异常')
-
-    rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
-    user = models.ForeignKey(verbose_name=_('用户'), to='user.User', on_delete=models.CASCADE)
-    exam = models.ForeignKey(verbose_name=_('对应考试'), to=Exam,on_delete=models.SET_NULL,null=True)
-    question = models.ForeignKey(verbose_name=_('题目'), to=Question, null=True, on_delete=models.SET_NULL)
-    ans = models.TextField(verbose_name=_('最新答案'), null=True, blank=True)
-    ans_status = models.IntegerField(verbose_name=_('答案正确性'), choices=AnsStatus.choices, default=AnsStatus.UNKNOWN)
-    score = models.IntegerField(verbose_name=_('本题得分'), default=0)
-    submit_time = models.DateTimeField(verbose_name=_('最后提交时间'), auto_now=True)
-    submit_cnt = models.IntegerField(verbose_name=_('提交次数'), default=0)
-
-    class Meta:
-        verbose_name = '题目作答记录(考试**)'
-        verbose_name_plural = verbose_name
-
-class ExerQuesAnswerRec(models.Model):
-    '''
-    Exer Question Answer Record Table
-    | 字段名                 | 数据类型             | 非空  | Key | 默认值       |
-    |-----------------------|---------------------|------|-----|-------------|
-    | rec_id                | varchar             |      | PRI |             |
-    | user                  | varchar             |      | API |             |
-    | erer                  | varchar             | NULL | FK  |             |
-    | question              | varchar             | NULL | FK  |             |
-    | ans                   | varchar             | NULL |     |             |
-    | ans_status            | int                 |      |     | -1          |
-    | score                 | int                 |      |     | 0           |
-    | submit_time           | datetime            |      |     |             |
-    | submit_cnt            | int                 |      |     | 0           |
-    '''
-
-    class AnsStatus(models.IntegerChoices):
-        '''Enumeration of answer status'''
-
-        UNKNOWN = -1, _('未知')
-        AC = 0, _('答案正确')
-        WA = 1, ('答案错误')
-        RE = 2, _('运行异常')
-
-    rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
-    user = models.ForeignKey(verbose_name=_('用户'), to='user.User', on_delete=models.CASCADE)
-    exer = models.ForeignKey(verbose_name=_('对应练习'), to=Exercise,on_delete=models.SET_NULL,null=True)
-    question = models.ForeignKey(verbose_name=_('题目'), to=Question, null=True, on_delete=models.SET_NULL)
-    ans = models.TextField(verbose_name=_('最新答案'), null=True, blank=True)
-    ans_status = models.IntegerField(verbose_name=_('答案正确性'), choices=AnsStatus.choices, default=AnsStatus.UNKNOWN)
-    score = models.IntegerField(verbose_name=_('本题得分'), default=0)
-    submit_time = models.DateTimeField(verbose_name=_('最后提交时间'), auto_now=True)
-    submit_cnt = models.IntegerField(verbose_name=_('提交次数'), default=0)
-
-    class Meta:
-        verbose_name = '题目作答记录(练习**)'
-        verbose_name_plural = verbose_name
-
 # TODO(Steve X): Exam & Exer record
 class PaperAnswerRec(models.Model):
     '''
@@ -368,6 +300,8 @@ class ExamAnswerRec(models.Model):
     score = models.IntegerField(verbose_name=_('总成绩'), default=0,null=True, blank=True)
     status = models.BooleanField(verbose_name=_('提交状态'), default=False)
 
+    def __str__(self):
+        return str(self.rec_id) + "-" + str(self.student) + "-" + str(self.exam)
     class Meta:
         verbose_name = '考试作答记录(**)'
         verbose_name_plural = verbose_name
@@ -394,6 +328,92 @@ class ExerAnswerRec(models.Model):
     score = models.IntegerField(verbose_name=_('总成绩'), default=0,null=True, blank=True)
     status = models.BooleanField(verbose_name=_('提交状态'), default=False)
 
+    def __str__(self):
+        return str(self.rec_id) + "-" + str(self.student) + "-" + str(self.exer)
+
     class Meta:
         verbose_name = '练习作答记录(**)'
+        verbose_name_plural = verbose_name
+
+
+class ExamQuesAnswerRec(models.Model):
+    '''
+    Exam Question Answer Record Table
+    | 字段名                 | 数据类型             | 非空  | Key | 默认值       |
+    |-----------------------|---------------------|------|-----|-------------|
+    | rec_id                | varchar             |      | PRI |             |
+    | user                  | varchar             |      | API |             |
+    | exam                  | varchar             | NULL | FK  |             |
+    | question              | varchar             | NULL | FK  |             |
+    | ans                   | varchar             | NULL |     |             |
+    | ans_status            | int                 |      |     | -1          |
+    | score                 | int                 |      |     | 0           |
+    | submit_time           | datetime            |      |     |             |
+    | submit_cnt            | int                 |      |     | 0           |
+    '''
+
+    class AnsStatus(models.IntegerChoices):
+        '''Enumeration of answer status'''
+
+        UNKNOWN = -1, _('未知')
+        AC = 0, _('答案正确')
+        WA = 1, ('答案错误')
+        RE = 2, _('运行异常')
+
+    rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
+    user = models.ForeignKey(verbose_name=_('用户'), to='user.User', on_delete=models.CASCADE)
+    exam = models.ForeignKey(verbose_name=_('对应考试记录'), to=ExamAnswerRec,on_delete=models.CASCADE,null=True)
+    question = models.ForeignKey(verbose_name=_('题目'), to=Question, null=True, on_delete=models.SET_NULL)
+    ans = models.TextField(verbose_name=_('最新答案'), null=True, blank=True)
+    ans_status = models.IntegerField(verbose_name=_('答案正确性'), choices=AnsStatus.choices, default=AnsStatus.UNKNOWN)
+    score = models.IntegerField(verbose_name=_('本题得分'), default=0)
+    submit_time = models.DateTimeField(verbose_name=_('最后提交时间'), auto_now=True)
+    submit_cnt = models.IntegerField(verbose_name=_('提交次数'), default=0)
+
+    def __str__(self):
+        return str(self.rec_id) + "-" + str(self.user) + "-" + str(self.exam) + "-" + str(self.question)
+
+    class Meta:
+        verbose_name = '题目作答记录(考试**)'
+        verbose_name_plural = verbose_name
+
+class ExerQuesAnswerRec(models.Model):
+    '''
+    Exer Question Answer Record Table
+    | 字段名                 | 数据类型             | 非空  | Key | 默认值       |
+    |-----------------------|---------------------|------|-----|-------------|
+    | rec_id                | varchar             |      | PRI |             |
+    | user                  | varchar             |      | API |             |
+    | erer                  | varchar             | NULL | FK  |             |
+    | question              | varchar             | NULL | FK  |             |
+    | ans                   | varchar             | NULL |     |             |
+    | ans_status            | int                 |      |     | -1          |
+    | score                 | int                 |      |     | 0           |
+    | submit_time           | datetime            |      |     |             |
+    | submit_cnt            | int                 |      |     | 0           |
+    '''
+
+    class AnsStatus(models.IntegerChoices):
+        '''Enumeration of answer status'''
+
+        UNKNOWN = -1, _('未知')
+        AC = 0, _('答案正确')
+        WA = 1, ('答案错误')
+        RE = 2, _('运行异常')
+
+    rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
+    user = models.ForeignKey(verbose_name=_('用户'), to='user.User', on_delete=models.CASCADE)
+    exer = models.ForeignKey(verbose_name=_('对应练习记录'), to=ExerAnswerRec,on_delete=models.CASCADE,null=True)
+    question = models.ForeignKey(verbose_name=_('题目'), to=Question, null=True, on_delete=models.SET_NULL)
+    ans = models.TextField(verbose_name=_('最新答案'), null=True, blank=True)
+    ans_status = models.IntegerField(verbose_name=_('答案正确性'), choices=AnsStatus.choices, default=AnsStatus.UNKNOWN)
+    score = models.IntegerField(verbose_name=_('本题得分'), default=0)
+    submit_time = models.DateTimeField(verbose_name=_('最后提交时间'), auto_now=True)
+    submit_cnt = models.IntegerField(verbose_name=_('提交次数'), default=0)
+
+    def __str__(self):
+        return str(self.rec_id) + "-" + str(self.user) + "-" + str(self.exer) + "-" + str(self.question)
+
+    class Meta:
+        verbose_name = '题目作答记录(练习**)'
         verbose_name_plural = verbose_name
