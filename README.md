@@ -21,6 +21,9 @@ The version of Xadmin is too old, next time we will use simpleui to beautify the
 Can't use Database Table name begin with numbers, remember!
 - QuestionSet add questions' score
 Don't add same questions in the same questionset(TODO:这个需要用提交检测控制一下待办)
+- 鉴权
+需要做限制单个题目提交（超时、已手动关闭），整张试卷的分值计算（超时、手动关闭）的限制，直接view层不给可乘之机。
+
 2021/12/28 Xi'an
 ## Files  
 ```  

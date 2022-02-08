@@ -214,12 +214,12 @@ def coding(request):
     }
     exams_list = models.Exam.objects.order_by('publish_time').filter(**conditions)
     exer_list = models.Exercise.objects.order_by('publish_time').filter(**conditions)
-    have_finished = models.PaperAnswerRec.objects.filter(student=request.user.student)
-    have_finished_paper = []
+    have_finished = models.ExamAnswerRec.objects.filter(student=request.user.student)
+    have_finished_exam_id = []
     for element in have_finished:
-        have_finished_paper.append(element.paper_id)
-    unfinished = exams_list.exclude(paper_id__in=have_finished_paper)
-    have_finished = models.Exam.objects.order_by('publish_time').filter(paper_id__in=have_finished_paper)
+        have_finished_exam_id.append(element.exam.exam_id)
+    unfinished = exams_list.exclude(exam_id__in=have_finished_exam_id)
+    have_finished = models.Exam.objects.order_by('publish_time').filter(exam_id__in=have_finished_exam_id)
     next_exam = unfinished.first()
     content = {
         'exams_list': unfinished,
