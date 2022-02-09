@@ -42,4 +42,8 @@ urlpatterns = [
     # APIs
     path('api/test/', apis.test_api, name='api-test'),
     path('api/question-list/', apis.question_list, name='question-list'),
+
+
+    # Analysis
+    path('analysis/<event_type>/<event_id>/', views.PaperDetails.as_view(), name='paper-analysis'),
 ]

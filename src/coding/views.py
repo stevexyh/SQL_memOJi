@@ -408,12 +408,6 @@ class CodingEditor(View):
                         rec.status = True
                         rec.save()
                         print("已存在记录")
-
-
-
-
-
-
             return render(request, 'coding/coding-editor.html', context=content)
         submit_ans = request.POST.get('submit_ans')
         print("输入的答案:",submit_ans)
@@ -523,3 +517,22 @@ def statistics(request):
     }
 
     return render(request, 'coding/statistics.html', context=content)
+
+
+class PaperDetails(View):
+    '''Exer/Exam analysis'''
+    def get(self, request, event_type, event_id):
+        cur_user = request.user
+        if cur_user.is_authenticated:
+            if event_type == 'exam':
+                event = models.ExamAnswerRec.objects.get(pk=event_id)
+                questions = models.ExamQuesAnswerRec.objects.filter(user=request.user,exam=event)
+            elif event_type == 'exer':
+                event = models.ExerAnswerRec.objects.get(pk=event_id)
+                questions = models.ExerQuesAnswerRec.objects.filter(user=request.user,exer=event)
+            else:
+                raise Resolver404
+        content = {
+            'questions': questions,
+        }
+        return render(request, 'coding/analysis.html', context=content)

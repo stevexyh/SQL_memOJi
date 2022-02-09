@@ -78,15 +78,7 @@ def index(request):
     for label in exer_labels_query:
         exer_labels.append(str(label.exer.exer_id) + '-' + label.exer.exer_name)
         exer_data.append(label.score)
-    # mouth_submit = QuesAnswerRec.objects.filter()
-    # print(week_submit)
-    # print(ques_easy,ques_middle,ques_difficult)
-    # print(ac_cnt)
-    # print(mouth_submit)
-    # exam_cont = ExamAnswerRec.objects.filter(student=request.user.student, status=True)
-    # exer_cont = ExerAnswerRec.objects.filter(student=request.user.student, status=True)
-    # print(exam_labels_query)
-    # print(exer_labels_query)
+
     content = {
         'ques_cnt': ques_cnt,
         'ques_set_cnt': ques_set_cnt,
@@ -108,7 +100,6 @@ def index(request):
         'exam_info':exam_labels_query,
         'exer_info':exer_labels_query
     }
-    # print(get_current_week())
     return render(request, 'index.html', context=content)
  
 
