@@ -22,6 +22,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.db.models import Avg
+from user.models import Student
 # Create your models here.
 
 
@@ -181,6 +182,24 @@ class Exam(models.Model):
     def is_over(self):
         return timezone.now() > self.end_time
 
+    @property
+    def finish_info(self):
+        query_result = ExamAnswerRec.objects.filter(exam=self, status=True)
+        have_finished = query_result.count()
+        all_students =  Student.objects.filter(classroom__in=self.classroom.all()).count()
+        unfinished = all_students - have_finished
+        total_score = self.paper.total_score()
+        # excellent >= 85%
+        # good >= 70%
+        # fair >= 60%
+        # fail < 60%
+        excellent = query_result.filter(score__gte=total_score * 0.85).count()
+        good = query_result.filter(score__gte=total_score * 0.70).count() - excellent
+        fair = query_result.filter(score__gte=total_score * 0.6).count() - excellent - good
+        fail = query_result.filter(score__lt=total_score * 0.6).count()
+        return have_finished,unfinished,excellent,good,fair,fail,all_students
+
+    
 class Exercise(models.Model):
     '''
     Exercise Table
@@ -210,6 +229,24 @@ class Exercise(models.Model):
         verbose_name = '练习'
         verbose_name_plural = verbose_name
 
+    @property
+    def finish_info(self):
+        query_result = ExerAnswerRec.objects.filter(exer=self, status=True)
+        have_finished = query_result.count()
+        all_students =  Student.objects.filter(classroom__in=self.classroom.all()).count()
+        unfinished = all_students - have_finished
+        total_score = self.paper.total_score()
+        # excellent >= 85%
+        # good >= 70%
+        # fair >= 60%
+        # fail < 60%
+        excellent = query_result.filter(score__gte=total_score * 0.85).count()
+        good = query_result.filter(score__gte=total_score * 0.70).count() - excellent
+        fair = query_result.filter(score__gte=total_score * 0.6).count() - excellent - good
+        fail = query_result.filter(score__lt=total_score * 0.6).count()
+        return have_finished,unfinished,excellent,good,fair,fail,all_students
+
+    
 
 class QuesAnswerRec(models.Model):
     '''

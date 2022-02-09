@@ -18,7 +18,7 @@
 '''
 
 
-import pymysql
+import pymysql,datetime
 from django.shortcuts import render, redirect
 from django.urls import Resolver404
 from django.views import View
@@ -495,7 +495,6 @@ class CodingEditor(View):
 
 def statistics(request):
     '''Render statistics template'''
-
     ques_cnt = models.Question.objects.count()
     ques_set_cnt = models.QuestionSet.objects.count()
     exam_cnt = models.Exam.objects.count()
@@ -505,6 +504,20 @@ def statistics(request):
     submit_cnt = models.QuesAnswerRec.objects.aggregate(Sum('submit_cnt'))
     ac_cnt = models.QuesAnswerRec.objects.filter(ans_status=0).count()
     exer_active = models.Exercise.objects.filter(active=True).count()
+    identity = request.user.identity()
+    year = timezone.now() - datetime.timedelta(days=730) # 365 * 2    
+    if request.user.is_superuser :
+        exam_objects = models.Exam.objects.filter(publish_time__gte=year)
+        exer_objects = models.Exercise.objects.filter(publish_time__gte=year)
+    elif identity == 'teacher' or identity == 'teacher_student':
+        rooms = request.user.teacher.teach_room()
+        exam_objects = models.Exam.objects.filter(classroom__in = rooms, publish_time__gte=year).distinct()
+        exer_objects = models.Exercise.objects.filter(classroom__in = rooms, publish_time__gte=year).distinct()
+    else:
+        exam_objects = models.Exam.objects.none()
+        exer_objects = models.Exercise.objects.none()
+        raise Resolver404
+
     content = {
         'ques_cnt': ques_cnt,
         'ques_set_cnt': ques_set_cnt,
@@ -513,7 +526,9 @@ def statistics(request):
         'exer_cnt': exer_cnt,
         'exer_active': exer_active,
         'submit_cnt': submit_cnt['submit_cnt__sum'],
-        'ac_cnt' : ac_cnt
+        'ac_cnt' : ac_cnt,
+        'exam_objects' : exam_objects,
+        'exer_objects' : exer_objects,
     }
 
     return render(request, 'coding/statistics.html', context=content)

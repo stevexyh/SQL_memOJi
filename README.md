@@ -16,6 +16,8 @@ The version of Xadmin is too old, next time we will use simpleui to beautify the
 这个放前端实现吧，难搞
 - SQL判卷的消息队列机制
 轮流判卷，减少服务器压力
+- Big Dateset Problems
+对大量数据的实际使用情况有待测试
 ## Known Bugs
 - Table name
 Can't use Database Table name begin with numbers, remember!

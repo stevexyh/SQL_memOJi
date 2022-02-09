@@ -113,6 +113,85 @@
         </div>
 
     </div> <!-- end row -->
+    <div class="row">
+        {% for exam in exam_objects %}
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">考试{{exam.exam_id}} - {{exam.exam_name}} 完成情况</h4>
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <h5 class="mb-0">{{exam.finish_info.0}}</h5>
+                            <p class="text-muted text-truncate">已完成</p>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="mb-0">{{exam.finish_info.1}}</h5>
+                            <p class="text-muted text-truncate">未完成</p>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="mb-0">{{exam.finish_info.6}}</h5>
+                            <p class="text-muted text-truncate">总人数</p>
+                        </div>
+                    </div>
+                    <canvas id="pie-exam-{{exam.exam_id}}" height="260"></canvas>
+                </div>
+            </div>
+        </div> 
+        {% endfor %}
+
+        {% for exer in exer_objects %}
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">练习{{exer.exer_id}} - {{exer.exer_name}} 完成情况</h4>
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <h5 class="mb-0">{{exer.finish_info.0}}</h5>
+                            <p class="text-muted text-truncate">已完成</p>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="mb-0">{{exer.finish_info.1}}</h5>
+                            <p class="text-muted text-truncate">未完成</p>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="mb-0">{{exer.finish_info.6}}</h5>
+                            <p class="text-muted text-truncate">总人数</p>
+                        </div>
+                    </div>
+                    <canvas id="pie-exer-{{exer.exer_id}}" height="260"></canvas>
+                </div>
+            </div>
+        </div> 
+        {% endfor %}
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+
+                    <h4 class="card-title mb-4">Donut Chart</h4>
+
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <h5 class="mb-0">9595</h5>
+                            <p class="text-muted text-truncate">Activated</p>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="mb-0">36524</h5>
+                            <p class="text-muted text-truncate">Pending</p>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="mb-0">62541</h5>
+                            <p class="text-muted text-truncate">Deactivated</p>
+                        </div>
+                    </div>
+
+                    <canvas id="doughnut" height="260"></canvas>
+
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div> <!-- end row -->
+
 
     <div class="row">
         <div class="col-lg-6">
@@ -170,61 +249,7 @@
         </div> <!-- end col -->
     </div> <!-- end row -->
 
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
 
-                    <h4 class="card-title mb-4">Pie Chart</h4>
-
-                    <div class="row text-center">
-                        <div class="col-4">
-                            <h5 class="mb-0">2536</h5>
-                            <p class="text-muted text-truncate">Activated</p>
-                        </div>
-                        <div class="col-4">
-                            <h5 class="mb-0">69421</h5>
-                            <p class="text-muted text-truncate">Pending</p>
-                        </div>
-                        <div class="col-4">
-                            <h5 class="mb-0">89854</h5>
-                            <p class="text-muted text-truncate">Deactivated</p>
-                        </div>
-                    </div>
-
-                    <canvas id="pie" height="260"></canvas>
-
-                </div>
-            </div>
-        </div> <!-- end col -->
-
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-
-                    <h4 class="card-title mb-4">Donut Chart</h4>
-
-                    <div class="row text-center">
-                        <div class="col-4">
-                            <h5 class="mb-0">9595</h5>
-                            <p class="text-muted text-truncate">Activated</p>
-                        </div>
-                        <div class="col-4">
-                            <h5 class="mb-0">36524</h5>
-                            <p class="text-muted text-truncate">Pending</p>
-                        </div>
-                        <div class="col-4">
-                            <h5 class="mb-0">62541</h5>
-                            <p class="text-muted text-truncate">Deactivated</p>
-                        </div>
-                    </div>
-
-                    <canvas id="doughnut" height="260"></canvas>
-
-                </div>
-            </div>
-        </div> <!-- end col -->
-    </div> <!-- end row -->
 
     <div class="row">
         <div class="col-lg-6">
@@ -286,7 +311,61 @@
 {% block js %}
     <!-- Chart JS -->
     <script src="{% static 'libs/chart.js/Chart.bundle.min.js' %}"></script>
-
     <!-- Custom Pages  -->
-    <script src="{% static 'js/custom-pages/statistics.js' %}"></script>
+    <!-- <script src="{% static 'js/custom-pages/statistics.js' %}"></script> -->
+    <script>
+!(function (d) {
+    "use strict";
+    function r() {}
+    (r.prototype.respChart = function (r, o, e, a) {
+        (Chart.defaults.global.defaultFontColor = "#8791af"),
+            (Chart.defaults.scale.gridLines.color = "rgba(166, 176, 207, 0.1)");
+        var t = r.get(0).getContext("2d"),
+            n = d(r).parent();
+        function i() {
+            r.attr("width", d(n).width());
+            switch (o) {
+                case "Pie":
+                    new Chart(t, { type: "pie", data: e, options: a });
+                    break;
+            }
+        }
+        d(window).resize(i), i();
+    }),
+        (r.prototype.init = function () {
+            {% for exam in exam_objects %}
+            this.respChart(d("#pie-exam-{{exam.exam_id}}"), "Pie", {
+                labels: ["优秀", "良好", "及格", "不及格"],
+                datasets: [
+                    {
+                        data: [{{exam.finish_info.2}}, {{exam.finish_info.3}},{{exam.finish_info.4}},{{exam.finish_info.5}}],
+                        backgroundColor: ["#1cbb8c","#fcb92c","#5664d2","#ff3d60"],
+                        hoverBackgroundColor: ["#1cbb8c","#fcb92c","#5664d2","#ff3d60"],
+                        hoverBorderColor: "#fff",
+                    },
+                ],
+            });
+            {% endfor %}
+            {% for exer in exer_objects %}
+            this.respChart(d("#pie-exer-{{exer.exer_id}}"), "Pie", {
+                labels: ["优秀", "良好", "及格", "不及格"],
+                datasets: [
+                    {
+                        data: [{{exer.finish_info.2}}, {{exer.finish_info.3}},{{exer.finish_info.4}},{{exer.finish_info.5}}],
+                        backgroundColor: ["#1cbb8c","#fcb92c","#5664d2","#ff3d60"],
+                        hoverBackgroundColor: ["#1cbb8c","#fcb92c","#5664d2","#ff3d60"],
+                        hoverBorderColor: "#fff",
+                    },
+                ],
+            });
+            {% endfor %}
+        }),
+        (d.ChartJs = new r()),
+        (d.ChartJs.Constructor = r);
+})(window.jQuery),
+    (function () {
+        "use strict";
+        window.jQuery.ChartJs.init();
+    })();
+    </script>
 {% endblock js %}
