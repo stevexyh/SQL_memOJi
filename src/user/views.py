@@ -83,6 +83,10 @@ def index(request):
     # print(ques_easy,ques_middle,ques_difficult)
     # print(ac_cnt)
     # print(mouth_submit)
+    # exam_cont = ExamAnswerRec.objects.filter(student=request.user.student, status=True)
+    # exer_cont = ExerAnswerRec.objects.filter(student=request.user.student, status=True)
+    # print(exam_labels_query)
+    # print(exer_labels_query)
     content = {
         'ques_cnt': ques_cnt,
         'ques_set_cnt': ques_set_cnt,
@@ -100,7 +104,9 @@ def index(request):
         'exam_data':exam_data,
         'exer_cont':exer_cont,
         'exer_labels':exer_labels,
-        'exer_data':exer_data
+        'exer_data':exer_data,
+        'exam_info':exam_labels_query,
+        'exer_info':exer_labels_query
     }
     # print(get_current_week())
     return render(request, 'index.html', context=content)

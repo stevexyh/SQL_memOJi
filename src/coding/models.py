@@ -21,7 +21,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
-
+from django.db.models import Avg
 # Create your models here.
 
 
@@ -171,7 +171,7 @@ class Exam(models.Model):
     classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
 
     def __str__(self):
-        return str(self.exam_id) + str(self.exam_name)
+        return str(self.exam_id) + str('-') + str(self.exam_name)
 
     class Meta:
         verbose_name = '考试'
@@ -204,7 +204,7 @@ class Exercise(models.Model):
     classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
 
     def __str__(self):
-        return str(self.exer_name) + str(self.paper)
+        return str(self.exer_id) + str('-') + str(self.exer_name)
 
     class Meta:
         verbose_name = '练习'
@@ -300,6 +300,20 @@ class ExamAnswerRec(models.Model):
     score = models.IntegerField(verbose_name=_('总成绩'), default=0,null=True, blank=True)
     status = models.BooleanField(verbose_name=_('提交状态'), default=False)
 
+    @property
+    def per_submit(self):
+        query = ExamQuesAnswerRec.objects.filter(user=self.student.user,exam=self).aggregate(avg_submit=Avg('submit_cnt'))
+        if query['avg_submit'] is None:
+            count = 0
+        else:
+            count = query['avg_submit']
+        return count
+    
+    @property
+    def wrong_count(self):
+        wrong_qustions = ExamQuesAnswerRec.objects.filter(user=self.student.user,exam=self).exclude(ans_status=0).count()
+        return wrong_qustions
+
     def __str__(self):
         return str(self.rec_id) + "-" + str(self.student) + "-" + str(self.exam)
     class Meta:
@@ -327,6 +341,20 @@ class ExerAnswerRec(models.Model):
     end_time = models.DateTimeField(verbose_name=_('交卷时间'),null=True, blank=True)
     score = models.IntegerField(verbose_name=_('总成绩'), default=0,null=True, blank=True)
     status = models.BooleanField(verbose_name=_('提交状态'), default=False)
+
+    @property
+    def wrong_count(self):
+        wrong_qustions = ExerQuesAnswerRec.objects.filter(user=self.student.user,exer=self).exclude(ans_status=0).count()
+        return wrong_qustions
+
+    @property
+    def per_submit(self):
+        query = ExerQuesAnswerRec.objects.filter(user=self.student.user,exer=self).aggregate(avg_submit=Avg('submit_cnt'))
+        if query['avg_submit'] is None:
+            count = 0
+        else:
+            count = query['avg_submit']
+        return count
 
     def __str__(self):
         return str(self.rec_id) + "-" + str(self.student) + "-" + str(self.exer)

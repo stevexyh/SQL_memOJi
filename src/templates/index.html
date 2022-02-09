@@ -318,6 +318,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for exam in exam_info %}
                                 <tr>
                                     <td>
                                         <div class="custom-control custom-checkbox">
@@ -325,35 +326,36 @@
                                             <label class="custom-control-label" for="ordercheck3">&nbsp;</label>
                                         </div>
                                     </td>
-
-                                    <td>Carolyn Harvey</td>
-                                    <td>100分</td>
-                                    <td>2015000000</td>
+                                    <td>{{exam.exam}}</td>
+                                    <td>{{exam.score}} 分</td>
+                                    <td>{{exam.start_time}}</td>
                                     <td><div class="badge badge-soft-danger font-size-12">考试</div></td>
-                                    <td>101</td>
-                                    <td>12</td>
+                                    <td>{{exam.per_submit}}</td>
+                                    <td>{{exam.wrong_count}}</td>
                                     <td>
                                         <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="查看解析"><i class="mdi mdi-pencil font-size-18"></i></a>
                                     </td>
                                 </tr>
+                                {% endfor %}
+                                {% for exer in exer_info %}
                                 <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="ordercheck4">
-                                            <label class="custom-control-label" for="ordercheck4">&nbsp;</label>
-                                        </div>
-                                    </td>
-
-                                    <td>Carolyn Harvey</td>
-                                    <td>90分</td>
-                                    <td>2017000000</td>
-                                    <td><div class="badge badge-soft-success font-size-12">练习</div></td>
-                                    <td>120</td>
-                                    <td>13</td>
-                                    <td>
-                                        <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="查看解析"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                    </td>
-                                </tr>
+                                        <td>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="ordercheck4">
+                                                <label class="custom-control-label" for="ordercheck4">&nbsp;</label>
+                                            </div>
+                                        </td>
+                                        <td>{{exer.exer}}</td>
+                                        <td>{{exer.score}} 分</td>
+                                        <td>{{exer.start_time}}</td>
+                                        <td><div class="badge badge-soft-success font-size-12">练习</div></td>
+                                        <td>{{exer.per_submit}}</td>
+                                        <td>{{exer.wrong_count}}</td>
+                                        <td>
+                                            <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="查看解析"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
