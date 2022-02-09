@@ -211,23 +211,11 @@
                                 </a>
                             </li>
                             {%if user.canview %}
-                            <li class="menu-title">管理员</li>
+                            <li class="menu-title">数据中心</li>
                             <li>
                                 <a href="{% url 'user:class-manage' %}" class=" waves-effect">
                                     <i class="ri-team-line"></i>
-                                    <span>班级管理</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'coding:questions-manage' %}" class=" waves-effect">
-                                    <i class="ri-file-text-line"></i>
-                                    <span>题库 & 试卷管理</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'coding:exams-manage' %}" class=" waves-effect">
-                                    <i class="ri-check-double-line"></i>
-                                    <span>练习 & 考试管理</span>
+                                    <span>班级数据</span>
                                 </a>
                             </li>
                             <li>

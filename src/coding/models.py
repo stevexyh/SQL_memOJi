@@ -197,7 +197,10 @@ class Exam(models.Model):
         good = query_result.filter(score__gte=total_score * 0.70).count() - excellent
         fair = query_result.filter(score__gte=total_score * 0.6).count() - excellent - good
         fail = query_result.filter(score__lt=total_score * 0.6).count()
-        return have_finished,unfinished,excellent,good,fair,fail,all_students
+        average_score = query_result.aggregate(average_score=Avg('score'))
+        # query = ExerQuesAnswerRec.objects.filter(user=self.student.user,exer=self).aggregate(avg_submit=Avg('submit_cnt'))
+
+        return have_finished,unfinished,excellent,good,fair,fail,all_students,average_score['average_score']
 
     
 class Exercise(models.Model):
@@ -244,8 +247,8 @@ class Exercise(models.Model):
         good = query_result.filter(score__gte=total_score * 0.70).count() - excellent
         fair = query_result.filter(score__gte=total_score * 0.6).count() - excellent - good
         fail = query_result.filter(score__lt=total_score * 0.6).count()
-        return have_finished,unfinished,excellent,good,fair,fail,all_students
-
+        average_score = query_result.aggregate(average_score=Avg('score'))
+        return have_finished,unfinished,excellent,good,fair,fail,all_students,average_score['average_score']
     
 
 class QuesAnswerRec(models.Model):

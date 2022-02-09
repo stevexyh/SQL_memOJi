@@ -33,7 +33,7 @@ from utils import token as tk
 from utils import sql_check
 from django.db.models import Q
 from django.utils import timezone
-
+from django.db.models import Avg
 # Create your views here.
 
 
@@ -551,3 +551,75 @@ class PaperDetails(View):
             'questions': questions,
         }
         return render(request, 'coding/analysis.html', context=content)
+
+
+class ExamExerTeacherDetails(View):
+    '''Exer/Exam analysis'''
+    def get(self, request, event_type, event_id):
+        cur_user = request.user
+        if cur_user.is_authenticated:
+            if event_type == 'exam':
+                event = models.Exam.objects.get(pk=event_id)
+                event_answer = models.ExamAnswerRec.objects.filter(exam=event,status=True)
+                questions = models.ExamQuesAnswerRec.objects.filter(exam__in=event_answer)
+            elif event_type == 'exer':
+                event = models.Exercise.objects.get(pk=event_id)
+                event_answer = models.ExerAnswerRec.objects.filter(exer=event,status=True)
+                questions = models.ExerQuesAnswerRec.objects.filter(exer__in=event_answer)
+            else:
+                raise Resolver404
+            classrooms = event.classroom.all()
+            can_see = False
+            if cur_user.is_superuser:
+                can_see = True
+            else:
+                for classroom in classrooms:
+                    if classroom.teacher == cur_user.teacher:
+                        can_see = True
+            if can_see:
+                if event.finish_info[6] == 0:
+                    finish_rate = 0 
+                else:
+                    finish_rate = (event.finish_info[0]/event.finish_info[6]) * 100
+                    
+                average_score = event.finish_info[7]
+                avg_submit = questions.aggregate(avg_submit=Avg('submit_cnt'))['avg_submit']
+                sum_students = 0
+                if avg_submit is None:
+                    avg_submit = 0  
+                for classroom in event.classroom.all():
+                    sum_students += classroom.students_count
+                per_question = []
+                per_avg_submit = []
+                per_avg_acrate = []
+                per_avg_finishrate = []
+                for question in event.paper.question.all():
+                    query = questions.filter(question=question)
+                    avg_submit = query.aggregate(avg_submit=Avg('submit_cnt'))['avg_submit']
+                    if avg_submit is None:
+                        avg_submit = 0
+                    if query.count() == 0:
+                        per_avg_acrate.append(0)
+                    else:
+                        per_avg_acrate.append((query.filter(ans_status=0).count() / query.count()) * 100)
+                    if sum_students == 0:
+                        per_avg_finishrate.append(0)
+                    else:
+                        per_avg_finishrate.append((query.filter(ans_status=0).count() / sum_students) * 100)
+                    per_avg_submit.append(int(avg_submit))
+                    per_question.append(str(question.ques_id) + '-' + question.ques_name)
+            else:
+                raise Resolver404
+        else:
+                raise Resolver404
+        content = {
+            'event': event,
+            'finish_rate' : finish_rate,
+            'average_score': average_score,
+            'avg_submit' : avg_submit,
+            'per_avg_submit': per_avg_submit,
+            'per_avg_acrate' : per_avg_acrate,
+            'per_question' : per_question,
+            'per_avg_finishrate' : per_avg_finishrate
+        }
+        return render(request, 'coding/teacher-analysis.html', context=content)
