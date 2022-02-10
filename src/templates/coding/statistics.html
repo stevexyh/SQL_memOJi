@@ -155,6 +155,9 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-4">练习{{exer.exer_id}} - {{exer.exer_name}} 完成情况</h4>
+                    <a href="{% url 'coding:teacher-analysis' 'exer' exer.exer_id %}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="查看解析" style="float: right;">
+                        <i class="mdi mdi-eye font-size-18"></i> 详细数据
+                    </a>
                     <div class="row text-center">
                         <div class="col-4">
                             <h5 class="mb-0">{{exer.finish_info.0}}</h5>

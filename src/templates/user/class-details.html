@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
-{% block title %}班级详情{% endblock title %}
-{% block page_title %}班级详情{% endblock page_title %}
+{% block title %}{{ classroom.class_name }} - 数据详情{% endblock title %}
+{% block page_title %}{{ classroom.class_name }} - 数据详情{% endblock page_title %}
 
 <!-- Breadcrumb -->
 {% block breadcrumb %}
     <div class="page-title-right">
         <ol class="breadcrumb m-0">
             <li class="breadcrumb-item"><a href="javascript: void(0);">管理员</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'user:class-manage' %}">班级管理</a></li>
-            <li class="breadcrumb-item active"><a href="{% url 'user:class-details' classroom.class_id %}">班级详情</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'user:class-manage' %}">班级成绩数据</a></li>
+            <li class="breadcrumb-item active"><a href="{% url 'user:class-details' classroom.class_id %}">详情</a></li>
         </ol>    
     </div>
 {% endblock breadcrumb %}
@@ -37,9 +37,6 @@
                     <div>
                         <a href="{% url 'user:class-manage' %}" class="btn btn-primary mb-2"><i class="ri-arrow-left-line mr-2"></i>所有班级</a>
                     </div>
-                    <div style="margin-bottom: 20px;">
-                        <a href="javascript:void(0);" class="btn btn-success mb-2"><i class="mdi mdi-plus mr-2"></i>添加学生</a>
-                    </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="card" style="height: 100%;">
@@ -49,29 +46,7 @@
                                     <p class="text-muted">
                                         <i class="mdi mdi-account mr-1"></i> {{ classroom.teacher }}
                                     </p>
-                                    <form method="POST" class="needs-validation" style="margin-bottom: 50px;" novalidate>
-                                        {% csrf_token %}
-                                        <div class="row">
-                                            {% for data in class_form %}
-                                                {% if data.name != 'class_desc' %}
-                                                    <div class="form-group mb-4 col-6">
-                                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
-                                                        <div>{{ data }}</div>
-                                                    </div>
-                                                {% else %}
-                                                    <div class="form-group mb-4 col-12">
-                                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
-                                                        <div>{{ data }}</div>
-                                                    </div>
-                                                {% endif %}
-                                            {% endfor %}
-                
-                                        </div>
-                
-                                        <div class="text-center mt-4" style="padding-top: 0px;">
-                                            <button type="submit" class="btn btn-primary waves-effect waves-light">保存修改</button>
-                                        </div>
-                                    </form>
+
                                 </div>
                             </div>
                         </div>
@@ -83,6 +58,11 @@
         </div>
     </div>
     <!-- end row -->
+<!-- 1)       序号、练习/考试名称、发布时间、截止时间
+2)       实际开始人数、完成人数
+3)       题目的平均完成率：例如共10道题，平均每人完成8道题
+4)       题目的平均正确率：例如所有人的平均正确率 80% -->
+
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -91,134 +71,31 @@
                         <table class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             <thead class="thead-light">
                                 <tr>
-                                    <th style="width: 20px;">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customercheck">
-                                            <label class="custom-control-label" for="customercheck">&nbsp;</label>
-                                        </div>
-                                    </th>
-                                    <th>姓名</th>
-                                    <th>用户名</th>
-                                    <th>学号</th>
-                                    <th>行政班级</th>
-                                    <th>学院</th>
-                                    <th>是否加入</th>
-                                    <th style="width: 120px;">操作</th>
+                                    <th>测试ID</th>
+                                    <th>类型</th>
+                                    <th>测试名称</th>
+                                    <th>发布时间</th>
+                                    <th>截止时间</th>
+                                    <th>开始人数</th>
+                                    <th>完成人数</th>
+                                    <th>平均完成率</th>
+                                    <th>平均正确率</th>
+                                    <th>详情</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td>101</td>
+                                    <td><div class="badge badge-soft-success font-size-12">考试</div></td>
+                                    <td>练习-测试1</td>
+                                    <td>2022年2月10日 10:04</td>
+                                    <td>2022年2月11日 10:04</td>
+                                    <td>100</td>
+                                    <td>50</td>
+                                    <td>38 %</td>
+                                    <td>41 %</td>
                                     <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="ordercheck1">
-                                            <label class="custom-control-label" for="ordercheck1">&nbsp;</label>
-                                        </div>
-                                    </td>
-
-                                    <td>Carolyn Harvey</td>
-                                    <td>CarolynHarvey@rhyta.com</td>
-                                    <td>2017000000</td>
-                                    <td>10011700</td>
-                                    <td>计算机学院</td>
-                                    <td><div class="badge badge-soft-success font-size-12">已加入</div></td>
-                                    <td>
-                                        <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="编辑"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                        <a href="javascript:void(0);" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="mdi mdi-trash-can font-size-18"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="ordercheck2">
-                                            <label class="custom-control-label" for="ordercheck2">&nbsp;</label>
-                                        </div>
-                                    </td>
-
-                                    <td>Carolyn Harvey</td>
-                                    <td>CarolynHarvey@rhyta.com</td>
-                                    <td>2016000000</td>
-                                    <td>10011600</td>
-                                    <td>软件学院</td>
-                                    <td><div class="badge badge-soft-warning font-size-12">未加入</div></td>
-                                    <td>
-                                        <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="编辑"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                        <a href="javascript:void(0);" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="mdi mdi-trash-can font-size-18"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="ordercheck3">
-                                            <label class="custom-control-label" for="ordercheck3">&nbsp;</label>
-                                        </div>
-                                    </td>
-
-                                    <td>Carolyn Harvey</td>
-                                    <td>CarolynHarvey@rhyta.com</td>
-                                    <td>2015000000</td>
-                                    <td>10011500</td>
-                                    <td>计算机学院</td>
-                                    <td><div class="badge badge-soft-danger font-size-12">名单之外</div></td>
-                                    <td>
-                                        <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="编辑"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                        <a href="javascript:void(0);" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="mdi mdi-trash-can font-size-18"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="ordercheck4">
-                                            <label class="custom-control-label" for="ordercheck4">&nbsp;</label>
-                                        </div>
-                                    </td>
-
-                                    <td>Carolyn Harvey</td>
-                                    <td>CarolynHarvey@rhyta.com</td>
-                                    <td>2017000000</td>
-                                    <td>10011700</td>
-                                    <td>计算机学院</td>
-                                    <td><div class="badge badge-soft-success font-size-12">已加入</div></td>
-                                    <td>
-                                        <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="编辑"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                        <a href="javascript:void(0);" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="mdi mdi-trash-can font-size-18"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="ordercheck5">
-                                            <label class="custom-control-label" for="ordercheck5">&nbsp;</label>
-                                        </div>
-                                    </td>
-
-                                    <td>Carolyn Harvey</td>
-                                    <td>CarolynHarvey@rhyta.com</td>
-                                    <td>2017000000</td>
-                                    <td>10011700</td>
-                                    <td>计算机学院</td>
-                                    <td><div class="badge badge-soft-success font-size-12">已加入</div></td>
-                                    <td>
-                                        <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="编辑"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                        <a href="javascript:void(0);" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="mdi mdi-trash-can font-size-18"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="ordercheck6">
-                                            <label class="custom-control-label" for="ordercheck6">&nbsp;</label>
-                                        </div>
-                                    </td>
-
-                                    <td>Carolyn Harvey</td>
-                                    <td>CarolynHarvey@rhyta.com</td>
-                                    <td>2017000000</td>
-                                    <td>10011700</td>
-                                    <td>计算机学院</td>
-                                    <td><div class="badge badge-soft-success font-size-12">已加入</div></td>
-                                    <td>
-                                        <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="编辑"><i class="mdi mdi-pencil font-size-18"></i></a>
-                                        <a href="javascript:void(0);" class="text-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="mdi mdi-trash-can font-size-18"></i></a>
+                                        <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="查看详情"><i class="mdi mdi-eye font-size-18"></i></a>
                                     </td>
                                 </tr>
                             </tbody>

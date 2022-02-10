@@ -245,47 +245,33 @@ def auth_register_done(request):
 class ClassManage(View):
     '''Render class-manage template'''
     def get(self, request):
-        # key = request.user.is_authenticated & request.user.is_superuser
-        # if request.user.identity() == 'teacher_student':
-        #     print('OK')
+        key = request.user.is_authenticated & request.user.is_superuser
+        print(request.user.is_authenticated)
+        if request.user.is_authenticated == False:
+            content = {
+                'err_code': '403',
+                'err_message': _('没有权限'),
+            }
+            return render(request, 'error.html', context=content)
+        else:
+            identity = request.user.identity()
+            if request.user.is_superuser or identity =='teacher' or identity == 'teacher_student':
+                # XXX(Seddon Shen): 使用反向查询_set()去找学生 需注意全部字段小写
+                if request.user.is_superuser:
+                    class_list = Classroom.objects.all()
+                else:
+                    class_list = Classroom.objects.filter(teacher=request.user.teacher)
 
-        # if request.user.is_superuser:
-        #     print("超级用户")
-        # identity = request.user.identity()
-        # print(identity)
-        # content = {
-        #     'err_code': '403',
-        #     'err_message': _('没有权限'),
-        # }
-        # return render(request, 'error.html', context=content)
-        # TODO(Steve X): show classes of current teacher only
-        # XXX(Seddon Shen): 使用反向查询_set()去找学生 需注意全部字段小写
-        class_list = Classroom.objects.all()
-        class_form = ClassroomForm()
-        class_test = Classroom.objects.get(pk=1)
-        stus = class_test.student_set.count()
-        # print(stus)
-        # print(class_list.values())
-        # print(class_list[1].students_count)
-        # class_list 用于显示当前班级
-        # class_form use to add new class
-        content = {
-            'class_list': class_list,
-            'class_form': class_form,
-        }
-        # print(class_list)
-        # print(class_form)
-        return render(request, 'user/class-manage.html', context=content)
-
-    # XXX(Steve X): add batch import func for students
-    # FIXME(Steve X): set current school as default school
-    def post(self, request):
-        class_form = ClassroomForm(request.POST)
-
-        if class_form.is_valid():
-            class_form.save()
-
-        return redirect('/class-manage')
+                content = {
+                    'class_list': class_list,
+                }
+                return render(request, 'user/class-manage.html', context=content)
+            else:
+                content = {
+                    'err_code': '403',
+                    'err_message': _('没有权限'),
+                }
+                return render(request, 'error.html', context=content)
 
 
 class ClassDetails(View):
@@ -293,24 +279,13 @@ class ClassDetails(View):
 
     def get(self, request, class_id):
         classroom = Classroom.objects.get(class_id=class_id)
-        class_form = ClassroomForm(instance=classroom)
 
         content = {
             'classroom': classroom,
-            'class_form': class_form,
         }
 
         return render(request, 'user/class-details.html', context=content)
 
-    # XXX(Steve X): add batch import func for students
-    def post(self, request, class_id):
-        classroom = Classroom.objects.get(class_id=class_id)
-        class_form = ClassroomForm(request.POST, instance=classroom)
-
-        if class_form.is_valid():
-            class_form.save()
-
-        return redirect(classroom.get_absolute_url())
 
 
 class UserInfo(View):
