@@ -287,12 +287,11 @@ class ClassDetails(View):
             # print(classroom.student_set.all())
             # for student in classroom.student_set.all():
             #     print(student.examanswerrec_set.all())
-            print(ExamAnswerRec.objects.filter(student__in=classroom.student_set.all()))
+            # print(ExamAnswerRec.objects.filter(student__in=classroom.student_set.all()))
             exam_detail = ExamAnswerRec.objects.filter(student__in=classroom.student_set.all())
-            exam_answer_detail = ExamQuesAnswerRec.objects.filter(exam__in=exam_detail)
             exer_detail = ExerAnswerRec.objects.filter(student__in=classroom.student_set.all())
-            exer_answer_detail = ExerQuesAnswerRec.objects.filter(exer__in=exer_detail)
             for exam in exam_list:
+                exam_answer_detail = ExamQuesAnswerRec.objects.filter(exam__in=exam_detail.filter(exam=exam))
                 exam_infoset = exam_detail.filter(exam=exam)
                 exam.start_cnt=exam_infoset.count()
                 exam.finish_cnt=exam_infoset.filter(status=True).count()
@@ -308,6 +307,7 @@ class ClassDetails(View):
                     per_acrate = (exam_answer_detail.filter(ans_status=0).count() / exam_answer_detail.count()) * 100
                     exam.per_acrate = round(per_acrate,2)
             for exer in exer_list:
+                exer_answer_detail = ExerQuesAnswerRec.objects.filter(exer__in=exer_detail.filter(exer=exer))
                 exer_infoset = exer_detail.filter(exer=exer)
                 exer.start_cnt=exer_infoset.count()
                 exer.finish_cnt=exer_infoset.filter(status=True).count()
