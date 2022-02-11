@@ -366,7 +366,7 @@ class ExerciseAdmin(admin.ModelAdmin):
     def classrooms(self,obj):
         return [bt.class_name for bt in obj.classroom.all()]
     classrooms.short_description = "分配班级"
-    list_display = ['exer_id', 'exer_name', 'paper', 'publish_time', 'active', 'classrooms']
+    list_display = ['exer_id', 'exer_name', 'paper', 'start_time', 'end_time', 'publish_time', 'active', 'classrooms']
 
 
 # Fields: 'rec_id', 'student', 'question', 'ans', 'ans_status', 'submit_time', 'submit_cnt'

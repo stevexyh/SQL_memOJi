@@ -26,7 +26,7 @@ from django.db import transaction
 from django.db.models import Sum
 from user.models import Student, User, Classroom
 from user.forms import UserInfoForm, StudentForm, ClassroomForm
-from coding.models import Exam, QuesAnswerRec, Question, QuestionSet ,ExerAnswerRec,ExamAnswerRec
+from coding.models import Exam, QuesAnswerRec, Question, QuestionSet, ExerAnswerRec, ExamAnswerRec, ExamQuesAnswerRec, ExerQuesAnswerRec
 import datetime
 from django.utils import timezone
 from django.http import HttpResponse,HttpResponseRedirect,HttpResponseForbidden
@@ -278,15 +278,72 @@ class ClassDetails(View):
     '''Render class-details template'''
 
     def get(self, request, class_id):
-        classroom = Classroom.objects.get(class_id=class_id)
+        if request.user.is_authenticated:
+            classroom = Classroom.objects.get(class_id=class_id)
+            exam_list = classroom.exam_set.all()
+            exer_list = classroom.exercise_set.all()
+            # print(classroom.exam_set.all())
+            # print(classroom.exercise_set.all())
+            # print(classroom.student_set.all())
+            # for student in classroom.student_set.all():
+            #     print(student.examanswerrec_set.all())
+            print(ExamAnswerRec.objects.filter(student__in=classroom.student_set.all()))
+            exam_detail = ExamAnswerRec.objects.filter(student__in=classroom.student_set.all())
+            exam_answer_detail = ExamQuesAnswerRec.objects.filter(exam__in=exam_detail)
+            exer_detail = ExerAnswerRec.objects.filter(student__in=classroom.student_set.all())
+            exer_answer_detail = ExerQuesAnswerRec.objects.filter(exer__in=exer_detail)
+            for exam in exam_list:
+                exam_infoset = exam_detail.filter(exam=exam)
+                exam.start_cnt=exam_infoset.count()
+                exam.finish_cnt=exam_infoset.filter(status=True).count()
+                if classroom.student_set.count() == 0:
+                    exam.per_finish_rate = 0
+                else:
+                    per_finish_rate = (exam.finish_cnt / classroom.student_set.count()) * 100
+                    exam.per_finish_rate = round(per_finish_rate,2)
 
+                if exam_answer_detail.count() == 0:
+                    exam.per_acrate = 0
+                else:
+                    per_acrate = (exam_answer_detail.filter(ans_status=0).count() / exam_answer_detail.count()) * 100
+                    exam.per_acrate = round(per_acrate,2)
+            for exer in exer_list:
+                exer_infoset = exer_detail.filter(exer=exer)
+                exer.start_cnt=exer_infoset.count()
+                exer.finish_cnt=exer_infoset.filter(status=True).count()
+                if classroom.student_set.count() == 0:
+                    exer.per_finish_rate = 0
+                else:
+                    per_finish_rate = (exer.finish_cnt / classroom.student_set.count()) * 100
+                    exer.per_finish_rate = round(per_finish_rate,2)
+
+                if exer_answer_detail.count() == 0:
+                    exer.per_acrate = 0
+                else:
+                    per_acrate = (exer_answer_detail.filter(ans_status=0).count() / exer_answer_detail.count()) * 100
+                    exer.per_acrate = round(per_acrate,2)
+
+            if request.user.is_superuser:
+                content = {
+                    'classroom': classroom,
+                    'exam_list' : exam_list,
+                    'exer_list' : exer_list
+                }
+                return render(request, 'user/class-details.html', context=content)
+            else:
+                if request.user.identity() == 'teacher_student' or request.user.identity() == 'teacher':
+                    if request.user.teacher == classroom.teacher:
+                        content = {
+                            'classroom' : classroom,
+                            'exam_list' : exam_list,
+                            'exer_list' : exer_list
+                        }
+                    return render(request, 'user/class-details.html', context=content)
         content = {
-            'classroom': classroom,
+            'err_code': '403',
+            'err_message': _('没有权限'),
         }
-
-        return render(request, 'user/class-details.html', context=content)
-
-
+        return render(request, 'error.html', context=content)
 
 class UserInfo(View):
     '''Render user-info template'''

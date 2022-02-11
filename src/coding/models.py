@@ -220,6 +220,8 @@ class Exercise(models.Model):
     exer_id = models.AutoField(verbose_name=_('练习ID'), primary_key=True)
     exer_name = models.CharField(verbose_name=_('练习名称'), max_length=100, default=_('未命名'))
     paper = models.ForeignKey(verbose_name=_('试卷'), to=Paper, on_delete=models.CASCADE)
+    start_time = models.DateTimeField(verbose_name=_('开始时间'), default=None)
+    end_time = models.DateTimeField(verbose_name=_('结束时间'), default=None)
     publish_time = models.DateTimeField(verbose_name=_('发布时间'), auto_now_add=True)
     desc = models.TextField(verbose_name=_('描述'), null=True, blank=True)
     active = models.BooleanField(verbose_name=_('发布状态'), default=False)
