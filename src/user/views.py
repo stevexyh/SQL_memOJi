@@ -50,58 +50,83 @@ def blank(request):
 def index(request):
     '''Render index template'''
     # print("在首页")
-    ques_cnt = Question.objects.count()
-    ques_set_cnt = QuestionSet.objects.count()
-    exam_cnt = Exam.objects.count()
-    exam_active = Exam.objects.filter(active=True).count()
-    submit_cnt = QuesAnswerRec.objects.aggregate(Sum('submit_cnt'))
-    ques_easy = Question.objects.filter(ques_difficulty=0).count()
-    ques_middle = Question.objects.filter(ques_difficulty=1).count()
-    ques_difficult = Question.objects.filter(ques_difficulty=2).count()
-    ac_cnt = QuesAnswerRec.objects.filter(ans_status=0).count()
-    # FIXME(Seddon):实际上是七日内提交，烦得很
-    monday = timezone.now() - datetime.timedelta(days=7)
-    mouth = timezone.now() - datetime.timedelta(days=30)    
-    week_submit = QuesAnswerRec.objects.filter(submit_time__gte=monday).count()
-    mouth_submit = QuesAnswerRec.objects.filter(submit_time__gte=mouth).count()
-    exam_cont = ExamAnswerRec.objects.filter(student=request.user.student, status=True).count()
-    exam_labels_query = ExamAnswerRec.objects.filter(student=request.user.student, status=True)
-    exam_labels = []
-    exam_data = []
-    for label in exam_labels_query:
-        exam_labels.append(str(label.exam.exam_id) + '-' + label.exam.exam_name)
-        exam_data.append(label.score)
-    exer_cont = ExerAnswerRec.objects.filter(student=request.user.student, status=True).count()
-    exer_labels_query = ExerAnswerRec.objects.filter(student=request.user.student, status=True)
-    exer_labels = []
-    exer_data = []
-    for label in exer_labels_query:
-        exer_labels.append(str(label.exer.exer_id) + '-' + label.exer.exer_name)
-        exer_data.append(label.score)
-
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            content = {
+                'err_code': '403',
+                'err_message': _('没有权限,请开通学生身份'),
+            }
+            return render(request, 'error.html', context=content)
+        else:
+            identity = request.user.identity()
+            if identity == 'student' or identity == 'teacher_student':
+                exam_result = request.user.student.classroom.exam_set.all()
+                exer_result = request.user.student.classroom.exercise_set.all()
+                exam_cnt = exam_result.count()
+                exam_active = exam_result.filter(active=True).count()
+                exer_cnt = exer_result.count()
+                exer_active = exer_result.filter(active=True).count()
+                answer_query_exer = ExerQuesAnswerRec.objects.filter(user=request.user)
+                answer_query_exam = ExamQuesAnswerRec.objects.filter(user=request.user)
+                submit_cnt = 0
+                if answer_query_exer.aggregate(Sum('submit_cnt'))['submit_cnt__sum'] is not None:
+                    submit_cnt += answer_query_exer.aggregate(Sum('submit_cnt'))['submit_cnt__sum'] 
+                if answer_query_exam.aggregate(Sum('submit_cnt'))['submit_cnt__sum'] is not None:
+                    submit_cnt += answer_query_exam.aggregate(Sum('submit_cnt'))['submit_cnt__sum'] 
+                question_list = Question.objects.filter(ques_id__in=answer_query_exam.values('question')) | Question.objects.filter(ques_id__in=answer_query_exer.values('question'))
+                question_rec = question_list.distinct()
+                ques_easy = question_rec.filter(ques_difficulty=0).count()
+                ques_middle = question_rec.filter(ques_difficulty=1).count()
+                ques_difficult = question_rec.filter(ques_difficulty=2).count()
+                ques_cnt = question_rec.count()
+                ac_cnt = answer_query_exer.filter(ans_status=0).count() + answer_query_exam.filter(ans_status=0).count()
+                # FIXME(Seddon):实际上是七日内提交
+                monday = timezone.now() - datetime.timedelta(days=7)
+                mouth = timezone.now() - datetime.timedelta(days=30)    
+                week_submit = answer_query_exer.filter(submit_time__gte=monday).count() + answer_query_exam.filter(submit_time__gte=monday).count()
+                mouth_submit = answer_query_exer.filter(submit_time__gte=mouth).count() + answer_query_exam.filter(submit_time__gte=mouth).count()
+                exam_cont = ExamAnswerRec.objects.filter(student=request.user.student, status=True).count()
+                exam_labels_query = ExamAnswerRec.objects.filter(student=request.user.student, status=True)
+                exam_labels = []
+                exam_data = []
+                for label in exam_labels_query:
+                    exam_labels.append(str(label.exam.exam_id) + '-' + label.exam.exam_name)
+                    exam_data.append(label.score)
+                exer_cont = ExerAnswerRec.objects.filter(student=request.user.student, status=True).count()
+                exer_labels_query = ExerAnswerRec.objects.filter(student=request.user.student, status=True)
+                exer_labels = []
+                exer_data = []
+                for label in exer_labels_query:
+                    exer_labels.append(str(label.exer.exer_id) + '-' + label.exer.exer_name)
+                    exer_data.append(label.score)
+                content = {
+                    'exam_cnt': exam_cnt,
+                    'exam_active': exam_active,
+                    'exer_cnt': exer_cnt,
+                    'exer_active': exer_active,
+                    'submit_cnt': submit_cnt,
+                    'ques_easy':ques_easy,
+                    'ques_middle':ques_middle,
+                    'ques_difficult':ques_difficult,
+                    'ques_cnt':ques_cnt,
+                    'ac_cnt':ac_cnt,
+                    'week_submit':week_submit,
+                    'mouth_submit':mouth_submit,
+                    'exam_cont':exam_cont,
+                    'exam_labels':exam_labels,
+                    'exam_data':exam_data,
+                    'exer_cont':exer_cont,
+                    'exer_labels':exer_labels,
+                    'exer_data':exer_data,
+                    'exam_info':exam_labels_query,
+                    'exer_info':exer_labels_query
+                }
+                return render(request, 'index.html', context=content)
     content = {
-        'ques_cnt': ques_cnt,
-        'ques_set_cnt': ques_set_cnt,
-        'exam_cnt': exam_cnt,
-        'exam_active': exam_active,
-        'submit_cnt': submit_cnt['submit_cnt__sum'],
-        'ques_easy':ques_easy,
-        'ques_middle':ques_middle,
-        'ques_difficult':ques_difficult,
-        'ac_cnt':ac_cnt,
-        'week_submit':week_submit,
-        'mouth_submit':mouth_submit,
-        'exam_cont':exam_cont,
-        'exam_labels':exam_labels,
-        'exam_data':exam_data,
-        'exer_cont':exer_cont,
-        'exer_labels':exer_labels,
-        'exer_data':exer_data,
-        'exam_info':exam_labels_query,
-        'exer_info':exer_labels_query
+        'err_code': '403',
+        'err_message': _('没有权限,请开通学生身份'),
     }
-    return render(request, 'index.html', context=content)
- 
+    return render(request, 'error.html', context=content)
 
 def e404(request, exception=None):
     '''Render 404 err page'''

@@ -124,7 +124,8 @@ class User(AbstractUser):
             return False
         else:
             return False
-
+    def onlyteacher(self):
+        return self.identity() == 'teacher'
     @property
     def avatar(self):
         # use cavatar to replace gavatar

@@ -495,14 +495,6 @@ class CodingEditor(View):
 
 def statistics(request):
     '''Render statistics template'''
-    ques_cnt = models.Question.objects.count()
-    ques_set_cnt = models.QuestionSet.objects.count()
-    exam_cnt = models.Exam.objects.count()
-    exam_active = models.Exam.objects.filter(active=True).count()
-    exer_cnt = models.Exercise.objects.count()
-    # exer_active = models.Exercise.objects.filter().count()
-    submit_cnt = models.QuesAnswerRec.objects.aggregate(Sum('submit_cnt'))
-    ac_cnt = models.QuesAnswerRec.objects.filter(ans_status=0).count()
     exer_active = models.Exercise.objects.filter(active=True).count()
     identity = request.user.identity()
     year = timezone.now() - datetime.timedelta(days=730) # 365 * 2    
@@ -519,14 +511,6 @@ def statistics(request):
         raise Resolver404
 
     content = {
-        'ques_cnt': ques_cnt,
-        'ques_set_cnt': ques_set_cnt,
-        'exam_cnt': exam_cnt,
-        'exam_active': exam_active,
-        'exer_cnt': exer_cnt,
-        'exer_active': exer_active,
-        'submit_cnt': submit_cnt['submit_cnt__sum'],
-        'ac_cnt' : ac_cnt,
         'exam_objects' : exam_objects,
         'exer_objects' : exer_objects,
     }
