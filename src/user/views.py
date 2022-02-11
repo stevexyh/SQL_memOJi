@@ -271,7 +271,7 @@ class ClassManage(View):
     '''Render class-manage template'''
     def get(self, request):
         key = request.user.is_authenticated & request.user.is_superuser
-        print(request.user.is_authenticated)
+        # print(request.user.is_authenticated)
         if request.user.is_authenticated == False:
             content = {
                 'err_code': '403',

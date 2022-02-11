@@ -252,7 +252,6 @@ class CodingEditor(View):
                 raise Resolver404
         except:
             raise Resolver404
-
         # Previous & next question id
         prev_question = event.paper.question.filter(ques_id__lt=ques_id).order_by('-ques_id').first()
         next_question = event.paper.question.filter(ques_id__gt=ques_id).order_by('ques_id').first()
@@ -263,7 +262,6 @@ class CodingEditor(View):
         passwd = tk.get_conf('mysql', 'password')
         db = pymysql.Connect(host=host, port=port, user=user, passwd=passwd)
         cur = db.cursor()
-
         # Create PrettyTable for `show tables;`
         pt_db_tables = PrettyTable(['Tables in this database'])
         pt_db_tables.align = 'l'
@@ -328,12 +326,19 @@ class CodingEditor(View):
                     'ans_status_color': ans_status_color,
                     'submit_ans': rec.ans,
                 })
-
         return content
 
     def get(self, request, event_type, event_id, ques_id):
         '''Show info'''
-
+        try:
+            if event_type == 'exam':
+                print(request.user.student.classroom.exam_set.all().get(exam_id=event_id))
+            elif event_type == 'exer':
+                print(request.user.student.classroom.exercise_set.all().get(exer_id=event_id))
+            else:
+                raise Resolver404
+        except:
+            raise Resolver404
         content = self.get_info(request, event_type, event_id, ques_id)
         if ques_id == '1':
             cur_user = request.user
@@ -348,12 +353,7 @@ class CodingEditor(View):
                             exam=exam,
                             start_time = timezone.now()
                         )
-                        # print("创建成功")
-                    # else:
-                    #     print("已存在记录")
-
                 else:
-                    # print("是练习")
                     exer = models.Exercise.objects.get(pk=event_id)
                     rec = models.ExerAnswerRec.objects.filter(student=cur_user.student, exer=exer).first()
                     if rec is None:
@@ -361,13 +361,7 @@ class CodingEditor(View):
                             student=cur_user.student,
                             exer=exer,
                             start_time = timezone.now()
-                            # question=question,
-                            # ans=submit_ans,
-                            # ans_status=ans_status,
-                            # submit_cnt=1,
                         )
-                    # else:
-                    #     print("已存在记录")
         return render(request, 'coding/coding-editor.html', context=content)
 
     def post(self, request, event_type, event_id, ques_id):

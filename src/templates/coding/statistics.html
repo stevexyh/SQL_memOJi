@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}统计数据{% endblock title %}
 {% block page_title %}统计数据{% endblock page_title %}
-
 <!-- Breadcrumb -->
 {% block breadcrumb %}
     <div class="page-title-right">
@@ -11,12 +10,9 @@
         </ol>
     </div>
 {% endblock breadcrumb %}
-
 <!-- CSS -->
 {% block css %}
-
 {% endblock css %}
-
 <!-- Main Content -->
 {% block main %}
     <div class="row">
@@ -55,7 +51,6 @@
             </div>
         </div> 
         {% endfor %}
-
         {% for exer in exer_objects %}
         <div class="col-lg-6">
             <div class="card">
@@ -83,15 +78,12 @@
             </div>
         </div> 
         {% endfor %}
-
 {% endblock main %}
-
 <!-- JS -->
 {% block js %}
     <!-- Chart JS -->
     <script src="{% static 'libs/chart.js/Chart.bundle.min.js' %}"></script>
     <!-- Custom Pages  -->
-    <!-- <script src="{% static 'js/custom-pages/statistics.js' %}"></script> -->
     <script>
 !(function (d) {
     "use strict";
