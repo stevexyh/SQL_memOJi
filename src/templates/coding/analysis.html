@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block title %}成绩分析{% endblock title %}
+{% block page_title %}成绩分析{% endblock page_title %}
+
+<!-- Breadcrumb -->
+{% block breadcrumb %}
+    <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="javascript: void(0);">个人中心</a></li>
+            <li class="breadcrumb-item active"><a href="javascript: void(0);">成绩分析</a></li>
+        </ol>
+    </div>
+{% endblock breadcrumb %}
+
+<!-- CSS -->
+{% block css %}
+    <!-- jquery.vectormap css -->
+    <link href="{% static 'libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- DataTables -->
+    <link href="{% static 'libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- Responsive datatable examples -->
+    <link href="{% static 'libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />  
+{% endblock css %}
+
+<!-- Main Content -->
+{% block main %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body  pt-0">
+
+                    <div class="table-responsive" style="margin-top: 20px;">
+                        <h4 class="card-title mb-4">
+                            已作答题目分析
+                        </h4>
+                        <table class="table table-centered dt-responsive nowrap mygrade" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>记录ID</th>
+                                    <th>题目</th>
+                                    <th>我的答案</th>
+                                    <th>测试结果</th>
+                                    <th>提交时间</th>
+                                    <th>提交次数</th>
+                                    <th>参考答案</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for question in questions %}
+                                <tr>
+                                    <td> {{question.rec_id}} </td>
+                                    <td> {{question.question}} </td>
+                                    <td> {{question.ans}} </td>
+                                    <td>
+                                    {% if question.ans_status == 0 %}
+                                        <div class="badge badge-soft-success font-size-12">正确</div>
+                                    {% endif %}
+                                    {% if question.ans_status == 1 %}
+                                        <div class="badge badge-soft-danger font-size-12">错误</div>
+                                    {% endif %}
+                                    {% if question.ans_status == 2 %}
+                                        <div class="badge badge-soft-warning font-size-12">异常</div>
+                                    {% endif %}
+                                    {% if question.ans_status == -1 %}
+                                        <div class="badge badge-soft-warning font-size-12">未知错误</div>
+                                    {% endif %}
+                                    </td>
+                                    <td> {{question.submit_time}} </td>
+                                    <td> {{question.submit_cnt}} </td>        
+                                    <td> {{question.question.ques_ans}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end row -->
+
+{% endblock main %}
+
+<!-- JS -->
+{% block js %}
+    <!-- apexcharts -->
+    <script src="{% static 'libs/apexcharts/apexcharts.min.js' %}"></script>
+
+<!-- datatable -->
+    <script src="{% static 'js/custom-pages/class-analysis.js' %}"></script>
+<!-- datatable -->
+
+    <!-- jquery.vectormap map -->
+    <script src="{% static 'libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js' %}"></script>
+    <script src="{% static 'libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js' %}"></script>
+
+    <!-- Required datatable js -->
+    <script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+    <!-- Responsive examples -->
+    <script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+    <script src="{% static 'js/custom-pages/dashboard.js' %}"></script>
+{% endblock js %}
+
+
+
+
+

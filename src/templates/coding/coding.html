@@ -19,6 +19,7 @@
 
 <!-- Main Content -->
 {% block main %}
+    {% if next_exam is not None%}
     <h1>下一场考试</h1>
     <div class="row">
         <div class="col-8">
@@ -38,34 +39,45 @@
                     </div>
                     <div>
                         <h5 class="font-size-16"><a href="javascript: void(0);" class="text-dark">{{ next_exam.exam_name }}</a></h5>
-                        <p class="mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi distinctio optio rerum blanditiis tempore illo aliquid cumque quos dolore sint suscipit placeat dignissimos molestiae, nisi nobis repudiandae cum. Dicta, tempora?</p>
+                        <p class="mb-4">
+                            {{ next_exam.desc }}
+                        </p>
                     </div>
 
                     <div class="d-inline-flex team mb-0">
                         <div class="mr-3 align-self-center">
-                            发起人 :
+                            负责老师 :
                         </div>
                         <div class="team-member">
-                            <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
-                                <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                            </a>
-                        </div>
-
-                        <div class="team-member">
-                            <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="David Martinez">
-                                <img src="{% static 'images/users/avatar-2.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                            </a>
+                            {% for class in next_exam.classroom.all %}
+                                <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="{{class.teacher.user.full_name}}">
+                                    {{class}}
+                                </a>
+                            {% endfor %}
                         </div>
                     </div>
-                    <div class="float-right"><a href="{% url 'coding:coding-editor' 'exam' next_exam.exam_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light"><i class="mdi mdi-arrow-left mr-3"></i>进入</a></div>
-
+                <!-- TODO:active用来判断前端是否显示，到期是按照截止时间来，可以封装到model里面 -->
+                {% if next_exam.is_over %}
+                    <div class="float-right">
+                        <a href="{% url 'coding:coding' %}" class="btn btn-danger mt-1 waves-effect waves-light">
+                            <i class="mdi mdi-alert-octagon mr-3"></i>已结束
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="float-right">
+                        <a href="{% url 'coding:coding-editor' 'exam' next_exam.exam_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light">
+                            <i class="mdi mdi-arrow-left mr-3"></i>进入
+                        </a>
+                    </div>
+                {% endif %}
                 </div>
             </div>
         </div>
 
     </div>
-    <!-- end row -->
+    {% endif%}
 
+    <!-- end row -->
     <div class="row">
         <div class="col-lg-6">
             <div class="card-body">
@@ -75,131 +87,8 @@
                 </button>
 
             </div>
-            <!-- <div class="card"> -->
                 <div class="card-body border-bottom">
-
                     <div id="todo-task" class="task-list">
-                        <div class="card task-box">
-                            <div class="progress progress-sm animated-progess" style="height: 3px;">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="card-body">
-
-                                <div class="float-right ml-2">
-                                    <div>
-                                        2021年4月17日 <br> 10:30-12:30
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <a href="#" class="">#QUIZ200417</a>
-                                </div>
-                                <div>
-                                    <h5 class="font-size-16"><a href="javascript: void(0);" class="text-dark">期中考试</a></h5>
-                                    <p class="mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi distinctio optio rerum blanditiis tempore illo aliquid cumque quos dolore sint suscipit placeat dignissimos molestiae, nisi nobis repudiandae cum. Dicta, tempora?</p>
-                                </div>
-
-                                <div class="d-inline-flex team mb-0">
-                                    <div class="mr-3 align-self-center">
-                                        发起人 :
-                                    </div>
-                                    <div class="team-member">
-                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
-                                            <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                                        </a>
-                                    </div>
-
-                                    <div class="team-member">
-                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="David Martinez">
-                                            <img src="{% static 'images/users/avatar-2.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="float-right"><a href="{% url 'coding:coding' %}" class="btn btn-success mt-1 waves-effect waves-light"><i class="mdi mdi-check-decagram mr-3"></i>已完成</a></div>
-
-                            </div>
-                        </div>
-                        <!-- end task card -->
-                        <div class="card task-box">
-                            <div class="progress progress-sm animated-progess" style="height: 3px;">
-                                <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="card-body">
-
-                                <div class="float-right ml-2">
-                                    <div>
-                                        2021年4月17日 <br> 10:30-12:30
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <a href="#" class="">#QUIZ200417</a>
-                                </div>
-                                <div>
-                                    <h5 class="font-size-16"><a href="javascript: void(0);" class="text-dark">期中考试</a></h5>
-                                    <p class="mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi distinctio optio rerum blanditiis tempore illo aliquid cumque quos dolore sint suscipit placeat dignissimos molestiae, nisi nobis repudiandae cum. Dicta, tempora?</p>
-                                </div>
-
-                                <div class="d-inline-flex team mb-0">
-                                    <div class="mr-3 align-self-center">
-                                        发起人 :
-                                    </div>
-                                    <div class="team-member">
-                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
-                                            <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                                        </a>
-                                    </div>
-
-                                    <div class="team-member">
-                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="David Martinez">
-                                            <img src="{% static 'images/users/avatar-2.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="float-right"><a href="{% url 'coding:coding' %}" class="btn btn-primary mt-1 waves-effect waves-light"><i class="mdi mdi-arrow-left mr-3"></i>进入</a></div>
-
-                            </div>
-                        </div>
-                        <!-- end task card -->
-                        <div class="card task-box">
-                            <div class="progress progress-sm animated-progess" style="height: 3px;">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="card-body">
-
-                                <div class="float-right ml-2">
-                                    <div>
-                                        2021年4月17日 <br> 10:30-12:30
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <a href="#" class="">#QUIZ200417</a>
-                                </div>
-                                <div>
-                                    <h5 class="font-size-16"><a href="javascript: void(0);" class="text-dark">期中考试</a></h5>
-                                    <p class="mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi distinctio optio rerum blanditiis tempore illo aliquid cumque quos dolore sint suscipit placeat dignissimos molestiae, nisi nobis repudiandae cum. Dicta, tempora?</p>
-                                </div>
-
-                                <div class="d-inline-flex team mb-0">
-                                    <div class="mr-3 align-self-center">
-                                        发起人 :
-                                    </div>
-                                    <div class="team-member">
-                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
-                                            <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                                        </a>
-                                    </div>
-
-                                    <div class="team-member">
-                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="David Martinez">
-                                            <img src="{% static 'images/users/avatar-2.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="float-right"><a href="{% url 'coding:coding' %}" class="btn btn-danger mt-1 waves-effect waves-light"><i class="mdi mdi-alert-octagon mr-3"></i>已结束</a></div>
-
-                            </div>
-                        </div>
-                        <!-- end task card -->
-
                         {% for exam in exams_list %}
                             <div class="card task-box">
                                 <div class="progress progress-sm animated-progess" style="height: 3px;">
@@ -222,27 +111,74 @@
 
                                     <div class="d-inline-flex team mb-0">
                                         <div class="mr-3 align-self-center">
-                                            发起人 :
+                                            负责老师 :
                                         </div>
                                         <div class="team-member">
-                                            <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
-                                                <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                                            </a>
-                                        </div>
-
-                                        <div class="team-member">
-                                            <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="David Martinez">
-                                                <img src="{% static 'images/users/avatar-2.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                                            </a>
+                                            {% for class in exam.classroom.all %}
+                                                <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="{{class.teacher.user.full_name}}">
+                                                    {{class}}
+                                                </a>
+                                            {% endfor %}
                                         </div>
                                     </div>
-                                    <div class="float-right"><a href="{% url 'coding:coding-editor' 'exam' exam.exam_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light"><i class="mdi mdi-arrow-left mr-3"></i>进入</a></div>
-
+                                {% if exam.is_over %}
+                                    <div class="float-right">
+                                        <a href="{% url 'coding:coding' %}" class="btn btn-danger mt-1 waves-effect waves-light">
+                                            <i class="mdi mdi-alert-octagon mr-3"></i>已结束
+                                        </a>
+                                    </div>
+                                {% else %}
+                                    <div class="float-right">
+                                        <a href="{% url 'coding:coding-editor' 'exam' next_exam.exam_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light">
+                                            <i class="mdi mdi-arrow-left mr-3"></i>进入
+                                        </a>
+                                    </div>
+                                {% endif %}
                                 </div>
                             </div>
                             <!-- end task card -->
                         {% endfor %}
+                        {% for exam in finished %}
+                            <div class="card task-box">
+                                <div class="progress progress-sm animated-progess" style="height: 3px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="card-body">
 
+                                    <div class="float-right ml-2">
+                                        <div>
+                                            开始: {{ exam.start_time }} <br> 结束: {{ exam.end_time }}
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <a href="{% url 'coding:coding-editor' 'exam' exam.exam_id 1 %}" class="">#EXAM{{ exam.exam_id }}</a>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-size-16"><a href="{% url 'coding:coding-editor' 'exam' exam.exam_id 1 %}" class="text-dark">{{ exam.exam_name }}</a></h5>
+                                        <p class="mb-4">{{ exam.desc }}</p>
+                                    </div>
+
+                                    <div class="d-inline-flex team mb-0">
+                                        <div class="mr-3 align-self-center">
+                                            负责老师 :
+                                        </div>
+                                        <div class="team-member">
+                                            {% for class in exam.classroom.all %}
+                                                <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="{{class.teacher.user.full_name}}">
+                                                    {{class}}
+                                                </a>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="float-right">
+                                        <a href="{% url 'coding:coding' %}" class="btn btn-success mt-1 waves-effect waves-light">
+                                            <i class="mdi mdi-check-decagram mr-3"></i>已完成
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end task card -->
+                        {% endfor %}
                     </div>
                     
                 </div>
@@ -257,131 +193,8 @@
                 </button>
 
             </div>
-            <!-- <div class="card"> -->
                 <div class="card-body border-bottom">
                     <div id="inprogress-task" class="task-list">
-                        <div class="card task-box">
-                            <div class="progress progress-sm animated-progess" style="height: 3px;">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-
-                            <div class="card-body">
-
-                                <div class="float-right ml-2">
-                                    <div>
-                                        2021年4月17日 <br> 10:30-12:30
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <a href="#" class="">#QUIZ200417</a>
-                                </div>
-                                <div>
-                                    <h5 class="font-size-16"><a href="javascript: void(0);" class="text-dark">期中考试</a></h5>
-                                    <p class="mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi distinctio optio rerum blanditiis tempore illo aliquid cumque quos dolore sint suscipit placeat dignissimos molestiae, nisi nobis repudiandae cum. Dicta, tempora?</p>
-                                </div>
-
-                                <div class="d-inline-flex team mb-0">
-                                    <div class="mr-3 align-self-center">
-                                        发起人 :
-                                    </div>
-                                    <div class="team-member">
-                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
-                                            <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                                        </a>
-                                    </div>
-
-                                    <div class="team-member">
-                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="David Martinez">
-                                            <img src="{% static 'images/users/avatar-2.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="float-right"><a href="{% url 'coding:coding' %}" class="btn btn-success mt-1 waves-effect waves-light"><i class="mdi mdi-check-decagram mr-3"></i>已完成</a></div>
-
-                            </div>
-                        </div>
-                        <!-- end task card -->
-                        <div class="card task-box">
-                            <div class="progress progress-sm animated-progess" style="height: 3px;">
-                                <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="card-body">
-
-                                <div class="float-right ml-2">
-                                    <div>
-                                        2021年4月17日 <br> 10:30-12:30
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <a href="#" class="">#QUIZ200417</a>
-                                </div>
-                                <div>
-                                    <h5 class="font-size-16"><a href="javascript: void(0);" class="text-dark">期中考试</a></h5>
-                                    <p class="mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi distinctio optio rerum blanditiis tempore illo aliquid cumque quos dolore sint suscipit placeat dignissimos molestiae, nisi nobis repudiandae cum. Dicta, tempora?</p>
-                                </div>
-
-                                <div class="d-inline-flex team mb-0">
-                                    <div class="mr-3 align-self-center">
-                                        发起人 :
-                                    </div>
-                                    <div class="team-member">
-                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
-                                            <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                                        </a>
-                                    </div>
-
-                                    <div class="team-member">
-                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="David Martinez">
-                                            <img src="{% static 'images/users/avatar-2.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="float-right"><a href="{% url 'coding:coding' %}" class="btn btn-primary mt-1 waves-effect waves-light"><i class="mdi mdi-arrow-left mr-3"></i>进入</a></div>
-
-                            </div>
-                        </div>
-                        <!-- end task card -->
-                        <div class="card task-box">
-                            <div class="progress progress-sm animated-progess" style="height: 3px;">
-                                <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="card-body">
-
-                                <div class="float-right ml-2">
-                                    <div>
-                                        2021年4月17日 <br> 10:30-12:30
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <a href="#" class="">#QUIZ200417</a>
-                                </div>
-                                <div>
-                                    <h5 class="font-size-16"><a href="javascript: void(0);" class="text-dark">期中考试</a></h5>
-                                    <p class="mb-4">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi distinctio optio rerum blanditiis tempore illo aliquid cumque quos dolore sint suscipit placeat dignissimos molestiae, nisi nobis repudiandae cum. Dicta, tempora?</p>
-                                </div>
-
-                                <div class="d-inline-flex team mb-0">
-                                    <div class="mr-3 align-self-center">
-                                        发起人 :
-                                    </div>
-                                    <div class="team-member">
-                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
-                                            <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                                        </a>
-                                    </div>
-
-                                    <div class="team-member">
-                                        <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="David Martinez">
-                                            <img src="{% static 'images/users/avatar-2.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="float-right"><a href="{% url 'coding:coding' %}" class="btn btn-primary mt-1 waves-effect waves-light"><i class="mdi mdi-arrow-left mr-3"></i>进入</a></div>
-
-                            </div>
-                        </div>
-                        <!-- end task card -->
-
                         {% for exer in exer_list %}
                             <div class="card task-box">
                                 <div class="progress progress-sm animated-progess" style="height: 3px;">
@@ -405,18 +218,14 @@
 
                                     <div class="d-inline-flex team mb-0">
                                         <div class="mr-3 align-self-center">
-                                            发起人 :
+                                            开放班级 :
                                         </div>
                                         <div class="team-member">
-                                            <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="Calvin Redrick">
-                                                <img src="{% static 'images/users/avatar-3.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                                            </a>
-                                        </div>
-
-                                        <div class="team-member">
-                                            <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="David Martinez">
-                                                <img src="{% static 'images/users/avatar-2.jpg' %}" class="rounded-circle avatar-xs" alt="">
-                                            </a>
+                                            {% for class in exer.classroom.all %}
+                                                <a href="javascript: void(0);" class="team-member d-inline-block" data-toggle="tooltip" data-placement="top" title="{{class.teacher.user.full_name}}">
+                                                    {{class}}
+                                                </a>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                     <div class="float-right"><a href="{% url 'coding:coding-editor' 'exer' exer.exer_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light"><i class="mdi mdi-arrow-left mr-3"></i>进入</a></div>

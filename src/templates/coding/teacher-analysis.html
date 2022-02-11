@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% block title %}统计数据{% endblock title %}
+{% block page_title %}
+    {% if event.exam_id%}
+        考试{{event.exam_id}}-{{event.exam_name}}
+    {% else %}
+       练习{{event.exer_id}}-{{event.exer_name}} 
+    {% endif%}
+    统计数据
+{% endblock page_title %}
+<!-- Breadcrumb -->
+{% block breadcrumb %}
+<div class="page-title-right">
+    <ol class="breadcrumb m-0">
+        <li class="breadcrumb-item"><a href="{% url 'coding:statistics' %}">统计数据</a></li>
+        <li class="breadcrumb-item active"><a href="javascript: void(0);">成绩分析</a></li>
+    </ol>
+</div>
+{% endblock breadcrumb %}
+
+<!-- CSS -->
+{% block css %}
+
+{% endblock css %}
+
+<!-- Main Content -->
+{% block main %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">题目作答情况</h4>
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <h5 class="mb-0">{{ finish_rate }} %</h5>
+                            <p class="text-muted text-truncate">测试完成率</p>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="mb-0">{{ average_score }}</h5>
+                            <p class="text-muted text-truncate">平均分</p>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="mb-0">{{ avg_submit }}</h5>
+                            <p class="text-muted text-truncate">平均提交次数</p>
+                        </div>
+                    </div>
+                    <canvas id="lineChart" height="300"></canvas>
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div> <!-- end row -->
+
+{% endblock main %}
+
+<!-- JS -->
+{% block js %}
+    <!-- Chart JS -->
+    <script src="{% static 'libs/chart.js/Chart.bundle.min.js' %}"></script>
+    <!-- Custom Pages  -->
+    <script>
+        var per_avg_submit = {{per_avg_submit | safe}}
+        var per_avg_acrate = {{per_avg_acrate | safe}}
+        var per_question = {{per_question | safe}}
+        var per_avg_finishrate = {{per_avg_finishrate | safe}}
+
+!(function (d) {
+    "use strict";
+    function r() {}
+    (r.prototype.respChart = function (r, o, e, a) {
+        (Chart.defaults.global.defaultFontColor = "#8791af"),
+            (Chart.defaults.scale.gridLines.color = "rgba(166, 176, 207, 0.1)");
+        var t = r.get(0).getContext("2d"),
+            n = d(r).parent();
+        function i() {
+            r.attr("width", d(n).width());
+            switch (o) {
+                case "Line":
+                    new Chart(t, { type: "line", data: e, options: a });
+                    break;
+            }
+        }
+        d(window).resize(i), i();
+    }),
+        (r.prototype.init = function () {
+            this.respChart(
+                d("#lineChart"),
+                "Line",
+                {
+                    labels: per_question,
+                    datasets: [
+                        {
+                            label: "平均正确率(%)",
+                            fill: !0,
+                            lineTension: 0.5,
+                            backgroundColor: "rgba(85, 110, 230, 0.2)",
+                            borderColor: "#5664d2",
+                            borderCapStyle: "butt",
+                            borderDash: [],
+                            borderDashOffset: 0,
+                            borderJoinStyle: "miter",
+                            pointBorderColor: "#5664d2",
+                            pointBackgroundColor: "#fff",
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "#5664d2",
+                            pointHoverBorderColor: "#fff",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 1,
+                            pointHitRadius: 10,
+                            data: per_avg_acrate,
+                        },
+                        {
+                            label: "平均完成率(%)",
+                            fill: !0,
+                            lineTension: 0.5,
+                            backgroundColor: "rgba(74, 163, 255, 0.2)",
+                            borderColor: "#4aa3ff",
+                            borderCapStyle: "butt",
+                            borderDash: [],
+                            borderDashOffset: 0,
+                            borderJoinStyle: "miter",
+                            pointBorderColor: "#4aa3ff",
+                            pointBackgroundColor: "#fff",
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "#4aa3ff",
+                            pointHoverBorderColor: "#fff",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 1,
+                            pointHitRadius: 10,
+                            data: per_avg_finishrate,
+                        },
+                        {
+                            label: "平均提交次数",
+                            fill: !0,
+                            lineTension: 0.5,
+                            backgroundColor: "rgba(252, 185, 44, 0.2)",
+                            borderColor: "#fcb92c",
+                            borderCapStyle: "butt",
+                            borderDash: [],
+                            borderDashOffset: 0,
+                            borderJoinStyle: "miter",
+                            pointBorderColor: "#fcb92c",
+                            pointBackgroundColor: "#fff",
+                            pointBorderWidth: 1,
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "#fcb92c",
+                            pointHoverBorderColor: "#eef0f2",
+                            pointHoverBorderWidth: 2,
+                            pointRadius: 1,
+                            pointHitRadius: 10,
+                            data: per_avg_submit,
+                        },
+                    ],
+                },
+                {
+                    scales: {
+                        yAxes: [{ ticks: { max: 100, min: 0, stepSize: 1 } }],
+                    },
+                }
+            );
+        }),
+        (d.ChartJs = new r()),
+        (d.ChartJs.Constructor = r);
+})(window.jQuery),
+    (function () {
+        "use strict";
+        window.jQuery.ChartJs.init();
+    })();
+    </script>
+{% endblock js %}

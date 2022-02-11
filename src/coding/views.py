@@ -18,7 +18,7 @@
 '''
 
 
-import pymysql
+import pymysql,datetime
 from django.shortcuts import render, redirect
 from django.urls import Resolver404
 from django.views import View
@@ -31,8 +31,9 @@ from coding import forms
 from coding import models
 from utils import token as tk
 from utils import sql_check
-
-
+from django.db.models import Q
+from django.utils import timezone
+from django.db.models import Avg
 # Create your views here.
 
 
@@ -148,10 +149,10 @@ def ques_set_add(request):
     create_sql = request.POST.get('create_sql').replace('\n', '').replace('\\n', '')
     create_sql_list = create_sql.split(';')
 
-    print(create_sql)
-    print(type(create_sql))
-    print('-'*40)
-    print(create_sql_list)
+    # print(create_sql)
+    # print(type(create_sql))
+    # print('-'*40)
+    # print(create_sql_list)
 
     try:
         cur.execute(f"""create database {qset_db_name};""")
@@ -207,13 +208,22 @@ def paper_add(request):
 
 def coding(request):
     '''Render coding template'''
-
-    exams_list = models.Exam.objects.order_by('publish_time')
-    exer_list = models.Exercise.objects.order_by('publish_time')
-    next_exam = exams_list.first()
-
+    conditions = {
+        'classroom' : request.user.student.classroom,
+        'active' : True
+    }
+    exams_list = models.Exam.objects.order_by('publish_time').filter(**conditions)
+    exer_list = models.Exercise.objects.order_by('publish_time').filter(**conditions)
+    have_finished = models.ExamAnswerRec.objects.filter(student=request.user.student)
+    have_finished_exam_id = []
+    for element in have_finished:
+        have_finished_exam_id.append(element.exam.exam_id)
+    unfinished = exams_list.exclude(exam_id__in=have_finished_exam_id)
+    have_finished = models.Exam.objects.order_by('publish_time').filter(exam_id__in=have_finished_exam_id)
+    next_exam = unfinished.first()
     content = {
-        'exams_list': exams_list,
+        'exams_list': unfinished,
+        'finished' : have_finished,
         'exer_list': exer_list,
         'next_exam': next_exam,
     }
@@ -242,18 +252,16 @@ class CodingEditor(View):
                 raise Resolver404
         except:
             raise Resolver404
-
         # Previous & next question id
         prev_question = event.paper.question.filter(ques_id__lt=ques_id).order_by('-ques_id').first()
         next_question = event.paper.question.filter(ques_id__gt=ques_id).order_by('ques_id').first()
-
+        now_paperquestion = models.PaperQuestion.objects.get(Q(question=question) & Q(paper=event.paper))
         host = tk.get_conf('mysql', 'host')
         port = int(tk.get_conf('mysql', 'port'))
         user = tk.get_conf('mysql', 'user')
         passwd = tk.get_conf('mysql', 'password')
         db = pymysql.Connect(host=host, port=port, user=user, passwd=passwd)
         cur = db.cursor()
-
         # Create PrettyTable for `show tables;`
         pt_db_tables = PrettyTable(['Tables in this database'])
         pt_db_tables.align = 'l'
@@ -282,27 +290,121 @@ class CodingEditor(View):
             'event_type': event_type,
             'event_name': event_name,
             'question': question,
+            'paperquestion':now_paperquestion,
             'db_desc': db_desc,
             'prev_question': prev_question if prev_question else None,
             'next_question': next_question if next_question else None,
         }
-
+        # 判断一下是否是用户首次做这个题 去查表
+        cur_user = request.user
+        if cur_user.is_authenticated:
+            if event_type == 'exam':
+                exam = models.Exam.objects.get(pk=event_id)    
+                examrec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=exam).first()
+                rec = models.ExamQuesAnswerRec.objects.filter(user=cur_user, question=question, exam=examrec).first()
+            elif event_type == 'exer':
+                exer = models.Exercise.objects.get(pk=event_id)
+                exerrec = models.ExerAnswerRec.objects.filter(student=cur_user.student, exer=exer).first()
+                rec = models.ExerQuesAnswerRec.objects.filter(user=cur_user, question=question, exer=exerrec).first()
+            else:
+                raise Resolver404
+            if rec:
+                correct = rec.ans_status
+                if correct == 0 :
+                    correct_bool = True
+                elif correct == 1:
+                    correct_bool = False
+                else:
+                    correct_bool = 'error'
+                ans_status_color = {
+                    True: 'success',
+                    False: 'danger',
+                    'error': 'warning',
+                }.get(correct_bool)
+                content.update({
+                    'correct': correct_bool,
+                    'ans_status_color': ans_status_color,
+                    'submit_ans': rec.ans,
+                })
         return content
 
     def get(self, request, event_type, event_id, ques_id):
         '''Show info'''
-
+        try:
+            if event_type == 'exam':
+                print(request.user.student.classroom.exam_set.all().get(exam_id=event_id))
+            elif event_type == 'exer':
+                print(request.user.student.classroom.exercise_set.all().get(exer_id=event_id))
+            else:
+                raise Resolver404
+        except:
+            raise Resolver404
         content = self.get_info(request, event_type, event_id, ques_id)
-
+        if ques_id == '1':
+            cur_user = request.user
+            if cur_user.is_authenticated:
+                if event_type == 'exam':
+                    # print('是考试')
+                    exam = models.Exam.objects.get(pk=event_id)
+                    rec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=exam).first()
+                    if rec is None:
+                        models.ExamAnswerRec.objects.create(
+                            student=cur_user.student,
+                            exam=exam,
+                            start_time = timezone.now()
+                        )
+                else:
+                    exer = models.Exercise.objects.get(pk=event_id)
+                    rec = models.ExerAnswerRec.objects.filter(student=cur_user.student, exer=exer).first()
+                    if rec is None:
+                        models.ExerAnswerRec.objects.create(
+                            student=cur_user.student,
+                            exer=exer,
+                            start_time = timezone.now()
+                        )
         return render(request, 'coding/coding-editor.html', context=content)
 
     def post(self, request, event_type, event_id, ques_id):
         '''Submit SQL'''
-
-        # FIXME(Steve X): Monaco Editor 输入内容换行会消失
-        submit_ans = request.POST.get('submit_ans')
-        # print("输入的答案:",submit_ans)
         content = self.get_info(request, event_type, event_id, ques_id)
+        cur_user = request.user
+        # FIXME(Steve X): Monaco Editor 输入内容换行会消失
+        if request.POST.get('movement') == 'submit':
+            print('提交成功')
+            if cur_user.is_authenticated:
+                if event_type == 'exam':
+                    print('是考试')
+                    exam = models.Exam.objects.get(pk=event_id)
+                    rec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=exam).first()
+                    if rec:
+                        # rec.score = final_score
+                        per_question = models.ExamQuesAnswerRec.objects.filter(user=cur_user,exam=rec)
+                        total_score = 0
+                        for question in per_question:
+                            total_score += question.score
+                        rec.score = total_score 
+                        rec.end_time = timezone.now()
+                        rec.status = True
+                        rec.save()
+                        print("已存在记录")
+
+                else:
+                    print("是练习")
+                    exer = models.Exercise.objects.get(pk=event_id)
+                    rec = models.ExerAnswerRec.objects.filter(student=cur_user.student, exer=exer).first()
+                    if rec:
+                        per_question = models.ExerQuesAnswerRec.objects.filter(user=cur_user,exer=rec)
+                        total_score = 0
+                        for question in per_question:
+                            total_score += question.score
+                        rec.score = total_score 
+                        rec.end_time = timezone.now()
+                        rec.status = True
+                        rec.save()
+                        print("已存在记录")
+            return render(request, 'coding/coding-editor.html', context=content)
+        submit_ans = request.POST.get('submit_ans')
+        print("输入的答案:",submit_ans)
         question = content.get('question')
         qset = question.ques_set
         # print("数据比对:",qset.db_name,question.ques_ans,submit_ans)
@@ -327,22 +429,54 @@ class CodingEditor(View):
         }.get(correct)
 
         # Question-Answer record
-        cur_user = request.user
+        # print(event_type)
         if cur_user.is_authenticated:
-            rec = models.QuesAnswerRec.objects.filter(user=cur_user, question=question).first()
+            if event_type == 'exam':
+                event = models.Exam.objects.get(exam_id=event_id)
+                # print(type(event))
+                examrec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=event).first()
+                rec = models.ExamQuesAnswerRec.objects.filter(user=cur_user, question=question, exam=examrec).first()
+            elif event_type == 'exer':
+                event = models.Exercise.objects.get(exer_id=event_id)
+                exerrec = models.ExerAnswerRec.objects.filter(student=cur_user.student, exer=event).first()
+                rec = models.ExerQuesAnswerRec.objects.filter(user=cur_user, question=question, exer=exerrec).first()
+            else:
+                raise Resolver404
+            now_paperquestion = models.PaperQuestion.objects.get(Q(question=question) & Q(paper=event.paper))
+            if ans_status == 0:
+                final_score = now_paperquestion.score
+            else:
+                final_score = 0
+                #XXX:(Seddon)把一道正确的题再交错，到底是按正确的还是错误的分数，有待商榷            
             if rec:
                 rec.ans_status = ans_status
                 rec.submit_cnt += 1
                 rec.ans = submit_ans
+                rec.score = final_score
                 rec.save()
             else:
-                models.QuesAnswerRec.objects.create(
-                    user=cur_user,
-                    question=question,
-                    ans=submit_ans,
-                    ans_status=ans_status,
-                    submit_cnt=1,
-                )
+                if event_type == 'exam':
+                    models.ExamQuesAnswerRec.objects.create(
+                        user=cur_user,
+                        question=question,
+                        ans=submit_ans,
+                        ans_status=ans_status,
+                        submit_cnt=1,
+                        exam=examrec,
+                        score=final_score
+                    )
+                elif event_type == 'exer':
+                    models.ExerQuesAnswerRec.objects.create(
+                        user=cur_user,
+                        question=question,
+                        ans=submit_ans,
+                        ans_status=ans_status,
+                        submit_cnt=1,
+                        exer=exerrec,
+                        score=final_score
+                    )
+                else:
+                    raise Resolver404
 
         content.update({
             'correct': correct,
@@ -355,26 +489,115 @@ class CodingEditor(View):
 
 def statistics(request):
     '''Render statistics template'''
-
-    ques_cnt = models.Question.objects.count()
-    ques_set_cnt = models.QuestionSet.objects.count()
-    exam_cnt = models.Exam.objects.count()
-    exam_active = models.Exam.objects.filter(active=True).count()
-    exer_cnt = models.Exercise.objects.count()
-    # exer_active = models.Exercise.objects.filter().count()
-    submit_cnt = models.QuesAnswerRec.objects.aggregate(Sum('submit_cnt'))
-    ac_cnt = models.QuesAnswerRec.objects.filter(ans_status=0).count()
     exer_active = models.Exercise.objects.filter(active=True).count()
-    print("ssd_flag:",exer_active,exer_cnt)
+    identity = request.user.identity()
+    year = timezone.now() - datetime.timedelta(days=730) # 365 * 2    
+    if request.user.is_superuser :
+        exam_objects = models.Exam.objects.filter(publish_time__gte=year)
+        exer_objects = models.Exercise.objects.filter(publish_time__gte=year)
+    elif identity == 'teacher' or identity == 'teacher_student':
+        rooms = request.user.teacher.teach_room()
+        exam_objects = models.Exam.objects.filter(classroom__in = rooms, publish_time__gte=year).distinct()
+        exer_objects = models.Exercise.objects.filter(classroom__in = rooms, publish_time__gte=year).distinct()
+    else:
+        exam_objects = models.Exam.objects.none()
+        exer_objects = models.Exercise.objects.none()
+        raise Resolver404
+
     content = {
-        'ques_cnt': ques_cnt,
-        'ques_set_cnt': ques_set_cnt,
-        'exam_cnt': exam_cnt,
-        'exam_active': exam_active,
-        'exer_cnt': exer_cnt,
-        'exer_active': exer_active,
-        'submit_cnt': submit_cnt['submit_cnt__sum'],
-        'ac_cnt' : ac_cnt
+        'exam_objects' : exam_objects,
+        'exer_objects' : exer_objects,
     }
 
     return render(request, 'coding/statistics.html', context=content)
+
+
+class PaperDetails(View):
+    '''Exer/Exam analysis'''
+    def get(self, request, event_type, event_id):
+        cur_user = request.user
+        if cur_user.is_authenticated:
+            if event_type == 'exam':
+                event = models.ExamAnswerRec.objects.get(pk=event_id)
+                questions = models.ExamQuesAnswerRec.objects.filter(user=request.user,exam=event)
+            elif event_type == 'exer':
+                event = models.ExerAnswerRec.objects.get(pk=event_id)
+                questions = models.ExerQuesAnswerRec.objects.filter(user=request.user,exer=event)
+            else:
+                raise Resolver404
+        content = {
+            'questions': questions,
+        }
+        return render(request, 'coding/analysis.html', context=content)
+
+
+class ExamExerTeacherDetails(View):
+    '''Exer/Exam analysis'''
+    def get(self, request, event_type, event_id):
+        cur_user = request.user
+        if cur_user.is_authenticated:
+            if event_type == 'exam':
+                event = models.Exam.objects.get(pk=event_id)
+                event_answer = models.ExamAnswerRec.objects.filter(exam=event,status=True)
+                questions = models.ExamQuesAnswerRec.objects.filter(exam__in=event_answer)
+            elif event_type == 'exer':
+                event = models.Exercise.objects.get(pk=event_id)
+                event_answer = models.ExerAnswerRec.objects.filter(exer=event,status=True)
+                questions = models.ExerQuesAnswerRec.objects.filter(exer__in=event_answer)
+            else:
+                raise Resolver404
+            classrooms = event.classroom.all()
+            can_see = False
+            if cur_user.is_superuser:
+                can_see = True
+            else:
+                for classroom in classrooms:
+                    if classroom.teacher == cur_user.teacher:
+                        can_see = True
+            if can_see:
+                if event.finish_info[6] == 0:
+                    finish_rate = 0 
+                else:
+                    finish_rate = (event.finish_info[0]/event.finish_info[6]) * 100
+                    
+                average_score = event.finish_info[7]
+                avg_submit = questions.aggregate(avg_submit=Avg('submit_cnt'))['avg_submit']
+                sum_students = 0
+                if avg_submit is None:
+                    avg_submit = 0  
+                for classroom in event.classroom.all():
+                    sum_students += classroom.students_count
+                per_question = []
+                per_avg_submit = []
+                per_avg_acrate = []
+                per_avg_finishrate = []
+                for question in event.paper.question.all():
+                    query = questions.filter(question=question)
+                    avg_submit = query.aggregate(avg_submit=Avg('submit_cnt'))['avg_submit']
+                    if avg_submit is None:
+                        avg_submit = 0
+                    if query.count() == 0:
+                        per_avg_acrate.append(0)
+                    else:
+                        per_avg_acrate.append((query.filter(ans_status=0).count() / query.count()) * 100)
+                    if sum_students == 0:
+                        per_avg_finishrate.append(0)
+                    else:
+                        per_avg_finishrate.append((query.filter(ans_status=0).count() / sum_students) * 100)
+                    per_avg_submit.append(int(avg_submit))
+                    per_question.append(str(question.ques_id) + '-' + question.ques_name)
+            else:
+                raise Resolver404
+        else:
+                raise Resolver404
+        content = {
+            'event': event,
+            'finish_rate' : finish_rate,
+            'average_score': average_score,
+            'avg_submit' : avg_submit,
+            'per_avg_submit': per_avg_submit,
+            'per_avg_acrate' : per_avg_acrate,
+            'per_question' : per_question,
+            'per_avg_finishrate' : per_avg_finishrate
+        }
+        return render(request, 'coding/teacher-analysis.html', context=content)

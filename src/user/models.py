@@ -20,7 +20,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
-
+import hashlib # for avatar
 # Create your models here.
 
 
@@ -84,12 +84,12 @@ class User(AbstractUser):
     # password is defined in AbstractBaseUser.password
     # register_time is defined in AbstractUser.date_joined
 
-    email = models.EmailField(verbose_name=_('电子邮件'), primary_key=True)
+    email = models.EmailField(verbose_name=_('电子邮件'), primary_key=True, max_length=100)
     priority = models.IntegerField(verbose_name=_('权限等级'), choices=UserType.choices, default=0)
 
     school = models.ForeignKey(verbose_name=_('学校'), to=School, on_delete=models.SET_NULL, default=None, null=True, blank=False)
     full_name = models.CharField(verbose_name=_('真实姓名'), max_length=30)
-    internal_id = models.CharField(verbose_name=_('学工号'), max_length=30, unique=True)
+    internal_id = models.CharField(verbose_name=_('学工号'), max_length=30)
     college_name = models.CharField(verbose_name=_('学院全称'), max_length=150, blank=True,default=_('计算机学院'))
     join_status = models.IntegerField(verbose_name=_('加入状态'), choices=JoinStatus.choices, default=0)
 
@@ -111,6 +111,29 @@ class User(AbstractUser):
         else:
             return 'unknown'
 
+    def canview(self):
+        is_student = hasattr(self, 'student') and self.student is not None
+        is_teacher = hasattr(self, 'teacher') and self.teacher is not None
+        if self.is_superuser:
+            return True
+        if is_student and is_teacher:
+            return True
+        elif is_teacher:
+            return True
+        elif is_student:
+            return False
+        else:
+            return False
+    def onlyteacher(self):
+        return self.identity() == 'teacher'
+    @property
+    def avatar(self):
+        # use cavatar to replace gavatar
+        m5 = hashlib.md5(f'{self.email}'.encode('utf-8')).hexdigest()
+        url = f'https://cravatar.cn/avatar/{m5}?s=128'
+        return url
+
+
 class Teacher(models.Model):
     '''
     Teacher Table
@@ -129,6 +152,7 @@ class Teacher(models.Model):
         return rooms
     def teach_stu(self):
         rooms = self.teach_room()
+        print(rooms)
         students = Student.objects.filter(classroom__in = rooms)
         # query_stu = User.objects.filter(email__in=students)
         return students

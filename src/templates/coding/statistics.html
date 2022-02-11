@@ -1,292 +1,142 @@
 {% extends 'base.html' %}
 {% block title %}统计数据{% endblock title %}
 {% block page_title %}统计数据{% endblock page_title %}
-
 <!-- Breadcrumb -->
 {% block breadcrumb %}
     <div class="page-title-right">
         <ol class="breadcrumb m-0">
-            <li class="breadcrumb-item"><a href="javascript: void(0);">个人中心</a></li>
+            <li class="breadcrumb-item"><a href="javascript: void(0);">数据中心</a></li>
             <li class="breadcrumb-item active">统计数据</li>
         </ol>
     </div>
 {% endblock breadcrumb %}
-
 <!-- CSS -->
 {% block css %}
-
 {% endblock css %}
-
 <!-- Main Content -->
 {% block main %}
     <div class="row">
-        <div class="col-xl-12">
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="media">
-                                <div class="media-body overflow-hidden">
-                                    <p class="text-truncate font-size-14 mb-2">题目数量</p>
-                                    <h4 class="mb-0">{{ ques_cnt }}</h4>
-                                </div>
-                                <div class="text-primary">
-                                    <i class="ri-stack-line font-size-24"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card-body border-top py-3">
-                            <div class="text-truncate">
-                                <span class="badge badge-soft-success font-size-11"> {{ ques_set_cnt }} </span>
-                                <span class="text-muted ml-2">题库数量</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="media">
-                                <div class="media-body overflow-hidden">
-                                    <p class="text-truncate font-size-14 mb-2">总提交次数</p>
-                                    <h4 class="mb-0">{{ submit_cnt }}</h4>
-                                </div>
-                                <div class="text-primary">
-                                    <i class="ri-stack-line font-size-24"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body border-top py-3">
-                            <div class="text-truncate">
-                                <span class="badge badge-soft-success font-size-11"> {{ ac_cnt }} </span>
-                                <span class="text-muted ml-2">题目累计通过次数</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="media">
-                                <div class="media-body overflow-hidden">
-                                    <p class="text-truncate font-size-14 mb-2">考试数量</p>
-                                    <h4 class="mb-0">{{ exam_cnt }}</h4>
-                                </div>
-                                <div class="text-primary">
-                                    <i class="ri-stack-line font-size-24"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body border-top py-3">
-                            <div class="text-truncate">
-                                <span class="badge badge-soft-success font-size-11"> {{ exam_active }} </span>
-                                <span class="text-muted ml-2">正在进行的考试</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="media">
-                                <div class="media-body overflow-hidden">
-                                    <p class="text-truncate font-size-14 mb-2">练习数量</p>
-                                    <h4 class="mb-0">{{ exer_cnt }}</h4>
-                                </div>
-                                <div class="text-primary">
-                                    <i class="ri-stack-line font-size-24"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body border-top py-3">
-                            <div class="text-truncate">
-                                <span class="badge badge-soft-success font-size-11"> {{ exer_active }} </span>
-                                <span class="text-muted ml-2">正在进行的练习</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="col-12">
+            <div class="page-title-box d-flex align-items-center justify-content-between">
+                <h4 class="mb-0">考试/练习 完成情况</h4>
             </div>
-            <!-- end row -->
-
         </div>
-
-    </div> <!-- end row -->
-
+    </div>
     <div class="row">
+        {% for exam in exam_objects %}
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
-
-                    <h4 class="card-title mb-4">Line Chart</h4>
-
+                    <h4 class="card-title mb-4">考试{{exam.exam_id}} - {{exam.exam_name}} 完成情况
+                    <a href="{% url 'coding:teacher-analysis' 'exam' exam.exam_id %}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="查看解析" style="float: right;">
+                        <i class="mdi mdi-eye font-size-18"></i> 详细数据
+                    </a>
+                    </h4>
                     <div class="row text-center">
                         <div class="col-4">
-                            <h5 class="mb-0">86541</h5>
-                            <p class="text-muted text-truncate">Activated</p>
+                            <h5 class="mb-0">{{exam.finish_info.0}}</h5>
+                            <p class="text-muted text-truncate">已完成</p>
                         </div>
                         <div class="col-4">
-                            <h5 class="mb-0">2541</h5>
-                            <p class="text-muted text-truncate">Pending</p>
+                            <h5 class="mb-0">{{exam.finish_info.1}}</h5>
+                            <p class="text-muted text-truncate">未完成</p>
                         </div>
                         <div class="col-4">
-                            <h5 class="mb-0">102030</h5>
-                            <p class="text-muted text-truncate">Deactivated</p>
+                            <h5 class="mb-0">{{exam.finish_info.6}}</h5>
+                            <p class="text-muted text-truncate">总人数</p>
                         </div>
                     </div>
-
-                    <canvas id="lineChart" height="300"></canvas>
-
+                    <canvas id="pie-exam-{{exam.exam_id}}" height="260"></canvas>
                 </div>
             </div>
-        </div> <!-- end col -->
-
+        </div> 
+        {% endfor %}
+        {% for exer in exer_objects %}
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
-
-                    <h4 class="card-title mb-4">Bar Chart</h4>
-
+                    <h4 class="card-title mb-4">练习{{exer.exer_id}} - {{exer.exer_name}} 完成情况</h4>
+                    <a href="{% url 'coding:teacher-analysis' 'exer' exer.exer_id %}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="查看解析" style="float: right;">
+                        <i class="mdi mdi-eye font-size-18"></i> 详细数据
+                    </a>
                     <div class="row text-center">
                         <div class="col-4">
-                            <h5 class="mb-0">2541</h5>
-                            <p class="text-muted text-truncate">Activated</p>
+                            <h5 class="mb-0">{{exer.finish_info.0}}</h5>
+                            <p class="text-muted text-truncate">已完成</p>
                         </div>
                         <div class="col-4">
-                            <h5 class="mb-0">84845</h5>
-                            <p class="text-muted text-truncate">Pending</p>
+                            <h5 class="mb-0">{{exer.finish_info.1}}</h5>
+                            <p class="text-muted text-truncate">未完成</p>
                         </div>
                         <div class="col-4">
-                            <h5 class="mb-0">12001</h5>
-                            <p class="text-muted text-truncate">Deactivated</p>
+                            <h5 class="mb-0">{{exer.finish_info.6}}</h5>
+                            <p class="text-muted text-truncate">总人数</p>
                         </div>
                     </div>
-
-                    <canvas id="bar" height="300"></canvas>
-
+                    <canvas id="pie-exer-{{exer.exer_id}}" height="260"></canvas>
                 </div>
             </div>
-        </div> <!-- end col -->
-    </div> <!-- end row -->
-
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-
-                    <h4 class="card-title mb-4">Pie Chart</h4>
-
-                    <div class="row text-center">
-                        <div class="col-4">
-                            <h5 class="mb-0">2536</h5>
-                            <p class="text-muted text-truncate">Activated</p>
-                        </div>
-                        <div class="col-4">
-                            <h5 class="mb-0">69421</h5>
-                            <p class="text-muted text-truncate">Pending</p>
-                        </div>
-                        <div class="col-4">
-                            <h5 class="mb-0">89854</h5>
-                            <p class="text-muted text-truncate">Deactivated</p>
-                        </div>
-                    </div>
-
-                    <canvas id="pie" height="260"></canvas>
-
-                </div>
-            </div>
-        </div> <!-- end col -->
-
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-
-                    <h4 class="card-title mb-4">Donut Chart</h4>
-
-                    <div class="row text-center">
-                        <div class="col-4">
-                            <h5 class="mb-0">9595</h5>
-                            <p class="text-muted text-truncate">Activated</p>
-                        </div>
-                        <div class="col-4">
-                            <h5 class="mb-0">36524</h5>
-                            <p class="text-muted text-truncate">Pending</p>
-                        </div>
-                        <div class="col-4">
-                            <h5 class="mb-0">62541</h5>
-                            <p class="text-muted text-truncate">Deactivated</p>
-                        </div>
-                    </div>
-
-                    <canvas id="doughnut" height="260"></canvas>
-
-                </div>
-            </div>
-        </div> <!-- end col -->
-    </div> <!-- end row -->
-
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-
-                    <h4 class="card-title mb-4">Polar Chart</h4>
-
-                    <div class="row text-center">
-                        <div class="col-4">
-                            <h5 class="mb-0">4852</h5>
-                            <p class="text-muted text-truncate">Activated</p>
-                        </div>
-                        <div class="col-4">
-                            <h5 class="mb-0">3652</h5>
-                            <p class="text-muted text-truncate">Pending</p>
-                        </div>
-                        <div class="col-4">
-                            <h5 class="mb-0">85412</h5>
-                            <p class="text-muted text-truncate">Deactivated</p>
-                        </div>
-                    </div>
-
-                    <canvas id="polarArea" height="300"> </canvas>
-
-                </div>
-            </div>
-        </div> <!-- end col -->
-
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title mb-4">Radar Chart</h4>
-
-                    <div class="row text-center">
-                        <div class="col-4">
-                            <h5 class="mb-0">694</h5>
-                            <p class="text-muted text-truncate">Activated</p>
-                        </div>
-                        <div class="col-4">
-                            <h5 class="mb-0">55210</h5>
-                            <p class="text-muted text-truncate">Pending</p>
-                        </div>
-                        <div class="col-4">
-                            <h5 class="mb-0">489498</h5>
-                            <p class="text-muted text-truncate">Deactivated</p>
-                        </div>
-                    </div>
-
-                    <canvas id="radar" height="300"></canvas>
-                </div>
-            </div>
-        </div> <!-- end col -->
-    </div> <!-- end row -->
-
+        </div> 
+        {% endfor %}
 {% endblock main %}
-
 <!-- JS -->
 {% block js %}
     <!-- Chart JS -->
     <script src="{% static 'libs/chart.js/Chart.bundle.min.js' %}"></script>
-
     <!-- Custom Pages  -->
-    <script src="{% static 'js/custom-pages/statistics.js' %}"></script>
+    <script>
+!(function (d) {
+    "use strict";
+    function r() {}
+    (r.prototype.respChart = function (r, o, e, a) {
+        (Chart.defaults.global.defaultFontColor = "#8791af"),
+            (Chart.defaults.scale.gridLines.color = "rgba(166, 176, 207, 0.1)");
+        var t = r.get(0).getContext("2d"),
+            n = d(r).parent();
+        function i() {
+            r.attr("width", d(n).width());
+            switch (o) {
+                case "Pie":
+                    new Chart(t, { type: "pie", data: e, options: a });
+                    break;
+            }
+        }
+        d(window).resize(i), i();
+    }),
+        (r.prototype.init = function () {
+            {% for exam in exam_objects %}
+            this.respChart(d("#pie-exam-{{exam.exam_id}}"), "Pie", {
+                labels: ["优秀", "良好", "及格", "不及格"],
+                datasets: [
+                    {
+                        data: [{{exam.finish_info.2}}, {{exam.finish_info.3}},{{exam.finish_info.4}},{{exam.finish_info.5}}],
+                        backgroundColor: ["#1cbb8c","#fcb92c","#5664d2","#ff3d60"],
+                        hoverBackgroundColor: ["#1cbb8c","#fcb92c","#5664d2","#ff3d60"],
+                        hoverBorderColor: "#fff",
+                    },
+                ],
+            });
+            {% endfor %}
+            {% for exer in exer_objects %}
+            this.respChart(d("#pie-exer-{{exer.exer_id}}"), "Pie", {
+                labels: ["优秀", "良好", "及格", "不及格"],
+                datasets: [
+                    {
+                        data: [{{exer.finish_info.2}}, {{exer.finish_info.3}},{{exer.finish_info.4}},{{exer.finish_info.5}}],
+                        backgroundColor: ["#1cbb8c","#fcb92c","#5664d2","#ff3d60"],
+                        hoverBackgroundColor: ["#1cbb8c","#fcb92c","#5664d2","#ff3d60"],
+                        hoverBorderColor: "#fff",
+                    },
+                ],
+            });
+            {% endfor %}
+        }),
+        (d.ChartJs = new r()),
+        (d.ChartJs.Constructor = r);
+})(window.jQuery),
+    (function () {
+        "use strict";
+        window.jQuery.ChartJs.init();
+    })();
+    </script>
 {% endblock js %}

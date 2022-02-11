@@ -34,28 +34,6 @@
                         <div class="card-body">
                             <div class="media">
                                 <div class="media-body overflow-hidden">
-                                    <p class="text-truncate font-size-14 mb-2">题目数量</p>
-                                    <h4 class="mb-0">{{ ques_cnt }}</h4>
-                                </div>
-                                <div class="text-primary">
-                                    <i class="ri-stack-line font-size-24"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card-body border-top py-3">
-                            <div class="text-truncate">
-                                <span class="badge badge-soft-success font-size-11"> {{ ques_set_cnt }} </span>
-                                <span class="text-muted ml-2">题库数量</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="media">
-                                <div class="media-body overflow-hidden">
                                     <p class="text-truncate font-size-14 mb-2">总提交次数</p>
                                     <h4 class="mb-0">{{ submit_cnt }}</h4>
                                 </div>
@@ -93,56 +71,151 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- end row -->
-
-            <div class="card">
-                <div class="card-body">
-                    <!-- <div class="float-right d-none d-md-inline-block">
-                        <div class="btn-group mb-2">
-                            <button type="button" class="btn btn-sm btn-light">Today</button>
-                            <button type="button" class="btn btn-sm btn-light active">Weekly</button>
-                            <button type="button" class="btn btn-sm btn-light">Monthly</button>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="media">
+                                <div class="media-body overflow-hidden">
+                                    <p class="text-truncate font-size-14 mb-2">练习数量</p>
+                                    <h4 class="mb-0">{{ exer_cnt }}</h4>
+                                </div>
+                                <div class="text-primary">
+                                    <i class="ri-stack-line font-size-24"></i>
+                                </div>
+                            </div>
                         </div>
-                    </div> -->
-                    <h4 class="card-title mb-4">成绩分析</h4>
-                    <div>
-                        <div id="line-column-chart" class="apex-charts" dir="ltr"></div>
+
+                        <div class="card-body border-top py-3">
+                            <div class="text-truncate">
+                                <span class="badge badge-soft-success font-size-11"> {{ exer_active }} </span>
+                                <span class="text-muted ml-2">正在进行的练习</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="card-body border-top text-center">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <p class="text-muted text-truncate mb-2"><i class="mdi mdi-circle text-info font-size-10 mr-1"></i>This month</p>
-                            <div class="d-inline-flex">
-                                <h5 class="mb-0 mr-2">12,253</h5>
-                                <div class="text-success">
-                                    <i class="mdi mdi-menu-up font-size-14"> </i>2.2 %
+            </div>
+            <!-- end row -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- <div class="float-right d-none d-md-inline-block">
+                                <div class="btn-group mb-2">
+                                    <button type="button" class="btn btn-sm btn-light">Today</button>
+                                    <button type="button" class="btn btn-sm btn-light active">Weekly</button>
+                                    <button type="button" class="btn btn-sm btn-light">Monthly</button>
                                 </div>
+                            </div> -->
+                            <h4 class="card-title mb-4">考试成绩分析</h4>
+                            <div>
+                                <div id="line-column-chart_exam" class="apex-charts" dir="ltr"></div>
                             </div>
                         </div>
-
-                        <div class="col-sm-4">
-                            <div class="mt-4 mt-sm-0">
-                                <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-primary font-size-10 mr-1"></i> This Year :</p>
-                                <div class="d-inline-flex">
-                                    <h5 class="mb-0 mr-2"> 34,254</h5>
-                                    <div class="text-success">
-                                        <i class="mdi mdi-menu-up font-size-14"> </i>2.1 %
+    
+                        <!-- <div class="card-body border-top text-center">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p class="text-muted text-truncate mb-2"><i class="mdi mdi-circle text-info font-size-10 mr-1"></i>This month</p>
+                                    <div class="d-inline-flex">
+                                        <h5 class="mb-0 mr-2">12,253</h5>
+                                        <div class="text-success">
+                                            <i class="mdi mdi-menu-up font-size-14"> </i>2.2 %
+                                        </div>
                                     </div>
                                 </div>
+    
+                                <div class="col-sm-6">
+                                    <div class="mt-4 mt-sm-0">
+                                        <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-primary font-size-10 mr-1"></i> This Year :</p>
+                                        <div class="d-inline-flex">
+                                            <h5 class="mb-0 mr-2"> 34,254</h5>
+                                            <div class="text-success">
+                                                <i class="mdi mdi-menu-up font-size-14"> </i>2.1 %
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="mt-4 mt-sm-0">
+                                        <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-success font-size-10 mr-1"></i> Previous Year :</p>
+                                        <div class="d-inline-flex">
+                                            <h5 class="mb-0"> 32,695</h5>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                            </div>
+                        </div> -->
+                        
+                        <div class="card-body border-top text-center">
+                            <div class="mt-4 mt-sm-0">
+                                <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-success font-size-10 mr-1"></i> 累计考试次数 :</p>
+                                <div class="d-inline-flex">
+                                    <h5 class="mb-0"> {{exam_cont}}</h5>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- <div class="float-right d-none d-md-inline-block">
+                                <div class="btn-group mb-2">
+                                    <button type="button" class="btn btn-sm btn-light">Today</button>
+                                    <button type="button" class="btn btn-sm btn-light active">Weekly</button>
+                                    <button type="button" class="btn btn-sm btn-light">Monthly</button>
+                                </div>
+                            </div> -->
+                            <h4 class="card-title mb-4">练习成绩分析</h4>
+                            <div>
+                                <div id="line-column-chart_exer" class="apex-charts" dir="ltr"></div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+    
+                        <!-- <div class="card-body border-top text-center">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p class="text-muted text-truncate mb-2"><i class="mdi mdi-circle text-info font-size-10 mr-1"></i>This month</p>
+                                    <div class="d-inline-flex">
+                                        <h5 class="mb-0 mr-2">12,253</h5>
+                                        <div class="text-success">
+                                            <i class="mdi mdi-menu-up font-size-14"> </i>2.2 %
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <div class="col-sm-6">
+                                    <div class="mt-4 mt-sm-0">
+                                        <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-primary font-size-10 mr-1"></i> This Year :</p>
+                                        <div class="d-inline-flex">
+                                            <h5 class="mb-0 mr-2"> 34,254</h5>
+                                            <div class="text-success">
+                                                <i class="mdi mdi-menu-up font-size-14"> </i>2.1 %
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="mt-4 mt-sm-0">
+                                        <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-success font-size-10 mr-1"></i> Previous Year :</p>
+                                        <div class="d-inline-flex">
+                                            <h5 class="mb-0"> 32,695</h5>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                            </div>
+                        </div> -->
+                        
+                        <div class="card-body border-top text-center">
                             <div class="mt-4 mt-sm-0">
-                                <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-success font-size-10 mr-1"></i> Previous Year :</p>
+                                <p class="mb-2 text-muted text-truncate"><i class="mdi mdi-circle text-primary font-size-10 mr-1"></i> 累计练习次数：</p>
                                 <div class="d-inline-flex">
-                                    <h5 class="mb-0"> 32,695</h5>
+                                    <h5 class="mb-0 mr-2"> {{exer_cont}}</h5>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -151,18 +224,8 @@
         <div class="col-xl-4">
             <div class="card">
                 <div class="card-body">
-                    <div class="float-right">
-                        <!-- <select class="custom-select custom-select-sm">
-                            <option selected>Apr</option>
-                            <option value="1">Mar</option>
-                            <option value="2">Feb</option>
-                            <option value="3">Jan</option>
-                        </select> -->
-                    </div>
-                    <h4 class="card-title mb-4">难度分布</h4>
-
+                    <h4 class="card-title mb-4">作答题目难度分布</h4>
                     <div id="donut-chart" class="apex-charts"></div>
-
                     <div class="row">
                         <div class="col-4">
                             <div class="text-center mt-4">
@@ -221,6 +284,78 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body  pt-0">
+                    <div class="table-responsive" style="margin-top: 20px;">
+                        <h4 class="card-title mb-4">
+                            已作答的测试
+                        </h4>
+                        <table class="table table-centered dt-responsive nowrap mygrade" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th style="width: 20px;">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customercheck">
+                                            <label class="custom-control-label" for="customercheck">&nbsp;</label>
+                                        </div>
+                                    </th>
+                                    <th>测试名</th>
+                                    <th>当前得分</th>
+                                    <th>打开时间</th>
+                                    <th>测试类型</th>
+                                    <th>平均提交数</th>
+                                    <th>错题数</th>
+                                    <th>成绩分析</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for exam in exam_info %}
+                                <tr>
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="ordercheck3">
+                                            <label class="custom-control-label" for="ordercheck3">&nbsp;</label>
+                                        </div>
+                                    </td>
+                                    <td>{{exam.exam}}</td>
+                                    <td>{{exam.score}} 分</td>
+                                    <td>{{exam.start_time}}</td>
+                                    <td><div class="badge badge-soft-danger font-size-12">考试</div></td>
+                                    <td>{{exam.per_submit}}</td>
+                                    <td>{{exam.wrong_count}}</td>
+                                    <td>
+                                        <a href="{% url 'coding:paper-analysis' 'exam' exam.rec_id %}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="查看解析"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% for exer in exer_info %}
+                                <tr>
+                                        <td>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="ordercheck4">
+                                                <label class="custom-control-label" for="ordercheck4">&nbsp;</label>
+                                            </div>
+                                        </td>
+                                        <td>{{exer.exer}}</td>
+                                        <td>{{exer.score}} 分</td>
+                                        <td>{{exer.start_time}}</td>
+                                        <td><div class="badge badge-soft-success font-size-12">练习</div></td>
+                                        <td>{{exer.per_submit}}</td>
+                                        <td>{{exer.wrong_count}}</td>
+                                        <td>
+                                            <a href="{% url 'coding:paper-analysis' 'exer' exer.rec_id %}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="查看解析"><i class="mdi mdi-pencil font-size-18"></i></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- end row -->
 
 {% endblock main %}
@@ -229,6 +364,10 @@
 {% block js %}
     <!-- apexcharts -->
     <script src="{% static 'libs/apexcharts/apexcharts.min.js' %}"></script>
+
+<!-- datatable -->
+    <script src="{% static 'js/custom-pages/class-index.js' %}"></script>
+<!-- datatable -->
 
     <!-- jquery.vectormap map -->
     <script src="{% static 'libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js' %}"></script>
@@ -261,7 +400,148 @@
             options
         )).render();
         
-        </script>
+    </script>
+    <script>
+        var exam_labels = {{exam_labels | safe}}
+        var exam_data = {{exam_data | safe}}
+        var options = {
+        series: [
+            {
+                name: "考试成绩",
+                type: "line",
+                data: exam_data,
+            },
+        ],
+        chart: { height: 280, type: "line",   toolbar: {
+        show: true,
+        offsetX: 0,
+        offsetY: 0,
+        tools: {
+          download: true,
+          selection: true,
+          zoom: true,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+          reset: true | '<img src="/static/icons/reset.png" width="20">',
+          customIcons: []
+        },
+        export: {
+          csv: {
+            filename: undefined,
+            columnDelimiter: ',',
+            headerCategory: 'category',
+            headerValue: 'value',
+            dateFormatter(timestamp) {
+              return new Date(timestamp).toDateString()
+            }
+          },
+          svg: {
+            filename: undefined,
+          },
+          png: {
+            filename: undefined,
+          }
+        },
+        autoSelected: 'zoom' 
+      } },
+        stroke: {  curve: "smooth" },
+        plotOptions: { bar: { horizontal: !1, columnWidth: "20%" } },
+        dataLabels: { enabled: !1 },
+        legend: { show: !1 },
+        colors: ["#1cbb8c"],
+        labels: exam_labels,
+        yaxis: [
+        {
+            labels: {
+                // rotate: -60,
+                formatter: function (y) {
+                    return y.toFixed(0) + "分";
+                }
+            },
+            tooltip: {
+                enabled: true
+            }
+        },
+    ],
+        },
+        chart = new ApexCharts(
+            document.querySelector("#line-column-chart_exam"),
+            options
+        );
+        chart.render();
+    </script>
+    <script>
+        var exer_labels = {{exer_labels | safe}}
+        var exer_data = {{exer_data | safe}}
+        var options = {
+        series: [
+            {
+                name: "练习成绩",
+                type: "line",
+                data: exer_data,
+            },
+        ],
+        chart: { height: 280, type: "line",   toolbar: {
+        show: true,
+        offsetX: 0,
+        offsetY: 0,
+        tools: {
+          download: true,
+          selection: true,
+          zoom: true,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+          reset: true | '<img src="/static/icons/reset.png" width="20">',
+          customIcons: []
+        },
+        export: {
+          csv: {
+            filename: undefined,
+            columnDelimiter: ',',
+            headerCategory: 'category',
+            headerValue: 'value',
+            dateFormatter(timestamp) {
+              return new Date(timestamp).toDateString()
+            }
+          },
+          svg: {
+            filename: undefined,
+          },
+          png: {
+            filename: undefined,
+          }
+        },
+        autoSelected: 'zoom' 
+      } },
+        stroke: {  curve: "smooth" },
+        plotOptions: { bar: { horizontal: !1, columnWidth: "20%" } },
+        dataLabels: { enabled: !1 },
+        legend: { show: !1 },
+        colors: ["#5664d2"],
+        labels: exer_labels,
+        yaxis: [
+        {
+            labels: {
+                // rotate: -60,
+                formatter: function (y) {
+                    return y.toFixed(0) + "分";
+                }
+            },
+            tooltip: {
+                enabled: true
+            }
+        },
+    ],
+        },
+        chart = new ApexCharts(
+            document.querySelector("#line-column-chart_exer"),
+            options
+        );
+        chart.render();
+    </script>
+
     <script src="{% static 'js/custom-pages/dashboard.js' %}"></script>
 {% endblock js %}
 

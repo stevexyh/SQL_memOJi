@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
-{% block title %}班级管理{% endblock title %}
-{% block page_title %}班级管理{% endblock page_title %}
+{% block title %}班级成绩数据{% endblock title %}
+{% block page_title %}班级成绩数据{% endblock page_title %}
 
 <!-- Breadcrumb -->
 {% block breadcrumb %}
     <div class="page-title-right">
         <ol class="breadcrumb m-0">
-            <li class="breadcrumb-item"><a href="javascript: void(0);">管理员</a></li>
-            <li class="breadcrumb-item active"><a href="{% url 'user:class-manage' %}">班级管理</a></li>
+            <li class="breadcrumb-item"><a href="javascript: void(0);">数据中心</a></li>
+            <li class="breadcrumb-item active"><a href="{% url 'user:class-manage' %}">班级成绩数据</a></li>
         </ol>
     </div>
 {% endblock breadcrumb %}
@@ -23,11 +23,6 @@
 
 <!-- Main Content -->
 {% block main %}
-    <div style="margin-bottom: 20px;">
-        <a href="" class="btn btn-success mb-2" data-toggle="modal" data-target="#new-classroom-modal"><i class="mdi mdi-plus mr-2"></i>创建班级</a>
-    </div>
-
-
     <div class="row">
         {% for cls in class_list %}
             <div class="col-xl-6 col-sm-12">
@@ -57,7 +52,7 @@
                                 <h5>{{cls.students_count}}</h5>
                             </div>
                         </div>
-                        <div class="text-center"><a href="{% url 'user:class-details' cls.class_id %}" class="btn btn-primary mt-1 waves-effect waves-light">管理</a></div>
+                        <div class="text-center"><a href="{% url 'user:class-details' cls.class_id %}" class="btn btn-primary mt-1 waves-effect waves-light">查看</a></div>
                     </div>
                 </div>
             </div>
@@ -66,82 +61,7 @@
     </div>
     <!-- end row -->
 
-    <!-- Modal -->
-    <div class="modal fade" id="new-classroom-modal" tabindex="-1" role="dialog" aria-labelledby="new-classroom-modalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="classroomTitle">创建班级</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" class="needs-validation" style="margin-bottom: 50px;" novalidate>
-                        {% csrf_token %}
-                        <div class="row">
-                            {% for data in class_form %}
-                                {% if data.name != 'class_desc' %}
-                                    <div class="form-group mb-4 col-6">
-                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
-                                        <div>{{ data }}</div>
-                                    </div>
-                                {% else %}
-                                    <div class="form-group mb-4 col-12">
-                                        <label for="{{ data.id_for_label}} ">{{ data.label }}</label>
-                                        <div>{{ data }}</div>
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
 
-                        </div>
-
-                        <div class="text-center mt-4" style="padding-top: 0px;">
-                            <button type="submit" class="btn btn-primary waves-effect waves-light">保存修改</button>
-                        </div>
-                    </form>
-
-                    <h4 class="card-title">批量导入题目</h4>
-                    <p class="card-title-desc">在此上传 <code>.csv</code> 格式题目列表可批量导入题目。<br><br>
-                        列表需包含以下字段: <br>
-                        <code>stud_no</code>(学号)<br>
-                        <code>stud_name</code>(姓名)<br>
-                    </p>
-
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <i class="mdi mdi-alert-outline mr-2"></i>
-                        不按格式将无法解析列表。
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                    <div>
-                        <form action="#" class="dropzone" id="file-dropzone-CSV" method="POST" enctype="multipart/form-data">
-                            <div class="fallback">
-                                <input name="file" type="file" multiple="multiple">
-                            </div>
-                            <div class="dz-message needsclick">
-                                <div class="mb-3">
-                                    <i class="display-4 text-muted ri-upload-cloud-2-line"></i>
-                                </div>
-
-                                <h4>拖动文件至此或点击此处选择文件</h4>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="text-center mt-4">
-                        <button type="button" class="btn btn-primary waves-effect waves-light">上传文件</button>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">保存<i class="fab fa-telegram-plane ml-1"></i></button>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 {% endblock main %}

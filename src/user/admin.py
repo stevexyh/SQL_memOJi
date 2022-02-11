@@ -149,7 +149,7 @@ class StudentAdmin(admin.ModelAdmin):
             # is teacher
             rooms = request.user.teacher.teach_room()
             students = models.Student.objects.filter(classroom__in = rooms)
-            return results.filter(user=request.user) | students            
+            return students            
         else:
             # unknown
             return results.filter(user=request.user)

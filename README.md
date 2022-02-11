@@ -1,4 +1,5 @@
 # SQL_memOJi  
+## [![wakatime](https://wakatime.com/badge/user/85efde0e-7abf-4300-bb1c-105061b3bb5e/project/c2332eb9-e904-4302-8c0b-3d12c3374e99.svg)](https://wakatime.com/badge/user/85efde0e-7abf-4300-bb1c-105061b3bb5e/project/c2332eb9-e904-4302-8c0b-3d12c3374e99)
 DESCRIPTIONS
 A Online-Judge Platform for NWPU DataBase Course.
 Modify By SeddonShen
@@ -15,6 +16,15 @@ The version of Xadmin is too old, next time we will use simpleui to beautify the
 这个放前端实现吧，难搞
 - SQL判卷的消息队列机制
 轮流判卷，减少服务器压力
+- Big Dateset Problems
+对大量数据的实际使用情况有待测试
+## Known Bugs
+- Table name
+Can't use Database Table name begin with numbers, remember!
+- QuestionSet add questions' score
+Don't add same questions in the same questionset(TODO:这个需要用提交检测控制一下待办)
+- 鉴权
+需要做限制单个题目提交（超时、已手动关闭），整张试卷的分值计算（超时、手动关闭）的限制，直接view层不给可乘之机。
 
 2021/12/28 Xi'an
 ## Files  
@@ -91,7 +101,7 @@ The version of Xadmin is too old, next time we will use simpleui to beautify the
   - [x] 个人信息 `user-info.html`
   - [x] 答题 `coding.html`
     - [x] 编辑器 `coding-editor.html`
-    - [ ] 取消“已完成”列，整合到考试、练习中
+    - [x] 取消“已完成”列，整合到考试、练习中
   - [x] 练习 & 考试 `exams-manage.html`
     - [ ] 练习详情编辑 `modal`
     - [ ] 考试详情编辑 `modal`
@@ -168,8 +178,8 @@ The version of Xadmin is too old, next time we will use simpleui to beautify the
       - [ ] //试卷记录
     - [x] 统计页面
 
-  - [ ] //iCalendar App/
-    - [ ] 日历页面
+  - [x] //iCalendar App/
+    - [x] 日历页面
 
   - [ ] jmeter并发压力测试
 

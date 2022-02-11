@@ -26,10 +26,11 @@ from django.db import transaction
 from django.db.models import Sum
 from user.models import Student, User, Classroom
 from user.forms import UserInfoForm, StudentForm, ClassroomForm
-from coding.models import Exam, QuesAnswerRec, Question, QuestionSet
+from coding.models import Exam, Exercise, QuesAnswerRec, Question, QuestionSet, ExerAnswerRec, ExamAnswerRec, ExamQuesAnswerRec, ExerQuesAnswerRec
 import datetime
 from django.utils import timezone
-
+from django.http import HttpResponse,HttpResponseRedirect,HttpResponseForbidden
+import json
 # Create your views here.
 
 
@@ -49,41 +50,83 @@ def blank(request):
 def index(request):
     '''Render index template'''
     # print("在首页")
-    ques_cnt = Question.objects.count()
-    ques_set_cnt = QuestionSet.objects.count()
-    exam_cnt = Exam.objects.count()
-    exam_active = Exam.objects.filter(active=True).count()
-    submit_cnt = QuesAnswerRec.objects.aggregate(Sum('submit_cnt'))
-    ques_easy = Question.objects.filter(ques_difficulty=0).count()
-    ques_middle = Question.objects.filter(ques_difficulty=1).count()
-    ques_difficult = Question.objects.filter(ques_difficulty=2).count()
-    ac_cnt = QuesAnswerRec.objects.filter(ans_status=0).count()
-    # FIXME(Seddon):实际上是七日内提交，烦得很
-    monday = timezone.now() - datetime.timedelta(days=7)
-    mouth = timezone.now() - datetime.timedelta(days=30)    
-    week_submit = QuesAnswerRec.objects.filter(submit_time__gte=monday).count()
-    mouth_submit = QuesAnswerRec.objects.filter(submit_time__gte=mouth).count()
-    # mouth_submit = QuesAnswerRec.objects.filter()
-    # print(week_submit)
-    # print(ques_easy,ques_middle,ques_difficult)
-    # print(ac_cnt)
-    # print(mouth_submit)
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            content = {
+                'err_code': '403',
+                'err_message': _('没有权限,请开通学生身份'),
+            }
+            return render(request, 'error.html', context=content)
+        else:
+            identity = request.user.identity()
+            if identity == 'student' or identity == 'teacher_student':
+                exam_result = request.user.student.classroom.exam_set.all()
+                exer_result = request.user.student.classroom.exercise_set.all()
+                exam_cnt = exam_result.count()
+                exam_active = exam_result.filter(active=True).count()
+                exer_cnt = exer_result.count()
+                exer_active = exer_result.filter(active=True).count()
+                answer_query_exer = ExerQuesAnswerRec.objects.filter(user=request.user)
+                answer_query_exam = ExamQuesAnswerRec.objects.filter(user=request.user)
+                submit_cnt = 0
+                if answer_query_exer.aggregate(Sum('submit_cnt'))['submit_cnt__sum'] is not None:
+                    submit_cnt += answer_query_exer.aggregate(Sum('submit_cnt'))['submit_cnt__sum'] 
+                if answer_query_exam.aggregate(Sum('submit_cnt'))['submit_cnt__sum'] is not None:
+                    submit_cnt += answer_query_exam.aggregate(Sum('submit_cnt'))['submit_cnt__sum'] 
+                question_list = Question.objects.filter(ques_id__in=answer_query_exam.values('question')) | Question.objects.filter(ques_id__in=answer_query_exer.values('question'))
+                question_rec = question_list.distinct()
+                ques_easy = question_rec.filter(ques_difficulty=0).count()
+                ques_middle = question_rec.filter(ques_difficulty=1).count()
+                ques_difficult = question_rec.filter(ques_difficulty=2).count()
+                ques_cnt = question_rec.count()
+                ac_cnt = answer_query_exer.filter(ans_status=0).count() + answer_query_exam.filter(ans_status=0).count()
+                # FIXME(Seddon):实际上是七日内提交
+                monday = timezone.now() - datetime.timedelta(days=7)
+                mouth = timezone.now() - datetime.timedelta(days=30)    
+                week_submit = answer_query_exer.filter(submit_time__gte=monday).count() + answer_query_exam.filter(submit_time__gte=monday).count()
+                mouth_submit = answer_query_exer.filter(submit_time__gte=mouth).count() + answer_query_exam.filter(submit_time__gte=mouth).count()
+                exam_cont = ExamAnswerRec.objects.filter(student=request.user.student, status=True).count()
+                exam_labels_query = ExamAnswerRec.objects.filter(student=request.user.student, status=True)
+                exam_labels = []
+                exam_data = []
+                for label in exam_labels_query:
+                    exam_labels.append(str(label.exam.exam_id) + '-' + label.exam.exam_name)
+                    exam_data.append(label.score)
+                exer_cont = ExerAnswerRec.objects.filter(student=request.user.student, status=True).count()
+                exer_labels_query = ExerAnswerRec.objects.filter(student=request.user.student, status=True)
+                exer_labels = []
+                exer_data = []
+                for label in exer_labels_query:
+                    exer_labels.append(str(label.exer.exer_id) + '-' + label.exer.exer_name)
+                    exer_data.append(label.score)
+                content = {
+                    'exam_cnt': exam_cnt,
+                    'exam_active': exam_active,
+                    'exer_cnt': exer_cnt,
+                    'exer_active': exer_active,
+                    'submit_cnt': submit_cnt,
+                    'ques_easy':ques_easy,
+                    'ques_middle':ques_middle,
+                    'ques_difficult':ques_difficult,
+                    'ques_cnt':ques_cnt,
+                    'ac_cnt':ac_cnt,
+                    'week_submit':week_submit,
+                    'mouth_submit':mouth_submit,
+                    'exam_cont':exam_cont,
+                    'exam_labels':exam_labels,
+                    'exam_data':exam_data,
+                    'exer_cont':exer_cont,
+                    'exer_labels':exer_labels,
+                    'exer_data':exer_data,
+                    'exam_info':exam_labels_query,
+                    'exer_info':exer_labels_query
+                }
+                return render(request, 'index.html', context=content)
     content = {
-        'ques_cnt': ques_cnt,
-        'ques_set_cnt': ques_set_cnt,
-        'exam_cnt': exam_cnt,
-        'exam_active': exam_active,
-        'submit_cnt': submit_cnt['submit_cnt__sum'],
-        'ques_easy':ques_easy,
-        'ques_middle':ques_middle,
-        'ques_difficult':ques_difficult,
-        'ac_cnt':ac_cnt,
-        'week_submit':week_submit,
-        'mouth_submit':mouth_submit
+        'err_code': '403',
+        'err_message': _('没有权限,请开通学生身份'),
     }
-    # print(get_current_week())
-    return render(request, 'index.html', context=content)
- 
+    return render(request, 'error.html', context=content)
 
 def e404(request, exception=None):
     '''Render 404 err page'''
@@ -226,62 +269,106 @@ def auth_register_done(request):
 #--------------------------------------Management Pages--------------------------------------#
 class ClassManage(View):
     '''Render class-manage template'''
-
     def get(self, request):
-        # TODO(Steve X): show classes of current teacher only
-        # XXX(Seddon Shen): 使用反向查询_set()去找学生 需注意全部字段小写
-        class_list = Classroom.objects.all()
-        class_form = ClassroomForm()
-        class_test = Classroom.objects.get(pk=1)
-        stus = class_test.student_set.count()
-        # print(stus)
-        # print(class_list.values())
-        # print(class_list[1].students_count)
-        # class_list 用于显示当前班级
-        # class_form use to add new class
-        content = {
-            'class_list': class_list,
-            'class_form': class_form,
-        }
-        # print(class_list)
-        # print(class_form)
-        return render(request, 'user/class-manage.html', context=content)
+        key = request.user.is_authenticated & request.user.is_superuser
+        # print(request.user.is_authenticated)
+        if request.user.is_authenticated == False:
+            content = {
+                'err_code': '403',
+                'err_message': _('没有权限'),
+            }
+            return render(request, 'error.html', context=content)
+        else:
+            identity = request.user.identity()
+            if request.user.is_superuser or identity =='teacher' or identity == 'teacher_student':
+                # XXX(Seddon Shen): 使用反向查询_set()去找学生 需注意全部字段小写
+                if request.user.is_superuser:
+                    class_list = Classroom.objects.all()
+                else:
+                    class_list = Classroom.objects.filter(teacher=request.user.teacher)
 
-    # XXX(Steve X): add batch import func for students
-    # FIXME(Steve X): set current school as default school
-    def post(self, request):
-        class_form = ClassroomForm(request.POST)
-
-        if class_form.is_valid():
-            class_form.save()
-
-        return redirect('/class-manage')
+                content = {
+                    'class_list': class_list,
+                }
+                return render(request, 'user/class-manage.html', context=content)
+            else:
+                content = {
+                    'err_code': '403',
+                    'err_message': _('没有权限'),
+                }
+                return render(request, 'error.html', context=content)
 
 
 class ClassDetails(View):
     '''Render class-details template'''
 
     def get(self, request, class_id):
-        classroom = Classroom.objects.get(class_id=class_id)
-        class_form = ClassroomForm(instance=classroom)
+        if request.user.is_authenticated:
+            classroom = Classroom.objects.get(class_id=class_id)
+            exam_list = classroom.exam_set.all()
+            exer_list = classroom.exercise_set.all()
+            # print(classroom.exam_set.all())
+            # print(classroom.exercise_set.all())
+            # print(classroom.student_set.all())
+            # for student in classroom.student_set.all():
+            #     print(student.examanswerrec_set.all())
+            # print(ExamAnswerRec.objects.filter(student__in=classroom.student_set.all()))
+            exam_detail = ExamAnswerRec.objects.filter(student__in=classroom.student_set.all())
+            exer_detail = ExerAnswerRec.objects.filter(student__in=classroom.student_set.all())
+            for exam in exam_list:
+                exam_answer_detail = ExamQuesAnswerRec.objects.filter(exam__in=exam_detail.filter(exam=exam))
+                exam_infoset = exam_detail.filter(exam=exam)
+                exam.start_cnt=exam_infoset.count()
+                exam.finish_cnt=exam_infoset.filter(status=True).count()
+                if classroom.student_set.count() == 0:
+                    exam.per_finish_rate = 0
+                else:
+                    per_finish_rate = (exam.finish_cnt / classroom.student_set.count()) * 100
+                    exam.per_finish_rate = round(per_finish_rate,2)
 
+                if exam_answer_detail.count() == 0:
+                    exam.per_acrate = 0
+                else:
+                    per_acrate = (exam_answer_detail.filter(ans_status=0).count() / exam_answer_detail.count()) * 100
+                    exam.per_acrate = round(per_acrate,2)
+            for exer in exer_list:
+                exer_answer_detail = ExerQuesAnswerRec.objects.filter(exer__in=exer_detail.filter(exer=exer))
+                exer_infoset = exer_detail.filter(exer=exer)
+                exer.start_cnt=exer_infoset.count()
+                exer.finish_cnt=exer_infoset.filter(status=True).count()
+                if classroom.student_set.count() == 0:
+                    exer.per_finish_rate = 0
+                else:
+                    per_finish_rate = (exer.finish_cnt / classroom.student_set.count()) * 100
+                    exer.per_finish_rate = round(per_finish_rate,2)
+
+                if exer_answer_detail.count() == 0:
+                    exer.per_acrate = 0
+                else:
+                    per_acrate = (exer_answer_detail.filter(ans_status=0).count() / exer_answer_detail.count()) * 100
+                    exer.per_acrate = round(per_acrate,2)
+
+            if request.user.is_superuser:
+                content = {
+                    'classroom': classroom,
+                    'exam_list' : exam_list,
+                    'exer_list' : exer_list
+                }
+                return render(request, 'user/class-details.html', context=content)
+            else:
+                if request.user.identity() == 'teacher_student' or request.user.identity() == 'teacher':
+                    if request.user.teacher == classroom.teacher:
+                        content = {
+                            'classroom' : classroom,
+                            'exam_list' : exam_list,
+                            'exer_list' : exer_list
+                        }
+                    return render(request, 'user/class-details.html', context=content)
         content = {
-            'classroom': classroom,
-            'class_form': class_form,
+            'err_code': '403',
+            'err_message': _('没有权限'),
         }
-
-        return render(request, 'user/class-details.html', context=content)
-
-    # XXX(Steve X): add batch import func for students
-    def post(self, request, class_id):
-        classroom = Classroom.objects.get(class_id=class_id)
-        class_form = ClassroomForm(request.POST, instance=classroom)
-
-        if class_form.is_valid():
-            class_form.save()
-
-        return redirect(classroom.get_absolute_url())
-
+        return render(request, 'error.html', context=content)
 
 class UserInfo(View):
     '''Render user-info template'''
@@ -321,7 +408,7 @@ class UserInfo(View):
             'student_form': student_form,
         }
 
-        print(content)
+        # print(content)
         for k in content:
             content[k] = content[k] if content[k] != '' else f'{k}: {null}'
 
@@ -342,5 +429,74 @@ class UserInfo(View):
             student_form.save()
 
         return redirect('/user-info')
+
+
+class ClassEventDetails(View):
+    '''Render class-event-details template'''
+    def get(self, request, class_id, event_type,event_id):
+        if request.user.is_authenticated:
+            classroom = Classroom.objects.get(class_id=class_id)
+            if event_type == 'exam':
+                event = Exam.objects.get(exam_id=event_id)
+                event_detail = ExamAnswerRec.objects.filter(exam=event,student__in=classroom.student_set.all())
+                event_answer_detail = ExamQuesAnswerRec.objects.filter(exam__in=event_detail)
+            elif event_type == 'exer':
+                event = Exercise.objects.get(exer_id=event_id)
+                event_detail = ExerAnswerRec.objects.filter(student__in=classroom.student_set.all(),exer=event)
+                event_answer_detail = ExerQuesAnswerRec.objects.filter(exer__in=event_detail)
+            else:
+                event = Exam.objects.none()
+                event_detail = ExamAnswerRec.objects.none()
+                event_answer_detail = ExamAnswerRec.objects.none()
+            questions = event.paper.question.all()
+            questions_cnt = questions.count()
+            for question in questions:
+                question_answer_detail = event_answer_detail.filter(question=question)
+                question.finish_cnt = question_answer_detail.count()
+                if classroom.student_set.count() == 0:
+                    question.per_finish_rate = 0
+                else:
+                    per_finish_rate = (question.finish_cnt / classroom.student_set.count()) * 100
+                    question.per_finish_rate = round(per_finish_rate,2)
+                if question.finish_cnt == 0:
+                    question.per_acrate = 0
+                else:
+                    per_acrate = (question_answer_detail.filter(ans_status=0).count() / question.finish_cnt) * 100
+                    question.per_acrate = round(per_acrate,2)
+            unfinished = classroom.student_set.exclude(user__in=event_answer_detail.values('user'))
+            for student in unfinished:
+                finish_cnt = event_answer_detail.filter(user=student.user)
+                student.unfinished_list = questions.exclude(ques_id__in=finish_cnt.values('question'))
+                finish_cnt = finish_cnt.count()
+                student.unfinish_cnt = questions_cnt - finish_cnt
+            error_list = event_answer_detail.exclude(ans_status=0)
+            error = classroom.student_set.filter(user__in=error_list.values('user'))
+            for student in error:
+                student.error_cnt = error_list.filter(user=student.user).count()
+                student.error_list = error_list.filter(user=student.user).values('question')
+                student.error_list = questions.filter(ques_id__in=student.error_list)
+            if request.user.is_superuser:
+                content = {
+                    'classroom': classroom,
+                    'questions' : questions,
+                    'student_unfinish' : unfinished,
+                    'student_error' : error,
+                }
+                return render(request, 'user/class-event-details.html', context=content)
+            else:
+                if request.user.identity() == 'teacher_student' or request.user.identity() == 'teacher':
+                    if request.user.teacher == classroom.teacher:
+                        content = {
+                            'classroom' : classroom,
+                            'questions' : questions,
+                            'student_unfinish' : unfinished,
+                            'student_error' : error,
+                        }
+                    return render(request, 'user/class-event-details.html', context=content)
+        content = {
+            'err_code': '403',
+            'err_message': _('没有权限'),
+        }
+        return render(request, 'error.html', context=content)
 
 #--------------------------------------------END---------------------------------------------#
