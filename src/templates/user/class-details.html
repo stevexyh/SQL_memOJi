@@ -96,7 +96,7 @@
                                     <td>{{exam.per_finish_rate}} %</td>
                                     <td>{{exam.per_acrate}} %</td>
                                     <td>
-                                        <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="查看详情"><i class="mdi mdi-eye font-size-18"></i></a>
+                                        <a href="{% url 'user:class-event' classroom.class_id 'exam'  exam.exam_id%}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="查看详情"><i class="mdi mdi-eye font-size-18"></i></a>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -112,7 +112,7 @@
                                     <td>{{exer.per_finish_rate}} %</td>
                                     <td>{{exer.per_acrate}} %</td>
                                     <td>
-                                        <a href="javascript:void(0);" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="查看详情"><i class="mdi mdi-eye font-size-18"></i></a>
+                                        <a href="{% url 'user:class-event' classroom.class_id 'exer'  exer.exer_id%}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="查看详情"><i class="mdi mdi-eye font-size-18"></i></a>
                                     </td>
                                 </tr>
                                 {% endfor %}

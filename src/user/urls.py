@@ -41,5 +41,6 @@ urlpatterns = [
     # Management Pages
     path('class-manage/', views.ClassManage.as_view(), name='class-manage'),
     path('class-details/<class_id>/', views.ClassDetails.as_view(), name='class-details'),
+    path('class-details/<class_id>/<event_type>/<event_id>', views.ClassEventDetails.as_view(), name='class-event'),
     path('user-info/', views.UserInfo.as_view(), name='user-info'),
 ]

@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% block title %}{{ classroom.class_name }} - 数据详情{% endblock title %}
+{% block page_title %}{{ classroom.class_name }} - 数据详情{% endblock page_title %}
+
+<!-- Breadcrumb -->
+{% block breadcrumb %}
+    <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+            <li class="breadcrumb-item"><a href="javascript: void(0);">管理员</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'user:class-manage' %}">班级成绩数据</a></li>
+            <li class="breadcrumb-item active"><a href="{% url 'user:class-details' classroom.class_id %}">详情</a></li>
+        </ol>    
+    </div>
+{% endblock breadcrumb %}
+
+<!-- CSS -->
+{% block css %}
+    <!-- DataTables -->
+    <link href="{% static 'libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- Responsive datatable examples -->
+    <link href="{% static 'libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css' %}" rel="stylesheet" type="text/css" />  
+
+    <!-- Form Advanced Styles -->
+    <link href="{% static 'libs/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- Plugins css -->
+    <link href="{% static 'libs/dropzone/min/dropzone.min.css' %}" rel="stylesheet" type="text/css" />
+{% endblock css %}
+
+<!-- Main Content -->
+{% block main %}
+<a href="{% url 'user:class-details' classroom.class_id %}" class="btn btn-primary mb-2"><i class="ri-arrow-left-line mr-2"></i>班级数据</a>
+
+
+<div class="page-title-box d-flex align-items-center justify-content-between" style="padding-top: 20px;">
+    <h4 class="mb-0">题目作答情况</h4>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body  pt-0">
+                <div class="table-responsive" style="margin-top: 20px;">
+                    <table class="table table-centered datatable dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>题目ID</th>
+                                <th>题目</th>
+                                <th>已完成人数</th>
+                                <th>平均完成率</th>
+                                <th>平均正确率</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for question in questions %}
+                            <tr>
+                                <td>Ques-{{question.ques_id}}</td>
+                                <!-- <td><div class="badge badge-soft-success font-size-12">考试</div></td> -->
+                                <td>{{question.ques_name}}</td>
+                                <td>{{question.finish_cnt}}</td>
+                                <td>{{question.per_finish_rate}} %</td>
+                                <td>{{question.per_acrate}} %</td>
+                                <!-- <td>
+                                    <a href="" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="查看详情"><i class="mdi mdi-eye font-size-18"></i></a>
+                                </td> -->
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+
+<div class="page-title-box d-flex align-items-center justify-content-between">
+    <h4 class="mb-0">未完成学生列表</h4>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body  pt-0">
+                <div class="table-responsive" style="margin-top: 20px;">
+                    <table class="table table-centered student-table-finish dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>学号</th>
+                                <th>姓名</th>
+                                <th>未完成题目数</th>
+                                <th>具体未完成题目</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in student_unfinish %}
+                            <tr>
+                                <td>{{student.user.internal_id}}</td>
+                                <td>{{student.user.full_name}}</td>
+                                <td>{{student.unfinish_cnt}}</td>
+                                <td>
+                                    {% for ques in student.unfinished_list%}
+                                        {{ques.ques_id}}-{{ques.ques_name}} 
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-title-box d-flex align-items-center justify-content-between">
+    <h4 class="mb-0">有错题学生列表</h4>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body  pt-0">
+                <div class="table-responsive" style="margin-top: 20px;">
+                    <table class="table table-centered student-table-error dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>学号</th>
+                                <th>姓名</th>
+                                <th>错题数</th>
+                                <th>具体错误题目</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in student_error %}
+                            <tr>
+                                <td>{{student.user.internal_id}}</td>
+                                <td>{{student.user.full_name}}</td>
+                                <td>{{student.error_cnt}}</td>
+                                <td>
+                                    {% for ques in student.error_list%}
+                                        {{ques.ques_id}}-{{ques.ques_name}} 
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock main %}
+
+<!-- JS -->
+{% block js %}
+    <!-- Form Validation -->
+    <script src="{% static 'js/pages/form-validation.init.js' %}"></script>
+
+    <!-- Required datatable js -->
+    <script src="{% static 'libs/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+
+    <!-- Responsive examples -->
+    <script src="{% static 'libs/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js' %}"></script>
+
+    <!-- Form Advanced -->
+    <script src="{% static 'libs/select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'js/pages/form-advanced.init.js' %}"></script>
+
+    <!-- Plugins js -->
+    <script src="{% static 'libs/dropzone/min/dropzone.min.js' %}"></script>
+
+    <!-- Custom Pages -->
+    <script src="{% static 'js/custom-pages/class-event-detail.js' %}"></script>
+{% endblock js %}

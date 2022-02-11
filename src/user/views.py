@@ -26,7 +26,7 @@ from django.db import transaction
 from django.db.models import Sum
 from user.models import Student, User, Classroom
 from user.forms import UserInfoForm, StudentForm, ClassroomForm
-from coding.models import Exam, QuesAnswerRec, Question, QuestionSet, ExerAnswerRec, ExamAnswerRec, ExamQuesAnswerRec, ExerQuesAnswerRec
+from coding.models import Exam, Exercise, QuesAnswerRec, Question, QuestionSet, ExerAnswerRec, ExamAnswerRec, ExamQuesAnswerRec, ExerQuesAnswerRec
 import datetime
 from django.utils import timezone
 from django.http import HttpResponse,HttpResponseRedirect,HttpResponseForbidden
@@ -404,5 +404,74 @@ class UserInfo(View):
             student_form.save()
 
         return redirect('/user-info')
+
+
+class ClassEventDetails(View):
+    '''Render class-event-details template'''
+    def get(self, request, class_id, event_type,event_id):
+        if request.user.is_authenticated:
+            classroom = Classroom.objects.get(class_id=class_id)
+            if event_type == 'exam':
+                event = Exam.objects.get(exam_id=event_id)
+                event_detail = ExamAnswerRec.objects.filter(exam=event,student__in=classroom.student_set.all())
+                event_answer_detail = ExamQuesAnswerRec.objects.filter(exam__in=event_detail)
+            elif event_type == 'exer':
+                event = Exercise.objects.get(exer_id=event_id)
+                event_detail = ExerAnswerRec.objects.filter(student__in=classroom.student_set.all(),exer=event)
+                event_answer_detail = ExerQuesAnswerRec.objects.filter(exer__in=event_detail)
+            else:
+                event = Exam.objects.none()
+                event_detail = ExamAnswerRec.objects.none()
+                event_answer_detail = ExamAnswerRec.objects.none()
+            questions = event.paper.question.all()
+            questions_cnt = questions.count()
+            for question in questions:
+                question_answer_detail = event_answer_detail.filter(question=question)
+                question.finish_cnt = question_answer_detail.count()
+                if classroom.student_set.count() == 0:
+                    question.per_finish_rate = 0
+                else:
+                    per_finish_rate = (question.finish_cnt / classroom.student_set.count()) * 100
+                    question.per_finish_rate = round(per_finish_rate,2)
+                if question.finish_cnt == 0:
+                    question.per_acrate = 0
+                else:
+                    per_acrate = (question_answer_detail.filter(ans_status=0).count() / question.finish_cnt) * 100
+                    question.per_acrate = round(per_acrate,2)
+            unfinished = classroom.student_set.exclude(user__in=event_answer_detail.values('user'))
+            for student in unfinished:
+                finish_cnt = event_answer_detail.filter(user=student.user)
+                student.unfinished_list = questions.exclude(ques_id__in=finish_cnt.values('question'))
+                finish_cnt = finish_cnt.count()
+                student.unfinish_cnt = questions_cnt - finish_cnt
+            error_list = event_answer_detail.exclude(ans_status=0)
+            error = classroom.student_set.filter(user__in=error_list.values('user'))
+            for student in error:
+                student.error_cnt = error_list.filter(user=student.user).count()
+                student.error_list = error_list.filter(user=student.user).values('question')
+                student.error_list = questions.filter(ques_id__in=student.error_list)
+            if request.user.is_superuser:
+                content = {
+                    'classroom': classroom,
+                    'questions' : questions,
+                    'student_unfinish' : unfinished,
+                    'student_error' : error,
+                }
+                return render(request, 'user/class-event-details.html', context=content)
+            else:
+                if request.user.identity() == 'teacher_student' or request.user.identity() == 'teacher':
+                    if request.user.teacher == classroom.teacher:
+                        content = {
+                            'classroom' : classroom,
+                            'questions' : questions,
+                            'student_unfinish' : unfinished,
+                            'student_error' : error,
+                        }
+                    return render(request, 'user/class-event-details.html', context=content)
+        content = {
+            'err_code': '403',
+            'err_message': _('没有权限'),
+        }
+        return render(request, 'error.html', context=content)
 
 #--------------------------------------------END---------------------------------------------#
