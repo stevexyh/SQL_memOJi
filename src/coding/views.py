@@ -35,6 +35,7 @@ from utils import sql_check
 from django.db.models import Q
 from django.utils import timezone
 from django.db.models import Avg
+from .tasks import sql_check_celery
 # Create your views here.
 
 
@@ -415,6 +416,7 @@ class CodingEditor(View):
         try:
             submit_ans = '#' if submit_ans == '' else submit_ans
             # correct = sql_check.ans_check(db_nm=qset.db_name, ans_sql=question.ques_ans, stud_sql=submit_ans)
+            sql_check_celery.delay(db_nm=qset.db_name, ans_sql=question.ques_ans, stud_sql=submit_ans)
             correct = 'pending'
             # print("判断动作执行成功")
         except Exception as e:
