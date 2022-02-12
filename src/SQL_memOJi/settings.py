@@ -181,7 +181,7 @@ if USE_TZ:
 # celery配置redis作为broker。redis有16个数据库，编号0~15，这里使用第1个。
 broker_url = 'redis://127.0.0.1:6379/0'
 # 设置存储结果的后台
-result_backend = 'redis://127.0.0.1:6379/0'
+result_backend = 'redis://127.0.0.1:6379/1'
 # 可接受的内容格式
 accept_content = ["json"]
 # 任务序列化数据格式

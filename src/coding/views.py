@@ -271,7 +271,6 @@ class CodingEditor(View):
         cur.execute(f'''show tables;''')
         tables = [tb[0] for tb in cur.fetchall()]
         pt_db_tables.add_rows([[tb] for tb in tables])
-
         # Create PrettyTable for `desc <table_name>;`
         tables_desc = [str(pt_db_tables)]
         for tb in tables:
@@ -281,11 +280,9 @@ class CodingEditor(View):
             pt_table_desc.add_rows([row[:2] for row in cur.fetchall()])
             tables_desc.append('\n' + tb)
             tables_desc.append(str(pt_table_desc))
-
         db_desc = '\n'.join(tables_desc)
         cur.close()
         db.close()
-
         content = {
             'event': event,
             'event_id': event_id,
@@ -354,9 +351,11 @@ class CodingEditor(View):
                     rec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=exam).first()
                     if rec is None:
                         models.ExamAnswerRec.objects.create(
-                            student=cur_user.student,
-                            exam=exam,
-                            start_time = timezone.now()
+                            student = cur_user.student,
+                            exam = exam,
+                            start_time = timezone.now(),
+                            status = False,
+                            mark_status = False
                         )
                 else:
                     exer = models.Exercise.objects.get(pk=event_id)
@@ -365,7 +364,9 @@ class CodingEditor(View):
                         models.ExerAnswerRec.objects.create(
                             student=cur_user.student,
                             exer=exer,
-                            start_time = timezone.now()
+                            start_time = timezone.now(),
+                            status = False,
+                            mark_status = False
                         )
         return render(request, 'coding/coding-editor.html', context=content)
 
@@ -382,7 +383,6 @@ class CodingEditor(View):
                     exam = models.Exam.objects.get(pk=event_id)
                     rec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=exam).first()
                     if rec:
-                        # rec.score = final_score
                         per_question = models.ExamQuesAnswerRec.objects.filter(user=cur_user,exam=rec)
                         total_score = 0
                         for question in per_question:
@@ -392,7 +392,6 @@ class CodingEditor(View):
                         rec.status = True
                         rec.save()
                         print("已存在记录")
-
                 else:
                     print("是练习")
                     exer = models.Exercise.objects.get(pk=event_id)
@@ -413,36 +412,14 @@ class CodingEditor(View):
         question = content.get('question')
         qset = question.ques_set
         # print("数据比对:",qset.db_name,question.ques_ans,submit_ans)
-        try:
-            submit_ans = '#' if submit_ans == '' else submit_ans
-            # correct = sql_check.ans_check(db_nm=qset.db_name, ans_sql=question.ques_ans, stud_sql=submit_ans)
-            sql_check_celery.delay(db_nm=qset.db_name, ans_sql=question.ques_ans, stud_sql=submit_ans)
-            correct = 'pending'
-            # print("判断动作执行成功")
-        except Exception as e:
-            print(e)
-            correct = 'error'
-
-        ans_status = {
-            True: models.QuesAnswerRec.AnsStatus.AC,
-            False: models.QuesAnswerRec.AnsStatus.WA,
-            'error': models.QuesAnswerRec.AnsStatus.RE,
-            'pending' : models.QuesAnswerRec.AnsStatus.PD
-        }.get(correct)
-
-        ans_status_color = {
-            True: 'success',
-            False: 'danger',
-            'error': 'warning',
-            'pending': 'warning',
-        }.get(correct)
-
+        correct = 'pending'
+        ans_status = models.QuesAnswerRec.AnsStatus.PD
+        ans_status_color = 'warning'
         # Question-Answer record
         # print(event_type)
         if cur_user.is_authenticated:
             if event_type == 'exam':
                 event = models.Exam.objects.get(exam_id=event_id)
-                # print(type(event))
                 examrec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=event).first()
                 rec = models.ExamQuesAnswerRec.objects.filter(user=cur_user, question=question, exam=examrec).first()
             elif event_type == 'exer':
@@ -452,47 +429,41 @@ class CodingEditor(View):
             else:
                 raise Resolver404
             now_paperquestion = models.PaperQuestion.objects.get(Q(question=question) & Q(paper=event.paper))
-            if ans_status == 0:
-                final_score = now_paperquestion.score
-            else:
-                final_score = 0
-                #XXX:(Seddon)把一道正确的题再交错，到底是按正确的还是错误的分数，有待商榷            
             if rec:
                 rec.ans_status = ans_status
                 rec.submit_cnt += 1
                 rec.ans = submit_ans
-                rec.score = final_score
+                rec.score = 0
                 rec.save()
             else:
                 if event_type == 'exam':
-                    models.ExamQuesAnswerRec.objects.create(
+                    rec = models.ExamQuesAnswerRec.objects.create(
                         user=cur_user,
                         question=question,
                         ans=submit_ans,
                         ans_status=ans_status,
                         submit_cnt=1,
                         exam=examrec,
-                        score=final_score
+                        score=0
                     )
                 elif event_type == 'exer':
-                    models.ExerQuesAnswerRec.objects.create(
+                    rec = models.ExerQuesAnswerRec.objects.create(
                         user=cur_user,
                         question=question,
                         ans=submit_ans,
                         ans_status=ans_status,
                         submit_cnt=1,
                         exer=exerrec,
-                        score=final_score
+                        score=0
                     )
                 else:
                     raise Resolver404
-
+        sql_check_celery.delay(db_nm=qset.db_name, ans_sql=question.ques_ans, stud_sql=submit_ans, event_type=event_type, rec_id=rec.rec_id, score=now_paperquestion.score)
         content.update({
             'correct': correct,
             'ans_status_color': ans_status_color,
             'submit_ans': submit_ans,
         })
-
         url = reverse('coding:coding-editor', kwargs={'event_type': event_type,'event_id':event_id,'ques_id':ques_id})
         return HttpResponseRedirect(url)
 

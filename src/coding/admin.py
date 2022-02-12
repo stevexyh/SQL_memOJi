@@ -486,12 +486,12 @@ class PaperAnswerRecAdmin(admin.ModelAdmin):
 
 @admin.register(models.ExamAnswerRec)
 class ExamAnswerRecAdmin(admin.ModelAdmin):
-    list_display = ['rec_id', 'student', 'exam', 'start_time', 'end_time', 'score', 'status']
+    list_display = ['rec_id', 'student', 'exam', 'start_time', 'end_time', 'score', 'status', 'mark_status']
 
 
 @admin.register(models.ExerAnswerRec)
 class ExerAnswerRecAdmin(admin.ModelAdmin):
-    list_display = ['rec_id', 'student', 'exer', 'start_time', 'end_time', 'score', 'status']
+    list_display = ['rec_id', 'student', 'exer', 'start_time', 'end_time', 'score', 'status', 'mark_status']
 
 
 @admin.register(models.ExamQuesAnswerRec)
