@@ -20,7 +20,8 @@
 
 import pymysql,datetime
 from django.shortcuts import render, redirect
-from django.urls import Resolver404
+from django.http import HttpResponseRedirect  
+from django.urls import Resolver404, reverse
 from django.views import View
 from django.contrib import auth
 from django.utils.translation import gettext_lazy as _
@@ -314,12 +315,15 @@ class CodingEditor(View):
                     correct_bool = True
                 elif correct == 1:
                     correct_bool = False
-                else:
+                elif correct == 2:
                     correct_bool = 'error'
+                else:
+                    correct_bool = 'pending'
                 ans_status_color = {
                     True: 'success',
                     False: 'danger',
                     'error': 'warning',
+                    'pending': 'warning',
                 }.get(correct_bool)
                 content.update({
                     'correct': correct_bool,
@@ -410,7 +414,8 @@ class CodingEditor(View):
         # print("数据比对:",qset.db_name,question.ques_ans,submit_ans)
         try:
             submit_ans = '#' if submit_ans == '' else submit_ans
-            correct = sql_check.ans_check(db_nm=qset.db_name, ans_sql=question.ques_ans, stud_sql=submit_ans)
+            # correct = sql_check.ans_check(db_nm=qset.db_name, ans_sql=question.ques_ans, stud_sql=submit_ans)
+            correct = 'pending'
             # print("判断动作执行成功")
         except Exception as e:
             print(e)
@@ -420,12 +425,14 @@ class CodingEditor(View):
             True: models.QuesAnswerRec.AnsStatus.AC,
             False: models.QuesAnswerRec.AnsStatus.WA,
             'error': models.QuesAnswerRec.AnsStatus.RE,
+            'pending' : models.QuesAnswerRec.AnsStatus.PD
         }.get(correct)
 
         ans_status_color = {
             True: 'success',
             False: 'danger',
             'error': 'warning',
+            'pending': 'warning',
         }.get(correct)
 
         # Question-Answer record
@@ -484,7 +491,8 @@ class CodingEditor(View):
             'submit_ans': submit_ans,
         })
 
-        return render(request, 'coding/coding-editor.html', context=content)
+        url = reverse('coding:coding-editor', kwargs={'event_type': event_type,'event_id':event_id,'ques_id':ques_id})
+        return HttpResponseRedirect(url)
 
 
 def statistics(request):

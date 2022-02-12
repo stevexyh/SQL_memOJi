@@ -274,6 +274,7 @@ class QuesAnswerRec(models.Model):
         AC = 0, _('答案正确')
         WA = 1, ('答案错误')
         RE = 2, _('运行异常')
+        PD = 3,_('正在运行')
 
     rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
     user = models.ForeignKey(verbose_name=_('用户'), to='user.User', on_delete=models.CASCADE)
@@ -341,6 +342,7 @@ class ExamAnswerRec(models.Model):
     end_time = models.DateTimeField(verbose_name=_('交卷时间'),null=True, blank=True)
     score = models.IntegerField(verbose_name=_('总成绩'), default=0,null=True, blank=True)
     status = models.BooleanField(verbose_name=_('提交状态'), default=False)
+    mark_status = models.BooleanField(verbose_name=_('阅卷状态'), default=False)
 
     @property
     def per_submit(self):
@@ -383,6 +385,7 @@ class ExerAnswerRec(models.Model):
     end_time = models.DateTimeField(verbose_name=_('交卷时间'),null=True, blank=True)
     score = models.IntegerField(verbose_name=_('总成绩'), default=0,null=True, blank=True)
     status = models.BooleanField(verbose_name=_('提交状态'), default=False)
+    mark_status = models.BooleanField(verbose_name=_('阅卷状态'), default=False)
 
     @property
     def wrong_count(self):
@@ -429,6 +432,7 @@ class ExamQuesAnswerRec(models.Model):
         AC = 0, _('答案正确')
         WA = 1, ('答案错误')
         RE = 2, _('运行异常')
+        PD = 3,_('正在运行')
 
     rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
     user = models.ForeignKey(verbose_name=_('用户'), to='user.User', on_delete=models.CASCADE)
@@ -470,6 +474,7 @@ class ExerQuesAnswerRec(models.Model):
         AC = 0, _('答案正确')
         WA = 1, ('答案错误')
         RE = 2, _('运行异常')
+        PD = 3,_('正在运行')
 
     rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
     user = models.ForeignKey(verbose_name=_('用户'), to='user.User', on_delete=models.CASCADE)
