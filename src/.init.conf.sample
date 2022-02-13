@@ -1,6 +1,11 @@
 [mysql]
-name = django_db
+# Django Settings
+name = oj
 host = 127.0.0.1
 port = 3306
+# Root User's Username and Password(For Django and OJCheck Use)
 user = root
-password = YOUR PASSWORD
+password = 4b4f8a297c377df7
+# Temp User's Username and Password(Just for OJCheck Use)
+temp_user = oj
+temp_user_password = ojtest+1S
