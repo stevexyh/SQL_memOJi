@@ -80,8 +80,8 @@ def deepcopy_db(db_name: str, new_db_name: str):
     '''Copy database, tables and data'''
     # cursor = db.cursor(cursor=pymysql.cursors.DictCursor)
 
-    tmp_user = 'oj'
-    tmp_passwd = 'ojtest+1S'
+    tmp_user = tk.get_conf('mysql', 'temp_user')
+    tmp_passwd = tk.get_conf('mysql', 'temp_user_password')
 
     root_host = tk.get_conf('mysql', 'host')
     root_port = int(tk.get_conf('mysql', 'port'))
@@ -134,21 +134,21 @@ def ans_check(db_nm: str, ans_sql: str, stud_sql: str) -> bool:
     Returns::
         res: bool - if the SQL is correct
     '''
-    print("判断执行结果.....")
+    # print("判断执行结果.....")
     new_db_nm = db_nm+'_copy'
     new_db_name_1 = new_db_nm+'1'
     new_db_name_2 = new_db_nm+'2'
     #Copy the Database
     cur_1 = deepcopy_db(db_name=db_nm, new_db_name=new_db_name_1)
     cur_2 = deepcopy_db(db_name=db_nm, new_db_name=new_db_name_2)
-    print("双数据库拷贝成功")
+    # print("双数据库拷贝成功")
     cur_1.execute(ans_sql)
     cur_2.execute(stud_sql)
     res_1 = cur_1.fetchall()
     res_2 = cur_2.fetchall()
     exe_diff = res_1 == res_2
     data_diff = diff(cur_1=cur_1,cur_2=cur_2)
-    print("Execute identify",exe_diff)
+    # print("Execute identify",exe_diff)
     #XXX 可以在前端提示是数据不一致还是返回结果不一致
     # print(res_1)
     # print("----------------------------")
