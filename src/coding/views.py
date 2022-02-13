@@ -595,13 +595,16 @@ class PaperDetails(View):
             if event_type == 'exam':
                 event = models.ExamAnswerRec.objects.get(pk=event_id)
                 questions = models.ExamQuesAnswerRec.objects.filter(user=request.user,exam=event)
+                event_set = event.exam
             elif event_type == 'exer':
                 event = models.ExerAnswerRec.objects.get(pk=event_id)
                 questions = models.ExerQuesAnswerRec.objects.filter(user=request.user,exer=event)
+                event_set = event.exer
             else:
                 raise Resolver404
         content = {
-            # 'event' : event,
+            'event' : event_set,
+            'event_type' : event_type,
             'questions': questions,
         }
         return render(request, 'coding/analysis.html', context=content)
