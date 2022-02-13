@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # # Simpleui
-    # 'simpleui',
+    'simpleui',
     
     # Django core
     'django.contrib.admin',
