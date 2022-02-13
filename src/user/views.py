@@ -26,7 +26,7 @@ from django.db import transaction
 from django.db.models import Sum
 from user.models import Student, User, Classroom
 from user.forms import UserInfoForm, StudentForm, ClassroomForm
-from coding.models import Exam, Exercise, QuesAnswerRec, Question, QuestionSet, ExerAnswerRec, ExamAnswerRec, ExamQuesAnswerRec, ExerQuesAnswerRec
+from coding.models import Exam, Exercise, Question, QuestionSet, ExerAnswerRec, ExamAnswerRec, ExamQuesAnswerRec, ExerQuesAnswerRec
 import datetime
 from django.utils import timezone
 from django.http import HttpResponse,HttpResponseRedirect,HttpResponseForbidden
@@ -389,8 +389,8 @@ class UserInfo(View):
         classroom = user.student.classroom if is_student else False
         priority = user.get_priority_display() if user.is_authenticated else not_login
         join_status = user.is_authenticated and user.join_status != User.JoinStatus.OUT_OF_LIST or user.is_superuser
-        info_form = UserInfoForm(instance=user) if user.is_authenticated else None
-        student_form = StudentForm(instance=user.student) if is_student else None
+        # info_form = UserInfoForm(instance=user) if user.is_authenticated else None
+        # student_form = StudentForm(instance=user.student) if is_student else None
 
         content = {
             'full_name': full_name,
@@ -404,8 +404,8 @@ class UserInfo(View):
             'join_status': join_status,
             'join_status_display': _('认证') if join_status else _('未认证'),
             'join_status_color': 'success' if join_status else 'warning',
-            'info_form': info_form,
-            'student_form': student_form,
+            # 'info_form': info_form,
+            # 'student_form': student_form,
         }
 
         # print(content)
@@ -414,21 +414,21 @@ class UserInfo(View):
 
         return render(request, 'user/user-info.html', context=content)
 
-    # FIXME(Steve X): can't edit email, switch primary key to uuid
-    def post(self, request):
-        user = request.user
-        is_student = user.is_authenticated and user.priority == User.UserType.STUDENT
+    # # FIXME(Steve X): can't edit email, switch primary key to uuid
+    # def post(self, request):
+    #     user = request.user
+    #     is_student = user.is_authenticated and user.priority == User.UserType.STUDENT
 
-        info_form = UserInfoForm(request.POST, instance=user) if user.is_authenticated else None
-        student_form = StudentForm(request.POST, instance=user.student) if is_student else None
+    #     info_form = UserInfoForm(request.POST, instance=user) if user.is_authenticated else None
+    #     student_form = StudentForm(request.POST, instance=user.student) if is_student else None
 
-        if info_form and info_form.is_valid():
-            info_form.save()
+    #     if info_form and info_form.is_valid():
+    #         info_form.save()
 
-        if student_form and student_form.is_valid():
-            student_form.save()
+    #     if student_form and student_form.is_valid():
+    #         student_form.save()
 
-        return redirect('/user-info')
+    #     return redirect('/user-info')
 
 
 class ClassEventDetails(View):

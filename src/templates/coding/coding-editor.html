@@ -125,7 +125,11 @@
                             <input type="hidden" name="movement" value="submit">
                         </form>
                         <button type="next" class="btn btn-outline-danger waves-effect waves-light" form="code-submit" style="float: right;">
-                            交卷
+                            {% if event_type == 'exam' %}
+                                交卷
+                            {% else %}
+                                计算成绩
+                            {% endif %}
                             <i class="ri-check-line align-middle mr-2"></i>
                         </button>
                     {% endif %}

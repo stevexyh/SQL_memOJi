@@ -12,10 +12,6 @@ The version of Xadmin is too old, next time we will use simpleui to beautify the
 - User Auth
 定义用户权限，减轻教师和SuperAdmin权限控制的工作量
 暂且使用Django-admin 进行实现
-- 大数据统计
-这个放前端实现吧，难搞
-- SQL判卷的消息队列机制
-轮流判卷，减少服务器压力
 - Big Dateset Problems
 对大量数据的实际使用情况有待测试
 ## Known Bugs
@@ -23,8 +19,10 @@ The version of Xadmin is too old, next time we will use simpleui to beautify the
 Can't use Database Table name begin with numbers, remember!
 - QuestionSet add questions' score
 Don't add same questions in the same questionset(TODO:这个需要用提交检测控制一下待办)
-- 鉴权
-需要做限制单个题目提交（超时、已手动关闭），整张试卷的分值计算（超时、手动关闭）的限制，直接view层不给可乘之机。
+- 后台剩余的数据库鉴权
+做一下后台剩余的数据库的鉴权，再去除一下没有的记录
+- Xadmin
+将Django-admin -> Xadmin，is_stuff怎么办？
 
 2021/12/28 Xi'an
 ## Files  

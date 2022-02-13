@@ -253,74 +253,74 @@ class Exercise(models.Model):
         return have_finished,unfinished,excellent,good,fair,fail,all_students,average_score['average_score']
     
 
-class QuesAnswerRec(models.Model):
-    '''
-    Question Answer Record Table
-    | 字段名                 | 数据类型             | 非空  | Key | 默认值       |
-    |-----------------------|---------------------|------|-----|-------------|
-    | rec_id                | varchar             |      | PRI |             |
-    | user                  | varchar             |      | API |             |
-    | question              | varchar             | NULL | FK  |             |
-    | ans                   | varchar             | NULL |     |             |
-    | ans_status            | int                 |      |     | -1          |
-    | submit_time           | datetime            |      |     |             |
-    | submit_cnt            | int                 |      |     | 0           |
-    '''
+# class QuesAnswerRec(models.Model):
+#     '''
+#     Question Answer Record Table
+#     | 字段名                 | 数据类型             | 非空  | Key | 默认值       |
+#     |-----------------------|---------------------|------|-----|-------------|
+#     | rec_id                | varchar             |      | PRI |             |
+#     | user                  | varchar             |      | API |             |
+#     | question              | varchar             | NULL | FK  |             |
+#     | ans                   | varchar             | NULL |     |             |
+#     | ans_status            | int                 |      |     | -1          |
+#     | submit_time           | datetime            |      |     |             |
+#     | submit_cnt            | int                 |      |     | 0           |
+#     '''
 
-    class AnsStatus(models.IntegerChoices):
-        '''Enumeration of answer status'''
+#     class AnsStatus(models.IntegerChoices):
+#         '''Enumeration of answer status'''
 
-        UNKNOWN = -1, _('未知')
-        AC = 0, _('答案正确')
-        WA = 1, ('答案错误')
-        RE = 2, _('运行异常')
-        PD = 3,_('正在运行')
+#         UNKNOWN = -1, _('未知')
+#         AC = 0, _('答案正确')
+#         WA = 1, ('答案错误')
+#         RE = 2, _('运行异常')
+#         PD = 3,_('正在运行')
 
-    rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
-    user = models.ForeignKey(verbose_name=_('用户'), to='user.User', on_delete=models.CASCADE)
-    question = models.ForeignKey(verbose_name=_('题目'), to=Question, null=True, on_delete=models.SET_NULL)
-    ans = models.TextField(verbose_name=_('最新答案'), null=True, blank=True)
-    ans_status = models.IntegerField(verbose_name=_('答案正确性'), choices=AnsStatus.choices, default=AnsStatus.UNKNOWN)
-    submit_time = models.DateTimeField(verbose_name=_('最后提交时间'), auto_now=True)
-    submit_cnt = models.IntegerField(verbose_name=_('提交次数'), default=0)
+#     rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
+#     user = models.ForeignKey(verbose_name=_('用户'), to='user.User', on_delete=models.CASCADE)
+#     question = models.ForeignKey(verbose_name=_('题目'), to=Question, null=True, on_delete=models.SET_NULL)
+#     ans = models.TextField(verbose_name=_('最新答案'), null=True, blank=True)
+#     ans_status = models.IntegerField(verbose_name=_('答案正确性'), choices=AnsStatus.choices, default=AnsStatus.UNKNOWN)
+#     submit_time = models.DateTimeField(verbose_name=_('最后提交时间'), auto_now=True)
+#     submit_cnt = models.IntegerField(verbose_name=_('提交次数'), default=0)
 
-    class Meta:
-        verbose_name = '题目作答记录(*)'
-        verbose_name_plural = verbose_name
+#     class Meta:
+#         verbose_name = '题目作答记录(*)'
+#         verbose_name_plural = verbose_name
 
-# TODO(Steve X): Exam & Exer record
-class PaperAnswerRec(models.Model):
-    '''
-    Paper Answer Record Table
-    | 字段名                 | 数据类型             | 非空  | Key | 默认值       |
-    |-----------------------|---------------------|------|-----|-------------|
-    | rec_id                | varchar             |      | PRI |             |
-    | student               | varchar             |      | API |             |
-    | paper                 | varchar             |      | FK  |             |
-    | start_time            | datetime            |      |     |             |
-    | end_time              | datetime            |      |     |             |
-    | score                 | int                 |      |     | 0           |
-    '''
-    class Recclass(models.IntegerChoices):
-        '''Enumeration of rec classes exam/exec'''
+# # TODO(Steve X): Exam & Exer record
+# class PaperAnswerRec(models.Model):
+#     '''
+#     Paper Answer Record Table
+#     | 字段名                 | 数据类型             | 非空  | Key | 默认值       |
+#     |-----------------------|---------------------|------|-----|-------------|
+#     | rec_id                | varchar             |      | PRI |             |
+#     | student               | varchar             |      | API |             |
+#     | paper                 | varchar             |      | FK  |             |
+#     | start_time            | datetime            |      |     |             |
+#     | end_time              | datetime            |      |     |             |
+#     | score                 | int                 |      |     | 0           |
+#     '''
+#     class Recclass(models.IntegerChoices):
+#         '''Enumeration of rec classes exam/exec'''
 
-        UNKNOWN = -1, _('未知')
-        EXAM = 0, _('考试')
-        EXEC = 1, ('练习')
+#         UNKNOWN = -1, _('未知')
+#         EXAM = 0, _('考试')
+#         EXEC = 1, ('练习')
 
 
-    rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
-    student = models.ForeignKey(verbose_name=_('学生'), to='user.Student', on_delete=models.CASCADE)
-    paper = models.ForeignKey(verbose_name=_('试卷'), to=Paper, on_delete=models.DO_NOTHING)
-    start_time = models.DateTimeField(verbose_name=_('开始时间'))
-    end_time = models.DateTimeField(verbose_name=_('交卷时间'))
-    score = models.IntegerField(verbose_name=_('总成绩'), default=0)
-    #Seddon New Add
-    paper_class = models.IntegerField(verbose_name=_('试卷类型'), choices=Recclass.choices, default=Recclass.UNKNOWN)
+#     rec_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
+#     student = models.ForeignKey(verbose_name=_('学生'), to='user.Student', on_delete=models.CASCADE)
+#     paper = models.ForeignKey(verbose_name=_('试卷'), to=Paper, on_delete=models.DO_NOTHING)
+#     start_time = models.DateTimeField(verbose_name=_('开始时间'))
+#     end_time = models.DateTimeField(verbose_name=_('交卷时间'))
+#     score = models.IntegerField(verbose_name=_('总成绩'), default=0)
+#     #Seddon New Add
+#     paper_class = models.IntegerField(verbose_name=_('试卷类型'), choices=Recclass.choices, default=Recclass.UNKNOWN)
 
-    class Meta:
-        verbose_name = '试卷作答记录(应该是没用了)'
-        verbose_name_plural = verbose_name
+#     class Meta:
+#         verbose_name = '试卷作答记录(应该是没用了)'
+#         verbose_name_plural = verbose_name
 
 class ExamAnswerRec(models.Model):
     '''
@@ -361,7 +361,7 @@ class ExamAnswerRec(models.Model):
     def __str__(self):
         return str(self.rec_id) + "-" + str(self.student) + "-" + str(self.exam)
     class Meta:
-        verbose_name = '考试作答记录(**)'
+        verbose_name = '考试作答记录'
         verbose_name_plural = verbose_name
 
 
@@ -405,7 +405,7 @@ class ExerAnswerRec(models.Model):
         return str(self.rec_id) + "-" + str(self.student) + "-" + str(self.exer)
 
     class Meta:
-        verbose_name = '练习作答记录(**)'
+        verbose_name = '练习作答记录'
         verbose_name_plural = verbose_name
 
 
@@ -448,7 +448,7 @@ class ExamQuesAnswerRec(models.Model):
         return str(self.rec_id) + "-" + str(self.user) + "-" + str(self.exam) + "-" + str(self.question)
 
     class Meta:
-        verbose_name = '题目作答记录(考试**)'
+        verbose_name = '题目作答记录(考试)'
         verbose_name_plural = verbose_name
 
 class ExerQuesAnswerRec(models.Model):
@@ -490,5 +490,5 @@ class ExerQuesAnswerRec(models.Model):
         return str(self.rec_id) + "-" + str(self.user) + "-" + str(self.exer) + "-" + str(self.question)
 
     class Meta:
-        verbose_name = '题目作答记录(练习**)'
+        verbose_name = '题目作答记录(练习)'
         verbose_name_plural = verbose_name

@@ -27,5 +27,9 @@ app.conf.update(
 @app.task(bind=True)
 def debug_task(self):
     print('Request: {0!r}'.format(self.request))
+
+@app.task(bind=True)
+def lbwnb(self):
+    print('----------------test-----------------')
 # celery -A SQL_memOJi worker -l info
 # celery -A SQL_memOJi beat

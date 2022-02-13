@@ -52,11 +52,11 @@ def sql_check_celery(db_nm, ans_sql, stud_sql, event_type, rec_id, score):
 
 @shared_task
 def mark_paper():
-    # print('在tasks中阅卷1')
+    print('------- 正在阅卷 -------')
     exam_answer_paper = models.ExamAnswerRec.objects.filter(status=True,mark_status=False)
-    # print('在tasks中阅卷2')
+    print('在tasks中阅卷2')
     for paper in exam_answer_paper:
-        # print("待阅卷:",paper)
+        print("待阅卷:",paper)
         questions_rec = models.ExamQuesAnswerRec.objects.filter(exam=paper)
         if questions_rec.filter(ans_status=3).count() == 0:
             paper.score = questions_rec.aggregate(Sum('score'))['score__sum']
@@ -65,7 +65,7 @@ def mark_paper():
 
     exer_answer_paper = models.ExerAnswerRec.objects.filter(status=True,mark_status=False)
     for paper in exer_answer_paper:
-        # print("待阅卷:",paper)
+        print("待阅卷:",paper)
         questions_rec = models.ExerQuesAnswerRec.objects.filter(exer=paper)
         if questions_rec.filter(ans_status=3).count() == 0:
             paper.score = questions_rec.aggregate(Sum('score'))['score__sum']

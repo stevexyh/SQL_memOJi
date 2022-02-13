@@ -370,119 +370,116 @@ class ExerciseAdmin(admin.ModelAdmin):
 
 
 # Fields: 'rec_id', 'student', 'question', 'ans', 'ans_status', 'submit_time', 'submit_cnt'
-@admin.register(models.QuesAnswerRec)
-class QuesAnswerRecAdmin(admin.ModelAdmin):
-    # list_filter = ['question']
-    def has_delete_permission(self, request,obj=None):
-        if request.user.is_superuser:
-            return True
-        else:
-            return False
+# @admin.register(models.QuesAnswerRec)
+# class QuesAnswerRecAdmin(admin.ModelAdmin):
+#     # list_filter = ['question']
+#     def has_delete_permission(self, request,obj=None):
+#         if request.user.is_superuser:
+#             return True
+#         else:
+#             return False
 
-    def has_change_permission(self, request,obj=None):
-        if request.user.is_superuser:
-            return True
-        else:
-            return False
+#     def has_change_permission(self, request,obj=None):
+#         if request.user.is_superuser:
+#             return True
+#         else:
+#             return False
 
-    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
-        if not (request.user.is_superuser):
-            identity = request.user.identity()
-            # print(identity)
-            if db_field.name == 'user':
-                if identity == 'teacher' or identity == 'teacher_student':
-                    students = request.user.teacher.teach_stu()
-                    query_stu = User.objects.filter(email__in=students)
-                    kwargs['queryset'] = query_stu
-                else:
-                    kwargs['queryset'] = Student.objects.none()
-            if db_field.name == 'question':
-                if identity == 'teacher' or identity == 'teacher_student':
-                    use_questions = models.Question.objects.filter(initiator=request.user.teacher) | models.Question.objects.filter(share=True)
-                    kwargs['queryset'] = use_questions.distinct()
-                else:
-                    kwargs['queryset'] = models.Question.objects.none()
-        return super(QuesAnswerRecAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+#     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+#         if not (request.user.is_superuser):
+#             identity = request.user.identity()
+#             # print(identity)
+#             if db_field.name == 'user':
+#                 if identity == 'teacher' or identity == 'teacher_student':
+#                     students = request.user.teacher.teach_stu()
+#                     query_stu = User.objects.filter(email__in=students)
+#                     kwargs['queryset'] = query_stu
+#                 else:
+#                     kwargs['queryset'] = Student.objects.none()
+#             if db_field.name == 'question':
+#                 if identity == 'teacher' or identity == 'teacher_student':
+#                     use_questions = models.Question.objects.filter(initiator=request.user.teacher) | models.Question.objects.filter(share=True)
+#                     kwargs['queryset'] = use_questions.distinct()
+#                 else:
+#                     kwargs['queryset'] = models.Question.objects.none()
+#         return super(QuesAnswerRecAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
-    def get_queryset(self, request):
-        # 接管查询请求
-        results = super(QuesAnswerRecAdmin, self).get_queryset(request)
-        identity = request.user.identity()
-        if request.user.is_superuser:  # 超级用户可查看所有数据
-            return results
-        if identity == 'teacher' or identity == 'teacher_student':
-            students = request.user.teacher.teach_stu()
-            query_stu = User.objects.filter(email__in=students)
-            # return results.filter(email__in = students.user)
-            return results.filter(user__in = query_stu)
-        elif identity == 'student':
-            return results.filter(user = request.user)
-        else:
-            return results.none()
-    list_display = ['rec_id', 'user', 'question', 'ans', 'ans_status', 'submit_time', 'submit_cnt']
+#     def get_queryset(self, request):
+#         # 接管查询请求
+#         results = super(QuesAnswerRecAdmin, self).get_queryset(request)
+#         identity = request.user.identity()
+#         if request.user.is_superuser:  # 超级用户可查看所有数据
+#             return results
+#         if identity == 'teacher' or identity == 'teacher_student':
+#             students = request.user.teacher.teach_stu()
+#             query_stu = User.objects.filter(email__in=students)
+#             # return results.filter(email__in = students.user)
+#             return results.filter(user__in = query_stu)
+#         elif identity == 'student':
+#             return results.filter(user = request.user)
+#         else:
+#             return results.none()
+#     list_display = ['rec_id', 'user', 'question', 'ans', 'ans_status', 'submit_time', 'submit_cnt']
 
 # Fields: 'rec_id', 'student', 'paper', 'start_time', 'end_time', 'score',
-@admin.register(models.PaperAnswerRec)
-class PaperAnswerRecAdmin(admin.ModelAdmin):
-    # TODO:(Seddon) 源代码中限定学生无论如何都无法修改自己的试卷内容
-    # 接下来阉割部分前端页面
-    # 做图表
-    # 做调度！
-    def has_delete_permission(self, request,obj=None):
-        if request.user.is_superuser:
-            return True
-        else:
-            return False
+# @admin.register(models.PaperAnswerRec)
+# class PaperAnswerRecAdmin(admin.ModelAdmin):
+#     # TODO:(Seddon) 源代码中限定学生无论如何都无法修改自己的试卷内容
+#     def has_delete_permission(self, request,obj=None):
+#         if request.user.is_superuser:
+#             return True
+#         else:
+#             return False
 
-    def has_change_permission(self, request,obj=None):
-        if request.user.is_superuser:
-            return True
-        else:
-            return False
+#     def has_change_permission(self, request,obj=None):
+#         if request.user.is_superuser:
+#             return True
+#         else:
+#             return False
 
-    def get_queryset(self, request):
-        # 接管查询请求
-        results = super(PaperAnswerRecAdmin, self).get_queryset(request)
-        identity = request.user.identity()
-        if request.user.is_superuser:  # 超级用户可查看所有数据
-            return results
-        if identity == 'teacher' or identity == 'teacher_student':
-            students = request.user.teacher.teach_stu()
-            return results.filter(student__in = students)
-        elif identity == 'student':
-            return results.filter(student = request.user.student)
-        else:
-            return results.none()
+#     def get_queryset(self, request):
+#         # 接管查询请求
+#         results = super(PaperAnswerRecAdmin, self).get_queryset(request)
+#         identity = request.user.identity()
+#         if request.user.is_superuser:  # 超级用户可查看所有数据
+#             return results
+#         if identity == 'teacher' or identity == 'teacher_student':
+#             students = request.user.teacher.teach_stu()
+#             return results.filter(student__in = students)
+#         elif identity == 'student':
+#             return results.filter(student = request.user.student)
+#         else:
+#             return results.none()
 
-    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
-        if not (request.user.is_superuser):
-            identity = request.user.identity()
-            # print(identity)
-            if db_field.name == 'student':
-                if identity == 'teacher' or identity == 'teacher_student':
-                    kwargs['queryset'] = request.user.teacher.teach_stu()
-                    print(request.user.teacher.teach_stu())
-                else:
-                    kwargs['queryset'] = Student.objects.none()
-            if db_field.name == 'paper':
-                if identity == 'teacher' or identity == 'teacher_student':
-                    use_paper = models.Paper.objects.filter(initiator=request.user.teacher) | models.Paper.objects.filter(share=True)
-                    kwargs['queryset'] = use_paper.distinct()
-                else:
-                    kwargs['queryset'] = models.Paper.objects.none()
-        return super(PaperAnswerRecAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+#     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+#         if not (request.user.is_superuser):
+#             identity = request.user.identity()
+#             # print(identity)
+#             if db_field.name == 'student':
+#                 if identity == 'teacher' or identity == 'teacher_student':
+#                     kwargs['queryset'] = request.user.teacher.teach_stu()
+#                     print(request.user.teacher.teach_stu())
+#                 else:
+#                     kwargs['queryset'] = Student.objects.none()
+#             if db_field.name == 'paper':
+#                 if identity == 'teacher' or identity == 'teacher_student':
+#                     use_paper = models.Paper.objects.filter(initiator=request.user.teacher) | models.Paper.objects.filter(share=True)
+#                     kwargs['queryset'] = use_paper.distinct()
+#                 else:
+#                     kwargs['queryset'] = models.Paper.objects.none()
+#         return super(PaperAnswerRecAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 
-    def get_readonly_fields(self,request,obj=None):
-        if request.user.is_superuser:
-            return []
-        else:
-            if obj:
-                # 之后就不可编辑
-                return ['student', 'paper']
-            else:
-                return []
-    list_display = ['rec_id', 'student', 'paper', 'start_time', 'end_time', 'score', 'paper_class']
+#     def get_readonly_fields(self,request,obj=None):
+#         if request.user.is_superuser:
+#             return []
+#         else:
+#             if obj:
+#                 # 之后就不可编辑
+#                 return ['student', 'paper']
+#             else:
+#                 return []
+#     list_display = ['rec_id', 'student', 'paper', 'start_time', 'end_time', 'score', 'paper_class']
 
 @admin.register(models.ExamAnswerRec)
 class ExamAnswerRecAdmin(admin.ModelAdmin):
