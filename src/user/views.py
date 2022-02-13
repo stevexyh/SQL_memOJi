@@ -31,6 +31,8 @@ import datetime
 from django.utils import timezone
 from django.http import HttpResponse,HttpResponseRedirect,HttpResponseForbidden
 import json
+from django.urls import reverse
+
 # Create your views here.
 
 
@@ -52,16 +54,17 @@ def index(request):
     # print("在首页")
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            content = {
-                'err_code': '403',
-                'err_message': _('没有权限,请开通学生身份'),
-            }
-            return render(request, 'error.html', context=content)
+            url = reverse('coding:statistics')
+            return HttpResponseRedirect(url)
         else:
             identity = request.user.identity()
             if identity == 'student' or identity == 'teacher_student':
-                exam_result = request.user.student.classroom.exam_set.all()
-                exer_result = request.user.student.classroom.exercise_set.all()
+                if request.user.student.classroom:
+                    exam_result = request.user.student.classroom.exam_set.all()
+                    exer_result = request.user.student.classroom.exercise_set.all()
+                else:
+                    exam_result = Exam.objects.none()  
+                    exer_result = Exercise.objects.none()  
                 exam_cnt = exam_result.count()
                 exam_active = exam_result.filter(active=True).count()
                 exer_cnt = exer_result.count()
@@ -122,15 +125,14 @@ def index(request):
                     'exer_info':exer_labels_query
                 }
                 return render(request, 'index.html', context=content)
-    content = {
-        'err_code': '403',
-        'err_message': _('没有权限,请开通学生身份'),
-    }
-    return render(request, 'error.html', context=content)
+            else:
+                url = reverse('coding:statistics')
+                return HttpResponseRedirect(url)
+    else:
+        return redirect('/auth-login')
 
 def e404(request, exception=None):
     '''Render 404 err page'''
-
     content = {
         'err_code': '404',
         'err_message': _('页面不存在'),
@@ -242,9 +244,9 @@ class AuthRegister(View):
                     new_user.full_name = full_name
                     new_user.internal_id = internal_id
                     new_user.priority = User.UserType.STUDENT
-
                     user_student = Student.objects.create(user=new_user)
                     user_student.save()
+                    new_user.is_staff = True
                     new_user.save()
                     fail = False
             except Exception as exc:
