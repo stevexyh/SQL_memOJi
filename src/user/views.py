@@ -235,16 +235,23 @@ class AuthRegister(View):
             msg = _('此学工号已注册, 请更换另一个或求助管理员')
         elif password1 != password2:
             msg = _('两次密码输入不一致')
+        elif Classroom.objects.get(join_code=class_id) is None:
+            msg = _('该班级不存在')
         else:
             try:
                 with transaction.atomic():
                     new_user = User.objects.create_user(username=username, password=password2, email=email)
+                    his_classroom = Classroom.objects.get(join_code=class_id)
                     new_user.school_name = school_name
+                    new_user.school = his_classroom.school
+                    new_user.join_status = 2
+                    # 2 JOINED
                     new_user.class_id = class_id
                     new_user.full_name = full_name
                     new_user.internal_id = internal_id
                     new_user.priority = User.UserType.STUDENT
                     user_student = Student.objects.create(user=new_user)
+                    user_student.classroom = his_classroom
                     user_student.save()
                     new_user.is_staff = True
                     new_user.save()

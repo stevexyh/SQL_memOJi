@@ -213,5 +213,5 @@ class ClassroomAdmin(admin.ModelAdmin):
             if db_field.name == 'teacher':
                 kwargs['queryset'] = models.Teacher.objects.filter(user=request.user)
         return super(ClassroomAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
-    list_display = ['class_id', 'school', 'class_name', 'teacher', 'class_desc', 'active']
-    list_filter = ['school', 'class_name', 'teacher', 'active']
+    list_display = ['class_id', 'school', 'class_name', 'teacher', 'class_desc', 'join_code', 'active']
+    list_filter = ['school', 'class_name', 'teacher', 'active', 'join_code']

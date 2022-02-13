@@ -451,7 +451,7 @@ class CodingEditor(View):
         qset = question.ques_set
         # print("数据比对:",qset.db_name,question.ques_ans,submit_ans)
         correct = 'pending'
-        ans_status = models.QuesAnswerRec.AnsStatus.PD
+        ans_status = models.ExamQuesAnswerRec.AnsStatus.PD
         ans_status_color = 'warning'
         # Question-Answer record
         # print(event_type)

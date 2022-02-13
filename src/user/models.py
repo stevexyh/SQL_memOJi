@@ -86,7 +86,6 @@ class User(AbstractUser):
 
     email = models.EmailField(verbose_name=_('电子邮件'), primary_key=True, max_length=100)
     priority = models.IntegerField(verbose_name=_('权限等级'), choices=UserType.choices, default=0)
-
     school = models.ForeignKey(verbose_name=_('学校'), to=School, on_delete=models.SET_NULL, default=None, null=True, blank=False)
     full_name = models.CharField(verbose_name=_('真实姓名'), max_length=30)
     internal_id = models.CharField(verbose_name=_('学工号'), max_length=30)
@@ -183,6 +182,7 @@ class Classroom(models.Model):
     teacher = models.ForeignKey(verbose_name=_('负责教师'), to=Teacher, on_delete=models.SET_NULL, default=None, null=True, blank=False)
     class_desc = models.CharField(verbose_name=_('班级描述'), max_length=200, null=True, blank=True)
     active = models.BooleanField(verbose_name=_('有效状态'), default=True)
+    join_code = models.CharField(verbose_name=_('班级识别码'), blank=False, unique=True, max_length=20)
     # stud_list = models.CharField(verbose_name=_('学生列表'), max_length=2000, null=True, blank=True)
 
     def __str__(self):
