@@ -91,7 +91,7 @@ class QuestionAdmin(admin.ModelAdmin):
                     kwargs['queryset'] = models.QuestionSet.objects.none()
         return super(QuestionAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
-    list_filter = ['ques_name', 'ques_difficulty', 'initiator', 'share']
+    list_filter = ['ques_name', 'ques_difficulty', 'initiator', 'share']    
     list_display = ['ques_id', 'ques_name', 'ques_set_id', 'ques_difficulty', 'ques_desc', 'ques_ans', 'initiator', 'share']
 
 
