@@ -204,8 +204,9 @@
 
                                     <div class="float-right ml-2">
                                         <div>
-                                            {% comment %} 2021年4月17日 <br> 10:30-12:30 {% endcomment %}
-                                            发布于: {{ exer.publish_time }}
+                                            开始: {{ exer.start_time }}
+                                            <br>
+                                            结束: {{ exer.end_time}}
                                         </div>
                                     </div>
                                     <div class="mb-3">
@@ -228,7 +229,19 @@
                                             {% endfor %}
                                         </div>
                                     </div>
-                                    <div class="float-right"><a href="{% url 'coding:coding-editor' 'exer' exer.exer_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light"><i class="mdi mdi-arrow-left mr-3"></i>进入</a></div>
+                                    {% if exer.is_over %}
+                                        <div class="float-right">
+                                            <a href="{% url 'coding:coding' %}" class="btn btn-danger mt-1 waves-effect waves-light">
+                                                <i class="mdi mdi-alert-octagon mr-3"></i>已结束
+                                            </a>
+                                        </div>
+                                    {% else %}
+                                        <div class="float-right">
+                                            <a href="{% url 'coding:coding-editor' 'exer' exer.exer_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light">
+                                                <i class="mdi mdi-arrow-left mr-3"></i>进入
+                                            </a>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <!-- end task card -->

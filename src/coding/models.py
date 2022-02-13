@@ -251,7 +251,10 @@ class Exercise(models.Model):
         fail = query_result.filter(score__lt=total_score * 0.6).count()
         average_score = query_result.aggregate(average_score=Avg('score'))
         return have_finished,unfinished,excellent,good,fair,fail,all_students,average_score['average_score']
-    
+    @property
+    def is_over(self):
+        return timezone.now() > self.end_time
+
 
 # class QuesAnswerRec(models.Model):
 #     '''

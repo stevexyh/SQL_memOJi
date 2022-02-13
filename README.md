@@ -19,10 +19,8 @@ The version of Xadmin is too old, next time we will use simpleui to beautify the
 Can't use Database Table name begin with numbers, remember!
 - QuestionSet add questions' score
 Don't add same questions in the same questionset(TODO:这个需要用提交检测控制一下待办)
-- 后台剩余的数据库鉴权
-做一下后台剩余的数据库的鉴权，再去除一下没有的记录
-- Xadmin
-将Django-admin -> Xadmin，is_stuff怎么办？
+- 空白题算错误的？
+- 题目解析 考试的等截止才可以看 练习的直接可以看? 还是怎么弄？
 
 2021/12/28 Xi'an
 ## Files  

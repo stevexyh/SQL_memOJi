@@ -343,9 +343,22 @@ class CodingEditor(View):
         #     raise Resolver404
         cur_user = request.user
         if event_type == 'exam':
+            try:
+               cur_user.student.classroom.exam_set.get(pk = event_id) 
+            except Exception as exc:
+                content = {
+                    'err_code': '403',
+                    'err_message': _('没有权限'),
+                }
+                return render(request, 'error.html', context=content)   
             exam = models.Exam.objects.get(pk=event_id)
             rec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=exam).first()
-            # print(rec.__dict__)
+            if exam.end_time < timezone.now():
+                content = {
+                    'err_code': '403',
+                    'err_message': _('已截止'),
+                }
+                return render(request, 'error.html', context=content)
             if rec is not  None:
                 if rec.status == True:
                     content = {
@@ -354,8 +367,22 @@ class CodingEditor(View):
                     }
                     return render(request, 'error.html', context=content)
         elif event_type == 'exer':
+            try:
+               cur_user.student.classroom.exercise_set.get(pk = event_id) 
+            except Exception as exc:
+                content = {
+                    'err_code': '403',
+                    'err_message': _('没有权限'),
+                }
+                return render(request, 'error.html', context=content)   
             exer = models.Exercise.objects.get(pk=event_id)
             rec = models.ExerAnswerRec.objects.filter(student=cur_user.student, exer=exer).first()
+            if exer.end_time < timezone.now():
+                content = {
+                    'err_code': '403',
+                    'err_message': _('已截止'),
+                }
+                return render(request, 'error.html', context=content)
         else:
             raise Resolver404
         content = self.get_info(request, event_type, event_id, ques_id)
@@ -393,7 +420,21 @@ class CodingEditor(View):
         content = self.get_info(request, event_type, event_id, ques_id)
         cur_user = request.user
         if event_type == 'exam':
+            try:
+               cur_user.student.classroom.exam_set.get(pk = event_id) 
+            except Exception as exc:
+                content = {
+                    'err_code': '403',
+                    'err_message': _('没有权限'),
+                }
+                return render(request, 'error.html', context=content)   
             exam = models.Exam.objects.get(pk=event_id)
+            if exam.end_time < timezone.now():
+                content = {
+                    'err_code': '403',
+                    'err_message': _('已截止'),
+                }
+                return render(request, 'error.html', context=content)
             rec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=exam).first()
             # print(rec.__dict__)
             if rec.status == True:
@@ -403,7 +444,21 @@ class CodingEditor(View):
                 }
                 return render(request, 'error.html', context=content)
         elif event_type == 'exer':
+            try:
+               cur_user.student.classroom.exercise_set.get(pk = event_id) 
+            except Exception as exc:
+                content = {
+                    'err_code': '403',
+                    'err_message': _('没有权限'),
+                }
+                return render(request, 'error.html', context=content)   
             exer = models.Exercise.objects.get(pk=event_id)
+            if exer.end_time < timezone.now():
+                content = {
+                    'err_code': '403',
+                    'err_message': _('已截止'),
+                }
+                return render(request, 'error.html', context=content)
             rec = models.ExerAnswerRec.objects.filter(student=cur_user.student, exer=exer).first()
             if rec.status == True and rec.mark_status == False:
                 content = {
@@ -446,6 +501,7 @@ class CodingEditor(View):
             return HttpResponseRedirect(url)
             # return render(request, 'coding/coding-editor.html', context=content)
         submit_ans = request.POST.get('submit_ans')
+        
         # print("输入的答案:",submit_ans)
         question = content.get('question')
         qset = question.ques_set
@@ -545,6 +601,7 @@ class PaperDetails(View):
             else:
                 raise Resolver404
         content = {
+            # 'event' : event,
             'questions': questions,
         }
         return render(request, 'coding/analysis.html', context=content)
