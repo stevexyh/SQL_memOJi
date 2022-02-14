@@ -114,13 +114,21 @@ PS:实际上不给予组权限和相关用户的权限即可。同时不要给�
 需要手动打开Celery(首先已经配置好了Redis)
 ```bash
 # 在src目录下执行下述命令 已经启动Django的情况下
-# 打卡判题的队列
+# 打开判题的队列
 celery -A SQL_memOJi worker -l info
 # 打开定时判卷任务
 celery -A SQL_memOJi beat
 ```
 ### 常态化运行
-
+可以使用nohup等命令放置后台运行即可。注意保证各项服务打开后(Mysql,Redis)手动启动Django和celery。
+```bash
+## 启动Django
+python3 manage.py runserver ip:port
+## 启动判题(Queue)
+celery -A SQL_memOJi worker -l info
+## 启动阅卷(Schedule )
+celery -A SQL_memOJi beat
+```
 ### End
 Author:Seddon(Mail:seddon@mail.nwpu.edu.cn)
 欢迎各种提问。
