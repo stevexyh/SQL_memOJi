@@ -119,6 +119,8 @@ celery -A SQL_memOJi worker -l info
 # 打开定时判卷任务
 celery -A SQL_memOJi beat
 ```
+### 常态化运行
+
 ### End
 Author:Seddon(Mail:seddon@mail.nwpu.edu.cn)
 欢迎各种提问。

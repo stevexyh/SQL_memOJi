@@ -9,7 +9,7 @@ from django.db.models import Sum
 
 @shared_task
 def sql_check_celery(db_nm, ans_sql, stud_sql, event_type, rec_id, score):
-    print("Hello world!Test From Seddon!!!!")
+    print("sql_checking........rec_id:",rec_id)
     try:
         stud_sql = '#' if stud_sql == '' else stud_sql
         correct = sql_check.ans_check(db_nm=db_nm, ans_sql=ans_sql, stud_sql=stud_sql)
@@ -17,10 +17,10 @@ def sql_check_celery(db_nm, ans_sql, stud_sql, event_type, rec_id, score):
         print(e)
         correct = 'error'
     ans_status = {
-        True: models.QuesAnswerRec.AnsStatus.AC,
-        False: models.QuesAnswerRec.AnsStatus.WA,
-        'error': models.QuesAnswerRec.AnsStatus.RE,
-        'pending' : models.QuesAnswerRec.AnsStatus.PD
+        True: models.ExamQuesAnswerRec.AnsStatus.AC,
+        False: models.ExamQuesAnswerRec.AnsStatus.WA,
+        'error': models.ExamQuesAnswerRec.AnsStatus.RE,
+        'pending' : models.ExamQuesAnswerRec.AnsStatus.PD
     }.get(correct)
     ans_status_color = {
         True: 'success',
