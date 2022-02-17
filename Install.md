@@ -61,7 +61,9 @@ result_backend = 'redis://127.0.0.1:6379/1'
 python3 manage.py makemigrations coding user
 python3 manage.py makemigrations
 python3 manage.py migrate
+python3 manage.py collectstatic
 python3 manage.py runserver ip:端口
+# 第四行命令collectstatic是为了首次生成可以在debug=False时使用的静态资源文件，否则将导致后台静态资源错误的情况。
 ```
 ### Create Superuser
 ``` shell
@@ -91,6 +93,7 @@ Login the admin page(http://ip:port/admin) with superuser identity.New a school 
 - 学生 增删改查(Add Change Delete View)
 - 用户 增删改查(Add Change Delete View)
 PS:实际上不给予组权限和相关用户的权限即可。同时不要给予新建学校等的权限。如果无所谓其实可以全给，后台已经做过限制。并将该权限赋予该名老师，同时给予给老师工作人员状态(Staff权限若在前台网页注册时已经自动赋予)权限。(Staff权限若在前台网页注册时已经自动赋予)
+简而言之：就是禁止教师可以给用户赋予组权限，超级管理员权限，工作人员权限即可。
 ### 新建班级
 接下来即可新建一个班级，班级则可以直接通过新注册的教师账号进行创建，需要注意的是，我们需要指定一个**班级识别码**,并将该识别码分发给学生完成身份的注册。
 ### 新建题库
@@ -123,11 +126,7 @@ celery -A SQL_memOJi beat
 可以使用nohup等命令放置后台运行即可。注意保证各项服务打开后(Mysql,Redis)手动启动Django和celery。
 ```bash
 ## 启动Django
-python3 manage.py runserver ip:port
-## 启动判题(Queue)
-celery -A SQL_memOJi worker -l info
-## 启动阅卷(Schedule )
-celery -A SQL_memOJi beat
+python3 manage.py runserver ip:port & celery -A SQL_memOJi worker -l info & celery -A SQL_memOJi beat
 ```
 ### End
 Author:Seddon(Mail:seddon@mail.nwpu.edu.cn)
