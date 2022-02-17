@@ -124,9 +124,14 @@ celery -A SQL_memOJi beat
 ```
 ### 常态化运行
 可以使用nohup等命令放置后台运行即可。注意保证各项服务打开后(Mysql,Redis)手动启动Django和celery。
+一键运行脚本:runserver.sh
 ```bash
 ## 启动Django
-python3 manage.py runserver ip:port & celery -A SQL_memOJi worker -l info & celery -A SQL_memOJi beat
+python3 manage.py runserver ip:port
+## 启动判题(Queue)
+celery -A SQL_memOJi worker -l info
+## 启动阅卷(Schedule )
+celery -A SQL_memOJi beat
 ```
 ### End
 Author:Seddon(Mail:seddon@mail.nwpu.edu.cn)
