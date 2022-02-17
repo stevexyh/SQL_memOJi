@@ -40,7 +40,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = tk.get_token()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -172,7 +172,7 @@ STATICFILES_DIRS = (
     BASE_DIR / 'common_static',
 )
 
-# Static fiels while debug = False
+# Static files while debug = False
 STATIC_ROOT = BASE_DIR / 'static_collected'
 
 if USE_TZ:
