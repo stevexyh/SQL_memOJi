@@ -25,7 +25,7 @@ db.sqlite3-journal
 .sec_key
 .init.conf
 src/static_collected/
-
+celerybeat-schedule
 # Exception:
 !**/*.md
 !**/*.png

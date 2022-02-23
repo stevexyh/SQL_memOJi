@@ -133,6 +133,8 @@ celery -A SQL_memOJi worker -l info
 ## 启动阅卷(Schedule )
 celery -A SQL_memOJi beat
 ```
+### Celery 的吞吐量
+xxxx
 ### End
 Author:Seddon(Mail:seddon@mail.nwpu.edu.cn)
 欢迎各种提问。
