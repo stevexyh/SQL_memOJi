@@ -170,7 +170,7 @@ class Exam(models.Model):
     desc = models.TextField(verbose_name=_('描述'), null=True, blank=True)
     active = models.BooleanField(verbose_name=_('发布状态'), default=False)
     classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
-
+    show_answer = models.BooleanField(verbose_name=_('在解析中公布答案'),default=False)
     def __str__(self):
         return str(self.exam_id) + str('-') + str(self.exam_name)
 

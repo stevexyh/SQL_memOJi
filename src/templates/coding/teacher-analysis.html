@@ -155,7 +155,30 @@
                 },
                 {
                     scales: {
-                        yAxes: [{ ticks: { max: 100, min: 0, stepSize: 1 } }],
+                        // yAxes: [{ ticks: { max: 100, min: 0, stepSize: 1 } }],
+                        yAxes: [{
+        scaleLabel: {
+            display: true,
+            labelString: '比率/%'
+        },
+        id: 'A',
+        type: 'linear',
+        position: 'left',
+        ticks:{
+            max:100,min:0,stepSize:1
+        }
+      }, {
+        scaleLabel: {
+            display: true,
+            labelString: '次数/次'
+        },
+        id: 'B',
+        type: 'linear',
+        position: 'right',
+        ticks: {
+            max:100,min:0,stepSize:1
+        }
+      }]
                     },
                 }
             );

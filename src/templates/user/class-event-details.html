@@ -100,7 +100,7 @@
                                 <td>{{student.unfinish_cnt}}</td>
                                 <td>
                                     {% for ques in student.unfinished_list%}
-                                        {{ques.ques_id}}-{{ques.ques_name}} 
+                                        {{ques.ques_id}}-{{ques.ques_name}};  
                                     {% endfor %}
                                 </td>
                             </tr>
@@ -139,7 +139,7 @@
                                 <td>{{student.error_cnt}}</td>
                                 <td>
                                     {% for ques in student.error_list%}
-                                        {{ques.ques_id}}-{{ques.ques_name}} 
+                                        {{ques.ques_id}}-{{ques.ques_name}};  
                                     {% endfor %}
                                 </td>
                             </tr>
