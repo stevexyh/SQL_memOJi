@@ -70,13 +70,13 @@
                                     </td>
                                     <td> {{question.submit_time}} </td>
                                     <td> {{question.submit_cnt}} </td> 
-                                    {% if event.is_over %}       
+                                    {% if event_type == 'exer' %}
                                         <td> {{question.question.ques_ans}}</td>
                                     {% else %}
-                                        {% if event_type == 'exer' %}
-                                            <td> {{question.question.ques_ans}}</td>
+                                        {% if event.show_answer %}
+                                        <td> {{question.question.ques_ans}} </td>
                                         {% else %}
-                                            <td> 截止后可见 </td>
+                                        <td> 暂不可见 </td>
                                         {% endif %}
                                     {% endif %}
                                 </tr>

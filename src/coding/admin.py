@@ -313,8 +313,8 @@ class ExamAdmin(admin.ModelAdmin):
     def classrooms(self,obj):
         return [bt.class_name for bt in obj.classroom.all()]
     classrooms.short_description = "分配班级"
-    list_display = ['exam_id', 'exam_name', 'paper', 'start_time', 'end_time', 'publish_time', 'active', 'classrooms']
-    list_filter = ['exam_name', 'paper', 'active']
+    list_display = ['exam_id', 'exam_name', 'paper', 'start_time', 'end_time', 'publish_time', 'active', 'classrooms','show_answer']
+    list_filter = ['exam_name', 'paper', 'active','show_answer']
 
 
 # Fields: 'exer_id', 'exer_name', 'paper', 'publish_time', 'active', 'classroom'
