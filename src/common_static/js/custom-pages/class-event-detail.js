@@ -2,6 +2,15 @@ $(document).ready(function () {
     // $(".datatable").DataTable().destroy(); 
     // $(".datatable").empty(); 
     $(".datatable").DataTable({
+        dom: 'Blfrtip',
+        buttons: [
+            {
+                extend: 'excel',
+                text: '导出Excel',
+                className:'btn btn-primary mb-2',
+                filename:'题目作答情况'+ new Date().getTime()
+            },
+        ],
         lengthMenu: [5, 10, 25, 50],
         pageLength: 5,
         info: "aaa _START_ to _END_ of _TOTAL_ entries",
@@ -147,6 +156,15 @@ $(document).ready(function () {
         },
     });
     $(".student-table-finish").DataTable({
+        dom: 'Blfrtip',
+        buttons: [
+            {
+                extend: 'excel',
+                text: '导出Excel',
+                className:'btn btn-primary mb-2',
+                filename:'未完成学生列表'+ new Date().getTime()
+            },
+        ],
         lengthMenu: [5, 10, 25, 50],
         pageLength: 5,
         info: "aaa _START_ to _END_ of _TOTAL_ entries",
@@ -291,6 +309,15 @@ $(document).ready(function () {
         },
     });
     $(".student-table-error").DataTable({
+        dom: 'Blfrtip',
+        buttons: [
+            {
+                extend: 'excel',
+                text: '导出Excel',
+                className:'btn btn-primary mb-2',
+                filename:'有错题学生列表'+ new Date().getTime()
+            },
+        ],     
         lengthMenu: [5, 10, 25, 50],
         pageLength: 5,
         info: "aaa _START_ to _END_ of _TOTAL_ entries",
@@ -337,7 +364,6 @@ $(document).ready(function () {
                     "按 ctrl 或者 u2318 + C 将表数据复制到剪贴板。<br /><br />要取消，请单击此消息或按Escape键。",
                 copyTitle: "复制到剪贴板",
                 csv: "CSV",
-                excel: "Excel",
                 pdf: "PDF",
                 copySuccess: {
                     1: "已将 1 行复制到剪贴板",
