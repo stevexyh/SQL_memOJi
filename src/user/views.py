@@ -24,7 +24,7 @@ from django.contrib import auth
 from django.utils.translation import gettext_lazy as _
 from django.db import transaction
 from django.db.models import Sum
-from user.models import Student, User, Classroom
+from user.models import Student, User, Classroom, StudentList
 from user.forms import UserInfoForm, StudentForm, ClassroomForm
 from coding.models import Exam, Exercise, Question, QuestionSet, ExerAnswerRec, ExamAnswerRec, ExamQuesAnswerRec, ExerQuesAnswerRec
 import datetime
@@ -235,13 +235,15 @@ class AuthRegister(View):
             msg = _('此学工号已注册, 请更换另一个或求助管理员')
         elif password1 != password2:
             msg = _('两次密码输入不一致')
-        elif Classroom.objects.get(join_code=class_id) is None:
-            msg = _('该班级不存在')
         else:
             try:
                 with transaction.atomic():
-                    new_user = User.objects.create_user(username=username, password=password2, email=email)
                     his_classroom = Classroom.objects.get(join_code=class_id)
+                    if his_classroom.need_list:
+                        studentlist_obj = StudentList.objects.get(classroom=his_classroom,internal_id=internal_id,full_name=full_name)
+                        studentlist_obj.join_status = True
+                        studentlist_obj.save()
+                    new_user = User.objects.create_user(username=username, password=password2, email=email)
                     new_user.school_name = school_name
                     new_user.school = his_classroom.school
                     new_user.join_status = 2
@@ -256,6 +258,10 @@ class AuthRegister(View):
                     new_user.is_staff = True
                     new_user.save()
                     fail = False
+            except Classroom.DoesNotExist:
+                msg = _('注册异常: 班级识别码不存在')
+            except StudentList.DoesNotExist:
+                msg = _('注册异常: 用户不在该班级名单内，请检查姓名，学号和班级识别码是否匹配。若仍报错请任课老师。')
             except Exception as exc:
                 msg = _('注册异常: ') + str(exc)
                 print(exc)

@@ -184,6 +184,7 @@ class Classroom(models.Model):
     active = models.BooleanField(verbose_name=_('有效状态'), default=True)
     join_code = models.CharField(verbose_name=_('班级识别码'), blank=False, unique=True, max_length=20)
     # stud_list = models.CharField(verbose_name=_('学生列表'), max_length=2000, null=True, blank=True)
+    need_list = models.BooleanField(verbose_name=_('需要学生清单'), default=True)
 
     def __str__(self):
         return str(self.class_name)
@@ -246,7 +247,7 @@ class StudentList(models.Model):
         return self.classroom.join_code
     join_code.short_description = '班级识别码'
     def __str__(self):
-        return str(self.record_id)
+        return str(self.record_id) + '-' + str(self.internal_id) + '-' + str(self.full_name)
 
     class Meta:
         verbose_name = '学生清单'

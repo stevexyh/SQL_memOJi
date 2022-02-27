@@ -216,11 +216,32 @@ class ClassroomAdmin(admin.ModelAdmin):
             if db_field.name == 'teacher':
                 kwargs['queryset'] = models.Teacher.objects.filter(user=request.user)
         return super(ClassroomAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
-    list_display = ['class_id', 'school', 'class_name', 'teacher', 'class_desc', 'join_code', 'active']
-    list_filter = ['school', 'class_name', 'teacher', 'active', 'join_code']
+    list_display = ['class_id', 'school', 'class_name', 'teacher', 'class_desc', 'join_code', 'active','need_list']
+    list_filter = ['school', 'class_name', 'teacher', 'active', 'join_code','need_list']
 
 @admin.register(models.StudentList)
 class StudentListAdmin(ImportExportModelAdmin):
+    def get_queryset(self, request):
+        # 接管查询请求
+        results = super(StudentListAdmin, self).get_queryset(request)
+        identity = request.user.identity()
+        if request.user.is_superuser:  # 超级用户可查看所有数据
+            return results
+        if identity == 'teacher' or identity == 'teacher_student':
+            return models.StudentList.objects.filter(classroom__in=request.user.teacher.teach_room())
+        else:
+            return models.StudentList.objects.none()
+
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+        if not (request.user.is_superuser):
+            if db_field.name == 'classroom':
+                identity = request.user.identity()
+                if identity == 'teacher' or identity == 'teacher_student':
+                    kwargs['queryset'] = models.Classroom.objects.filter(teacher=request.user.teacher)
+                else:
+                    kwargs['queryset'] = models.Classroom.objects.none()
+        return super(StudentListAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
     def get_export_formats(self):    #该方法是限制格式
         formats = (
             base_formats.XLSX,
@@ -235,6 +256,5 @@ class StudentListAdmin(ImportExportModelAdmin):
     resource_class = StudentListResource
     list_display = ['record_id','full_name','internal_id','classroom', 'join_code', 'join_status']
     list_filter = ['classroom','join_status']
-
     pass
 

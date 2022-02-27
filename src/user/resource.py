@@ -14,4 +14,4 @@ class StudentListResource(resources.ModelResource):
         list_display = ['record_id','full_name','internal_id','classroom','join_status']
         fields = ('full_name','internal_id','classroom')
         export_order = ('full_name', 'internal_id', 'classroom')
-        import_id_fields = ['internal_id']
+        import_id_fields = ['internal_id','full_name']
