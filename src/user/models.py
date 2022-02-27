@@ -226,3 +226,25 @@ class Student(models.Model):
     class Meta:
         verbose_name = '学生'
         verbose_name_plural = verbose_name
+
+class StudentList(models.Model):
+    '''
+    Student Table
+    | 字段名                 | 数据类型             | 非空  | Key | 默认值       |
+    |-----------------------|---------------------|------|-----|-------------|
+    | user                  | varchar             |      | FK  |             |
+    | classroom             | varchar             |      | FK  |             |
+    | join_status           | int                 |      |     | 0           |
+    '''
+    record_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
+    full_name = models.CharField(verbose_name=_('学生姓名'), max_length=30)
+    internal_id = models.CharField(verbose_name=_('学号'), max_length=30)
+    join_code = models.CharField(verbose_name=_('班级识别码'), blank=False, max_length=20)
+    join_status = models.BooleanField(verbose_name=_('加入状态'), default=False)
+
+    def __str__(self):
+        return str(self.record_id)
+
+    class Meta:
+        verbose_name = '学生清单'
+        verbose_name_plural = verbose_name

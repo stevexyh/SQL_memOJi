@@ -24,6 +24,9 @@ from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
 from . import models
 
+from import_export.admin import ImportExportModelAdmin
+from .resource import StudentListResource
+from import_export.formats import base_formats
 
 admin.site.site_header = 'SQL-OJ管理后台'
 admin.site.site_title = 'SQL-OJ'
@@ -215,3 +218,21 @@ class ClassroomAdmin(admin.ModelAdmin):
         return super(ClassroomAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
     list_display = ['class_id', 'school', 'class_name', 'teacher', 'class_desc', 'join_code', 'active']
     list_filter = ['school', 'class_name', 'teacher', 'active', 'join_code']
+
+@admin.register(models.StudentList)
+class StudentListAdmin(ImportExportModelAdmin):
+    def get_export_formats(self):    #该方法是限制格式
+        formats = (
+            base_formats.XLSX,
+        )
+        return [f for f in formats if f().can_export()]
+    def get_import_formats(self):    #该方法是限制格式
+        formats = (
+            base_formats.XLSX,
+        )
+        return [f for f in formats if f().can_export()]
+
+    resource_class = StudentListResource
+    list_display = ['record_id','full_name','internal_id','join_code','join_status']
+    pass
+

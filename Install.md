@@ -23,6 +23,7 @@ Mysql，Redis请自行安装相应版本，Redis配置好后还需要在./src/SQ
 ```bash
 sudo apt-get install libmysqlclient-dev
 pip install django==3.1.7 celery==5.1.2 djangorestframework==3.13.1 mysqlclient==2.1.0 pymysql==1.0.2 prettytable==2.5.0 redis==4.1.3
+pip install django-import-export
 ```
 上述版本为推荐版本，可以进行适当的升级操作，具体操作可灵活选择。
 ## First use 添加配置文件

@@ -58,7 +58,8 @@ INSTALLED_APPS = [
 
     # # Simpleui
     # 'simpleui',
-    
+    # For Excel Import
+    'import_export',
     # Django core
     'django.contrib.admin',
     'django.contrib.auth',
@@ -196,3 +197,5 @@ result_serializer = "json"
 # task_soft_time_limit = 10 * 60
 # 可选：设置任务调度器
 # beat_scheduler = "django_celery_beat.schedulers:DatabaseScheduler"
+# For Excel Function
+IMPORT_EXPORT_USE_TRANSACTIONS = False
