@@ -218,7 +218,7 @@ class Student(models.Model):
 
     user = models.OneToOneField(to=User, on_delete=models.CASCADE, primary_key=True)
     classroom = models.ForeignKey(verbose_name=_('班级'), to=Classroom, on_delete=models.SET_NULL, default=None, null=True, blank=False)
-    join_status = models.BooleanField(verbose_name=_('加入状态'), default=False)
+    # join_status = models.BooleanField(verbose_name=_('加入状态'), default=False)
 
     def __str__(self):
         return str(self.user)
@@ -237,11 +237,14 @@ class StudentList(models.Model):
     | join_status           | int                 |      |     | 0           |
     '''
     record_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
-    full_name = models.CharField(verbose_name=_('学生姓名'), max_length=30)
-    internal_id = models.CharField(verbose_name=_('学号'), max_length=30)
-    join_code = models.CharField(verbose_name=_('班级识别码'), blank=False, max_length=20)
+    full_name = models.CharField(verbose_name=_('学生姓名'), max_length=30, blank=False)
+    internal_id = models.CharField(verbose_name=_('学号'), max_length=30, blank=False)
+    classroom = models.ForeignKey(verbose_name=_('班级'), to=Classroom, on_delete=models.SET_NULL, default=None, null=True, blank=False)
     join_status = models.BooleanField(verbose_name=_('加入状态'), default=False)
 
+    def join_code(self):
+        return self.classroom.join_code
+    join_code.short_description = '班级识别码'
     def __str__(self):
         return str(self.record_id)
 

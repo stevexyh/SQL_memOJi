@@ -25,8 +25,8 @@ from django.db.models import Q
 from . import models
 
 from import_export.admin import ImportExportModelAdmin
-from .resource import StudentListResource
 from import_export.formats import base_formats
+from .resource import StudentListResource
 
 admin.site.site_header = 'SQL-OJ管理后台'
 admin.site.site_title = 'SQL-OJ'
@@ -176,8 +176,8 @@ class StudentAdmin(admin.ModelAdmin):
                     kwargs['queryset'] = models.Classroom.objects.none()
         return super(StudentAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
     
-    list_display = ['user', 'classroom', 'join_status']
-    list_filter = ['classroom' , 'join_status']
+    list_display = ['user', 'classroom']
+    list_filter = ['classroom']
 
 
 # Fields: 'school_id', 'school_name', 'school_name_en', 'school_abbr'
@@ -233,6 +233,8 @@ class StudentListAdmin(ImportExportModelAdmin):
         return [f for f in formats if f().can_export()]
 
     resource_class = StudentListResource
-    list_display = ['record_id','full_name','internal_id','join_code','join_status']
+    list_display = ['record_id','full_name','internal_id','classroom', 'join_code', 'join_status']
+    list_filter = ['classroom','join_status']
+
     pass
 
