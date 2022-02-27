@@ -25,8 +25,8 @@ from django.db.models import Q
 from . import models
 
 
-admin.site.site_header = 'memOJi管理后台'
-admin.site.site_title = 'memOJi'
+admin.site.site_header = 'SQL-OJ管理后台'
+admin.site.site_title = 'SQL-OJ'
 
 
 # Register your models here.
