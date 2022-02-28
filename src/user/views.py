@@ -302,6 +302,9 @@ class ClassManage(View):
                 else:
                     class_list = Classroom.objects.filter(teacher=request.user.teacher)
 
+                for cls in class_list:
+                    print(cls)
+                    print(cls.studentlist_set.all().count(  ))
                 content = {
                     'class_list': class_list,
                 }
@@ -478,7 +481,11 @@ class ClassEventDetails(View):
                 else:
                     per_acrate = (question_answer_detail.filter(ans_status=0).count() / question.finish_cnt) * 100
                     question.per_acrate = round(per_acrate,2)
-            unfinished = classroom.student_set.exclude(user__in=event_answer_detail.values('user'))
+            have_submitted = event_detail.filter(status=True)
+            unfinished = classroom.student_set.exclude(user__in=have_submitted.values('student'))
+            # print(event_detail.filter(status=True).values('student'))
+            # print(unfinished)
+            unjoin = StudentList.objects.filter(classroom=classroom,join_status=False)
             for student in unfinished:
                 finish_cnt = event_answer_detail.filter(user=student.user)
                 student.unfinished_list = questions.exclude(ques_id__in=finish_cnt.values('question'))
@@ -490,12 +497,19 @@ class ClassEventDetails(View):
                 student.error_cnt = error_list.filter(user=student.user).count()
                 student.error_list = error_list.filter(user=student.user).values('question')
                 student.error_list = questions.filter(ques_id__in=student.error_list)
+            score_list = have_submitted
+            for student in score_list:
+                student.answer_score_list = event_answer_detail.filter(user=student.student.user)
+                print(event_answer_detail.filter(user=student.student.user))
+                print(student.student.user.internal_id)
             if request.user.is_superuser:
                 content = {
                     'classroom': classroom,
                     'questions' : questions,
                     'student_unfinish' : unfinished,
                     'student_error' : error,
+                    'unjoin' : unjoin,
+                    'score_list' : score_list
                 }
                 return render(request, 'user/class-event-details.html', context=content)
             else:
@@ -506,6 +520,8 @@ class ClassEventDetails(View):
                             'questions' : questions,
                             'student_unfinish' : unfinished,
                             'student_error' : error,
+                            'unjoin' : unjoin,
+                            'score_list' : score_list
                         }
                     return render(request, 'user/class-event-details.html', context=content)
         content = {

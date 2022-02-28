@@ -105,6 +105,17 @@
                                 </td>
                             </tr>
                             {% endfor %}
+
+                            {% for student in unjoin %}
+                            <tr>
+                                <td>{{student.internal_id}}</td>
+                                <td>{{student.full_name}}</td>
+                                <td>N/A</td>
+                                <td>
+                                    暂未加入班级
+                                </td>
+                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -140,6 +151,47 @@
                                 <td>
                                     {% for ques in student.error_list%}
                                         {{ques.ques_id}}-{{ques.ques_name}};  
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="page-title-box d-flex align-items-center justify-content-between">
+    <h4 class="mb-0">成绩</h4>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body  pt-0">
+                <div class="table-responsive" style="margin-top: 20px;">
+                    <table class="table table-centered student-table-score dt-responsive nowrap " style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>学号</th>
+                                <th>姓名</th>
+                                <th>成绩</th>
+                                <th>题目小分</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in score_list %}
+                            <tr>
+                                <td>{{student.student.user.internal_id}}</td>
+                                <td>{{student.student.user.full_name}}</td>
+                                <td>{{student.score}}</td>
+                                <td>
+                                    {% for ques in student.answer_score_list%}
+                                        (Ques-{{ques.question.ques_id}}题 {{ques.score}}分);  
                                     {% endfor %}
                                 </td>
                             </tr>
