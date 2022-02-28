@@ -49,7 +49,7 @@
                         <div class="row text-center">
                             <div class="col-12">
                                 <p class="text-muted mb-2">人数</p>
-                                <h5>{{cls.students_count}}</h5>
+                                <h5>{{cls.students_count}} / {{cls.studentlist_set.all.count}}</h5>
                             </div>
                         </div>
                         <div class="text-center"><a href="{% url 'user:class-details' cls.class_id %}" class="btn btn-primary mt-1 waves-effect waves-light">查看</a></div>

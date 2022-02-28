@@ -28,6 +28,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-4">考试{{exam.exam_id}} - {{exam.exam_name}} 完成情况
+                    <h6 class="text-muted text-truncate text-center"> {{exam.start_time}} - {{exam.end_time}} </h6>
                     <a href="{% url 'coding:teacher-analysis' 'exam' exam.exam_id %}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="查看解析" style="float: right;">
                         <i class="mdi mdi-eye font-size-18"></i> 详细数据
                     </a>
@@ -56,6 +57,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title mb-4">练习{{exer.exer_id}} - {{exer.exer_name}} 完成情况</h4>
+                    <h6 class="text-muted text-truncate text-center"> {{exer.start_time}} - {{exer.end_time}} </h6>
                     <a href="{% url 'coding:teacher-analysis' 'exer' exer.exer_id %}" class="mr-3 text-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="查看解析" style="float: right;">
                         <i class="mdi mdi-eye font-size-18"></i> 详细数据
                     </a>

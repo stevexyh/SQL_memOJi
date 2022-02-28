@@ -7,15 +7,6 @@ From Steve-Xyh
 
 
 ## Some Questions
-- Xadmin can't use
-The version of Xadmin is too old, next time we will use simpleui to beautify the admin page.
-- User Auth
-定义用户权限，减轻教师和SuperAdmin权限控制的工作量
-暂且使用Django-admin 进行实现
-- 大数据统计
-这个放前端实现吧，难搞
-- SQL判卷的消息队列机制
-轮流判卷，减少服务器压力
 - Big Dateset Problems
 对大量数据的实际使用情况有待测试
 ## Known Bugs
@@ -23,9 +14,8 @@ The version of Xadmin is too old, next time we will use simpleui to beautify the
 Can't use Database Table name begin with numbers, remember!
 - QuestionSet add questions' score
 Don't add same questions in the same questionset(TODO:这个需要用提交检测控制一下待办)
-- 鉴权
-需要做限制单个题目提交（超时、已手动关闭），整张试卷的分值计算（超时、手动关闭）的限制，直接view层不给可乘之机。
-
+- 空白题算错误的？
+- 普通教师的题目是有错误的，目前能看见所有的题目
 2021/12/28 Xi'an
 ## Files  
 ```  
@@ -62,8 +52,8 @@ Don't add same questions in the same questionset(TODO:这个需要用提交检�
 ## TO-DO List
 - 前端部分
   - [x] 仪表板
-    - [ ] 学生：通过率、最近考试、练习
-    - [ ] 老师：已发布的考试、练习、统计信息
+    - [x] 学生：通过率、最近考试、练习
+    - [x] 老师：已发布的考试、练习、统计信息
   - [x] 统一各页面 `base.html` 部分
     - [x] html
     - [x] django template
@@ -96,8 +86,8 @@ Don't add same questions in the same questionset(TODO:这个需要用提交检�
 
   - [x] 日历 `calendar.html`
   - [x] 统计数据 `statistics.html`
-    - [ ] 学生：已通过/未通过
-    - [ ] 老师：练习/考试 已完成/未完成，通过率
+    - [x] 学生：已通过/未通过
+    - [x] 老师：练习/考试 已完成/未完成，通过率
   - [x] 个人信息 `user-info.html`
   - [x] 答题 `coding.html`
     - [x] 编辑器 `coding-editor.html`
@@ -105,7 +95,7 @@ Don't add same questions in the same questionset(TODO:这个需要用提交检�
   - [x] 练习 & 考试 `exams-manage.html`
     - [ ] 练习详情编辑 `modal`
     - [ ] 考试详情编辑 `modal`
-    - [ ] 顶部卡片: 下一场练习、暂无考试
+    - [x] 顶部卡片: 下一场练习、暂无考试
     - [ ] 删除/终止考试
   - [x] 班级管理 `class-manage.html`
     - [ ] 学生信息编辑
@@ -115,7 +105,7 @@ Don't add same questions in the same questionset(TODO:这个需要用提交检�
   - [x] 题库 & 试卷 `questions-manage.html`
     - [x] 题目描述省略多余信息
     - [x] 题目详情编辑
-      - [ ] 正确答案
+      - [x] 正确答案
     - [ ] 试卷详情编辑
     - [x] 创建题库
     - [ ] 二级菜单

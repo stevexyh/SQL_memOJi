@@ -76,23 +76,31 @@
                                     <i class="mdi mdi-alert-outline mr-3"></i>
                                     Runtime Error
                                 {% endif %}
+                                {% if correct == 'pending' %}
+                                    <i class="mdi mdi-alert-outline mr-3"></i>
+                                    Pending 正在判题，请稍后刷新
+                                {% endif %}
                                 {% if correct is None %}
                                     MySQL 编辑器
                                 {% endif %}
                             </h4>
                         </div>
+
                         <div class="card-header bg-transparent border-success">
                             <h7 class="card-title-desc">在此区域作答</h7>
                         </div>
-
                         <div class="card-body">
                             <form method="POST" id="code-editor" action="{% url 'coding:coding-editor' event_type event_id question.ques_id %}">
+                                {% if correct == 'pending' %}
+                                {% else %}
                                 {% csrf_token %}
+                                {% endif %}
                                 <div class="card border" id="container" style="width: 100%; min-height: 300px; margin-bottom: 0px;"></div>
                                 <input hidden name="submit_ans" id="code" />
                             </form>
 
                         </div>
+
                     </div>
                 </div>
                 <div class="col-6">
@@ -117,16 +125,29 @@
                             <input type="hidden" name="movement" value="submit">
                         </form>
                         <button type="next" class="btn btn-outline-danger waves-effect waves-light" form="code-submit" style="float: right;">
-                            交卷
+                            {% if event_type == 'exam' %}
+                                交卷
+                            {% else %}
+                                计算成绩
+                            {% endif %}
                             <i class="ri-check-line align-middle mr-2"></i>
                         </button>
                     {% endif %}
                 </div>
+                {% if correct == 'pending' %}
+                <div class="col-6">
+                    <button type="submit" class="btn btn-success waves-effect waves-light" onclick="javascript:location.reload();" style="float: right;">
+                        <i class="ri-refresh-line align-middle mr-2"></i>刷新状态
+                    </button>
+                </div>
+                {% else %}
                 <div class="col-6">
                     <button type="submit" class="btn btn-success waves-effect waves-light" onclick="setupFormPost()" form="code-editor" style="float: right;">
                         <i class="ri-play-line align-middle mr-2"></i>提交运行
                     </button>
                 </div>
+                {% endif %}
+
 
             </div>
         </div>

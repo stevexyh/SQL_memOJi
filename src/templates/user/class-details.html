@@ -72,7 +72,6 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th>测试ID</th>
-                                    <th>类型</th>
                                     <th>测试名称</th>
                                     <th>发布时间</th>
                                     <th>截止时间</th>
@@ -86,8 +85,7 @@
                             <tbody>
                                 {% for exam in exam_list %}
                                 <tr>
-                                    <td>Exam-{{exam.exam_id}}</td>
-                                    <td><div class="badge badge-soft-success font-size-12">考试</div></td>
+                                    <td><div class="badge badge-soft-success font-size-12">Exam-{{exam.exam_id}}</div></td>
                                     <td>{{exam.exam_name}}</td>
                                     <td>{{exam.start_time}}</td>
                                     <td>{{exam.end_time}}</td>
@@ -102,8 +100,7 @@
                                 {% endfor %}
                                 {% for exer in exer_list %}
                                 <tr>
-                                    <td>Exer-{{exer.exer_id}}</td>
-                                    <td><div class="badge badge-soft-danger font-size-12">练习</div></td>
+                                    <td><div class="badge badge-soft-danger font-size-12">Exer-{{exer.exer_id}}</div></td>
                                     <td>{{exer.exer_name}}</td>
                                     <td>{{exer.start_time}}</td>
                                     <td>{{exer.end_time}}</td>

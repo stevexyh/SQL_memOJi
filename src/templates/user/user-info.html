@@ -47,49 +47,11 @@
                     {% if classroom %}
                     <h3 class="card-title mt-0">{{ classroom }} (班级ID  {{ classroom.class_id }}, 教师 {{ classroom.teacher }})</h3>
                     {% endif %}
-                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#user-info-modal">修改信息</a>
                 </div>
             </div>
 
         </div>
 
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="user-info-modal" tabindex="-1" role="dialog" aria-labelledby="user-info-modalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="paperTitle">编辑个人信息</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" class="needs-validation" novalidate>
-                        {% csrf_token %}
-                        <div class="row">
-                            {% for studinfo in student_form %}
-                                <div class="form-group mb-4 col-6">
-                                    <label for="{{ studinfo.id_for_label}} ">{{ studinfo.label }}</label>
-                                    <div>{{ studinfo }}</div>
-                                </div>
-                            {% endfor %}
-                            {% for info in info_form %}
-                                <div class="form-group mb-4 col-6">
-                                    <label for="{{ info.id_for_label}} ">{{ info.label }}</label>
-                                    <div>{{ info }}</div>
-                                    <!-- <span class="text-muted">e.g "NPU0001"</span> -->
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <div class="col-12 text-center mt-4" style="padding-top: 10px;">
-                            <button type="submit" class="btn btn-primary">保存<i class="fab fa-telegram-plane ml-1"></i></button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
     </div>
 
 {% endblock main %}

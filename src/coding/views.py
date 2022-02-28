@@ -20,7 +20,8 @@
 
 import pymysql,datetime
 from django.shortcuts import render, redirect
-from django.urls import Resolver404
+from django.http import HttpResponseRedirect  
+from django.urls import Resolver404, reverse
 from django.views import View
 from django.contrib import auth
 from django.utils.translation import gettext_lazy as _
@@ -34,6 +35,7 @@ from utils import sql_check
 from django.db.models import Q
 from django.utils import timezone
 from django.db.models import Avg
+from .tasks import sql_check_celery
 # Create your views here.
 
 
@@ -214,7 +216,7 @@ def coding(request):
     }
     exams_list = models.Exam.objects.order_by('publish_time').filter(**conditions)
     exer_list = models.Exercise.objects.order_by('publish_time').filter(**conditions)
-    have_finished = models.ExamAnswerRec.objects.filter(student=request.user.student)
+    have_finished = models.ExamAnswerRec.objects.filter(student=request.user.student,status = True)
     have_finished_exam_id = []
     for element in have_finished:
         have_finished_exam_id.append(element.exam.exam_id)
@@ -269,7 +271,6 @@ class CodingEditor(View):
         cur.execute(f'''show tables;''')
         tables = [tb[0] for tb in cur.fetchall()]
         pt_db_tables.add_rows([[tb] for tb in tables])
-
         # Create PrettyTable for `desc <table_name>;`
         tables_desc = [str(pt_db_tables)]
         for tb in tables:
@@ -279,11 +280,9 @@ class CodingEditor(View):
             pt_table_desc.add_rows([row[:2] for row in cur.fetchall()])
             tables_desc.append('\n' + tb)
             tables_desc.append(str(pt_table_desc))
-
         db_desc = '\n'.join(tables_desc)
         cur.close()
         db.close()
-
         content = {
             'event': event,
             'event_id': event_id,
@@ -314,12 +313,15 @@ class CodingEditor(View):
                     correct_bool = True
                 elif correct == 1:
                     correct_bool = False
-                else:
+                elif correct == 2:
                     correct_bool = 'error'
+                else:
+                    correct_bool = 'pending'
                 ans_status_color = {
                     True: 'success',
                     False: 'danger',
                     'error': 'warning',
+                    'pending': 'warning',
                 }.get(correct_bool)
                 content.update({
                     'correct': correct_bool,
@@ -330,110 +332,188 @@ class CodingEditor(View):
 
     def get(self, request, event_type, event_id, ques_id):
         '''Show info'''
-        try:
-            if event_type == 'exam':
-                print(request.user.student.classroom.exam_set.all().get(exam_id=event_id))
-            elif event_type == 'exer':
-                print(request.user.student.classroom.exercise_set.all().get(exer_id=event_id))
-            else:
-                raise Resolver404
-        except:
+        # try:
+        #     if event_type == 'exam':
+        #         print(request.user.student.classroom.exam_set.all().get(exam_id=event_id))
+        #     elif event_type == 'exer':
+        #         print(request.user.student.classroom.exercise_set.all().get(exer_id=event_id))
+        #     else:
+        #         raise Resolver404
+        # except:
+        #     raise Resolver404
+        cur_user = request.user
+        if event_type == 'exam':
+            try:
+               cur_user.student.classroom.exam_set.get(pk = event_id) 
+            except Exception as exc:
+                content = {
+                    'err_code': '403',
+                    'err_message': _('没有权限'),
+                }
+                return render(request, 'error.html', context=content)   
+            exam = models.Exam.objects.get(pk=event_id)
+            rec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=exam).first()
+            if exam.end_time < timezone.now():
+                content = {
+                    'err_code': '403',
+                    'err_message': _('已截止'),
+                }
+                return render(request, 'error.html', context=content)
+            if rec is not  None:
+                if rec.status == True:
+                    content = {
+                        'err_code': '403',
+                        'err_message': _('已交卷，无法查看'),
+                    }
+                    return render(request, 'error.html', context=content)
+        elif event_type == 'exer':
+            try:
+               cur_user.student.classroom.exercise_set.get(pk = event_id) 
+            except Exception as exc:
+                content = {
+                    'err_code': '403',
+                    'err_message': _('没有权限'),
+                }
+                return render(request, 'error.html', context=content)   
+            exer = models.Exercise.objects.get(pk=event_id)
+            rec = models.ExerAnswerRec.objects.filter(student=cur_user.student, exer=exer).first()
+            if exer.end_time < timezone.now():
+                content = {
+                    'err_code': '403',
+                    'err_message': _('已截止'),
+                }
+                return render(request, 'error.html', context=content)
+        else:
             raise Resolver404
         content = self.get_info(request, event_type, event_id, ques_id)
         if ques_id == '1':
-            cur_user = request.user
             if cur_user.is_authenticated:
                 if event_type == 'exam':
                     # print('是考试')
-                    exam = models.Exam.objects.get(pk=event_id)
-                    rec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=exam).first()
+                    # exam = models.Exam.objects.get(pk=event_id)
+                    # rec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=exam).first()
                     if rec is None:
                         models.ExamAnswerRec.objects.create(
-                            student=cur_user.student,
-                            exam=exam,
-                            start_time = timezone.now()
+                            student = cur_user.student,
+                            exam = exam,
+                            start_time = timezone.now(),
+                            status = False,
+                            mark_status = False
                         )
                 else:
-                    exer = models.Exercise.objects.get(pk=event_id)
-                    rec = models.ExerAnswerRec.objects.filter(student=cur_user.student, exer=exer).first()
+                    # exer = models.Exercise.objects.get(pk=event_id)
+                    # rec = models.ExerAnswerRec.objects.filter(student=cur_user.student, exer=exer).first()
                     if rec is None:
                         models.ExerAnswerRec.objects.create(
                             student=cur_user.student,
                             exer=exer,
-                            start_time = timezone.now()
+                            start_time = timezone.now(),
+                            status = False,
+                            mark_status = False
                         )
         return render(request, 'coding/coding-editor.html', context=content)
 
     def post(self, request, event_type, event_id, ques_id):
         '''Submit SQL'''
+        # 如果是考试的话，交卷之后禁用POST
+        # 如果是练习的话，交卷之后需等判卷完毕后才可以重新提交
         content = self.get_info(request, event_type, event_id, ques_id)
         cur_user = request.user
+        if event_type == 'exam':
+            try:
+               cur_user.student.classroom.exam_set.get(pk = event_id) 
+            except Exception as exc:
+                content = {
+                    'err_code': '403',
+                    'err_message': _('没有权限'),
+                }
+                return render(request, 'error.html', context=content)   
+            exam = models.Exam.objects.get(pk=event_id)
+            if exam.end_time < timezone.now():
+                content = {
+                    'err_code': '403',
+                    'err_message': _('已截止'),
+                }
+                return render(request, 'error.html', context=content)
+            rec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=exam).first()
+            # print(rec.__dict__)
+            if rec.status == True:
+                content = {
+                    'err_code': '403',
+                    'err_message': _('已交卷，无法继续提交'),
+                }
+                return render(request, 'error.html', context=content)
+        elif event_type == 'exer':
+            try:
+               cur_user.student.classroom.exercise_set.get(pk = event_id) 
+            except Exception as exc:
+                content = {
+                    'err_code': '403',
+                    'err_message': _('没有权限'),
+                }
+                return render(request, 'error.html', context=content)   
+            exer = models.Exercise.objects.get(pk=event_id)
+            if exer.end_time < timezone.now():
+                content = {
+                    'err_code': '403',
+                    'err_message': _('已截止'),
+                }
+                return render(request, 'error.html', context=content)
+            rec = models.ExerAnswerRec.objects.filter(student=cur_user.student, exer=exer).first()
+            if rec.status == True and rec.mark_status == False:
+                content = {
+                    'err_code': '403',
+                    'err_message': _('正在判卷，请在完成判卷后继续进行练习'),
+                }
+                return render(request, 'error.html', context=content)
+        else:
+            raise Resolver404
         # FIXME(Steve X): Monaco Editor 输入内容换行会消失
         if request.POST.get('movement') == 'submit':
-            print('提交成功')
+            # print('提交成功')
             if cur_user.is_authenticated:
                 if event_type == 'exam':
-                    print('是考试')
+                    # print('是考试')
                     exam = models.Exam.objects.get(pk=event_id)
                     rec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=exam).first()
                     if rec:
-                        # rec.score = final_score
                         per_question = models.ExamQuesAnswerRec.objects.filter(user=cur_user,exam=rec)
-                        total_score = 0
-                        for question in per_question:
-                            total_score += question.score
-                        rec.score = total_score 
-                        rec.end_time = timezone.now()
-                        rec.status = True
-                        rec.save()
-                        print("已存在记录")
-
+                        if rec.status == False:
+                            rec.end_time = timezone.now()
+                            rec.status = True
+                            rec.score = 0
+                            # rec.mark_status = False
+                            rec.save()
+                        # print("已存在记录")
                 else:
-                    print("是练习")
+                    # print("是练习")
                     exer = models.Exercise.objects.get(pk=event_id)
                     rec = models.ExerAnswerRec.objects.filter(student=cur_user.student, exer=exer).first()
                     if rec:
                         per_question = models.ExerQuesAnswerRec.objects.filter(user=cur_user,exer=rec)
-                        total_score = 0
-                        for question in per_question:
-                            total_score += question.score
-                        rec.score = total_score 
                         rec.end_time = timezone.now()
                         rec.status = True
+                        rec.mark_status = False
+                        rec.score = 0
                         rec.save()
-                        print("已存在记录")
-            return render(request, 'coding/coding-editor.html', context=content)
+                        # print("已存在记录")
+            url = reverse('coding:coding')
+            return HttpResponseRedirect(url)
+            # return render(request, 'coding/coding-editor.html', context=content)
         submit_ans = request.POST.get('submit_ans')
-        print("输入的答案:",submit_ans)
+        
+        # print("输入的答案:",submit_ans)
         question = content.get('question')
         qset = question.ques_set
         # print("数据比对:",qset.db_name,question.ques_ans,submit_ans)
-        try:
-            submit_ans = '#' if submit_ans == '' else submit_ans
-            correct = sql_check.ans_check(db_nm=qset.db_name, ans_sql=question.ques_ans, stud_sql=submit_ans)
-            # print("判断动作执行成功")
-        except Exception as e:
-            print(e)
-            correct = 'error'
-
-        ans_status = {
-            True: models.QuesAnswerRec.AnsStatus.AC,
-            False: models.QuesAnswerRec.AnsStatus.WA,
-            'error': models.QuesAnswerRec.AnsStatus.RE,
-        }.get(correct)
-
-        ans_status_color = {
-            True: 'success',
-            False: 'danger',
-            'error': 'warning',
-        }.get(correct)
-
+        correct = 'pending'
+        ans_status = models.ExamQuesAnswerRec.AnsStatus.PD
+        ans_status_color = 'warning'
         # Question-Answer record
         # print(event_type)
         if cur_user.is_authenticated:
             if event_type == 'exam':
                 event = models.Exam.objects.get(exam_id=event_id)
-                # print(type(event))
                 examrec = models.ExamAnswerRec.objects.filter(student=cur_user.student, exam=event).first()
                 rec = models.ExamQuesAnswerRec.objects.filter(user=cur_user, question=question, exam=examrec).first()
             elif event_type == 'exer':
@@ -443,48 +523,43 @@ class CodingEditor(View):
             else:
                 raise Resolver404
             now_paperquestion = models.PaperQuestion.objects.get(Q(question=question) & Q(paper=event.paper))
-            if ans_status == 0:
-                final_score = now_paperquestion.score
-            else:
-                final_score = 0
-                #XXX:(Seddon)把一道正确的题再交错，到底是按正确的还是错误的分数，有待商榷            
             if rec:
                 rec.ans_status = ans_status
                 rec.submit_cnt += 1
                 rec.ans = submit_ans
-                rec.score = final_score
+                rec.score = 0
                 rec.save()
             else:
                 if event_type == 'exam':
-                    models.ExamQuesAnswerRec.objects.create(
+                    rec = models.ExamQuesAnswerRec.objects.create(
                         user=cur_user,
                         question=question,
                         ans=submit_ans,
                         ans_status=ans_status,
                         submit_cnt=1,
                         exam=examrec,
-                        score=final_score
+                        score=0
                     )
                 elif event_type == 'exer':
-                    models.ExerQuesAnswerRec.objects.create(
+                    rec = models.ExerQuesAnswerRec.objects.create(
                         user=cur_user,
                         question=question,
                         ans=submit_ans,
                         ans_status=ans_status,
                         submit_cnt=1,
                         exer=exerrec,
-                        score=final_score
+                        score=0
                     )
                 else:
                     raise Resolver404
-
+        sql_check_celery.delay(db_nm=qset.db_name, ans_sql=question.ques_ans, stud_sql=submit_ans, event_type=event_type, rec_id=rec.rec_id, score=now_paperquestion.score)
         content.update({
             'correct': correct,
             'ans_status_color': ans_status_color,
             'submit_ans': submit_ans,
         })
-
-        return render(request, 'coding/coding-editor.html', context=content)
+        url = reverse('coding:coding-editor', kwargs={'event_type': event_type,'event_id':event_id,'ques_id':ques_id})
+        return HttpResponseRedirect(url)
 
 
 def statistics(request):
@@ -520,12 +595,16 @@ class PaperDetails(View):
             if event_type == 'exam':
                 event = models.ExamAnswerRec.objects.get(pk=event_id)
                 questions = models.ExamQuesAnswerRec.objects.filter(user=request.user,exam=event)
+                event_set = event.exam
             elif event_type == 'exer':
                 event = models.ExerAnswerRec.objects.get(pk=event_id)
                 questions = models.ExerQuesAnswerRec.objects.filter(user=request.user,exer=event)
+                event_set = event.exer
             else:
                 raise Resolver404
         content = {
+            'event' : event_set,
+            'event_type' : event_type,
             'questions': questions,
         }
         return render(request, 'coding/analysis.html', context=content)

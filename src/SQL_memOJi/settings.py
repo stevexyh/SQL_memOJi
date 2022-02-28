@@ -58,7 +58,8 @@ INSTALLED_APPS = [
 
     # # Simpleui
     # 'simpleui',
-    
+    # For Excel Import
+    'import_export',
     # Django core
     'django.contrib.admin',
     'django.contrib.auth',
@@ -172,5 +173,29 @@ STATICFILES_DIRS = (
     BASE_DIR / 'common_static',
 )
 
-# Static fiels while debug = False
+# Static files while debug = False
 STATIC_ROOT = BASE_DIR / 'static_collected'
+
+if USE_TZ:
+    timezone = TIME_ZONE
+
+# celery配置redis作为broker。redis有16个数据库，编号0~15，这里使用第1个。
+broker_url = 'redis://127.0.0.1:6379/0'
+# 设置存储结果的后台
+result_backend = 'redis://127.0.0.1:6379/1'
+# 可接受的内容格式
+accept_content = ["json"]
+# 任务序列化数据格式
+task_serializer = "json"
+# 结果序列化数据格式
+result_serializer = "json"
+# 可选：给某个任务限流
+# task_annotations = {'tasks.add': {'rate_limit': '10/s'}}
+# 可选：给任务设置超时时间。超时立即中止worker
+# task_time_limit = 10 * 60
+# 可选：给任务设置软超时时间，超时抛出Exception
+# task_soft_time_limit = 10 * 60
+# 可选：设置任务调度器
+# beat_scheduler = "django_celery_beat.schedulers:DatabaseScheduler"
+# For Excel Function
+IMPORT_EXPORT_USE_TRANSACTIONS = False

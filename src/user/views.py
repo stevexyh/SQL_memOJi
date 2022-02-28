@@ -24,13 +24,15 @@ from django.contrib import auth
 from django.utils.translation import gettext_lazy as _
 from django.db import transaction
 from django.db.models import Sum
-from user.models import Student, User, Classroom
+from user.models import Student, User, Classroom, StudentList
 from user.forms import UserInfoForm, StudentForm, ClassroomForm
-from coding.models import Exam, Exercise, QuesAnswerRec, Question, QuestionSet, ExerAnswerRec, ExamAnswerRec, ExamQuesAnswerRec, ExerQuesAnswerRec
+from coding.models import Exam, Exercise, Question, QuestionSet, ExerAnswerRec, ExamAnswerRec, ExamQuesAnswerRec, ExerQuesAnswerRec
 import datetime
 from django.utils import timezone
 from django.http import HttpResponse,HttpResponseRedirect,HttpResponseForbidden
 import json
+from django.urls import reverse
+
 # Create your views here.
 
 
@@ -52,16 +54,17 @@ def index(request):
     # print("在首页")
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            content = {
-                'err_code': '403',
-                'err_message': _('没有权限,请开通学生身份'),
-            }
-            return render(request, 'error.html', context=content)
+            url = reverse('coding:statistics')
+            return HttpResponseRedirect(url)
         else:
             identity = request.user.identity()
             if identity == 'student' or identity == 'teacher_student':
-                exam_result = request.user.student.classroom.exam_set.all()
-                exer_result = request.user.student.classroom.exercise_set.all()
+                if request.user.student.classroom:
+                    exam_result = request.user.student.classroom.exam_set.all()
+                    exer_result = request.user.student.classroom.exercise_set.all()
+                else:
+                    exam_result = Exam.objects.none()  
+                    exer_result = Exercise.objects.none()  
                 exam_cnt = exam_result.count()
                 exam_active = exam_result.filter(active=True).count()
                 exer_cnt = exer_result.count()
@@ -85,15 +88,15 @@ def index(request):
                 mouth = timezone.now() - datetime.timedelta(days=30)    
                 week_submit = answer_query_exer.filter(submit_time__gte=monday).count() + answer_query_exam.filter(submit_time__gte=monday).count()
                 mouth_submit = answer_query_exer.filter(submit_time__gte=mouth).count() + answer_query_exam.filter(submit_time__gte=mouth).count()
-                exam_cont = ExamAnswerRec.objects.filter(student=request.user.student, status=True).count()
-                exam_labels_query = ExamAnswerRec.objects.filter(student=request.user.student, status=True)
+                exam_labels_query = ExamAnswerRec.objects.filter(student=request.user.student, status=True, mark_status=True)
+                exam_cont = exam_labels_query.count()
                 exam_labels = []
                 exam_data = []
                 for label in exam_labels_query:
                     exam_labels.append(str(label.exam.exam_id) + '-' + label.exam.exam_name)
                     exam_data.append(label.score)
-                exer_cont = ExerAnswerRec.objects.filter(student=request.user.student, status=True).count()
-                exer_labels_query = ExerAnswerRec.objects.filter(student=request.user.student, status=True)
+                exer_labels_query = ExerAnswerRec.objects.filter(student=request.user.student, status=True, mark_status=True)
+                exer_cont = exer_labels_query.count()
                 exer_labels = []
                 exer_data = []
                 for label in exer_labels_query:
@@ -122,15 +125,14 @@ def index(request):
                     'exer_info':exer_labels_query
                 }
                 return render(request, 'index.html', context=content)
-    content = {
-        'err_code': '403',
-        'err_message': _('没有权限,请开通学生身份'),
-    }
-    return render(request, 'error.html', context=content)
+            else:
+                url = reverse('coding:statistics')
+                return HttpResponseRedirect(url)
+    else:
+        return redirect('/auth-login')
 
 def e404(request, exception=None):
     '''Render 404 err page'''
-
     content = {
         'err_code': '404',
         'err_message': _('页面不存在'),
@@ -236,17 +238,30 @@ class AuthRegister(View):
         else:
             try:
                 with transaction.atomic():
+                    his_classroom = Classroom.objects.get(join_code=class_id)
+                    if his_classroom.need_list:
+                        studentlist_obj = StudentList.objects.get(classroom=his_classroom,internal_id=internal_id,full_name=full_name)
+                        studentlist_obj.join_status = True
+                        studentlist_obj.save()
                     new_user = User.objects.create_user(username=username, password=password2, email=email)
                     new_user.school_name = school_name
+                    new_user.school = his_classroom.school
+                    new_user.join_status = 2
+                    # 2 JOINED
                     new_user.class_id = class_id
                     new_user.full_name = full_name
                     new_user.internal_id = internal_id
                     new_user.priority = User.UserType.STUDENT
-
                     user_student = Student.objects.create(user=new_user)
+                    user_student.classroom = his_classroom
                     user_student.save()
+                    new_user.is_staff = True
                     new_user.save()
                     fail = False
+            except Classroom.DoesNotExist:
+                msg = _('注册异常: 班级识别码不存在')
+            except StudentList.DoesNotExist:
+                msg = _('注册异常: 用户不在该班级名单内，请检查姓名，学号和班级识别码是否匹配。若仍报错请任课老师。')
             except Exception as exc:
                 msg = _('注册异常: ') + str(exc)
                 print(exc)
@@ -287,6 +302,9 @@ class ClassManage(View):
                 else:
                     class_list = Classroom.objects.filter(teacher=request.user.teacher)
 
+                for cls in class_list:
+                    print(cls)
+                    print(cls.studentlist_set.all().count(  ))
                 content = {
                     'class_list': class_list,
                 }
@@ -389,8 +407,8 @@ class UserInfo(View):
         classroom = user.student.classroom if is_student else False
         priority = user.get_priority_display() if user.is_authenticated else not_login
         join_status = user.is_authenticated and user.join_status != User.JoinStatus.OUT_OF_LIST or user.is_superuser
-        info_form = UserInfoForm(instance=user) if user.is_authenticated else None
-        student_form = StudentForm(instance=user.student) if is_student else None
+        # info_form = UserInfoForm(instance=user) if user.is_authenticated else None
+        # student_form = StudentForm(instance=user.student) if is_student else None
 
         content = {
             'full_name': full_name,
@@ -404,8 +422,8 @@ class UserInfo(View):
             'join_status': join_status,
             'join_status_display': _('认证') if join_status else _('未认证'),
             'join_status_color': 'success' if join_status else 'warning',
-            'info_form': info_form,
-            'student_form': student_form,
+            # 'info_form': info_form,
+            # 'student_form': student_form,
         }
 
         # print(content)
@@ -414,21 +432,21 @@ class UserInfo(View):
 
         return render(request, 'user/user-info.html', context=content)
 
-    # FIXME(Steve X): can't edit email, switch primary key to uuid
-    def post(self, request):
-        user = request.user
-        is_student = user.is_authenticated and user.priority == User.UserType.STUDENT
+    # # FIXME(Steve X): can't edit email, switch primary key to uuid
+    # def post(self, request):
+    #     user = request.user
+    #     is_student = user.is_authenticated and user.priority == User.UserType.STUDENT
 
-        info_form = UserInfoForm(request.POST, instance=user) if user.is_authenticated else None
-        student_form = StudentForm(request.POST, instance=user.student) if is_student else None
+    #     info_form = UserInfoForm(request.POST, instance=user) if user.is_authenticated else None
+    #     student_form = StudentForm(request.POST, instance=user.student) if is_student else None
 
-        if info_form and info_form.is_valid():
-            info_form.save()
+    #     if info_form and info_form.is_valid():
+    #         info_form.save()
 
-        if student_form and student_form.is_valid():
-            student_form.save()
+    #     if student_form and student_form.is_valid():
+    #         student_form.save()
 
-        return redirect('/user-info')
+    #     return redirect('/user-info')
 
 
 class ClassEventDetails(View):
@@ -463,7 +481,11 @@ class ClassEventDetails(View):
                 else:
                     per_acrate = (question_answer_detail.filter(ans_status=0).count() / question.finish_cnt) * 100
                     question.per_acrate = round(per_acrate,2)
-            unfinished = classroom.student_set.exclude(user__in=event_answer_detail.values('user'))
+            have_submitted = event_detail.filter(status=True)
+            unfinished = classroom.student_set.exclude(user__in=have_submitted.values('student'))
+            # print(event_detail.filter(status=True).values('student'))
+            # print(unfinished)
+            unjoin = StudentList.objects.filter(classroom=classroom,join_status=False)
             for student in unfinished:
                 finish_cnt = event_answer_detail.filter(user=student.user)
                 student.unfinished_list = questions.exclude(ques_id__in=finish_cnt.values('question'))
@@ -475,12 +497,19 @@ class ClassEventDetails(View):
                 student.error_cnt = error_list.filter(user=student.user).count()
                 student.error_list = error_list.filter(user=student.user).values('question')
                 student.error_list = questions.filter(ques_id__in=student.error_list)
+            score_list = have_submitted
+            for student in score_list:
+                student.answer_score_list = event_answer_detail.filter(user=student.student.user)
+                print(event_answer_detail.filter(user=student.student.user))
+                print(student.student.user.internal_id)
             if request.user.is_superuser:
                 content = {
                     'classroom': classroom,
                     'questions' : questions,
                     'student_unfinish' : unfinished,
                     'student_error' : error,
+                    'unjoin' : unjoin,
+                    'score_list' : score_list
                 }
                 return render(request, 'user/class-event-details.html', context=content)
             else:
@@ -491,6 +520,8 @@ class ClassEventDetails(View):
                             'questions' : questions,
                             'student_unfinish' : unfinished,
                             'student_error' : error,
+                            'unjoin' : unjoin,
+                            'score_list' : score_list
                         }
                     return render(request, 'user/class-event-details.html', context=content)
         content = {

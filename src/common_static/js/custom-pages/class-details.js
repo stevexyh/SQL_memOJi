@@ -14,7 +14,6 @@ $(document).ready(function () {
             { orderable: true },
             { orderable: true },
             { orderable: true },
-            { orderable: true },
             { orderable: false },
         ],
         order: [[0, "asc"]],

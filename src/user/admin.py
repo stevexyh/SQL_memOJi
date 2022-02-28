@@ -24,9 +24,12 @@ from django.utils.translation import gettext_lazy as _
 from django.db.models import Q
 from . import models
 
+from import_export.admin import ImportExportModelAdmin
+from import_export.formats import base_formats
+from .resource import StudentListResource
 
-admin.site.site_header = 'memOJi管理后台'
-admin.site.site_title = 'memOJi'
+admin.site.site_header = 'SQL-OJ管理后台'
+admin.site.site_title = 'SQL-OJ'
 
 
 # Register your models here.
@@ -173,8 +176,8 @@ class StudentAdmin(admin.ModelAdmin):
                     kwargs['queryset'] = models.Classroom.objects.none()
         return super(StudentAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
     
-    list_display = ['user', 'classroom', 'join_status']
-    list_filter = ['classroom' , 'join_status']
+    list_display = ['user', 'classroom']
+    list_filter = ['classroom']
 
 
 # Fields: 'school_id', 'school_name', 'school_name_en', 'school_abbr'
@@ -213,4 +216,45 @@ class ClassroomAdmin(admin.ModelAdmin):
             if db_field.name == 'teacher':
                 kwargs['queryset'] = models.Teacher.objects.filter(user=request.user)
         return super(ClassroomAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
-    list_display = ['class_id', 'school', 'class_name', 'teacher', 'class_desc', 'active']
+    list_display = ['class_id', 'school', 'class_name', 'teacher', 'class_desc', 'join_code', 'active','need_list']
+    list_filter = ['school', 'class_name', 'teacher', 'active', 'join_code','need_list']
+
+@admin.register(models.StudentList)
+class StudentListAdmin(ImportExportModelAdmin):
+    def get_queryset(self, request):
+        # 接管查询请求
+        results = super(StudentListAdmin, self).get_queryset(request)
+        identity = request.user.identity()
+        if request.user.is_superuser:  # 超级用户可查看所有数据
+            return results
+        if identity == 'teacher' or identity == 'teacher_student':
+            return models.StudentList.objects.filter(classroom__in=request.user.teacher.teach_room())
+        else:
+            return models.StudentList.objects.none()
+
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+        if not (request.user.is_superuser):
+            if db_field.name == 'classroom':
+                identity = request.user.identity()
+                if identity == 'teacher' or identity == 'teacher_student':
+                    kwargs['queryset'] = models.Classroom.objects.filter(teacher=request.user.teacher)
+                else:
+                    kwargs['queryset'] = models.Classroom.objects.none()
+        return super(StudentListAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def get_export_formats(self):    #该方法是限制格式
+        formats = (
+            base_formats.XLSX,
+        )
+        return [f for f in formats if f().can_export()]
+    def get_import_formats(self):    #该方法是限制格式
+        formats = (
+            base_formats.XLSX,
+        )
+        return [f for f in formats if f().can_export()]
+
+    resource_class = StudentListResource
+    list_display = ['record_id','full_name','internal_id','classroom', 'join_code', 'join_status']
+    list_filter = ['classroom','join_status']
+    pass
+

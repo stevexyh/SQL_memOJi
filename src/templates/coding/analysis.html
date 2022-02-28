@@ -69,8 +69,16 @@
                                     {% endif %}
                                     </td>
                                     <td> {{question.submit_time}} </td>
-                                    <td> {{question.submit_cnt}} </td>        
-                                    <td> {{question.question.ques_ans}}</td>
+                                    <td> {{question.submit_cnt}} </td> 
+                                    {% if event_type == 'exer' %}
+                                        <td> {{question.question.ques_ans}}</td>
+                                    {% else %}
+                                        {% if event.show_answer %}
+                                        <td> {{question.question.ques_ans}} </td>
+                                        {% else %}
+                                        <td> 暂不可见 </td>
+                                        {% endif %}
+                                    {% endif %}
                                 </tr>
                                 {% endfor %}
                             </tbody>
