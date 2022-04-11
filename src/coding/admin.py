@@ -157,10 +157,8 @@ class QuestionSetAdmin(admin.ModelAdmin):
         return super(QuestionSetAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
-        if change:
-            print('修改')
-        else:
-            print('新建')
+        if not change:
+            # print('新建')
             host = tk.get_conf('mysql', 'host')
             port = int(tk.get_conf('mysql', 'port'))
             user = tk.get_conf('mysql', 'user')
@@ -168,11 +166,11 @@ class QuestionSetAdmin(admin.ModelAdmin):
             db = pymysql.Connect(host=host, port=port, user=user, passwd=passwd)
             cur = db.cursor()
             qset_db_name = f'qset_{request.POST.get("db_name")}'
-            print(qset_db_name)
+            # print(qset_db_name)
             create_sql = request.POST.get('create_sql').replace('\n', '').replace('\\n', '')
             create_sql_list = create_sql.split(';')
-            print(create_sql)
-            print(create_sql_list)
+            # print(create_sql)
+            # print(create_sql_list)
             try:
                 cur.execute(f"""create database {qset_db_name};""")
                 cur.execute(f"""use {qset_db_name};""")
