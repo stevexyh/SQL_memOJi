@@ -159,6 +159,9 @@ celery -A SQL_memOJi beat
 ```
 ### Celery 的吞吐量
 xxxx
+### 需要注意的事项
+新建题库时，目前虽然会新建数据库，但是如果删除该题库的话，并不会自动删除已经创建的数据库，需要自行手动删除。
+创建SQL仅会在新建数据的时候进行执行，对题库进行修改并不会执行创建SQL内的语句。
 ### End
 Author:Seddon(Mail:seddon@mail.nwpu.edu.cn)
 欢迎各种提问。
