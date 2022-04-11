@@ -237,22 +237,22 @@ class CodingEditor(View):
     '''Render coding-editor template'''
     # 今天读了一下审题逻辑 Seddon 2021/12/30
     def get_info(self, request, event_type, event_id, ques_id):
+        # print("test----------",event_type)
         try:
             question = models.Question.objects.get(ques_id=ques_id)
             qset = question.ques_set
-            # print("Question:",question,"Qset:",qset)
             if event_type == 'exam':
                 # print("Exam")
                 event = models.Exam.objects.get(exam_id=event_id)
                 event_name = event.exam_name
                 # print("Event_name:",event_name)
-            elif event_type == 'exer':
+            else:
                 # print("Exercise")
                 event = models.Exercise.objects.get(exer_id=event_id)
                 event_name = event.exer_name
-            else:
-                raise Resolver404
-        except:
+            # print("Question:",question,"Qset:",qset)
+        except Exception as exc:
+            print(exc)
             raise Resolver404
         # Previous & next question id
         prev_question = event.paper.question.filter(ques_id__lt=ques_id).order_by('-ques_id').first()
