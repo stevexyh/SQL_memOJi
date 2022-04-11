@@ -340,7 +340,7 @@ class ExamAnswerRec(models.Model):
 
     rec_id = models.AutoField(verbose_name=_('考试记录ID'), primary_key=True)
     student = models.ForeignKey(verbose_name=_('学生'), to='user.Student', on_delete=models.CASCADE)
-    exam = models.ForeignKey(verbose_name=_('考试'), to=Exam, on_delete=models.DO_NOTHING)
+    exam = models.ForeignKey(verbose_name=_('考试'), to=Exam, on_delete=models.CASCADE)
     start_time = models.DateTimeField(verbose_name=_('开始时间'))
     end_time = models.DateTimeField(verbose_name=_('交卷时间'),null=True, blank=True)
     score = models.IntegerField(verbose_name=_('总成绩'), default=0,null=True, blank=True)
@@ -383,7 +383,7 @@ class ExerAnswerRec(models.Model):
 
     rec_id = models.AutoField(verbose_name=_('练习记录ID'), primary_key=True)
     student = models.ForeignKey(verbose_name=_('学生'), to='user.Student', on_delete=models.CASCADE)
-    exer = models.ForeignKey(verbose_name=_('练习'), to=Exercise, on_delete=models.DO_NOTHING)
+    exer = models.ForeignKey(verbose_name=_('练习'), to=Exercise, on_delete=models.CASCADE)
     start_time = models.DateTimeField(verbose_name=_('开始时间'))
     end_time = models.DateTimeField(verbose_name=_('交卷时间'),null=True, blank=True)
     score = models.IntegerField(verbose_name=_('总成绩'), default=0,null=True, blank=True)
