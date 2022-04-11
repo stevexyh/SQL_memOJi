@@ -65,7 +65,7 @@
                     </div>
                 {% else %}
                     <div class="float-right">
-                        <a href="{% url 'coding:coding-editor' 'exam' next_exam.exam_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light">
+                        <a href="{% url 'coding:coding-editor' 'exam' next_exam.exam_id next_exam.first_ques %}" class="btn btn-primary mt-1 waves-effect waves-light">
                             <i class="mdi mdi-arrow-left mr-3"></i>进入
                         </a>
                     </div>
@@ -129,7 +129,7 @@
                                     </div>
                                 {% else %}
                                     <div class="float-right">
-                                        <a href="{% url 'coding:coding-editor' 'exam' next_exam.exam_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light">
+                                        <a href="{% url 'coding:coding-editor' 'exam' exam.exam_id exam.first_ques %}" class="btn btn-primary mt-1 waves-effect waves-light">
                                             <i class="mdi mdi-arrow-left mr-3"></i>进入
                                         </a>
                                     </div>
@@ -237,7 +237,7 @@
                                         </div>
                                     {% else %}
                                         <div class="float-right">
-                                            <a href="{% url 'coding:coding-editor' 'exer' exer.exer_id 1 %}" class="btn btn-primary mt-1 waves-effect waves-light">
+                                            <a href="{% url 'coding:coding-editor' 'exer' exer.exer_id exer.first_ques %}" class="btn btn-primary mt-1 waves-effect waves-light">
                                                 <i class="mdi mdi-arrow-left mr-3"></i>进入
                                             </a>
                                         </div>
