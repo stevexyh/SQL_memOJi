@@ -168,20 +168,18 @@ class QuestionSetAdmin(admin.ModelAdmin):
             db = pymysql.Connect(host=host, port=port, user=user, passwd=passwd)
             cur = db.cursor()
             qset_db_name = f'qset_{request.POST.get("db_name")}'
+            print(qset_db_name)
             create_sql = request.POST.get('create_sql').replace('\n', '').replace('\\n', '')
             create_sql_list = create_sql.split(';')
+            print(create_sql)
+            print(create_sql_list)
             try:
                 cur.execute(f"""create database {qset_db_name};""")
                 cur.execute(f"""use {qset_db_name};""")
+                create_sql_list = filter(None, create_sql_list)
                 for sql in create_sql_list:
                     cur.execute(sql)
                 db.commit()
-                if ques_set_form.is_valid():
-                    ques_set_form.save()
-                # FIXME(Steve X): db_name 重名问题
-                qset = models.QuestionSet.objects.get(db_name=ques_set_form.cleaned_data.get('db_name'))
-                qset.db_name = qset_db_name
-                qset.save()
             except Exception as exc:
                 cur.execute(f"""drop database if exists {qset_db_name}""")
                 db.rollback()
