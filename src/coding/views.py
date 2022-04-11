@@ -267,7 +267,7 @@ class CodingEditor(View):
         # Create PrettyTable for `show tables;`
         pt_db_tables = PrettyTable(['Tables in this database'])
         pt_db_tables.align = 'l'
-        cur.execute(f'''use {qset.db_name};''')
+        cur.execute(f'''use qset_{qset.db_name};''')
         cur.execute(f'''show tables;''')
         tables = [tb[0] for tb in cur.fetchall()]
         pt_db_tables.add_rows([[tb] for tb in tables])
@@ -386,7 +386,11 @@ class CodingEditor(View):
         else:
             raise Resolver404
         content = self.get_info(request, event_type, event_id, ques_id)
-        if ques_id == '1':
+        if event_type == 'exam':
+            first_ques_id = exam.first_ques
+        else:
+            first_ques_id = exer.first_ques
+        if int(ques_id) == int(first_ques_id):
             if cur_user.is_authenticated:
                 if event_type == 'exam':
                     # print('是考试')
@@ -468,6 +472,8 @@ class CodingEditor(View):
                 return render(request, 'error.html', context=content)
         else:
             raise Resolver404
+
+
         # FIXME(Steve X): Monaco Editor 输入内容换行会消失
         if request.POST.get('movement') == 'submit':
             # print('提交成功')
