@@ -23,6 +23,8 @@ from django.utils.translation import gettext_lazy as _
 from . import models
 from user.models import Classroom ,Student, Teacher, User
 from django import forms
+from utils import token as tk
+import pymysql
 # Register your models here.
 
 
@@ -153,6 +155,35 @@ class QuestionSetAdmin(admin.ModelAdmin):
                 else:
                     kwargs['queryset'] = Teacher.objects.none()
         return super(QuestionSetAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        if not change:
+            # print('新建')
+            host = tk.get_conf('mysql', 'host')
+            port = int(tk.get_conf('mysql', 'port'))
+            user = tk.get_conf('mysql', 'user')
+            passwd = tk.get_conf('mysql', 'password')
+            db = pymysql.Connect(host=host, port=port, user=user, passwd=passwd)
+            cur = db.cursor()
+            qset_db_name = f'qset_{request.POST.get("db_name")}'
+            # print(qset_db_name)
+            create_sql = request.POST.get('create_sql').replace('\n', '').replace('\\n', '')
+            create_sql_list = create_sql.split(';')
+            # print(create_sql)
+            # print(create_sql_list)
+            try:
+                cur.execute(f"""create database {qset_db_name};""")
+                cur.execute(f"""use {qset_db_name};""")
+                create_sql_list = filter(None, create_sql_list)
+                for sql in create_sql_list:
+                    cur.execute(sql)
+                db.commit()
+            except Exception as exc:
+                cur.execute(f"""drop database if exists {qset_db_name}""")
+                db.rollback()
+                print(exc)
+            cur.close()
+            db.close()
 
     list_display = ['ques_set_id', 'ques_set_name', 'ques_set_desc', 'db_name', 'create_sql', 'initiator', 'share']
     list_filter = ['ques_set_name', 'db_name', 'initiator', 'share']
