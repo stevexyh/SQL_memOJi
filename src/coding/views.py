@@ -237,22 +237,22 @@ class CodingEditor(View):
     '''Render coding-editor template'''
     # 今天读了一下审题逻辑 Seddon 2021/12/30
     def get_info(self, request, event_type, event_id, ques_id):
+        # print("test----------",event_type)
         try:
             question = models.Question.objects.get(ques_id=ques_id)
             qset = question.ques_set
-            # print("Question:",question,"Qset:",qset)
             if event_type == 'exam':
                 # print("Exam")
                 event = models.Exam.objects.get(exam_id=event_id)
                 event_name = event.exam_name
                 # print("Event_name:",event_name)
-            elif event_type == 'exer':
+            else:
                 # print("Exercise")
                 event = models.Exercise.objects.get(exer_id=event_id)
                 event_name = event.exer_name
-            else:
-                raise Resolver404
-        except:
+            # print("Question:",question,"Qset:",qset)
+        except Exception as exc:
+            print(exc)
             raise Resolver404
         # Previous & next question id
         prev_question = event.paper.question.filter(ques_id__lt=ques_id).order_by('-ques_id').first()
@@ -267,7 +267,7 @@ class CodingEditor(View):
         # Create PrettyTable for `show tables;`
         pt_db_tables = PrettyTable(['Tables in this database'])
         pt_db_tables.align = 'l'
-        cur.execute(f'''use {qset.db_name};''')
+        cur.execute(f'''use qset_{qset.db_name};''')
         cur.execute(f'''show tables;''')
         tables = [tb[0] for tb in cur.fetchall()]
         pt_db_tables.add_rows([[tb] for tb in tables])
@@ -386,7 +386,11 @@ class CodingEditor(View):
         else:
             raise Resolver404
         content = self.get_info(request, event_type, event_id, ques_id)
-        if ques_id == '1':
+        if event_type == 'exam':
+            first_ques_id = exam.first_ques
+        else:
+            first_ques_id = exer.first_ques
+        if int(ques_id) == int(first_ques_id):
             if cur_user.is_authenticated:
                 if event_type == 'exam':
                     # print('是考试')
@@ -468,6 +472,8 @@ class CodingEditor(View):
                 return render(request, 'error.html', context=content)
         else:
             raise Resolver404
+
+
         # FIXME(Steve X): Monaco Editor 输入内容换行会消失
         if request.POST.get('movement') == 'submit':
             # print('提交成功')

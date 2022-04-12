@@ -90,11 +90,12 @@ def deepcopy_db(db_name: str, new_db_name: str):
 
     root_db = pymysql.Connect(host=root_host, port=root_port, user=root_user, passwd=root_passwd, db=db_name)
     root_cur = root_db.cursor()
-    root_cur.execute(f'''GRANT SELECT ON {db_name}.* to '{tmp_user}'@'localhost';''')
-    root_cur.execute(f'''GRANT ALL ON {new_db_name}.* to '{tmp_user}'@'localhost';''')
+    # print(f'''GRANT SELECT ON {db_name}.* to '{tmp_user}';''')
+    root_cur.execute(f'''GRANT SELECT ON {db_name}.* to '{tmp_user}';''')
+    root_cur.execute(f'''GRANT ALL ON {new_db_name}.* to '{tmp_user}';''')
 
     copy_db(db=root_db, new_db_name=new_db_name)
-    tmp_new_db = pymysql.Connect(host='localhost', user=tmp_user, passwd=tmp_passwd, db=new_db_name)
+    tmp_new_db = pymysql.Connect(host=root_host, user=tmp_user, passwd=tmp_passwd, db=new_db_name)
     copy_tables(db=root_db, new_db=tmp_new_db)
 
     root_cur.close()
@@ -153,7 +154,7 @@ def ans_check(db_nm: str, ans_sql: str, stud_sql: str) -> bool:
     # print(res_1)
     # print("----------------------------")
     # print(res_2)
-    print("Data identify:",data_diff)
+    # print("Data identify:",data_diff)
     res = (exe_diff) and data_diff
     clear_db(cur=cur_1, db_name=new_db_name_1)
     clear_db(cur=cur_2, db_name=new_db_name_2)
