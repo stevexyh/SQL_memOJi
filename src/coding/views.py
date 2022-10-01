@@ -262,7 +262,7 @@ class CodingEditor(View):
         port = int(tk.get_conf('mysql', 'port'))
         user = tk.get_conf('mysql', 'user')
         passwd = tk.get_conf('mysql', 'password')
-        print(host,port,user,passwd)
+        # print(host,port,user,passwd)
         db = pymysql.Connect(host=host, port=port, user=user, passwd=passwd)
         cur = db.cursor()
         # print(db.__dict__)
