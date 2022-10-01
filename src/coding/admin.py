@@ -155,10 +155,41 @@ class QuestionSetAdmin(admin.ModelAdmin):
                 else:
                     kwargs['queryset'] = Teacher.objects.none()
         return super(QuestionSetAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def get_actions(self, request):
+    	# 在actions中去掉‘删除’操作
+        actions = super(QuestionSetAdmin, self).get_actions(request)
+        if request.user.username[0].upper() != 'J':
+            if 'delete_selected' in actions:
+                del actions['delete_selected']
+        return actions
+
+    def delete_model(self, request, obj):
+        # print(obj.db_name)
+        super().delete_model(request, obj)
+        print('删除')
+        host = tk.get_conf('mysql', 'host')
+        port = int(tk.get_conf('mysql', 'port'))
+        user = tk.get_conf('mysql', 'user')
+        passwd = tk.get_conf('mysql', 'password')
+        db = pymysql.Connect(host=host, port=port, user=user, passwd=passwd)
+        cur = db.cursor()
+        qset_db_name = f'qset_{obj.db_name}'
+        try:
+            cur.execute(f"""drop database if exists {qset_db_name}""")
+        except Exception as exc:
+            # cur.execute(f"""drop database if exists {qset_db_name}""")
+            # db.rollback()
+            print(exc)
+        cur.close()
+        db.close()
+
+
     def save_model(self, request, obj, form, change):
+        print("Running--------.....")
         super().save_model(request, obj, form, change)
         if not change:
-            # print('新建')
+            print('新建')
             host = tk.get_conf('mysql', 'host')
             port = int(tk.get_conf('mysql', 'port'))
             user = tk.get_conf('mysql', 'user')
