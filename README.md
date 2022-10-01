@@ -7,8 +7,6 @@ From Steve-Xyh
 
 
 ## Some Questions
-- Need to fix
-first_que字段意思出现问题，需要进一步修改debug。
 - Big Dateset Problems
 对大量数据的实际使用情况有待测试
 ## Known Bugs

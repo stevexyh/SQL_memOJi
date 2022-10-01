@@ -262,12 +262,16 @@ class CodingEditor(View):
         port = int(tk.get_conf('mysql', 'port'))
         user = tk.get_conf('mysql', 'user')
         passwd = tk.get_conf('mysql', 'password')
+        print(host,port,user,passwd)
         db = pymysql.Connect(host=host, port=port, user=user, passwd=passwd)
         cur = db.cursor()
+        # print(db.__dict__)
+        # print(cur.__dict__)
         # Create PrettyTable for `show tables;`
         pt_db_tables = PrettyTable(['Tables in this database'])
         pt_db_tables.align = 'l'
         cur.execute(f'''use qset_{qset.db_name};''')
+        print("use qset_",qset.db_name)
         cur.execute(f'''show tables;''')
         tables = [tb[0] for tb in cur.fetchall()]
         pt_db_tables.add_rows([[tb] for tb in tables])
@@ -341,6 +345,7 @@ class CodingEditor(View):
         #         raise Resolver404
         # except:
         #     raise Resolver404
+        print("Debuging......")
         cur_user = request.user
         if event_type == 'exam':
             try:
@@ -558,7 +563,9 @@ class CodingEditor(View):
                     )
                 else:
                     raise Resolver404
-        sql_check_celery.delay(db_nm=qset.db_name, ans_sql=question.ques_ans, stud_sql=submit_ans, event_type=event_type, rec_id=rec.rec_id, score=now_paperquestion.score)
+        db_name_qset = 'qset_'+qset.db_name
+        print('提交任务')
+        sql_check_celery.delay(db_nm=db_name_qset, ans_sql=question.ques_ans, stud_sql=submit_ans, event_type=event_type, rec_id=rec.rec_id, score=now_paperquestion.score)
         content.update({
             'correct': correct,
             'ans_status_color': ans_status_color,

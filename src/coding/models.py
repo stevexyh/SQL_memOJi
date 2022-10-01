@@ -183,6 +183,12 @@ class Exam(models.Model):
         return timezone.now() > self.end_time
 
     @property
+    def first_ques(self):
+        # query_result = .objects.filter(exam=self, status=True)
+        questions = self.paper.paperquestion_set.filter(paper=self.paper)
+        return questions.first().question.ques_id
+
+    @property
     def finish_info(self):
         query_result = ExamAnswerRec.objects.filter(exam=self, status=True)
         have_finished = query_result.count()
@@ -255,7 +261,12 @@ class Exercise(models.Model):
     def is_over(self):
         return timezone.now() > self.end_time
 
-
+    @property
+    def first_ques(self):
+        # query_result = .objects.filter(exam=self, status=True)
+        questions = self.paper.paperquestion_set.filter(paper=self.paper)
+        return questions.first().question.ques_id
+        
 # class QuesAnswerRec(models.Model):
 #     '''
 #     Question Answer Record Table

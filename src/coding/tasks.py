@@ -12,6 +12,8 @@ def sql_check_celery(db_nm, ans_sql, stud_sql, event_type, rec_id, score):
     print("sql_checking........rec_id:",rec_id)
     try:
         stud_sql = '#' if stud_sql == '' else stud_sql
+        # print(db_nm,ans_sql,stud_sql)
+        # correct = True
         correct = sql_check.ans_check(db_nm=db_nm, ans_sql=ans_sql, stud_sql=stud_sql)
     except Exception as e:
         print(e)
