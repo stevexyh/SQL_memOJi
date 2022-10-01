@@ -168,7 +168,7 @@ class Exam(models.Model):
     end_time = models.DateTimeField(verbose_name=_('结束时间'), default=None)
     publish_time = models.DateTimeField(verbose_name=_('发布时间'), auto_now_add=True)
     desc = models.TextField(verbose_name=_('描述'), null=True, blank=True)
-    active = models.BooleanField(verbose_name=_('发布状态'), default=False)
+    active = models.BooleanField(verbose_name=_('发布'), default=False)
     classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
     show_answer = models.BooleanField(verbose_name=_('在解析中公布答案'),default=False)
     def __str__(self):
@@ -230,7 +230,7 @@ class Exercise(models.Model):
     end_time = models.DateTimeField(verbose_name=_('结束时间'), default=None)
     publish_time = models.DateTimeField(verbose_name=_('发布时间'), auto_now_add=True)
     desc = models.TextField(verbose_name=_('描述'), null=True, blank=True)
-    active = models.BooleanField(verbose_name=_('发布状态'), default=False)
+    active = models.BooleanField(verbose_name=_('发布'), default=False)
     classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
 
     def __str__(self):

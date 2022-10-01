@@ -76,6 +76,11 @@
                                   i("#drop-remove").is(":checked") && i(this).remove();
                           },
                           events :{{spots|safe}},
+                          eventClick: function(event) { 
+                            if (event.url1) { 
+                                console.log(event.url1); 
+                            } 
+                          } 
                       }),
                       i("#add_event_form").on("submit", function (e) {
                           e.preventDefault();
