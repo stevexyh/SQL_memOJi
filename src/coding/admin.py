@@ -17,7 +17,7 @@
 ----------------------------------------------------------------------------------------------------
 '''
 
-
+from django.forms import TextInput, Textarea
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from . import models
@@ -95,7 +95,7 @@ class QuestionAdmin(admin.ModelAdmin):
 
     list_filter = ['ques_name', 'ques_difficulty', 'initiator', 'share']    
     list_display = ['ques_id', 'ques_name', 'ques_set_id', 'ques_difficulty', 'ques_desc', 'ques_ans', 'initiator', 'share']
-
+    search_fields = ['ques_id', 'ques_name']
 
 # Fields: 'ques_set_id', 'ques_set_name', 'ques_set_desc', 'create_sql', 'initiator'
 @admin.register(models.QuestionSet)
@@ -225,16 +225,11 @@ class QuestionSetAdmin(admin.ModelAdmin):
 class PaperAdmin(admin.ModelAdmin):
     class PaperQuestionInline(admin.TabularInline):
         model = models.PaperQuestion
+        autocomplete_fields = ['question']    
     inlines = [
         PaperQuestionInline
     ]
-    # class QuestionInline(admin.TabularInline):
-    #     model = models.Paper.question.through
 
-
-    # def has_add_permission(self, request,obj=None):
-    #     return False
-    
     def has_delete_permission(self, request,obj=None):
         if request.user.is_superuser:
             return True
@@ -291,34 +286,10 @@ class PaperAdmin(admin.ModelAdmin):
                     kwargs['queryset'] = Teacher.objects.none()
         return super(PaperAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
-    # def formfield_for_dbfield(self, field, **kwargs):
-    #     login_user = kwargs['request'].user
-    #     if not (login_user.is_superuser):
-    #         if field.name == 'question':
-    #             identity = login_user.identity()
-    #             if identity == 'teacher' or identity == 'teacher_student':
-    #                 paper_id = kwargs['request'].path.split('/')[4]
-    #                 units = models.Question.objects.filter(initiator=login_user.teacher)
-    #                 if paper_id.isdigit():
-    #                     other_question = models.Paper.objects.get(paper_id=paper_id).question.all()
-    #                     share_question = models.Question.objects.filter(share=True)
-    #                     units = units | other_question
-    #                     units = units | share_question
-    #                     units = units.distinct()
-    #                 else:
-    #                     share_question = models.Question.objects.filter(share=True)
-    #                     units = units | share_question
-    #                     units = units.distinct()
-    #             else:
-    #                 units = models.Question.objects.none()
-    #             return forms.ModelMultipleChoiceField (queryset=units,label="题目列表",help_text='按住 Ctrl 键(Mac 上的 Command 键) 来选择多个题目。如需添加其他教师的题目，请联系相关老师公开或使用管理员账号发布！')
-    #     return super(PaperAdmin,self).formfield_for_dbfield(field, **kwargs)
-
     list_display = [
         'paper_id', 'paper_name', 'paper_desc', 'initiator', 'publish_time', 'total_score', 'share'
     ]
     list_filter = ['paper_name', 'initiator', 'share']
-
 
 
 

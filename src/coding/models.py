@@ -92,7 +92,7 @@ class Question(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return str(self.ques_id) + '-' + self.ques_name
+        return str(self.ques_id) + '-' + self.ques_name + '-' + self.ques_desc
 
 
 # XXX(Steve X): many-to-many intermediary models
