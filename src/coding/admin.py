@@ -17,7 +17,7 @@
 ----------------------------------------------------------------------------------------------------
 '''
 
-
+from django.forms import TextInput, Textarea
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from . import models
@@ -95,7 +95,7 @@ class QuestionAdmin(admin.ModelAdmin):
 
     list_filter = ['ques_name', 'ques_difficulty', 'initiator', 'share']    
     list_display = ['ques_id', 'ques_name', 'ques_set_id', 'ques_difficulty', 'ques_desc', 'ques_ans', 'initiator', 'share']
-
+    search_fields = ['ques_id', 'ques_name']
 
 # Fields: 'ques_set_id', 'ques_set_name', 'ques_set_desc', 'create_sql', 'initiator'
 @admin.register(models.QuestionSet)
@@ -155,10 +155,41 @@ class QuestionSetAdmin(admin.ModelAdmin):
                 else:
                     kwargs['queryset'] = Teacher.objects.none()
         return super(QuestionSetAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def get_actions(self, request):
+    	# 在actions中去掉‘删除’操作
+        actions = super(QuestionSetAdmin, self).get_actions(request)
+        if request.user.username[0].upper() != 'J':
+            if 'delete_selected' in actions:
+                del actions['delete_selected']
+        return actions
+
+    def delete_model(self, request, obj):
+        # print(obj.db_name)
+        super().delete_model(request, obj)
+        print('删除')
+        host = tk.get_conf('mysql', 'host')
+        port = int(tk.get_conf('mysql', 'port'))
+        user = tk.get_conf('mysql', 'user')
+        passwd = tk.get_conf('mysql', 'password')
+        db = pymysql.Connect(host=host, port=port, user=user, passwd=passwd)
+        cur = db.cursor()
+        qset_db_name = f'qset_{obj.db_name}'
+        try:
+            cur.execute(f"""drop database if exists {qset_db_name}""")
+        except Exception as exc:
+            # cur.execute(f"""drop database if exists {qset_db_name}""")
+            # db.rollback()
+            print(exc)
+        cur.close()
+        db.close()
+
+
     def save_model(self, request, obj, form, change):
+        print("Running--------.....")
         super().save_model(request, obj, form, change)
         if not change:
-            # print('新建')
+            print('新建')
             host = tk.get_conf('mysql', 'host')
             port = int(tk.get_conf('mysql', 'port'))
             user = tk.get_conf('mysql', 'user')
@@ -194,16 +225,11 @@ class QuestionSetAdmin(admin.ModelAdmin):
 class PaperAdmin(admin.ModelAdmin):
     class PaperQuestionInline(admin.TabularInline):
         model = models.PaperQuestion
+        autocomplete_fields = ['question']    
     inlines = [
         PaperQuestionInline
     ]
-    # class QuestionInline(admin.TabularInline):
-    #     model = models.Paper.question.through
 
-
-    # def has_add_permission(self, request,obj=None):
-    #     return False
-    
     def has_delete_permission(self, request,obj=None):
         if request.user.is_superuser:
             return True
@@ -260,34 +286,10 @@ class PaperAdmin(admin.ModelAdmin):
                     kwargs['queryset'] = Teacher.objects.none()
         return super(PaperAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
-    # def formfield_for_dbfield(self, field, **kwargs):
-    #     login_user = kwargs['request'].user
-    #     if not (login_user.is_superuser):
-    #         if field.name == 'question':
-    #             identity = login_user.identity()
-    #             if identity == 'teacher' or identity == 'teacher_student':
-    #                 paper_id = kwargs['request'].path.split('/')[4]
-    #                 units = models.Question.objects.filter(initiator=login_user.teacher)
-    #                 if paper_id.isdigit():
-    #                     other_question = models.Paper.objects.get(paper_id=paper_id).question.all()
-    #                     share_question = models.Question.objects.filter(share=True)
-    #                     units = units | other_question
-    #                     units = units | share_question
-    #                     units = units.distinct()
-    #                 else:
-    #                     share_question = models.Question.objects.filter(share=True)
-    #                     units = units | share_question
-    #                     units = units.distinct()
-    #             else:
-    #                 units = models.Question.objects.none()
-    #             return forms.ModelMultipleChoiceField (queryset=units,label="题目列表",help_text='按住 Ctrl 键(Mac 上的 Command 键) 来选择多个题目。如需添加其他教师的题目，请联系相关老师公开或使用管理员账号发布！')
-    #     return super(PaperAdmin,self).formfield_for_dbfield(field, **kwargs)
-
     list_display = [
         'paper_id', 'paper_name', 'paper_desc', 'initiator', 'publish_time', 'total_score', 'share'
     ]
     list_filter = ['paper_name', 'initiator', 'share']
-
 
 
 

@@ -78,8 +78,10 @@ def calendar(request):
         'exer_list': exer_list,
     }
     calc_list = []
+    # {% url 'coding:coding-editor' 'exam' exam.exam_id exam.first_ques %}
     for exam in exams_list:
-        calc_list.append({'title':exam.exam_name,'start':exam.start_time + datetime.timedelta(hours=8),'end':exam.end_time + datetime.timedelta(hours=8)})
+        calc_list.append({'title':exam.exam_name,'start':exam.start_time + datetime.timedelta(hours=8),'end':exam.end_time + datetime.timedelta(hours=8), 'url':"/coding/coding-editor/exam/" + str(exam.exam_id )+  "/" + str(exam.first_ques)})
     for exer in exer_list:
-        calc_list.append({'title':exer.exer_name,'start':exer.publish_time + datetime.timedelta(hours=8)})
+        # calc_list.append({'title':exer.exer_name,'start':exer.publish_time + datetime.timedelta(hours=8)})
+        calc_list.append({'title':exer.exer_name,'start':exer.start_time + datetime.timedelta(hours=8),'end':exer.end_time + datetime.timedelta(hours=8), 'url':"/coding/coding-editor/exer/" + str(exer.exer_id )+  "/" + str(exer.first_ques)})
     return render(request, 'iCalendar/calendar.html', {'spots':json.dumps(calc_list,cls=DateEncoder)})

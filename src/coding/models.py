@@ -92,7 +92,7 @@ class Question(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return str(self.ques_id) + '-' + self.ques_name
+        return str(self.ques_id) + '-' + self.ques_name + '-' + self.ques_desc
 
 
 # XXX(Steve X): many-to-many intermediary models
@@ -168,7 +168,7 @@ class Exam(models.Model):
     end_time = models.DateTimeField(verbose_name=_('结束时间'), default=None)
     publish_time = models.DateTimeField(verbose_name=_('发布时间'), auto_now_add=True)
     desc = models.TextField(verbose_name=_('描述'), null=True, blank=True)
-    active = models.BooleanField(verbose_name=_('发布状态'), default=False)
+    active = models.BooleanField(verbose_name=_('发布'), default=False)
     classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
     show_answer = models.BooleanField(verbose_name=_('在解析中公布答案'),default=False)
     def __str__(self):
@@ -181,6 +181,12 @@ class Exam(models.Model):
     @property
     def is_over(self):
         return timezone.now() > self.end_time
+
+    @property
+    def first_ques(self):
+        # query_result = .objects.filter(exam=self, status=True)
+        questions = self.paper.paperquestion_set.filter(paper=self.paper)
+        return questions.first().question.ques_id
 
     @property
     def finish_info(self):
@@ -224,7 +230,7 @@ class Exercise(models.Model):
     end_time = models.DateTimeField(verbose_name=_('结束时间'), default=None)
     publish_time = models.DateTimeField(verbose_name=_('发布时间'), auto_now_add=True)
     desc = models.TextField(verbose_name=_('描述'), null=True, blank=True)
-    active = models.BooleanField(verbose_name=_('发布状态'), default=False)
+    active = models.BooleanField(verbose_name=_('发布'), default=False)
     classroom = models.ManyToManyField(verbose_name=_('分配班级'), to='user.Classroom')
 
     def __str__(self):
@@ -255,7 +261,12 @@ class Exercise(models.Model):
     def is_over(self):
         return timezone.now() > self.end_time
 
-
+    @property
+    def first_ques(self):
+        # query_result = .objects.filter(exam=self, status=True)
+        questions = self.paper.paperquestion_set.filter(paper=self.paper)
+        return questions.first().question.ques_id
+        
 # class QuesAnswerRec(models.Model):
 #     '''
 #     Question Answer Record Table

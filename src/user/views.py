@@ -99,9 +99,11 @@ def index(request):
                 exer_cont = exer_labels_query.count()
                 exer_labels = []
                 exer_data = []
+
                 for label in exer_labels_query:
                     exer_labels.append(str(label.exer.exer_id) + '-' + label.exer.exer_name)
                     exer_data.append(label.score)
+
                 content = {
                     'exam_cnt': exam_cnt,
                     'exam_active': exam_active,

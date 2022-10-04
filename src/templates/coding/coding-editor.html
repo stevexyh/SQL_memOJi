@@ -166,11 +166,23 @@
     <script src="{% static 'libs/monaco-editor/min/vs/editor/editor.main.js' %}"></script>
 
     <script>
+        function htmlUnescape(html) {
+            return html.replace(/&lt;|&gt;|&quot;|&amp;/g, match => {
+                switch(match) {
+                    case '&lt;':
+                        return '<';
+                    case '&gt;':
+                        return '>';
+                    case '&quot;':
+                        return '"';
+                    case '&amp;':
+                        return '&';
+                }
+            })
+        }
+       
         var editor = monaco.editor.create(document.getElementById('container'), {
-            value: [
-                // '# Write your MySQL statement here.',
-                '{{ submit_ans }}', '', ''
-            ].join('\n'),
+            value: htmlUnescape("{{submit_ans}}"),
             language: 'mysql',
         });
 
