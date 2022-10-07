@@ -257,7 +257,9 @@ class CodingEditor(View):
         # Previous & next question id
         prev_question = event.paper.question.filter(ques_id__lt=ques_id).order_by('-ques_id').first()
         next_question = event.paper.question.filter(ques_id__gt=ques_id).order_by('ques_id').first()
+        # qset_info = event.ques_set.ques_set_desc
         now_paperquestion = models.PaperQuestion.objects.get(Q(question=question) & Q(paper=event.paper))
+        # print(qset.ques_set_desc)
         host = tk.get_conf('mysql', 'host')
         port = int(tk.get_conf('mysql', 'port'))
         user = tk.get_conf('mysql', 'user')
@@ -297,6 +299,7 @@ class CodingEditor(View):
             'db_desc': db_desc,
             'prev_question': prev_question if prev_question else None,
             'next_question': next_question if next_question else None,
+            'qset_desc':qset.ques_set_desc
         }
         # 判断一下是否是用户首次做这个题 去查表
         cur_user = request.user
@@ -331,7 +334,9 @@ class CodingEditor(View):
                     'correct': correct_bool,
                     'ans_status_color': ans_status_color,
                     'submit_ans': rec.ans,
+                    'error_info':rec.error_info
                 })
+                # print(rec.error_info)
         return content
 
     def get(self, request, event_type, event_id, ques_id):

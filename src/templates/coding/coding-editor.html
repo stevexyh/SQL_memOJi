@@ -51,9 +51,10 @@
 
                         <div class="card-body pre-scrollable" style="min-height: 385px;">
                             <h4 class="card-title">题目要求</h4>
-                            {{ question.ques_desc }}
+                            {{ question.ques_desc | linebreaks }}
                             <p class="card-title-desc">
                                 <h4 class="card-title">数据库结构</h4>
+                                <pre>{{ qset_desc }}</pre>
                                 <pre><code>{{ db_desc }}</code></pre>
                             </p>
                         </div>
@@ -75,6 +76,10 @@
                                 {% if correct == 'error' %}
                                     <i class="mdi mdi-alert-outline mr-3"></i>
                                     Runtime Error
+                                    <text>
+                                        <br />
+                                        {{error_info}}
+                                    </text>
                                 {% endif %}
                                 {% if correct == 'pending' %}
                                     <i class="mdi mdi-alert-outline mr-3"></i>
@@ -167,7 +172,7 @@
 
     <script>
         function htmlUnescape(html) {
-            return html.replace(/&lt;|&gt;|&quot;|&amp;/g, match => {
+            return html.replace(/&lt;|&gt;|&quot;|&#x27;|&amp;/g, match => {
                 switch(match) {
                     case '&lt;':
                         return '<';
@@ -175,6 +180,8 @@
                         return '>';
                     case '&quot;':
                         return '"';
+                    case '&#x27;':
+                        return "'";
                     case '&amp;':
                         return '&';
                 }

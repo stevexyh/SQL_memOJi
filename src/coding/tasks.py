@@ -10,6 +10,7 @@ from django.db.models import Sum
 @shared_task
 def sql_check_celery(db_nm, ans_sql, stud_sql, event_type, rec_id, score):
     print("sql_checking........rec_id:",rec_id)
+    error_text = "None"
     try:
         stud_sql = '#' if stud_sql == '' else stud_sql
         # print(db_nm,ans_sql,stud_sql)
@@ -17,6 +18,7 @@ def sql_check_celery(db_nm, ans_sql, stud_sql, event_type, rec_id, score):
         correct = sql_check.ans_check(db_nm=db_nm, ans_sql=ans_sql, stud_sql=stud_sql)
     except Exception as e:
         print(e)
+        error_text = e
         correct = 'error'
     ans_status = {
         True: models.ExamQuesAnswerRec.AnsStatus.AC,
@@ -44,12 +46,17 @@ def sql_check_celery(db_nm, ans_sql, stud_sql, event_type, rec_id, score):
         final_score = score
     else:
         final_score = 0
-        #XXX:(Seddon)把一道正确的题再交错，到底是按正确的还是错误的分数，有待商榷            
+        #XXX:(Seddon)把一道正确的题再交错，到底是按正确的还是错误的分数，有待商榷
+    print(rec)      
     if rec:
         rec.ans_status = ans_status
         rec.submit_cnt += 1
         rec.ans = stud_sql
         rec.score = final_score
+        if ans_status == models.ExamQuesAnswerRec.AnsStatus.RE:
+            rec.error_info = error_text
+        else:
+            rec.error_info = ""
         rec.save()
 
 @shared_task
