@@ -13,25 +13,27 @@ def sql_check_celery(db_nm, ans_sql, stud_sql, event_type, rec_id, score):
     error_text = "None"
     try:
         stud_sql = '#' if stud_sql == '' else stud_sql
-        # print(db_nm,ans_sql,stud_sql)
-        # correct = True
         correct = sql_check.ans_check(db_nm=db_nm, ans_sql=ans_sql, stud_sql=stud_sql)
     except Exception as e:
         print(e)
+        # print("sql_checking........rec_id1-0-1:",rec_id)
         error_text = e
         correct = 'error'
+    # print("sql_checking........rec_id1-1:",rec_id)
     ans_status = {
         True: models.ExamQuesAnswerRec.AnsStatus.AC,
         False: models.ExamQuesAnswerRec.AnsStatus.WA,
         'error': models.ExamQuesAnswerRec.AnsStatus.RE,
         'pending' : models.ExamQuesAnswerRec.AnsStatus.PD
     }.get(correct)
+    # print("sql_checking........rec_id2:",rec_id)
     ans_status_color = {
         True: 'success',
         False: 'danger',
         'error': 'warning',
         'pending': 'warning',
     }.get(correct)
+    # print("sql_checking........rec_id3:",rec_id)
 
     if event_type == 'exam':
         rec = models.ExamQuesAnswerRec.objects.get(rec_id=rec_id)
@@ -42,22 +44,24 @@ def sql_check_celery(db_nm, ans_sql, stud_sql, event_type, rec_id, score):
     else:
         rec = models.ExamQuesAnswerRec.none()
         answer_paper = models.ExamAnswerRec.none()
+    # print("sql_checking........rec_id3:",rec_id)
     if ans_status == 0:
         final_score = score
     else:
         final_score = 0
         #XXX:(Seddon)把一道正确的题再交错，到底是按正确的还是错误的分数，有待商榷
-    print(rec)      
+    # print(rec)
+    # print("sql_checking........rec_id4:",rec_id)
+    # print("ans_status:",ans_status,"over")
+    # print("correct:",correct,"correct_over")
     if rec:
         rec.ans_status = ans_status
         rec.submit_cnt += 1
         rec.ans = stud_sql
         rec.score = final_score
-        if ans_status == models.ExamQuesAnswerRec.AnsStatus.RE:
-            rec.error_info = error_text
-        else:
-            rec.error_info = ""
+        rec.error_info = error_text
         rec.save()
+    # print("sql_checking........rec_id5:",rec_id)
 
 @shared_task
 def mark_paper():

@@ -273,7 +273,7 @@ class CodingEditor(View):
         pt_db_tables = PrettyTable(['Tables in this database'])
         pt_db_tables.align = 'l'
         cur.execute(f'''use qset_{qset.db_name};''')
-        print("use qset_",qset.db_name)
+        # print("use qset_",qset.db_name)
         cur.execute(f'''show tables;''')
         tables = [tb[0] for tb in cur.fetchall()]
         pt_db_tables.add_rows([[tb] for tb in tables])
@@ -350,7 +350,7 @@ class CodingEditor(View):
         #         raise Resolver404
         # except:
         #     raise Resolver404
-        print("Debuging......")
+        # print("Debuging......")
         cur_user = request.user
         if event_type == 'exam':
             try:
@@ -569,7 +569,7 @@ class CodingEditor(View):
                 else:
                     raise Resolver404
         db_name_qset = 'qset_'+qset.db_name
-        print('提交任务')
+        # print('提交任务')
         sql_check_celery.delay(db_nm=db_name_qset, ans_sql=question.ques_ans, stud_sql=submit_ans, event_type=event_type, rec_id=rec.rec_id, score=now_paperquestion.score)
         content.update({
             'correct': correct,
