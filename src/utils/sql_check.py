@@ -24,7 +24,6 @@ from utils import token as tk
 
 def clear_db(cur: pymysql.Connect.cursor, db_name: str):
     '''Clear database'''
-
     cur.execute(f"""DROP DATABASE IF EXISTS {db_name}""")
 
 
@@ -87,20 +86,16 @@ def deepcopy_db(db_name: str, new_db_name: str):
     root_port = int(tk.get_conf('mysql', 'port'))
     root_user = tk.get_conf('mysql', 'user')
     root_passwd = tk.get_conf('mysql', 'password')
-
     root_db = pymysql.Connect(host=root_host, port=root_port, user=root_user, passwd=root_passwd, db=db_name)
     root_cur = root_db.cursor()
     # print(f'''GRANT SELECT ON {db_name}.* to '{tmp_user}';''')
     root_cur.execute(f'''GRANT SELECT ON {db_name}.* to '{tmp_user}';''')
     root_cur.execute(f'''GRANT ALL ON {new_db_name}.* to '{tmp_user}';''')
-
     copy_db(db=root_db, new_db_name=new_db_name)
     tmp_new_db = pymysql.Connect(host=root_host, user=tmp_user, passwd=tmp_passwd, db=new_db_name)
     copy_tables(db=root_db, new_db=tmp_new_db)
-
     root_cur.close()
     root_db.close()
-
     return tmp_new_db.cursor()
 
 
@@ -140,15 +135,29 @@ def ans_check(db_nm: str, ans_sql: str, stud_sql: str) -> bool:
     new_db_name_1 = new_db_nm+'1'
     new_db_name_2 = new_db_nm+'2'
     #Copy the Database
+    # clear_db(cur=cur_1, db_name=new_db_name_1)
+    # clear_db(cur=cur_2, db_name=new_db_name_2)
+    # print("双数据库拷贝成功1")
     cur_1 = deepcopy_db(db_name=db_nm, new_db_name=new_db_name_1)
+    # print("双数据库拷贝成功2")
     cur_2 = deepcopy_db(db_name=db_nm, new_db_name=new_db_name_2)
-    # print("双数据库拷贝成功")
-    cur_1.execute(ans_sql)
-    cur_2.execute(stud_sql)
+    # print("双数据库拷贝成功3")
+    go_on = True
+    try:
+        cur_1.execute(ans_sql)
+        cur_2.execute(stud_sql)
+    except Exception as e:
+        # print(e)
+        clear_db(cur=cur_1, db_name=new_db_name_1)
+        clear_db(cur=cur_2, db_name=new_db_name_2)
+        raise Exception(e)
+    # print("代码执行成功.....")
     res_1 = cur_1.fetchall()
     res_2 = cur_2.fetchall()
     exe_diff = res_1 == res_2
+    # print("exe比对执行成功1.....")
     data_diff = diff(cur_1=cur_1,cur_2=cur_2)
+    # print("exe比对执行成功2.....")
     # print("Execute identify",exe_diff)
     #XXX 可以在前端提示是数据不一致还是返回结果不一致
     # print(res_1)
@@ -156,13 +165,14 @@ def ans_check(db_nm: str, ans_sql: str, stud_sql: str) -> bool:
     # print(res_2)
     # print("Data identify:",data_diff)
     res = (exe_diff) and data_diff
+    # print("执行成功3.....")
     clear_db(cur=cur_1, db_name=new_db_name_1)
     clear_db(cur=cur_2, db_name=new_db_name_2)
+    # print("执行成功4.....")
     cur_1.close()
     cur_2.close()
-
+    # print("执行成功5.....")
     return res
-
 
 # XXX(Steve X): cursor.close(), connection.close()
 if __name__ == "__main__":

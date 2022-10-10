@@ -82,7 +82,7 @@ class Question(models.Model):
     ques_name = models.CharField(verbose_name=_('题目名称'), max_length=100, null=True, default=_('未命名'))
     ques_set = models.ForeignKey(verbose_name=_('所属题库'), to=QuestionSet, on_delete=models.CASCADE)
     ques_difficulty = models.IntegerField(verbose_name=_('题目难度'), choices=Difficulty.choices, default=Difficulty.UNKNOWN)
-    ques_desc = models.TextField(verbose_name=_('题目描述'))
+    ques_desc = models.TextField(verbose_name=_('题目要求'))
     ques_ans = models.TextField(verbose_name=_('标准答案'))
     initiator = models.ForeignKey(verbose_name=_('发起人'), to='user.Teacher', on_delete=models.SET_NULL, null=True)
     share = models.BooleanField(verbose_name=_('其他老师可查看'), default=False)
@@ -92,7 +92,7 @@ class Question(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return str(self.ques_id) + '-' + self.ques_name + '-' + self.ques_desc
+        return "(QID-" + str(self.ques_id) + ")" + '' + self.ques_name
 
 
 # XXX(Steve X): many-to-many intermediary models
@@ -457,6 +457,7 @@ class ExamQuesAnswerRec(models.Model):
     score = models.IntegerField(verbose_name=_('本题得分'), default=0)
     submit_time = models.DateTimeField(verbose_name=_('最后提交时间'), auto_now=True)
     submit_cnt = models.IntegerField(verbose_name=_('提交次数'), default=0)
+    error_info = models.TextField(verbose_name=_('作答异常信息(仅异常时有)'), null=True, blank=True)
 
     def __str__(self):
         return str(self.rec_id) + "-" + str(self.user) + "-" + str(self.exam) + "-" + str(self.question)
@@ -499,6 +500,7 @@ class ExerQuesAnswerRec(models.Model):
     score = models.IntegerField(verbose_name=_('本题得分'), default=0)
     submit_time = models.DateTimeField(verbose_name=_('最后提交时间'), auto_now=True)
     submit_cnt = models.IntegerField(verbose_name=_('提交次数'), default=0)
+    error_info = models.TextField(verbose_name=_('作答异常信息(仅异常时有)'), null=True, blank=True)
 
     def __str__(self):
         return str(self.rec_id) + "-" + str(self.user) + "-" + str(self.exer) + "-" + str(self.question)
