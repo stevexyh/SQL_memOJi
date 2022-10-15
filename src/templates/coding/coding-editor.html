@@ -125,11 +125,22 @@
                             </button>
                         </a>
                     {% else %}
-                        <form method="POST" id="code-submit" action="{% url 'coding:coding-editor' event_type event_id question.ques_id %}">
+                        <script language="Javascript">
+                            function validator()
+                            {
+                                if(confirm("确认要提交吗？")==true){
+                                    return true;
+                                }
+                                else{
+                                    return false;
+                                }
+                            }
+                        </script>
+                        <form method="POST" id="code-submit"  onsubmit="return validator()" action="{% url 'coding:coding-editor' event_type event_id question.ques_id %}">
                             {% csrf_token %}
                             <input type="hidden" name="movement" value="submit">
                         </form>
-                        <button type="next" class="btn btn-outline-danger waves-effect waves-light" form="code-submit" style="float: right;">
+                        <button type="submit" class="btn btn-outline-danger waves-effect waves-light" form="code-submit" style="float: right;">
                             {% if event_type == 'exam' %}
                                 交卷
                             {% else %}
