@@ -158,7 +158,7 @@
                 </div>
                 {% else %}
                 <div class="col-6">
-                    <button type="submit" class="btn btn-success waves-effect waves-light" onclick="setupFormPost()" form="code-editor" style="float: right;">
+                    <button type="submit" class="btn btn-success waves-effect waves-light" onclick="setupFormPost()" style="float: right;">
                         <i class="ri-play-line align-middle mr-2"></i>提交运行
                     </button>
                 </div>
@@ -206,7 +206,14 @@
 
         function setupFormPost() {
             var value = window.editor.getValue()
-            $("#code").val(value);
+            var csrfToken = $("[name='csrfmiddlewaretoken']").val();
+            $.post("{% url 'coding:coding-editor' event_type event_id question.ques_id %}",{
+                "csrfmiddlewaretoken":csrfToken,
+                "submit_ans":value
+		    },
+            function(data,status){
+                location.reload();
+            });
         }
     </script>
 {% endblock js %}

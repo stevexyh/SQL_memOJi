@@ -333,7 +333,7 @@ class CodingEditor(View):
                 content.update({
                     'correct': correct_bool,
                     'ans_status_color': ans_status_color,
-                    'submit_ans': rec.ans,
+                    'submit_ans': repr(rec.ans)[1:-1],
                     'error_info':rec.error_info
                 })
                 # print(rec.error_info)
@@ -571,6 +571,8 @@ class CodingEditor(View):
         db_name_qset = 'qset_'+qset.db_name
         # print('提交任务')
         sql_check_celery.delay(db_nm=db_name_qset, ans_sql=question.ques_ans, stud_sql=submit_ans, event_type=event_type, rec_id=rec.rec_id, score=now_paperquestion.score)
+        print("接受到post")
+        # 'error_info':rec.error_info
         content.update({
             'correct': correct,
             'ans_status_color': ans_status_color,
