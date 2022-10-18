@@ -154,7 +154,13 @@ def ans_check(db_nm: str, ans_sql: str, stud_sql: str) -> bool:
     # print("代码执行成功.....")
     res_1 = cur_1.fetchall()
     res_2 = cur_2.fetchall()
-    exe_diff = res_1 == res_2
+    # exe_diff = res_1 == res_2
+    res_1_sort_list = sorted(res_1)
+    res_2_sort_list = sorted(res_2)
+    # print(res_1_sort_list)
+    # print(res_2_sort_list)
+    # exe_diff = (sorted(res_1) == sorted(res_2))
+    exe_diff = res_1_sort_list == res_2_sort_list
     # print("exe比对执行成功1.....")
     data_diff = diff(cur_1=cur_1,cur_2=cur_2)
     # print("exe比对执行成功2.....")
