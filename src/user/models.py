@@ -240,7 +240,7 @@ class StudentList(models.Model):
     record_id = models.AutoField(verbose_name=_('记录ID'), primary_key=True)
     full_name = models.CharField(verbose_name=_('学生姓名'), max_length=30, blank=False)
     internal_id = models.CharField(verbose_name=_('学号'), max_length=30, blank=False)
-    classroom = models.ForeignKey(verbose_name=_('班级'), to=Classroom, on_delete=models.SET_NULL, default=None, null=True, blank=False)
+    classroom = models.ForeignKey(verbose_name=_('班级'), to=Classroom, on_delete=models.CASCADE, default=None, null=True, blank=False)
     join_status = models.BooleanField(verbose_name=_('加入状态'), default=False)
 
     def join_code(self):

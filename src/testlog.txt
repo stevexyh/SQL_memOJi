@@ -1,0 +1,22 @@
+[1;36m 
+ -------------- celery@sqloj-virtual-machine v5.1.2 (sun-harmonics)
+--- ***** ----- 
+-- ******* ---- Linux-5.15.0-50-generic-x86_64-with-glibc2.29 2022-10-15 23:41:43
+- *** --- * --- 
+- ** ---------- [config]
+- ** ---------- .> app:         SQL_memOJi:0x7f25b8136820
+- ** ---------- .> transport:   redis://127.0.0.1:6379/0
+- ** ---------- .> results:     disabled://
+- *** --- * --- .> concurrency: 8 (prefork)
+-- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
+--- ***** ----- 
+ -------------- [queues]
+                .> celery           exchange=celery(direct) key=celery
+                
+[0m[0m
+[tasks]
+  . SQL_memOJi.celery.debug_task
+  . SQL_memOJi.celery.lbwnb
+  . coding.tasks.mark_paper
+  . coding.tasks.sql_check_celery
+[0m
