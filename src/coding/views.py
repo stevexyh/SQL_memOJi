@@ -255,8 +255,12 @@ class CodingEditor(View):
             print(exc)
             raise Resolver404
         # Previous & next question id
-        prev_question = event.paper.question.filter(ques_id__lt=ques_id).order_by('-ques_id').first()
+        prev_temp = event.paper.question.filter(ques_id__lt=ques_id).order_by('-ques_id')
+        prev_question = prev_temp.first()
         next_question = event.paper.question.filter(ques_id__gt=ques_id).order_by('ques_id').first()
+        print(event.paper.question.count())
+        ques_cnt = event.paper.question.count()
+        ques_no = prev_temp.count() + 1
         # qset_info = event.ques_set.ques_set_desc
         now_paperquestion = models.PaperQuestion.objects.get(Q(question=question) & Q(paper=event.paper))
         # print(qset.ques_set_desc)
@@ -299,7 +303,9 @@ class CodingEditor(View):
             'db_desc': db_desc,
             'prev_question': prev_question if prev_question else None,
             'next_question': next_question if next_question else None,
-            'qset_desc':qset.ques_set_desc
+            'qset_desc':qset.ques_set_desc,
+            'ques_no': ques_no,
+            'ques_cnt': ques_cnt
         }
         # 判断一下是否是用户首次做这个题 去查表
         cur_user = request.user
