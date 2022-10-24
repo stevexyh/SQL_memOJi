@@ -280,6 +280,7 @@ class CodingEditor(View):
         # print("use qset_",qset.db_name)
         cur.execute(f'''show tables;''')
         tables = [tb[0] for tb in cur.fetchall()]
+        print(tables)
         pt_db_tables.add_rows([[tb] for tb in tables])
         # Create PrettyTable for `desc <table_name>;`
         tables_desc = [str(pt_db_tables)]
@@ -287,9 +288,25 @@ class CodingEditor(View):
             cur.execute(f'''desc {tb};''')
             pt_table_desc = PrettyTable(['Field', 'Type'])
             pt_table_desc.align = 'l'
-            pt_table_desc.add_rows([row[:2] for row in cur.fetchall()])
+            temp_table_desc = cur.fetchall()
+            pt_table_desc.add_rows([row[:2] for row in temp_table_desc])
+            # print(cur.fetchall())
+            # print([row[:2] for row in temp_table_desc])
+            # print([row[:1] for row in temp_table_desc])
+            pt_table_data = PrettyTable([row[:1][0] for row in temp_table_desc])
+            pt_table_data.align = 'l'
+            # pt_table_data.set_style(PLAIN_COLUMNS)
+            cur.execute(f'''select * from {tb};''')
+            # print(cur.fetchall())
+            # print([row for row in cur.fetchall()])
+            pt_table_data.add_rows([row for row in cur.fetchall()])
+            # print(pt_table_data)
+            # print(cur.fetchall())
             tables_desc.append('\n' + tb)
             tables_desc.append(str(pt_table_desc))
+            tables_desc.append('\n' + tb)
+            tables_desc.append(str(pt_table_data))
+            # print(pt_table_desc)
         db_desc = '\n'.join(tables_desc)
         cur.close()
         db.close()
