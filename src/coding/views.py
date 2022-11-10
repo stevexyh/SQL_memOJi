@@ -255,8 +255,12 @@ class CodingEditor(View):
             print(exc)
             raise Resolver404
         # Previous & next question id
-        prev_question = event.paper.question.filter(ques_id__lt=ques_id).order_by('-ques_id').first()
+        prev_temp = event.paper.question.filter(ques_id__lt=ques_id).order_by('-ques_id')
+        prev_question = prev_temp.first()
         next_question = event.paper.question.filter(ques_id__gt=ques_id).order_by('ques_id').first()
+        print(event.paper.question.count())
+        ques_cnt = event.paper.question.count()
+        ques_no = prev_temp.count() + 1
         # qset_info = event.ques_set.ques_set_desc
         now_paperquestion = models.PaperQuestion.objects.get(Q(question=question) & Q(paper=event.paper))
         # print(qset.ques_set_desc)
@@ -276,6 +280,7 @@ class CodingEditor(View):
         # print("use qset_",qset.db_name)
         cur.execute(f'''show tables;''')
         tables = [tb[0] for tb in cur.fetchall()]
+        print(tables)
         pt_db_tables.add_rows([[tb] for tb in tables])
         # Create PrettyTable for `desc <table_name>;`
         tables_desc = [str(pt_db_tables)]
@@ -283,9 +288,25 @@ class CodingEditor(View):
             cur.execute(f'''desc {tb};''')
             pt_table_desc = PrettyTable(['Field', 'Type'])
             pt_table_desc.align = 'l'
-            pt_table_desc.add_rows([row[:2] for row in cur.fetchall()])
+            temp_table_desc = cur.fetchall()
+            pt_table_desc.add_rows([row[:2] for row in temp_table_desc])
+            # print(cur.fetchall())
+            # print([row[:2] for row in temp_table_desc])
+            # print([row[:1] for row in temp_table_desc])
+            pt_table_data = PrettyTable([row[:1][0] for row in temp_table_desc])
+            pt_table_data.align = 'l'
+            # pt_table_data.set_style(PLAIN_COLUMNS)
+            cur.execute(f'''select * from {tb};''')
+            # print(cur.fetchall())
+            # print([row for row in cur.fetchall()])
+            pt_table_data.add_rows([row for row in cur.fetchall()])
+            # print(pt_table_data)
+            # print(cur.fetchall())
             tables_desc.append('\n' + tb)
             tables_desc.append(str(pt_table_desc))
+            tables_desc.append('\n' + tb)
+            tables_desc.append(str(pt_table_data))
+            # print(pt_table_desc)
         db_desc = '\n'.join(tables_desc)
         cur.close()
         db.close()
@@ -299,7 +320,9 @@ class CodingEditor(View):
             'db_desc': db_desc,
             'prev_question': prev_question if prev_question else None,
             'next_question': next_question if next_question else None,
-            'qset_desc':qset.ques_set_desc
+            'qset_desc':qset.ques_set_desc,
+            'ques_no': ques_no,
+            'ques_cnt': ques_cnt
         }
         # 判断一下是否是用户首次做这个题 去查表
         cur_user = request.user
@@ -333,7 +356,7 @@ class CodingEditor(View):
                 content.update({
                     'correct': correct_bool,
                     'ans_status_color': ans_status_color,
-                    'submit_ans': rec.ans,
+                    'submit_ans': repr(rec.ans)[1:-1],
                     'error_info':rec.error_info
                 })
                 # print(rec.error_info)
@@ -571,6 +594,8 @@ class CodingEditor(View):
         db_name_qset = 'qset_'+qset.db_name
         # print('提交任务')
         sql_check_celery.delay(db_nm=db_name_qset, ans_sql=question.ques_ans, stud_sql=submit_ans, event_type=event_type, rec_id=rec.rec_id, score=now_paperquestion.score)
+        print("接受到post")
+        # 'error_info':rec.error_info
         content.update({
             'correct': correct,
             'ans_status_color': ans_status_color,
