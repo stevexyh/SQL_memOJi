@@ -77,7 +77,7 @@ A Online-Judge Platform for NWPU DataBase Course.
 - 参考：`生产环境部署.md`
 
 ## Data Flow Diagram 数据流图
-![Data Flow Diagram](./img/data_Flow1.png)
+![Data Flow Diagram](./img/data_flow1.png)
 
 
 ## ER图
